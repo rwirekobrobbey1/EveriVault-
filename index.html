@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EveriVault Enterprise | Kumasi — Sea & Air Shipping, China → Ghana</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+        :root{--navy:#0A2463;--gold:#D4AF37;--white:#fff;--gray:#2D2D2D;--light:#f5f7fa;--green:#28a745;--orange:#ffc107;--red:#dc3545;--sky:#0096FF;}
+        body{background:var(--white);color:var(--gray);line-height:1.6;}
+        .container{max-width:1200px;margin:0 auto;padding:0 20px;}
+        
+        /* Navigation */
+        nav{background:var(--navy);position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.1);}
+        .nav-wrap{display:flex;justify-content:space-between;align-items:center;padding:15px 0;}
+        .logo{color:var(--gold);font-size:24px;font-weight:900;text-decoration:none;}
+        .nav-links{display:flex;gap:25px;list-style:none;}
+        .nav-links a{color:var(--white);text-decoration:none;font-weight:500;transition:.3s;}
+        .nav-links a:hover{color:var(--gold);}
+        .menu-toggle{display:none;color:white;font-size:28px;cursor:pointer;}
+        
+        /* Hero */
+        .hero{background:linear-gradient(135deg,var(--navy) 0%,#1a3a8f 100%);color:white;padding:100px 0;text-align:center;}
+        .hero h1{font-size:42px;margin-bottom:20px;}
+        .hero p{font-size:20px;margin-bottom:30px;max-width:700px;margin-left:auto;margin-right:auto;opacity:.9;}
+        .btn{display:inline-block;padding:14px 32px;border-radius:8px;font-weight:700;text-decoration:none;transition:.3s;border:none;cursor:pointer;font-size:16px;}
+        .btn-gold{background:var(--gold);color:var(--navy);}
+        .btn-gold:hover{background:#b8860b;transform:translateY(-2px);}
+        .btn-sky{background:var(--sky);color:white;}
+        .btn-sky:hover{background:#007fde;transform:translateY(-2px);}
+        .btn-white{background:white;color:var(--navy);}
+        .btn-white:hover{background:var(--light);}
+        .warning-banner{background:#fff3cd;color:#856404;padding:12px 20px;border-radius:8px;margin-bottom:25px;border-left:4px solid var(--orange);font-weight:500;}
+        .warning-red{background:#ffebee;color:#c62828;padding:12px 20px;border-radius:8px;margin-bottom:25px;border-left:4px solid var(--red);font-weight:500;}
+        .kumasi-badge{display:inline-block;background:var(--gold);color:var(--navy);padding:6px 16px;border-radius:20px;font-weight:700;margin-bottom:20px;}
+        .rate-note{background:rgba(255,255,255,.15);padding:10px 18px;border-radius:8px;display:inline-block;margin-top:15px;}
+        
+        /* Sections */
+        section{padding:70px 0;}
+        .section-title{text-align:center;font-size:32px;color:var(--navy);margin-bottom:50px;position:relative;}
+        .section-title::after{content:'';display:block;width:60px;height:4px;background:var(--gold);margin:15px auto;}
+        
+        /* Feature Cards */
+        .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;}
+        .card{background:var(--light);padding:35px;border-radius:12px;text-align:center;transition:.3s;}
+        .card:hover{transform:translateY(-8px);box-shadow:0 15px 40px rgba(10,36,99,.15);}
+        .card-icon{font-size:48px;margin-bottom:20px;}
+        .card h3{color:var(--navy);margin-bottom:15px;font-size:22px;}
+        
+        /* Shipping Mode Tabs */
+        .mode-tabs{display:flex;gap:15px;justify-content:center;margin-bottom:30px;flex-wrap:wrap;}
+        .mode-tab{padding:14px 30px;border-radius:8px;font-weight:700;cursor:pointer;transition:.3s;border:3px solid transparent;}
+        .mode-tab.sea{background:var(--light);color:var(--navy);border-color:var(--navy);}
+        .mode-tab.air{background:var(--light);color:var(--sky);border-color:var(--sky);}
+        .mode-tab.active.sea{background:var(--navy);color:white;}
+        .mode-tab.active.air{background:var(--sky);color:white;}
+        
+        /* Forms & Calculators */
+        .calc-box{background:var(--light);padding:40px;border-radius:12px;max-width:700px;margin:0 auto;}
+        .tabs{display:flex;gap:10px;margin-bottom:25px;flex-wrap:wrap;}
+        .tab{padding:12px 25px;background:#ddd;border-radius:8px;cursor:pointer;font-weight:600;}
+        .tab.active{background:var(--navy);color:white;}
+        .tab-content{display:none;}
+        .tab-content.active{display:block;}
+        .form-group{margin-bottom:20px;}
+        label{display:block;margin-bottom:8px;font-weight:600;color:var(--navy);}
+        input,select,textarea{width:100%;padding:14px;border:2px solid #ddd;border-radius:8px;font-size:16px;}
+        input:focus,select:focus{outline:none;border-color:var(--navy);}
+        .result-box{margin-top:25px;padding:20px;background:#e8f5e9;border-radius:8px;border-left:4px solid var(--green);font-size:18px;}
+        .result-box.air{background:#e3f2fd;border-left-color:var(--sky);}
+        .usd-rate{font-size:15px;color:#555;margin-top:5px;}
+        .track-result{margin-top:30px;padding:25px;background:white;border-radius:10px;box-shadow:0 5px 20px rgba(0,0,0,.08);display:none;}
+        .status-line{padding:10px 0;border-bottom:1px solid #eee;}
+        .status-done{color:var(--green);font-weight:600;}
+        
+        /* Warehouse */
+        .warehouse-box{background:var(--light);padding:40px;border-radius:12px;text-align:center;max-width:700px;margin:0 auto;}
+        .warehouse-block{margin-bottom:40px;padding:25px;background:white;border-radius:10px;border-left:4px solid;}
+        .warehouse-block.sea{border-left-color:var(--navy);}
+        .warehouse-block.air{border-left-color:var(--sky);}
+        .warehouse-address{font-size:16px;line-height:1.8;margin-top:20px;text-align:left;}
+        .copy-btn{background:var(--navy);color:white;padding:12px 25px;border-radius:6px;border:none;cursor:pointer;font-weight:600;font-size:16px;}
+        .copy-btn-air{background:var(--sky);color:white;}
+        
+        /* Payment */
+        .payment-options{display:grid;grid-template-columns:1fr 1fr;gap:25px;margin-top:30px;}
+        .payment-card{border:2px solid #ddd;padding:25px;border-radius:10px;cursor:pointer;transition:.3s;}
+        .payment-card:hover,.payment-card.selected{border-color:var(--navy);background:var(--light);}
+        
+        /* Footer */
+        footer{background:var(--navy);color:white;padding:50px 0 20px;}
+        .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:40px;margin-bottom:30px;}
+        .footer-bottom{text-align:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.2);opacity:.7;}
+        
+        /* Mobile */
+        @media(max-width:768px){
+            .nav-links{position:absolute;top:60px;left:0;right:0;background:var(--navy);flex-direction:column;padding:20px;display:none;}
+            .nav-links.active{display:flex;}
+            .menu-toggle{display:block;}
+            .hero h1{font-size:28px;}
+            .payment-options{grid-template-columns:1fr;}
+        }
+        
+        /* Hidden sections for tab switching */
+        .page-section{display:none;}
+        .page-section.active{display:block;}
+        .nav-cta{background:var(--gold);color:var(--navy);padding:8px 20px;border-radius:6px;font-weight:700;}
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+    <div class="container nav-wrap">
+        <a href="#" class="logo" onclick="showPage('home')">EVERIVAULT</a>
+        <ul class="nav-links" id="navMenu">
+            <li><a href="#" onclick="showPage('home')">Home</a></li>
+            <li><a href="#" onclick="showPage('track')">Track</a></li>
+            <li><a href="#" onclick="showPage('calculate')">Calculate</a></li>
+            <li><a href="#" onclick="showPage('warehouse')">Warehouse</a></li>
+            <li><a href="#" onclick="showPage('payment')">Payment</a></li>
+            <li><a href="#" onclick="showPage('register')" class="nav-cta">Register</a></li>
+        </ul>
+        <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+    </div>
+</nav>
+
+<!-- ==================== HOME PAGE ==================== -->
+<section id="page-home" class="page-section active" style="padding:0;">
+    <div class="hero">
+        <div class="container">
+            <span class="kumasi-badge">📍 KUMASI, GHANA</span>
+            <h1>🚢✈️ Sea & Air Shipping — China → Ghana</h1>
+            <p>Real-time tracking • Transparent pricing • Foshan Sea + Guangzhou Air Warehouses • Proudly in Kumasi</p>
+            <div class="rate-note">💵 Rates in USD • Exchange: <strong>1 USD = 13 GHS</strong> | ✈️ Air: $17/kg | 📦 Sea: $255–$265/CBM</div>
+            <div class="warning-banner">⚠️ NO battery goods accepted via Sea. ✅ Electronics (phones/laptops/iPads) welcome via Air — GHS 500 flat rate each!</div>
+            <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:30px;">
+                <a href="#" class="btn btn-gold" onclick="showPage('calculate')">📐 Calculate Cost</a>
+                <a href="#" class="btn btn-sky" onclick="showPage('warehouse')">📍 Warehouse Addresses</a>
+            </div>
+        </div>
+    </div>
+
+    <section class="container">
+        <h2 class="section-title">Choose Your Shipping Method</h2>
+        <div class="features">
+            <div class="card">
+                <div class="card-icon">🚢</div>
+                <h3>Sea Freight</h3>
+                <p>Below 1 CBM = $255 USD (GHS 3,315)<br>1 CBM & above = $265 USD (GHS 3,445)<br>Large cargo, cost-effective<br>⏳ 25–40 Days</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">✈️</div>
+                <h3>Air Freight</h3>
+                <p>Standard: $17/kg (GHS 221/kg)<br><strong>📱 Phones / Laptops / iPads:</strong><br><span style="color:var(--sky);font-weight:bold;">GHS 500 FLAT per item</span><br>⚡ Fast — 5–10 Days</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🔒</div>
+                <h3>Secure & Insured</h3>
+                <p>Full tracking • Package inspection • Secure packaging • Door-to-door delivery across Ghana</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🏬</div>
+                <h3>Two Warehouses</h3>
+                <p>🚢 Foshan — Sea Cargo<br>✈️ Guangzhou — Air Cargo<br>Send to the right warehouse for your shipping method!</p>
+            </div>
+        </div>
+    </section>
+
+    <section style="background:var(--light);">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;text-align:center;">
+                <div><div style="font-size:40px;color:var(--navy);font-weight:900;">1</div><h3>📦 Send to Warehouse</h3><p>Guangzhou (Air) or Foshan (Sea)</p></div>
+                <div><div style="font-size:40px;color:var(--navy);font-weight:900;">2</div><h3>🔢 Get Tracking ID</h3><p>We issue your tracking number</p></div>
+                <div><div style="font-size:40px;color:var(--navy);font-weight:900;">3</div><h3>💳 Pay Securely</h3><p>USD rates → GHS @ 13</p></div>
+                <div><div style="font-size:40px;color:var(--navy);font-weight:900;">4</div><h3>🚚 Receive in Kumasi</h3><p>Air: 5–10 days • Sea: 25–40 days</p></div>
+            </div>
+        </div>
+    </section>
+</section>
+
+<!-- ==================== TRACKING PAGE ==================== -->
+<section id="page-track" class="page-section">
+    <div class="container">
+        <h2 class="section-title">🔍 Track Your Shipment</h2>
+        <div class="calc-box">
+            <div class="form-group">
+                <label>Enter Tracking Number</label>
+                <input type="text" id="trackNum" placeholder="e.g., EVL-SEA-XXXX or EVL-AIR-XXXX">
+            </div>
+            <button class="btn btn-gold" onclick="trackShipment()" style="width:100%;font-size:18px;">Track Now</button>
+            
+            <div class="track-result" id="trackResult">
+                <h3 style="color:var(--navy);margin-bottom:20px;">📦 Shipment — <span id="tNum"></span></h3>
+                <p><strong>Status:</strong> <span id="tStatus" style="color:var(--green);font-weight:700;"></span></p>
+                <p><strong>Origin:</strong> <span id="tOrigin"></span> | <strong>Destination:</strong> <span id="tDest"></span></p>
+                <p><strong>Estimated Delivery:</strong> <span id="tETA"></span></p>
+                <h4 style="margin-top:25px;color:var(--navy);">📅 Timeline</h4>
+                <div id="tTimeline"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== CALCULATOR PAGE ==================== -->
+<section id="page-calculate" class="page-section">
+    <div class="container">
+        <h2 class="section-title">📐 Shipping Cost Calculator</h2>
+        <div class="calc-box">
+            <div class="warning-banner">💵 Rates in USD • Exchange: 1 USD = 13 GHS</div>
+            
+            <!-- Shipping Mode Selector -->
+            <div class="mode-tabs">
+                <div class="mode-tab sea active" onclick="switchMode('sea')">🚢 Sea Freight</div>
+                <div class="mode-tab air" onclick="switchMode('air')">✈️ Air Freight</div>
+            </div>
+
+            <!-- ========== SEA CALCULATOR ========== -->
+            <div id="mode-sea" class="mode-content">
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab('cbm')">CBM Calculator</div>
+                    <div class="tab" onclick="switchTab('shipping')">Sea Cost</div>
+                </div>
+
+                <!-- CBM TAB -->
+                <div id="tab-cbm" class="tab-content active">
+                    <div class="form-group">
+                        <label>Unit</label>
+                        <select id="cbmUnit" onchange="calculateCBM()">
+                            <option value="m">Meters (m)</option>
+                            <option value="cm" selected>Centimeters (cm)</option>
+                            <option value="in">Inches (in)</option>
+                        </select>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:15px;">
+                        <div class="form-group">
+                            <label>Length</label>
+                            <input type="number" id="len" placeholder="e.g., 60" oninput="calculateCBM()">
+                        </div>
+                        <div class="form-group">
+                            <label>Width</label>
+                            <input type="number" id="wid" placeholder="e.g., 40" oninput="calculateCBM()">
+                        </div>
+                        <div class="form-group">
+                            <label>Height</label>
+                            <input type="number" id="hgt" placeholder="e.g., 50" oninput="calculateCBM()">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Number of Packages</label>
+                        <input type="number" id="qty" value="1" min="1" oninput="calculateCBM()">
+                    </div>
+                    <div class="result-box">
+                        <strong>Total CBM:</strong> <span id="cbmResult">0.000 m³</span>
+                    </div>
+                </div>
+
+                <!-- SEA COST TAB -->
+                <div id="tab-shipping" class="tab-content">
+                    <div class="warning-red">⚠️ No battery goods accepted via Sea — only normal cargo.</div>
+                    <div class="form-group">
+                        <label>Total CBM (m³)</label>
+                        <input type="number" id="cbmVal" placeholder="Enter CBM from calculator" oninput="calculateSea()">
+                    </div>
+                    <div class="result-box">
+                        <p style="font-size:16px;opacity:.9;">🚢 Sea Rates: Below 1 CBM = $255/m³ | 1 CBM+ = $265/m³</p>
+                        <p class="usd-rate">💱 1 USD = 13 GHS</p>
+                        <hr style="margin:12px 0;border-color:#ddd;">
+                        <p><strong>Shipping Fee (USD):</strong> <span id="seaUSD">$0.00</span></p>
+                        <p><strong>Shipping Fee (GHS):</strong> <span id="seaGHS">GHS 0.00</span></p>
+                        <p><strong>Handling Fee:</strong> $3.85 = GHS 50.00</p>
+                        <hr style="margin:10px 0;border-color:#ddd;">
+                        <p style="font-size:18px;"><strong>TOTAL (USD):</strong> <span id="seaTotalUSD" style="color:var(--navy);font-weight:900;">$0.00</span></p>
+                        <p style="font-size:22px;"><strong>TOTAL (GHS):</strong> <span id="seaTotalGHS" style="color:var(--navy);font-weight:900;">GHS 0.00</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== AIR CALCULATOR ========== -->
+            <div id="mode-air" class="mode-content" style="display:none;">
+                <div class="warning-banner">⚡ Air Freight — 5–10 Days • Phones/Laptops/iPads: GHS 500 FLAT each</div>
+                
+                <div class="form-group">
+                    <label>Select Item Type</label>
+                    <select id="airType" onchange="calculateAir()">
+                        <option value="standard">Standard Goods (by Weight)</option>
+                        <option value="phone">📱 Phone — GHS 500 flat</option>
+                        <option value="laptop">💻 Laptop — GHS 500 flat</option>
+                        <option value="ipad">📱 iPad / Tablet — GHS 500 flat</option>
+                    </select>
+                </div>
+
+                <div id="airWeightSection" class="form-group">
+                    <label>Total Weight (kg)</label>
+                    <input type="number" id="weightKg" placeholder="e.g., 5.5 kg" step="0.1" oninput="calculateAir()">
+                </div>
+
+                <div class="result-box air">
+                    <p id="airRateInfo" style="font-size:16px;opacity:.9;">✈️ Air Rate: $17 USD per kg (GHS 221/kg)</p>
+                    <p class="usd-rate">💱 1 USD = 13 GHS</p>
+                    <hr style="margin:12px 0;border-color:#ddd;">
+                    <p><strong>Air Freight (USD):</strong> <span id="airUSD">$0.00</span></p>
+                    <p><strong>Air Freight (GHS):</strong> <span id="airGHS">GHS 0.00</span></p>
+                    <hr style="margin:10px 0;border-color:#ddd;">
+                    <p style="font-size:18px;"><strong>TOTAL TO PAY:</strong> <span id="airTotal" style="color:var(--sky);font-weight:900;">GHS 0.00</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== WAREHOUSE PAGE ==================== -->
+<section id="page-warehouse" class="page-section">
+    <div class="container">
+        <h2 class="section-title">🏬 China Warehouse Addresses</h2>
+        <div class="warehouse-box">
+            <p style="font-size:18px;color:var(--navy);font-weight:600;margin-bottom:30px;">Send your goods to the correct warehouse based on your shipping method!</p>
+            
+            <!-- AIR WAREHOUSE -->
+            <div class="warehouse-block air">
+                <h3 style="color:var(--sky);margin-bottom:15px;">✈️ AIR FREIGHT — Guangzhou Warehouse</h3>
+                <div class="warning-banner">📱 Phones, Laptops & iPads welcome here — GHS 500 flat rate per item!</div>
+                <div class="warehouse-address">
+                    <strong>EVERIVAULT — AIR WAREHOUSE (GUANGZHOU)</strong><br><br>
+                    📍 <strong>Address:</strong><br>
+                    广州市越秀区广园西路99号玖玖商汇510室<br>
+                    <strong>Room 510, 99 Business Center, No.99 West Guangyuan Road,</strong><br>
+                    <strong>Yuexiu District, Guangzhou City, Guangdong Province, China</strong><br>
+                    <strong>Postal Code: 510010</strong><br><br>
+                    📞 <strong>Reference:</strong> EveriVault — Richmond Wireko Brobbey — KUMASI, GHANA — Air Cargo<br>
+                    ⚠️ <strong>IMPORTANT:</strong> Write your name + "EveriVault — Kumasi — AIR" clearly on all packages!
+                </div>
+                <button class="copy-btn copy-btn-air" onclick="copyAirAddress()">📋 Copy Air Address</button>
+            </div>
+
+            <!-- SEA WAREHOUSE -->
+            <div class="warehouse-block sea">
+                <h3 style="color:var(--navy);margin-bottom:15px;">🚢 SEA FREIGHT — Foshan Warehouse</h3>
+                <div class="warning-red">⚠️ NO battery goods accepted via Sea — only normal cargo!</div>
+                <div class="warehouse-address">
+                    <strong>EVERIVAULT — SEA WAREHOUSE (FOSHAN)</strong><br><br>
+                    📍 <strong>Address:</strong><br>
+                    广东省佛山市南海区狮山镇新圃西路88号博汇5期<br>
+                    <strong>Foshan City, Nanhai District, Shishan Town, Xinpu West Road No.88, Bohui Phase 5, Guangdong, China</strong><br><br>
+                    🧭 <strong>Navigation:</strong> 佛山固菜仓储服务部（博汇5期） / Foshan Gucai Warehousing Service (Bohui Phase 5)<br><br>
+                    📞 <strong>Contacts:</strong> Mr. Zhang +86 181 2571 7488 | Mr. Yue +86 180 2417 9599<br><br>
+                    ✉️ <strong>Reference:</strong> EveriVault — Richmond Wireko Brobbey — KUMASI, GHANA — Sea Cargo<br>
+                    ⚠️ <strong>IMPORTANT:</strong> Write your name + "EveriVault — Kumasi — SEA" clearly on all packages!
+                </div>
+                <button class="copy-btn" onclick="copySeaAddress()">📋 Copy Sea Address</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PAYMENT PAGE ==================== -->
+<section id="page-payment" class="page-section">
+    <div class="container">
+        <h2 class="section-title">💳 Make Payment</h2>
+        <div class="calc-box">
+            <h3 style="color:var(--navy);margin-bottom:20px;">Choose Payment Method</h3>
+            <div style="background:#eef2ff;padding:12px;border-radius:6px;margin-bottom:25px;border-left:4px solid var(--navy);">
+                <strong>💵 Prices calculated in USD • Auto-converted to GHS @ 1 USD = 13 GHS</strong>
+            </div>
+            
+            <div class="payment-options">
+                <div class="payment-card selected" id="card-momo" onclick="selectPayment('momo')">
+                    <h3>📱 Mobile Money</h3>
+                    <p>MTN MoMo • Telecel Cash • AirtelTigo — Pay in GHS</p>
+                </div>
+                <div class="payment-card" id="card-bank" onclick="selectPayment('bank')">
+                    <h3>🏦 Bank Transfer</h3>
+                    <p>Guaranty Trust Bank — Pay in GHS</p>
+                </div>
+            </div>
+
+            <!-- MOMO PAYMENT -->
+            <div id="pay-momo" style="margin-top:30px;">
+                <div class="form-group">
+                    <label>Select Network</label>
+                    <select id="momoNet">
+                        <option>MTN MoMo</option>
+                        <option>Telecel Cash</option>
+                        <option>AirtelTigo Money</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Mobile Money Number</label>
+                    <input type="tel" placeholder="e.g., 054 XXX XXXX">
+                </div>
+                <div class="form-group">
+                    <label>Amount (GHS)</label>
+                    <input type="number" placeholder="Enter total amount">
+                </div>
+                <div class="form-group">
+                    <label>Reference / Tracking Number</label>
+                    <input type="text" placeholder="Your tracking number or name">
+                </div>
+                <p style="color:var(--navy);margin:15px 0;">📞 Confirm: +233 543 155 883 — Kumasi</p>
+                <button class="btn btn-gold" style="width:100%;margin-top:10px;">💰 Pay Now</button>
+            </div>
+
+            <!-- BANK PAYMENT -->
+            <div id="pay-bank" style="margin-top:30px;display:block;">
+                <div style="background:var(--light);padding:25px;border-radius:8px;margin-bottom:20px;border-left:4px solid var(--navy);">
+                    <h4 style="color:var(--navy);margin-bottom:15px;">🏦 BANK DETAILS</h4>
+                    <p><strong>Bank:</strong> Guaranty Trust Bank</p>
+                    <p><strong>Account Name:</strong> Richmond Wireko Brobbey</p>
+                    <p><strong>Account Number:</strong> 1304001024705</p>
+                    <p><strong>Reference:</strong> Tracking Number</p>
+                </div>
+                <div class="form-group">
+                    <label>Upload Proof of Payment</label>
+                    <input type="file">
+                </div>
+                <div class="form-group">
+                    <label>Reference / Tracking Number</label>
+                    <input type="text" placeholder="Your tracking number or name">
+                </div>
+                <p style="color:var(--navy);margin:15px 0;">📞 Confirm: +233 543 155 883 — Kumasi</p>
+                <button class="btn btn-gold" style="width:100%;margin-top:10px;">✅ Submit Payment</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== REGISTER PAGE ==================== -->
+<section id="page-register" class="page-section">
+    <div class="container">
+        <h2 class="section-title">📝 Register With EveriVault</h2>
+        <div class="calc-box">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" placeholder="Your full name">
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" placeholder="your@email.com">
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" placeholder="+233 XX XXX XXXX">
+            </div>
+            <div class="form-group">
+                <label>City / Region</label>
+                <input type="text" placeholder="e.g., Kumasi, Ashanti Region">
+            </div>
+            <div class="form-group">
+                <label>Create Password</label>
+                <input type="password" placeholder="Min. 8 characters">
+            </div>
+            <div style="margin:20px 0;">
+                <input type="checkbox" id="terms">
+                <label for="terms" style="display:inline;font-weight:normal;"> I agree to Terms & Privacy — No battery goods via Sea</label>
+            </div>
+            <button class="btn btn-gold" style="width:100%;">🚀 Create Account</button>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div>
+                <h3 style="color:var(--gold);margin-bottom:20px;">EVERIVAULT</h3>
+                <p>Proudly in <strong>Kumasi, Ashanti Region, Ghana</strong><br><br>
+                🚢 Sea: $255–$265/CBM • ✈️ Air: $17/kg<br>
+                📱 Phones/Laptops/iPads: GHS 500 flat each<br>
+                💱 1 USD = 13 GHS<br>
+                CEO: Richmond Wireko Brobbey.</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <ul style="list-style:none;margin-top:15px;">
+                    <li><a href="#" onclick="showPage('track')" style="color:white;opacity:.8;">Track Shipment</a></li>
+                    <li><a href="#" onclick="showPage('calculate')" style="color:white;opacity:.8;">Calculate Cost</a></li>
+                    <li><a href="#" onclick="showPage('warehouse')" style="color:white;opacity:.8;">Warehouse Addresses</a></li>
+                    <li><a href="#" onclick="showPage('payment')" style="color:white;opacity:.8;">Make Payment</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Contact Us</h4>
+                <p>📍 Kumasi, Ashanti Region, Ghana<br>
+                📞 +233 543 155 883<br>
+                ✉️ richmonwireko@gmail.com<br>
+                💬 WhatsApp: +1 (309) 519-4647</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>©️ 2026 EveriVault Enterprise — Kumasi. All Rights Reserved. | 🚢 Sea: $255–$265/CBM | ✈️ Air: $17/kg | 📱 Electronics: GHS 500 flat | ⚠️ No battery goods via Sea.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- WhatsApp Floating Button -->
+<a href="https://wa.me/13095194647" target="_blank" style="position:fixed;bottom:25px;right:25px;background:#25D366;color:white;padding:15px 20px;border-radius:50px;font-size:18px;box-shadow:0 4px 15px rgba(0,0,0,.2);z-index:999;text-decoration:none;font-weight:bold;">💬 Chat Now</a>
+
+<!-- JavaScript -->
+<script>
+// === CONFIG ===
+const EXCHANGE_RATE = 13;
+const SEA_BELOW_1CBM = 255.00;
+const SEA_ABOVE_1CBM = 265.00;
+const AIR_RATE_PER_KG = 17.00;
+const ELECTRONICS_FEE_GHS = 500;
+const HANDLING_FEE_USD = 3.85;
+
+// Navigation
+function showPage(page){
+    document.querySelectorAll('.page-section').forEach(p=>p.classList.remove('active'));
+    document.getElementById('page-'+page).classList.add('active');
+    document.getElementById('navMenu').classList.remove('active');
+    window.scrollTo(0,0);
+}
+function toggleMenu(){document.getElementById('navMenu').classList.toggle('active');}
+
+// Shipping Mode Switch (Sea/Air)
+function switchMode(mode){
+    document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelector(`.mode-tab.${mode}`).classList.add('active');
+    document.getElementById('mode-sea').style.display = mode==='sea'?'block':'none';
+    document.getElementById('mode-air').style.display = mode==='air'?'block':'none';
+}
+
+// Tab Switch (CBM/Shipping)
+function switchTab(tab){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('tab-'+tab).classList.add('active');
+}
+
+// === SEA CALCULATIONS ===
+function calculateCBM(){
+    let l=parseFloat(document.getElementById('len').value)||0;
+    let w=parseFloat(document.getElementById('wid').value)||0;
+    let h=parseFloat(document.getElementById('hgt').value)||0;
+    let q=parseFloat(document.getElementById('qty').value)||1;
+    let u=document.getElementById('cbmUnit').value;
+    if(u==='cm'){l/=100;w/=100;h/=100;}
+    if(u==='in'){l*=0.0254;w*=0.0254;h*=0.0254;}
+    let cbm=l*w*h*q;
+    document.getElementById('cbmResult').textContent=cbm.toFixed(3)+' m³';
+}
+function calculateSea(){
+    let cbm=parseFloat(document.getElementById('cbmVal').value)||0;
+    let rate=cbm < 1 ? SEA_BELOW_1CBM : SEA_ABOVE_1CBM;
+    let shipUSD=cbm * rate;
+    let totalUSD=shipUSD + HANDLING_FEE_USD;
+    document.getElementById('seaUSD').textContent='$'+shipUSD.toFixed(2);
+    document.getElementById('seaGHS').textContent='GHS '+(shipUSD*EXCHANGE_RATE).toFixed(2);
+    document.getElementById('seaTotalUSD').textContent='$'+totalUSD.toFixed(2);
+    document.getElementById('seaTotalGHS').textContent='GHS '+(totalUSD*EXCHANGE_RATE).toFixed(2);
+}
+
+// === AIR CALCULATIONS ===
+function calculateAir(){
+    let type=document.getElementById('airType').value;
+    let weightSection=document.getElementById('airWeightSection');
+    let rateInfo=document.getElementById('airRateInfo');
+    let airUSD=document.getElementById('airUSD');
+    let airGHS=document.getElementById('airGHS');
+    let airTotal=document.getElementById('airTotal');
+    
+    if(type==='standard'){
+        weightSection.style.display='block';
+        rateInfo.textContent='✈️ Air Rate: $17 USD per kg (GHS 221/kg)';
+        let kg=parseFloat(document.getElementById('weightKg').value)||0;
+        let costUSD=kg * AIR_RATE_PER_KG;
+        let costGHS=costUSD * EXCHANGE_RATE;
+        airUSD.textContent='$'+costUSD.toFixed(2);
+        airGHS.textContent='GHS '+costGHS.toFixed(2);
+        airTotal.textContent='GHS '+costGHS.toFixed(2);
+    } else {
+        weightSection.style.display='none';
+        let itemName=type==='phone'?'Phone':type==='laptop'?'Laptop':'iPad/Tablet';
+        rateInfo.textContent='📱 '+itemName+' — Special Flat Rate';
+        airUSD.textContent='—';
+        airGHS.textContent='GHS '+ELECTRONICS_FEE_GHS+'.00';
+        airTotal.textContent='GHS '+ELECTRONICS_FEE_GHS+'.00';
+    }
+}
+
+// Payment Selection
+function selectPayment(method){
+    document.querySelectorAll('.payment-card').forEach(c=>c.classList.remove('selected'));
+    document.getElementById('card-'+method).classList.add('selected');
+    document.getElementById('pay-momo').style.display=method==='momo'?'block':'none';
+    document.getElementById('pay-bank').style.display=method==='bank'?'block':'none';
+}
+
+// Tracking
+function trackShipment(){
+    let num=document.getElementById('trackNum').value;
+    if(!num){alert('Enter tracking number');return;}
+    let isAir=num.toUpperCase().includes('AIR');
+    document.getElementById('trackResult').style.display='block';
+    document.getElementById('tNum').textContent=num;
+    document.getElementById('tStatus').textContent='In Transit — Arriving Soon';
+    document.getElementById('tOrigin').textContent=isAir?'Guangzhou, China':'Foshan, China';
+    document.getElementById('tDest').textContent='Kumasi, Ghana';
+    document.getElementById('tETA').textContent=isAir?'5–10 Days':'25–40 Days';
+    document.getElementById('tTimeline').innerHTML=`
+        <div class="status-line status-done">✅ Package Received at Warehouse</div>
+        <div class="status-line status-done">✅ Inspected & Labeled</div>
+        <div class="status-line status-done">✅ Shipped from China</div>
+        <div class="status-line">🔄 In Transit</div>
+        <div class="status-line">⏳ Customs Clearing</div>
+        <div class="status-line">⏳ On the way to Kumasi</div>
+        <div class="status-line">⏳ Delivered</div>
+    `;
+}
+
+// Copy Addresses
+function copyAirAddress(){
+    const addr=`EVERIVAULT — AIR WAREHOUSE
+Room 510, 99 Business Center, No.99 West Guangyuan Road, Yuexiu District, Guangzhou, China
+Postal Code: 510010
+Reference: EveriVault — Richmond Wireko Brobbey — KUMASI, GHANA — AIR`;
+    navigator.clipboard.writeText(addr).then(()=>alert('✅ Air Address Copied!'));
+}
+function copySeaAddress(){
+    const addr=`EVERIVAULT — SEA WAREHOUSE
+Foshan City, Nanhai District, Shishan Town, Xinpu West Road No.88, Bohui Phase 5, Guangdong, China
+Navigation: Foshan Gucai Warehousing Service (Bohui Phase 5)
+Reference: EveriVault — Richmond Wireko Brobbey — KUMASI, GHANA — SEA`;
+    navigator.clipboard.writeText(addr).then(()=>alert('✅ Sea Address Copied!'));
+}
+</script>
+</body>
+</html>
+
