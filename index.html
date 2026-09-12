@@ -19,7 +19,7 @@ nav{background:var(--navy);position:sticky;top:0;z-index:999;box-shadow:0 4px 20
 .nav-wrap{display:flex;justify-content:space-between;align-items:center;padding:12px 0;}
 .logo{font-size:clamp(20px,5vw,26px);font-weight:900;color:var(--gold);text-decoration:none; display: flex; align-items: center; gap: 8px;}
 .nav-links{display:flex;gap:4px;list-style:none;flex-wrap:wrap;align-items:center;}
-.nav-links a{color:#E0E7FF;text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:600;font-size:14px; transition: .2s;}
+.nav-links a{color:#E0F7FF;text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:600;font-size:14px; transition: .2s;}
 .nav-links a:hover,.nav-links a.active{background:rgba(255,255,255,.1);color:var(--gold);}
 .nav-cta{background:linear-gradient(135deg,var(--gold),#B8860B);color:var(--navy)!important; box-shadow: 0 4px 15px rgba(212,175,55,.4);}
 .admin-badge-nav{background:var(--red);color:#fff!important;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:800;}
@@ -94,16 +94,19 @@ h2.page-title::after{content:'';display:block;width:60px;height:4px;background:v
 .cat-chip{background:#E2E8F0;color:#334155;padding:8px 16px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;transition:.2s;}
 .cat-chip.active,.cat-chip:hover{background:var(--navy);color:#fff;}
 
-.tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;border-bottom:2px solid #E2E8F0;}
-.tab{padding:10px 16px;border-radius:10px 10px 0 0;cursor:pointer;font-weight:700;color:#64748B;border-bottom:3px solid transparent;transition:all 0.2s ease;}
-.tab.active{color:var(--navy);border-bottom-color:var(--gold);background:rgba(212,175,55,.08);}
-.tab-content{display:none;}
-.tab-content.active{display:block !important;animation:fadeIn .3s ease;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+/* RECONSTRUCTED PORTAL AUTH CARD STYLES */
+.auth-wrapper {max-width: 480px; margin: 0 auto; background: #fff; border-radius: 20px; box-shadow: 0 12px 36px rgba(10, 36, 99, 0.12); overflow: hidden; border: 1px solid #E2E8F0;}
+.auth-header-tabs {display: grid; grid-template-columns: repeat(3, 1fr); background: #F1F5F9; padding: 6px; gap: 6px;}
+.auth-tab {padding: 12px 8px; text-align: center; font-size: 13px; font-weight: 700; color: #64748B; cursor: pointer; border-radius: 12px; transition: all 0.25s ease; user-select: none;}
+.auth-tab:hover {color: var(--navy);}
+.auth-tab.active {background: #fff; color: var(--navy); box-shadow: 0 4px 12px rgba(0,0,0,0.06);}
+.auth-body {padding: 30px;}
+.auth-form-panel {display: none;}
+.auth-form-panel.active {display: block; animation: authFadeIn 0.3s ease;}
+@keyframes authFadeIn {from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
 
-.form-box{max-width:550px;margin:0 auto;background:#fff;padding:clamp(20px,5vw,30px);border-radius:16px;box-shadow:var(--shadow);}
 .form-group{margin-bottom:16px;}
-label{display:block;margin-bottom:6px;font-weight:600;color:var(--navy);}
+label{display:block;margin-bottom:6px;font-weight:600;color:var(--navy); font-size: 14px;}
 input,select,textarea{width:100%;padding:14px;border:2px solid #E2E8F0;border-radius:10px;font-size:15px;}
 input[type="file"]{padding: 10px; background: #F8FAFC; cursor: pointer;}
 input:focus,select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(10,36,99,.1);}
@@ -512,73 +515,75 @@ footer h3{color:var(--gold);margin-bottom:12px;}
     </div>
 </section>
 
-<!-- AUTHENTICATION -->
+<!-- RECONSTRUCTED PORTAL ACCOUNT ACCESS -->
 <section id="p-auth" class="page">
     <div class="container">
         <h2 class="page-title">🔐 Portal Account Access</h2>
-        <p class="subtitle">Sign in, register, or reset your password</p>
+        <p class="subtitle">Sign in to your dashboard, register for a shipping mark, or recover your password</p>
         
-        <div class="form-box">
-            <div class="tabs">
-                <div class="tab active" id="tabLogin" onclick="switchAuthTab('login')">Sign In</div>
-                <div class="tab" id="tabReg" onclick="switchAuthTab('reg')">Register</div>
-                <div class="tab" id="tabReset" onclick="switchAuthTab('reset')">Reset Password</div>
+        <div class="auth-wrapper">
+            <div class="auth-header-tabs">
+                <div class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Sign In</div>
+                <div class="auth-tab" id="tabReg" onclick="switchAuthTab('reg')">Register</div>
+                <div class="auth-tab" id="tabReset" onclick="switchAuthTab('reset')">Reset Password</div>
             </div>
 
-            <form id="fLogin" class="tab-content active" onsubmit="doLogin(event)">
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="lem" placeholder="e.g. user@gmail.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="lpw" placeholder="Enter password" required>
-                </div>
-                <div id="lmsg" class="msg"></div>
-                <button type="submit" class="btn btn-gold btn-block">Log In</button>
-            </form>
+            <div class="auth-body">
+                <form id="fLogin" class="auth-form-panel active" onsubmit="doLogin(event)">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="lem" placeholder="e.g. user@gmail.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="lpw" placeholder="Enter your password" required>
+                    </div>
+                    <div id="lmsg" class="msg"></div>
+                    <button type="submit" class="btn btn-gold btn-block" style="margin-top: 10px;">Sign In to Dashboard</button>
+                </form>
 
-            <form id="fReg" class="tab-content" onsubmit="doReg(event)">
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="rn" placeholder="e.g. Kwame Mensah" required>
-                </div>
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="rem" placeholder="e.g. kwame@gmail.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" id="rp" placeholder="e.g. 0543155883" required>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="rpw" placeholder="Create password" required>
-                </div>
-                <div class="form-group">
-                    <label>Confirm Password</label>
-                    <input type="password" id="rpw2" placeholder="Confirm password" required>
-                </div>
-                <div id="rmsg" class="msg"></div>
-                <button type="submit" class="btn btn-gold btn-block">Create Account & Get Tracking Code</button>
-            </form>
+                <form id="fReg" class="auth-form-panel" onsubmit="doReg(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="rn" placeholder="e.g. Kwame Mensah" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="rem" placeholder="e.g. kwame@gmail.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="rp" placeholder="e.g. 0543155883" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="rpw" placeholder="Create a secure password" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" id="rpw2" placeholder="Confirm your password" required>
+                    </div>
+                    <div id="rmsg" class="msg"></div>
+                    <button type="submit" class="btn btn-gold btn-block" style="margin-top: 10px;">Create Account & Get Shipping Mark</button>
+                </form>
 
-            <form id="fReset" class="tab-content" onsubmit="doResetPassword(event)">
-                <div class="form-group">
-                    <label>Email Address OR Shipping Mark Reference</label>
-                    <input type="text" id="resetId" placeholder="e.g. kwame@gmail.com OR GHOO1KKWAME" required>
-                </div>
-                <div class="form-group">
-                    <label>New Password</label>
-                    <input type="password" id="resetPw1" placeholder="Enter new password" required>
-                </div>
-                <div class="form-group">
-                    <label>Confirm New Password</label>
-                    <input type="password" id="resetPw2" placeholder="Confirm new password" required>
-                </div>
-                <div id="resetMsg" class="msg"></div>
-                <button type="submit" class="btn btn-gold btn-block">Update Password</button>
-            </form>
+                <form id="fReset" class="auth-form-panel" onsubmit="doResetPassword(event)">
+                    <div class="form-group">
+                        <label>Email Address OR Shipping Mark Reference</label>
+                        <input type="text" id="resetId" placeholder="e.g. user@gmail.com OR GHOO1KKWAME" required>
+                    </div>
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" id="resetPw1" placeholder="Enter new password" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm New Password</label>
+                        <input type="password" id="resetPw2" placeholder="Confirm new password" required>
+                    </div>
+                    <div id="resetMsg" class="msg"></div>
+                    <button type="submit" class="btn btn-gold btn-block" style="margin-top: 10px;">Update Password</button>
+                </form>
+            </div>
         </div>
     </div>
 </section>
@@ -713,7 +718,6 @@ const MERCHANT_MOMO_NUMBER = '0543155883';
 const ADMIN_WHATSAPP_NUMBER = '13095194647';
 const SMS_CONFIG = { apiKey: 'YOUR_ARKESEL_API_KEY', senderId: 'EveriVault' };
 
-// Configured with your Supabase publishable key
 const SUPABASE_URL = 'https://YOUR_SUPABASE_PROJECT_ID.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_ZdxSIdlfrMQStQkt8Zq3oQ_0wIrkxIF';
 const db = (typeof supabase !== 'undefined') ? supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY) : null;
@@ -840,9 +844,9 @@ function switchAuthTab(type){
     document.getElementById('tabLogin').classList.toggle('active', type==='login');
     document.getElementById('tabReg').classList.toggle('active', type==='reg');
     document.getElementById('tabReset').classList.toggle('active', type==='reset');
-    document.getElementById('fLogin').style.display = type==='login' ? 'block' : 'none';
-    document.getElementById('fReg').style.display = type==='reg' ? 'block' : 'none';
-    document.getElementById('fReset').style.display = type==='reset' ? 'block' : 'none';
+    document.getElementById('fLogin').classList.toggle('active', type==='login');
+    document.getElementById('fReg').classList.toggle('active', type==='reg');
+    document.getElementById('fReset').classList.toggle('active', type==='reset');
 }
 
 function switchAdminTab(type){
