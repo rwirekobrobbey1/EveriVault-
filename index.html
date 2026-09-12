@@ -55,6 +55,10 @@ h2::after{content:'';display:block;width:60px;height:4px;background:var(--gold);
 .tab-content.active{display:block !important;animation:fadeIn .3s ease;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
 
+.category-bar{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;margin-bottom:20px;scrollbar-width:thin;}
+.cat-chip{background:#E2E8F0;color:#334155;padding:8px 16px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;transition:.2s;}
+.cat-chip.active,.cat-chip:hover{background:var(--navy);color:#fff;}
+
 .form-box{max-width:550px;margin:0 auto;background:#fff;padding:clamp(20px,5vw,30px);border-radius:16px;box-shadow:var(--shadow);}
 .form-group{margin-bottom:16px;}
 label{display:block;margin-bottom:6px;font-weight:600;color:var(--navy);}
@@ -67,13 +71,16 @@ input:focus,select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 
 .tracking-banner{background:linear-gradient(135deg,var(--navy),#1E40AF);color:#fff;padding:16px;border-radius:12px;margin-bottom:24px;text-align:center;box-shadow:var(--shadow);}
 .tracking-banner .code{font-size:24px;font-weight:900;color:var(--gold);letter-spacing:1px;margin-top:4px;display:block;}
 
-.store-layout{display:grid;grid-template-columns:2fr 1fr;gap:24px;align-items:start;}
-.product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
-.product-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:space-between;}
-.product-img{height:160px;background:linear-gradient(135deg,#E2E8F0,#CBD5E1);display:flex;align-items:center;justify-content:center;font-size:50px;position:relative;}
-.product-tag{position:absolute;top:10px;left:10px;background:var(--gold);color:var(--navy);font-size:12px;font-weight:800;padding:2px 8px;border-radius:12px;}
+.store-layout{display:grid;grid-template-columns:2.5fr 1fr;gap:24px;align-items:start;}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;}
+.product-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:space-between;transition:.2s;}
+.product-card:hover{transform:translateY(-4px);}
+.product-img-box{height:180px;background:#F1F5F9;position:relative;overflow:hidden;}
+.product-img-box img{width:100%;height:100%;object-fit:cover;}
+.product-tag{position:absolute;top:10px;left:10px;background:var(--gold);color:var(--navy);font-size:11px;font-weight:800;padding:3px 8px;border-radius:12px;text-transform:uppercase;}
+.product-cat-tag{position:absolute;bottom:10px;right:10px;background:rgba(10,36,99,.85);color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;}
 .product-info{padding:16px;flex-grow:1;display:flex;flex-direction:column;justify-content:space-between;}
-.product-title{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.product-title{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px;line-height:1.3;}
 .product-price{font-size:18px;font-weight:900;color:var(--green);margin-bottom:12px;}
 .cart-card{background:#fff;padding:20px;border-radius:16px;box-shadow:var(--shadow);position:sticky;top:90px;}
 .cart-item{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #E2E8F0;}
@@ -86,9 +93,10 @@ input:focus,select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 
 .stat-card .val{font-size:24px;font-weight:900;color:var(--navy);}
 
 .data-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);margin-top:15px;}
-.data-table th,.data-table td{padding:12px 14px;text-align:left;border-bottom:1px solid #E2E8F0;font-size:14px;}
+.data-table th,.data-table td{padding:12px 14px;text-align:left;border-bottom:1px solid #E2E8F0;font-size:14px;vertical-align:middle;}
 .data-table th{background:var(--navy);color:#fff;}
 .data-table tr:hover{background:#F8FAFC;}
+.tbl-thumb{width:48px;height:48px;border-radius:8px;object-fit:cover;background:#F1F5F9;}
 
 .paystack-badge{background:#E0F2FE;border:1px solid #0284C7;color:#0369A1;padding:10px;border-radius:10px;margin-bottom:16px;font-size:13px;display:flex;align-items:center;gap:10px;}
 .momo-providers{display:flex;gap:10px;justify-content:center;margin:12px 0;font-weight:bold;font-size:13px;}
@@ -169,8 +177,20 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 <section id="p-shop" class="page">
     <div class="container">
         <h2>🛒 Direct China Store</h2>
-        <p class="subtitle">Order items directly and pay instantly via Paystack Mobile Money</p>
+        <p class="subtitle">Browse categories or filter items to buy directly with instant Mobile Money payment</p>
         
+        <!-- CATEGORY CHIPS -->
+        <div class="category-bar" id="categoryBar">
+            <div class="cat-chip active" onclick="filterCategory('All', this)">✨ All Items</div>
+            <div class="cat-chip" onclick="filterCategory('Skin Care', this)">🧴 Skin Care</div>
+            <div class="cat-chip" onclick="filterCategory('Bags', this)">👜 Bags</div>
+            <div class="cat-chip" onclick="filterCategory('Phones', this)">📱 Phones & Tech</div>
+            <div class="cat-chip" onclick="filterCategory('Cars', this)">🚗 Car Accessories</div>
+            <div class="cat-chip" onclick="filterCategory('Footwear', this)">👟 Men & Ladies Footwear</div>
+            <div class="cat-chip" onclick="filterCategory('Clothing', this)">👗 Men & Ladies Clothes</div>
+            <div class="cat-chip" onclick="filterCategory('Home Appliances', this)">🍳 Home Appliances</div>
+        </div>
+
         <div class="store-layout">
             <div class="product-grid" id="productGrid"></div>
             
@@ -263,7 +283,6 @@ footer h3{color:var(--gold);margin-bottom:12px;}
         
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;max-width:1000px;margin:0 auto;">
             
-            <!-- AIR FREIGHT WAREHOUSE -->
             <div style="background:#fff;padding:24px;border-radius:16px;box-shadow:var(--shadow);border-top:5px solid var(--sky);">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
                     <h3 style="color:var(--navy);font-size:20px;">✈️ Air Freight / 空运仓库</h3>
@@ -291,7 +310,6 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                 </div>
             </div>
 
-            <!-- SEA FREIGHT WAREHOUSE -->
             <div style="background:#fff;padding:24px;border-radius:16px;box-shadow:var(--shadow);border-top:5px solid var(--gold);">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
                     <h3 style="color:var(--navy);font-size:20px;">🚢 Sea Freight / 海运仓库</h3>
@@ -351,7 +369,6 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                 <div class="tab" id="tabReset" onclick="switchAuthTab('reset')">Reset Password</div>
             </div>
 
-            <!-- LOGIN -->
             <form id="fLogin" class="tab-content active" onsubmit="doLogin(event)">
                 <div class="form-group">
                     <label>Email Address</label>
@@ -365,7 +382,6 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                 <button type="submit" class="btn btn-gold btn-block">Log In</button>
             </form>
 
-            <!-- REGISTER -->
             <form id="fReg" class="tab-content" onsubmit="doReg(event)">
                 <div class="form-group">
                     <label>Full Name</label>
@@ -391,7 +407,6 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                 <button type="submit" class="btn btn-gold btn-block">Create Account & Auto-Generate Tracking Mark</button>
             </form>
 
-            <!-- RESET PASSWORD (USER & ADMIN) -->
             <form id="fReset" class="tab-content" onsubmit="doResetPassword(event)">
                 <div class="form-group">
                     <label>Email Address OR Shipping Mark Code</label>
@@ -413,7 +428,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
     </div>
 </section>
 
-<!-- MY ORDERS & TRACKING CODE PROFILE -->
+<!-- MY ORDERS -->
 <section id="p-orders" class="page">
     <div class="container">
         <h2>👤 Account Profile & Orders</h2>
@@ -436,7 +451,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 <section id="p-admin" class="page">
     <div class="container">
         <h2>🛡️ Administrator Dashboard</h2>
-        <p class="subtitle">Full store, order, user, and inventory management controls</p>
+        <p class="subtitle">Full store, image product upload, order, user, and inventory management controls</p>
 
         <div class="admin-stats">
             <div class="stat-card">
@@ -459,7 +474,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 
         <div class="tabs">
             <div class="tab active" id="atabOrders" onclick="switchAdminTab('orders')">📦 All Client Payments & Orders</div>
-            <div class="tab" id="atabProds" onclick="switchAdminTab('prods')">🛒 Add/Manage Products</div>
+            <div class="tab" id="atabProds" onclick="switchAdminTab('prods')">🛒 Add Product & Upload Images</div>
             <div class="tab" id="atabUsers" onclick="switchAdminTab('users')">👥 Registered Users & Marks</div>
         </div>
 
@@ -468,28 +483,43 @@ footer h3{color:var(--gold);margin-bottom:12px;}
             <div id="adminOrdersTable"></div>
         </div>
 
+        <!-- ADD PRODUCT FORM WITH REAL IMAGES & SECTIONS -->
         <div id="acontentProds" class="tab-content">
             <div style="display:grid;grid-template-columns:1fr 2fr;gap:20px;align-items:start;">
                 <div class="form-box" style="margin:0;">
-                    <h3 style="color:var(--navy);margin-bottom:15px;">➕ Add New Product</h3>
+                    <h3 style="color:var(--navy);margin-bottom:15px;">➕ Add Product with Image</h3>
                     <form onsubmit="adminAddProduct(event)">
                         <div class="form-group">
                             <label>Product Name</label>
-                            <input type="text" id="npName" placeholder="e.g. Wireless Earbuds" required>
+                            <input type="text" id="npName" placeholder="e.g. Glowing Vitamin C Serum" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Store Section / Category</label>
+                            <select id="npCategory" required>
+                                <option value="Skin Care">🧴 Skin Care Section</option>
+                                <option value="Bags">👜 Bags Section</option>
+                                <option value="Phones">📱 Phones Section</option>
+                                <option value="Cars">🚗 Car Accessories Section</option>
+                                <option value="Footwear">👟 Men & Ladies Footwear</option>
+                                <option value="Clothing">👗 Men & Ladies Clothes</option>
+                                <option value="Home Appliances">🍳 Home Appliances Section</option>
+                                <option value="General">📦 General Items</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>Price (GHS ₵)</label>
                             <input type="number" id="npPrice" step="0.01" placeholder="e.g. 150" required>
                         </div>
                         <div class="form-group">
-                            <label>Emoji Icon</label>
-                            <input type="text" id="npIcon" placeholder="e.g. 🎧" value="📦" required>
+                            <label>Image URL (Direct Web/Unsplash Image Link)</label>
+                            <input type="url" id="npImageUrl" placeholder="https://images.unsplash.com/photo-..." required>
+                            <small style="color:#64748B;display:block;margin-top:4px;">Paste any direct product image link here.</small>
                         </div>
                         <div class="form-group">
-                            <label>Tag / Category</label>
-                            <input type="text" id="npTag" placeholder="e.g. Air Freight / Hot" required>
+                            <label>Product Tag / Badge</label>
+                            <input type="text" id="npTag" placeholder="e.g. Hot Seller, Air Freight, New" value="New Arrival" required>
                         </div>
-                        <button class="btn btn-green btn-block">Add to Store</button>
+                        <button class="btn btn-green btn-block">Upload & Publish Product</button>
                     </form>
                 </div>
                 <div>
@@ -524,6 +554,7 @@ const SMS_CONFIG = {
 };
 
 let currentPage = 'home';
+let activeCategoryFilter = 'All';
 let user = JSON.parse(localStorage.getItem('evUser') || 'null');
 let cart = JSON.parse(localStorage.getItem('evCart') || '[]');
 
@@ -531,11 +562,15 @@ function generateTrackingCode(){
     return 'EV-GH-' + Math.floor(100000 + Math.random() * 900000);
 }
 
+// DEFAULT STORE PRODUCTS WITH REAL UNSPASH IMAGES & SPECIFIC CATEGORIES
 const defaultProducts = [
-    { id: 1, name: "20,000mAh Solar Power Bank", priceGhs: 260, icon: "🔋", tag: "Hot Seller" },
-    { id: 2, name: "Smart Fitness Watch Ultra", priceGhs: 350, icon: "⌚", tag: "Air Shipping" },
-    { id: 3, name: "Portable Neck Fan (Rechargeable)", priceGhs: 120, icon: "🌬️", tag: "Trending" },
-    { id: 4, name: "Heavy Duty Shipping Boxes (Set of 10)", priceGhs: 180, icon: "📦", tag: "Bulk" }
+    { id: 1, name: "Hydrating Facial Vitamin C Serum", category: "Skin Care", priceGhs: 150, imageUrl: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80", tag: "Hot Seller" },
+    { id: 2, name: "Luxury Designer Leather Handbag", category: "Bags", priceGhs: 450, imageUrl: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80", tag: "Trending" },
+    { id: 3, name: "Flagship 5G Smartphone 256GB", category: "Phones", priceGhs: 2800, imageUrl: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80", tag: "Top Tech" },
+    { id: 4, name: "Car Dashboard Multi-Media System", category: "Cars", priceGhs: 850, imageUrl: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80", tag: "Automotive" },
+    { id: 5, name: "Unisex Cushioned Running Sneakers", category: "Footwear", priceGhs: 320, imageUrl: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80", tag: "Popular" },
+    { id: 6, name: "Designer Oversized Cotton Hoodie", category: "Clothing", priceGhs: 240, imageUrl: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=600&q=80", tag: "New Arrival" },
+    { id: 7, name: "Digital Touchscreen Air Fryer 5.5L", category: "Home Appliances", priceGhs: 750, imageUrl: "https://images.unsplash.com/photo-1585515320310-259814833e62?auto=format&fit=crop&w=600&q=80", tag: "Home Essential" }
 ];
 
 function getProducts(){ return JSON.parse(localStorage.getItem('evProducts')) || defaultProducts; }
@@ -562,6 +597,13 @@ function go(page){
 }
 
 function toggleMenu(){document.getElementById('menu').classList.toggle('active');}
+
+function filterCategory(cat, chipElement){
+    activeCategoryFilter = cat;
+    document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+    if(chipElement) chipElement.classList.add('active');
+    renderProducts();
+}
 
 function switchAuthTab(type){
     document.getElementById('tabLogin').classList.toggle('active', type==='login');
@@ -670,7 +712,6 @@ function doLogin(e){
     }
 }
 
-// PASSWORD RESET HANDLER (FOR USER OR ADMIN VIA GMAIL OR SHIPPING MARK)
 function doResetPassword(e){
     e.preventDefault();
     const identifier = document.getElementById('resetId').value.trim().toLowerCase();
@@ -684,7 +725,6 @@ function doResetPassword(e){
         return;
     }
 
-    // Check if updating Administrator password
     if(identifier === 'admin@everivault.com' || identifier === 'admin-001'){
         localStorage.setItem('evAdminPassword', newPw1);
         msg.className = 'msg ok';
@@ -693,7 +733,6 @@ function doResetPassword(e){
         return;
     }
 
-    // Check regular users
     let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
     const userIndex = users.findIndex(u => 
         u.email.toLowerCase() === identifier || 
@@ -755,9 +794,23 @@ function updateAuthUI(){
 function renderProducts(){
     const grid = document.getElementById('productGrid');
     const prods = getProducts();
-    grid.innerHTML = prods.map(p => `
+    
+    const filtered = activeCategoryFilter === 'All' 
+        ? prods 
+        : prods.filter(p => p.category === activeCategoryFilter);
+
+    if(filtered.length === 0){
+        grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:40px;color:#64748B;">No products found in this section.</p>';
+        return;
+    }
+
+    grid.innerHTML = filtered.map(p => `
         <div class="product-card">
-            <div class="product-img">${p.icon}<span class="product-tag">${p.tag}</span></div>
+            <div class="product-img-box">
+                <img src="${p.imageUrl}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?auto=format&fit=crop&w=600&q=80'">
+                <span class="product-tag">${p.tag || 'Popular'}</span>
+                <span class="product-cat-tag">${p.category || 'General'}</span>
+            </div>
             <div class="product-info">
                 <div class="product-title">${p.name}</div>
                 <div class="product-price">₵${parseFloat(p.priceGhs).toFixed(2)}</div>
@@ -1001,20 +1054,20 @@ function renderAdmin(){
         <table class="data-table">
             <thead>
                 <tr>
-                    <th>Icon</th>
+                    <th>Image</th>
                     <th>Name</th>
+                    <th>Category</th>
                     <th>Price</th>
-                    <th>Tag</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 ${prods.map(p => `
                     <tr>
-                        <td style="font-size:20px;">${p.icon}</td>
-                        <td><strong>${p.name}</strong></td>
+                        <td><img src="${p.imageUrl}" class="tbl-thumb" onerror="this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?auto=format&fit=crop&w=600&q=80'"></td>
+                        <td><strong>${p.name}</strong><br><small>${p.tag}</small></td>
+                        <td><span style="background:#E2E8F0;padding:2px 8px;border-radius:10px;font-size:12px;font-weight:700;">${p.category || 'General'}</span></td>
                         <td>₵${parseFloat(p.priceGhs).toFixed(2)}</td>
-                        <td><span style="background:#E2E8F0;padding:2px 8px;border-radius:10px;font-size:12px;">${p.tag}</span></td>
                         <td><button class="btn btn-sm btn-red" onclick="adminDeleteProduct(${p.id})">🗑️ Delete</button></td>
                     </tr>
                 `).join('')}
@@ -1054,18 +1107,20 @@ function renderAdmin(){
 function adminAddProduct(e){
     e.preventDefault();
     const name = document.getElementById('npName').value.trim();
+    const category = document.getElementById('npCategory').value;
     const price = parseFloat(document.getElementById('npPrice').value);
-    const icon = document.getElementById('npIcon').value.trim();
+    const imageUrl = document.getElementById('npImageUrl').value.trim();
     const tag = document.getElementById('npTag').value.trim();
 
     let prods = getProducts();
-    const newProd = { id: Date.now(), name, priceGhs: price, icon, tag };
+    const newProd = { id: Date.now(), name, category, priceGhs: price, imageUrl, tag };
     prods.push(newProd);
     saveProducts(prods);
 
     alert('✅ Product added successfully!');
     e.target.reset();
     renderAdmin();
+    renderProducts();
 }
 
 function adminDeleteProduct(id){
@@ -1073,6 +1128,7 @@ function adminDeleteProduct(id){
     let prods = getProducts().filter(p => p.id !== id);
     saveProducts(prods);
     renderAdmin();
+    renderProducts();
 }
 
 function updateOrderStatus(ref){
