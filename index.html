@@ -1,10 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EveriVault — China ↔ Ghana Shipping & Store</title>
+<title>EveriVault — China ↔ Ghana Shipping, Store & Paystack Portal</title>
+<!-- Paystack Inline JS SDK -->
+<script src="https://js.paystack.co/v1/inline.js"></script>
 <style>
 :root{--navy:#0A2463;--gold:#D4AF37;--sky:#0096FF;--green:#22C55E;--red:#EF4444;--light:#F8FAFC;--shadow:0 8px 24px rgba(10,36,99,.1);}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI','Roboto',sans-serif;}
@@ -15,10 +16,11 @@ body{background:#F8FAFC;color:#333;line-height:1.6;}
 nav{background:var(--navy);position:sticky;top:0;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,.15);}
 .nav-wrap{display:flex;justify-content:space-between;align-items:center;padding:12px 0;}
 .logo{font-size:clamp(20px,5vw,26px);font-weight:900;color:var(--gold);text-decoration:none;}
-.nav-links{display:flex;gap:4px;list-style:none;flex-wrap:wrap;}
-.nav-links a{color:#E0E7FF;text-decoration:none;padding:10px 12px;border-radius:8px;font-weight:600;font-size:14px;}
+.nav-links{display:flex;gap:4px;list-style:none;flex-wrap:wrap;align-items:center;}
+.nav-links a{color:#E0E7FF;text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:600;font-size:14px;}
 .nav-links a:hover,.nav-links a.active{background:rgba(255,255,255,.1);color:var(--gold);}
 .nav-cta{background:linear-gradient(135deg,var(--gold),#B8860B);color:var(--navy)!important;}
+.admin-badge-nav{background:var(--red);color:#fff!important;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:800;}
 .menu-toggle{display:none;color:#fff;font-size:28px;cursor:pointer;}
 
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:10px;font-weight:700;border:none;cursor:pointer;font-size:15px;text-decoration:none;transition:.2s;}
@@ -27,10 +29,10 @@ nav{background:var(--navy);position:sticky;top:0;z-index:999;box-shadow:0 4px 20
 .btn-gold:hover{transform:translateY(-2px);}
 .btn-sky{background:var(--sky);color:#fff;}
 .btn-green{background:var(--green);color:#fff;}
-.btn-sm{padding:8px 14px;font-size:14px;}
+.btn-red{background:var(--red);color:#fff;}
+.btn-sm{padding:6px 12px;font-size:13px;}
 .btn-block{width:100%;justify-content:center;}
 .btn-outline{border:2px solid var(--navy);background:transparent;color:var(--navy);}
-.btn-outline:hover{background:var(--navy);color:#fff;}
 
 .hero{background:linear-gradient(135deg,#051238,var(--navy),#1E40AF);color:#fff;padding:clamp(40px,10vw,60px) 0;text-align:center;}
 .badge{display:inline-block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:8px 18px;border-radius:50px;font-weight:700;margin-bottom:16px;font-size:14px;}
@@ -40,36 +42,12 @@ nav{background:var(--navy);position:sticky;top:0;z-index:999;box-shadow:0 4px 20
 .rate-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;max-width:900px;margin:0 auto 24px;}
 .rate-card{background:rgba(255,255,255,.08);border-radius:14px;padding:18px;}
 .rate-card .big{font-size:clamp(22px,5vw,26px);font-weight:900;color:var(--gold);}
-.alert{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:12px;max-width:600px;margin:0 auto 20px;color:#FECACA;font-size:14px;}
 .hero-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
 
 section{padding:clamp(40px,8vw,60px) 0;}
 h2{text-align:center;font-size:clamp(20px,4vw,30px);color:var(--navy);margin-bottom:10px;}
 h2::after{content:'';display:block;width:60px;height:4px;background:var(--gold);margin:10px auto 0;border-radius:2px;}
 .subtitle{text-align:center;color:#64748B;margin-bottom:30px;font-size:15px;max-width:600px;margin-left:auto;margin-right:auto;}
-
-.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
-.card{background:#fff;padding:22px;border-radius:14px;box-shadow:var(--shadow);transition:.3s;}
-.card:hover{transform:translateY(-4px);}
-.card h3{color:var(--navy);margin-bottom:8px;}
-
-/* CEO Travel Section */
-.travel-hero{background:linear-gradient(135deg,#1E40AF,#0A2463);color:#fff;padding:clamp(30px,8vw,50px) 0;text-align:center;}
-.restricted-box{text-align:center;padding:60px 20px;}
-.restricted-icon{font-size:60px;margin-bottom:20px;opacity:.3;}
-.travel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:30px;}
-.travel-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);}
-.travel-img{width:100%;height:200px;background:linear-gradient(135deg,var(--sky),var(--navy));display:flex;align-items:center;justify-content:center;font-size:48px;color:#fff;position:relative;}
-.travel-badge{position:absolute;top:12px;right:12px;background:var(--gold);color:var(--navy);padding:4px 12px;border-radius:20px;font-weight:900;font-size:13px;}
-.travel-body{padding:20px;}
-.travel-body h3{color:var(--navy);margin-bottom:6px;}
-.travel-date{color:var(--sky);font-weight:700;margin-bottom:10px;}
-.timeline{border-left:3px solid var(--gold);padding-left:24px;margin-top:30px;max-width:800px;margin-left:auto;margin-right:auto;}
-.timeline-item{position:relative;margin-bottom:30px;}
-.timeline-item::before{content:'✈️';position:absolute;left:-35px;top:0;background:#fff;padding:4px;}
-.timeline-year{font-weight:900;color:var(--gold);font-size:18px;}
-.auth-only{display:none;}
-.auth-only.show{display:block;}
 
 .tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;border-bottom:2px solid #E2E8F0;}
 .tab{padding:10px 16px;border-radius:10px 10px 0 0;cursor:pointer;font-weight:700;color:#64748B;border-bottom:3px solid transparent;transition:all 0.2s ease;}
@@ -78,7 +56,7 @@ h2::after{content:'';display:block;width:60px;height:4px;background:var(--gold);
 .tab-content.active{display:block !important;animation:fadeIn .3s ease;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
 
-.form-box{max-width:500px;margin:0 auto;background:#fff;padding:clamp(20px,5vw,30px);border-radius:16px;box-shadow:var(--shadow);}
+.form-box{max-width:550px;margin:0 auto;background:#fff;padding:clamp(20px,5vw,30px);border-radius:16px;box-shadow:var(--shadow);}
 .form-group{margin-bottom:16px;}
 label{display:block;margin-bottom:6px;font-weight:600;color:var(--navy);}
 input,select,textarea{width:100%;padding:12px;border:2px solid #E2E8F0;border-radius:10px;font-size:15px;}
@@ -87,33 +65,48 @@ input:focus,select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 
 .msg.ok{background:#ECFDF5;color:#065F45;display:block;}
 .msg.err{background:#FEF2F2;color:#B91C1C;display:block;}
 
-.calc-box{background:#fff;border-radius:16px;padding:clamp(20px,5vw,30px);box-shadow:var(--shadow);max-width:700px;margin:0 auto;}
-.form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;}
-.result{margin-top:20px;padding:18px;background:#ECFDF5;border-radius:12px;border-left:4px solid var(--green);}
-.result.air{background:#EFF6FF;border-left-color:var(--sky);}
-.total{font-size:clamp(20px,5vw,24px);font-weight:900;color:var(--navy);margin-top:8px;}
+.store-layout{display:grid;grid-template-columns:2fr 1fr;gap:24px;align-items:start;}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
+.product-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:space-between;}
+.product-img{height:160px;background:linear-gradient(135deg,#E2E8F0,#CBD5E1);display:flex;align-items:center;justify-content:center;font-size:50px;position:relative;}
+.product-tag{position:absolute;top:10px;left:10px;background:var(--gold);color:var(--navy);font-size:12px;font-weight:800;padding:2px 8px;border-radius:12px;}
+.product-info{padding:16px;flex-grow:1;display:flex;flex-direction:column;justify-content:space-between;}
+.product-title{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.product-price{font-size:18px;font-weight:900;color:var(--green);margin-bottom:12px;}
+.cart-card{background:#fff;padding:20px;border-radius:16px;box-shadow:var(--shadow);position:sticky;top:90px;}
+.cart-item{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #E2E8F0;}
+.order-item-card{background:#fff;padding:16px;border-radius:12px;box-shadow:var(--shadow);margin-bottom:12px;border-left:4px solid var(--gold);}
 
-.addr-section{background:#fff;border-radius:16px;padding:clamp(18px,5vw,28px);box-shadow:var(--shadow);margin-bottom:20px;}
-.addr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
-.addr-block{background:var(--light);border-radius:12px;padding:18px;position:relative;}
-.sea{border-left:4px solid var(--navy);}
-.air{border-left:4px solid var(--sky);}
-.gh{border-left:4px solid var(--gold);}
-.copy-btn{position:absolute;top:12px;right:12px;}
+/* ADMIN STYLES */
+.admin-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:30px;}
+.stat-card{background:#fff;padding:18px;border-radius:12px;box-shadow:var(--shadow);text-align:center;}
+.stat-card h4{color:#64748B;font-size:13px;text-transform:uppercase;margin-bottom:6px;}
+.stat-card .val{font-size:24px;font-weight:900;color:var(--navy);}
+
+.data-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);margin-top:15px;}
+.data-table th,.data-table td{padding:12px 14px;text-align:left;border-bottom:1px solid #E2E8F0;font-size:14px;}
+.data-table th{background:var(--navy);color:#fff;}
+.data-table tr:hover{background:#F8FAFC;}
+
+.paystack-badge{background:#E0F2FE;border:1px solid #0284C7;color:#0369A1;padding:10px;border-radius:10px;margin-bottom:16px;font-size:13px;display:flex;align-items:center;gap:10px;}
+.momo-providers{display:flex;gap:10px;justify-content:center;margin:12px 0;font-weight:bold;font-size:13px;}
+.momo-tag{padding:4px 10px;border-radius:6px;background:#F1F5F9;border:1px solid #CBD5E1;}
 
 .page{display:none;}
 .page.active{display:block;}
-.code{font-size:clamp(16px,4vw,20px);font-weight:900;color:var(--navy);background:var(--light);padding:12px;border-radius:10px;text-align:center;margin:15px 0;}
 
 footer{background:#051238;color:#CBD5E1;padding:30px 0 20px;margin-top:20px;text-align:center;}
 footer h3{color:var(--gold);margin-bottom:12px;}
 
+@media(max-width:900px){
+    .store-layout{grid-template-columns:1fr;}
+    .cart-card{position:static;}
+    .data-table{display:block;overflow-x:auto;}
+}
 @media(max-width:768px){
     .menu-toggle{display:block;}
     .nav-links{position:absolute;top:100%;left:0;right:0;background:var(--navy);flex-direction:column;padding:16px;display:none;}
     .nav-links.active{display:flex;}
-    .btn{width:100%;}
-    .copy-btn{position:static;margin-top:10px;}
 }
 </style>
 </head>
@@ -124,13 +117,15 @@ footer h3{color:var(--gold);margin-bottom:12px;}
         <a href="#" class="logo" onclick="go('home');return false;">EVERIVAULT</a>
         <ul class="nav-links" id="menu">
             <li><a href="#" class="plink active" data-p="home" onclick="go('home');return false;">Home</a></li>
+            <li><a href="#" class="plink" data-p="shop" onclick="go('shop');return false;">🛒 Store</a></li>
+            <li><a href="#" class="plink" data-p="pay" onclick="go('pay');return false;">💳 Pay Online</a></li>
             <li><a href="#" class="plink" data-p="calc" onclick="go('calc');return false;">📐 Calculator</a></li>
             <li><a href="#" class="plink" data-p="address" onclick="go('address');return false;">📍 Shipping Info</a></li>
-            <li id="travelNav" style="display:none;"><a href="#" class="plink" data-p="travel" onclick="go('travel');return false;">🌍 CEO Travels</a></li>
             <li><a href="#" class="plink" data-p="track" onclick="go('track');return false;">🔍 Track</a></li>
-            <li><a href="#" class="plink" data-p="reviews" onclick="go('reviews');return false;">⭐ Reviews</a></li>
             <li id="ordersNav" style="display:none;"><a href="#" class="plink" data-p="orders" onclick="go('orders');return false;">👤 My Orders</a></li>
-            <li id="authBtn"><a href="#" class="nav-cta plink" data-p="auth" onclick="go('auth');return false;">Login</a></li>
+            <li id="adminNav" style="display:none;"><a href="#" class="plink admin-badge-nav" data-p="admin" onclick="go('admin');return false;">🛡️ Admin Dashboard</a></li>
+            <li id="authBtn"><a href="#" class="nav-cta plink" data-p="auth" onclick="go('auth');return false;">Login / Register</a></li>
+            <li id="userProfileNav" style="display:none;"><a href="#" class="plink" onclick="logout();return false;" style="color:var(--red);">🚪 Logout</a></li>
         </ul>
         <span class="menu-toggle" onclick="toggleMenu()">☰</span>
     </div>
@@ -141,120 +136,106 @@ footer h3{color:var(--gold);margin-bottom:12px;}
     <div class="hero">
         <div class="container">
             <div class="badge">📍 Kumasi — KNUST, Ayeduase New Site</div>
-            <h1>China ↔ Ghana <span>Trusted Shipping</span></h1>
-            <p>Shop Direct • Sea & Air Freight • Real-Time Tracking • Secure Payments</p>
+            <h1>China ↔ Ghana <span>Trusted Shipping & Store</span></h1>
+            <p>Shop Direct • Instant MoMo Payments via Paystack • Real-Time Tracking</p>
             <div class="rate-grid">
                 <div class="rate-card">
                     <h3>🚢 Sea Freight</h3>
                     <div class="big">$260/m³</div>
                     <div>Under 1 CBM</div>
-                    <div class="big" style="font-size:20px;margin-top:6px;">$255/m³</div>
-                    <div>1 CBM & Above</div>
-                    <div style="opacity:.7;margin-top:6px;">⏱️ 45–60 Days</div>
                 </div>
                 <div class="rate-card">
                     <h3>✈️ Air Freight</h3>
                     <div class="big">$17/kg</div>
                     <div>Standard Goods</div>
-                    <div class="big" style="font-size:20px;margin-top:6px;">₵500</div>
-                    <div>Phones/Laptops/Tablets</div>
-                    <div style="opacity:.7;margin-top:6px;">⏱️ 3–7 Days</div>
                 </div>
                 <div class="rate-card">
-                    <h3>💱 Exchange</h3>
-                    <div class="big">1 USD = ₵13</div>
-                    <div>Auto Conversion</div>
+                    <h3>📲 Direct MoMo</h3>
+                    <div class="big">0543155883</div>
+                    <div>MTN / Telecel / AirtelTigo</div>
                 </div>
             </div>
-            <div class="alert">⚠️ No batteries, fragile items, or liquids via Sea</div>
             <div class="hero-actions">
-                <a href="#" class="btn btn-sky" onclick="go('calc');return false;">📐 Calculate Cost</a>
-                <a href="#" class="btn btn-green auth-only" id="heroTravelBtn" onclick="go('travel');return false;">🌍 CEO Travels</a>
-                <a href="#" class="btn btn-gold" onclick="go('auth');return false;">🔐 Login/Register</a>
+                <a href="#" class="btn btn-gold" onclick="go('shop');return false;">🛒 Shop Products</a>
+                <a href="#" class="btn btn-green" onclick="go('pay');return false;">💳 Pay via Paystack MoMo</a>
             </div>
-        </div>
-    </div>
-    <div class="container">
-        <h2>Why EveriVault?</h2>
-        <p class="subtitle">Your trusted partner — direct from China to your doorstep</p>
-        <div class="grid-3">
-            <div class="card"><h3>✅ Transparent Pricing</h3><p>No hidden fees. Fixed rates. USD→GHS at ₵13. Every cost clear upfront.</p></div>
-            <div class="card"><h3>🔍 Unique Tracking</h3><p>GH001K-Initials-XXXXXX = Reference = Tracking. Always know where your goods are.</p></div>
-            <div class="card"><h3>💰 Flexible Payments</h3><p>MoMo or Bank Transfer. Verified status protects your funds.</p></div>
-            <div class="card"><h3>🚢 Sea + ✈️ Air</h3><p>Warehouses in Foshan & Guangzhou. Choose economy or express.</p></div>
-            <div class="card"><h3>📍 Local Support</h3><p>Kumasi based. Meetups available. Call +233 543 155 883 anytime.</p></div>
-            <div class="card auth-only"><h3>🌍 Exclusive Content</h3><p>As a registered client, see CEO travel updates, factory visits, and supplier photos.</p></div>
         </div>
     </div>
 </section>
 
-<!-- CEO TRAVELS -->
-<section id="p-travel" class="page">
-    <div id="travelLock" class="restricted-box">
-        <div class="restricted-icon">🔒</div>
-        <h2>🌍 CEO Travels & Highlights</h2>
-        <p class="subtitle">This section is exclusive to registered clients</p>
-        <p style="margin-bottom:20px;color:#64748B;">Sign in or create an account to see Richmond's business trips, supplier visits, factory inspections, and behind-the-scenes photos from China & beyond.</p>
-        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-            <a href="#" class="btn btn-gold" onclick="go('auth');return false;">🔐 Login / Register</a>
-            <a href="#" class="btn btn-outline" onclick="go('home');return false;">← Back Home</a>
+<!-- STORE -->
+<section id="p-shop" class="page">
+    <div class="container">
+        <h2>🛒 Direct China Store</h2>
+        <p class="subtitle">Order items directly and pay instantly via Paystack Mobile Money</p>
+        
+        <div class="store-layout">
+            <div class="product-grid" id="productGrid"></div>
+            
+            <div class="cart-card">
+                <h3 style="color:var(--navy);margin-bottom:15px;display:flex;align-items:center;justify-content:space-between;">
+                    <span>🛍️ Your Cart</span>
+                    <span id="cartCount" style="font-size:14px;background:var(--gold);color:var(--navy);padding:2px 8px;border-radius:10px;">0 items</span>
+                </h3>
+                <div id="cartItems">
+                    <p style="text-align:center;color:#64748B;padding:20px 0;">Your cart is empty.</p>
+                </div>
+                <div style="margin-top:15px;border-top:2px solid #E2E8F0;padding-top:15px;">
+                    <div style="display:flex;justify-content:space-between;font-weight:800;font-size:18px;color:var(--navy);">
+                        <span>Total:</span>
+                        <span>₵<span id="cartTotal">0.00</span></span>
+                    </div>
+                    <button class="btn btn-green btn-block" style="margin-top:15px;" onclick="checkoutWithPaystack()">🔒 Pay Now with Paystack MoMo</button>
+                </div>
+            </div>
         </div>
     </div>
-    
-    <div id="travelContent" style="display:none;">
-        <div class="travel-hero">
-            <div class="container">
-                <h2>🌍 CEO Travels & Highlights</h2>
-                <p class="subtitle" style="color:#E0E7FF;">Follow Richmond Wireko Brobbey across the globe — building partnerships & bringing you the best</p>
-            </div>
-        </div>
-        <div class="container">
-            <h3 style="text-align:center;color:var(--navy);margin-top:20px;font-size:22px;">📅 Journey Timeline</h3>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-year">2026</div>
-                    <div style="font-weight:700;color:var(--navy);">🇨🇳 Guangzhou & Foshan, China</div>
-                    <p style="color:#555;margin-top:4px;">Visited air & sea warehouses, negotiated pricing, inspected quality control</p>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">2025</div>
-                    <div style="font-weight:700;color:var(--navy);">🇨🇳 Shanghai & Yiwu, China</div>
-                    <p style="color:#555;margin-top:4px;">Met top manufacturers, attended trade fairs, established direct supply chains</p>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">2025</div>
-                    <div style="font-weight:700;color:var(--navy);">🇬🇭 Accra & Kumasi, Ghana</div>
-                    <p style="color:#555;margin-top:4px;">Expanded local operations, set up KNUST/Ayeduase hub, launched EveriVault</p>
+</section>
+
+<!-- PAYSTACK PAYMENT PORTAL -->
+<section id="p-pay" class="page">
+    <div class="container">
+        <h2>💳 Paystack Mobile Money Portal</h2>
+        <p class="subtitle">Pay for shipping bills, freight fees, or custom orders directly to 0543155883</p>
+        
+        <div class="form-box">
+            <div class="paystack-badge">
+                <span style="font-size:22px;">🔒</span>
+                <div>
+                    <strong>Secured by Paystack</strong><br>
+                    Merchant MoMo Account: <strong>0543155883</strong> (Richmond Wireko Brobbey)
                 </div>
             </div>
-            
-            <h3 style="text-align:center;color:var(--navy);margin-top:50px;font-size:22px;">📸 Recent Trips</h3>
-            <div class="travel-grid">
-                <div class="travel-card">
-                    <div class="travel-img">🇨🇳<span class="travel-badge">Latest</span></div>
-                    <div class="travel-body">
-                        <h3>Guangzhou, China</h3>
-                        <div class="travel-date">July 2026 — Air Hub Inspection</div>
-                        <p>Verified packaging standards, met logistics partners, confirmed 3–7 day delivery schedules.</p>
-                    </div>
-                </div>
-                <div class="travel-card">
-                    <div class="travel-img">🏭</div>
-                    <div class="travel-body">
-                        <h3>Foshan, China</h3>
-                        <div class="travel-date">June 2026 — Sea Warehouse Visit</div>
-                        <p>Checked consolidation warehouse, met Mr Zhang & Mr Yue, streamlined shipping docs.</p>
-                    </div>
-                </div>
-                <div class="travel-card">
-                    <div class="travel-img">🇬🇭</div>
-                    <div class="travel-body">
-                        <h3>Kumasi, Ghana HQ</h3>
-                        <div class="travel-date">Ongoing — KNUST / Ayeduase Base</div>
-                        <p>Client consultations, order coordination. Your trusted local partner right here in Ashanti Region.</p>
-                    </div>
-                </div>
+
+            <div class="momo-providers">
+                <span class="momo-tag" style="color:#B45309;background:#FEF3C7;">🟡 MTN MoMo</span>
+                <span class="momo-tag" style="color:#B91C1C;background:#FEE2E2;">🔴 Telecel Cash</span>
+                <span class="momo-tag" style="color:#1D4ED8;background:#DBEAFE;">🔵 AirtelTigo</span>
             </div>
+
+            <form id="paystackPortalForm" onsubmit="triggerDirectPaystack(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="payName" placeholder="e.g. Kwame Mensah" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="payEmail" placeholder="e.g. kwame@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Mobile Money Phone Number</label>
+                    <input type="tel" id="payPhone" placeholder="e.g. 0543155883" value="0543155883" required>
+                </div>
+                <div class="form-group">
+                    <label>Payment Reference / Shipping Mark</label>
+                    <input type="text" id="payRef" placeholder="e.g. GH001K-KWM-98213 or Freight Fee" required>
+                </div>
+                <div class="form-group">
+                    <label>Amount (GHS ₵)</label>
+                    <input type="number" id="payAmount" step="0.01" min="1" placeholder="e.g. 500" required>
+                </div>
+                <button type="submit" class="btn btn-gold btn-block" style="font-size:16px;">📲 Proceed to MoMo Prompt</button>
+            </form>
         </div>
     </div>
 </section>
@@ -262,91 +243,25 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 <!-- CALCULATOR -->
 <section id="p-calc" class="page">
     <div class="container">
-        <h2>📐 Shipping Cost Calculator</h2>
-        <p class="subtitle">Calculate before you ship</p>
-        <div class="calc-box">
-            <div class="tabs">
-                <div class="tab active" onclick="calcMode(event, 'sea')">🚢 Sea Freight</div>
-                <div class="tab" onclick="calcMode(event, 'air')">✈️ Air Freight</div>
-            </div>
-            <div id="calcSea" class="tab-content active">
-                <p style="margin-bottom:15px;font-weight:600;">CBM = L(m) × W(m) × H(m) × Quantity</p>
-                <div class="form-row">
-                    <div class="form-group"><label>Length (cm)</label><input type="number" id="seaL" oninput="calcSea()" placeholder="100"></div>
-                    <div class="form-group"><label>Width (cm)</label><input type="number" id="seaW" oninput="calcSea()" placeholder="60"></div>
-                    <div class="form-group"><label>Height (cm)</label><input type="number" id="seaH" oninput="calcSea()" placeholder="50"></div>
-                </div>
-                <div class="form-group"><label>Quantity</label><input type="number" id="seaQty" value="1" min="1" oninput="calcSea()"></div>
-                <div class="result">
-                    <strong>Volume:</strong> <span id="seaCbm">0.000</span> m³<br><br>
-                    • &lt;1CBM → $260/m³<br>• ≥1CBM → $255/m³<br>• $1 = ₵13<br><br>
-                    <strong>Total:</strong>
-                    <div class="total">$<span id="seaUsd">0.00</span> = ₵<span id="seaGhs">0.00</span></div>
-                    <small>⏱️ Delivery: 45–60 Days</small>
-                </div>
-            </div>
-            <div id="calcAir" class="tab-content">
-                <div class="form-group">
-                    <label>Item Type</label>
-                    <select id="airType" onchange="calcAir()">
-                        <option value="std">Standard — $17/kg</option>
-                        <option value="elect">📱 Phone/Laptop/Tablet — ₵500 Flat</option>
-                    </select>
-                </div>
-                <div class="form-group" id="airKgRow"><label>Weight (kg)</label><input type="number" id="airKg" step="0.1" oninput="calcAir()"></div>
-                <div class="result air">
-                    <strong>Cost:</strong>
-                    <div class="total">$<span id="airUsd">0.00</span> = ₵<span id="airGhs">0.00</span></div>
-                    <small>⏱️ Delivery: 3–7 Days</small>
-                </div>
-            </div>
+        <h2>📐 Cost Calculator</h2>
+        <p class="subtitle">Calculate freight costs before making payment</p>
+        <div class="form-box">
+            <div class="form-group"><label>Weight (kg) for Air Freight</label><input type="number" id="calcKg" oninput="runCalc()" placeholder="e.g. 10"></div>
+            <div style="font-size:20px;font-weight:bold;color:var(--navy);margin-bottom:15px;">Total: ₵<span id="calcTotal">0.00</span></div>
+            <button class="btn btn-sky btn-block" onclick="go('pay')">Proceed to Pay via MoMo</button>
         </div>
     </div>
 </section>
 
-<!-- SHIPPING ADDRESSES -->
+<!-- ADDRESSES -->
 <section id="p-address" class="page">
     <div class="container">
-        <h2>📍 Warehouse & Shipping Addresses</h2>
-        <p class="subtitle">Always include: GH001K-YourInitials-XXXXXX +233 543 155 883</p>
-        
-        <div class="addr-section">
-            <h3>🇬🇭 Ghana Office</h3>
-            <div class="addr-grid">
-                <div class="addr-block gh">
-                    <p><strong>EveriVault</strong><br>KNUST Campus, Ayeduase New Site<br>Kumasi, Ashanti Region<br>Ghana<br><br>📞 +233 543 155 883<br>📧 richmonwireko@gmail.com</p>
-                    <button class="btn btn-sm btn-gold copy-btn" onclick="copyText(this.parentElement.querySelector('p').innerText)">📋 Copy</button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="addr-section">
-            <h3>🇨🇳 China Warehouses</h3>
-            <div class="addr-grid">
-                <div class="addr-block sea">
-                    <h4>🚢 Sea — Foshan (45–60 Days)</h4>
-                    <p>Bohui Phase 5, No.88 Xinpu West Road, Shishan Town<br>Nanhai District, Foshan, Guangdong<br>China<br><br>Mr Zhang: +86 181 2571 7488<br>Mr Yue: +86 180 2417 9599<br><br>Ref: EveriVault — GH001K-YourName — +233 543 155 883</p>
-                    <button class="btn btn-sm btn-outline copy-btn" onclick="copyText(this.parentElement.querySelector('p').innerText)">📋 Copy</button>
-                </div>
-                <div class="addr-block air">
-                    <h4>✈️ Air — Guangzhou (3–7 Days)</h4>
-                    <p>Room 510, 99 Business Center, No.99 West Guangyuan Road<br>Yuexiu District, Guangzhou, Guangdong<br>China<br><br>Ref: EveriVault — GH001K-YourName — +233 543 155 883</p>
-                    <button class="btn btn-sm btn-sky copy-btn" onclick="copyText(this.parentElement.querySelector('p').innerText)">📋 Copy</button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="addr-section">
-            <h3>💳 Payment Details</h3>
-            <div class="addr-grid">
-                <div class="addr-block" style="border-left:4px solid var(--green);">
-                    <p><strong>Bank:</strong> Guaranty Trust Bank<br><strong>Name:</strong> Richmond Wireko Brobbey<br><strong>Account:</strong> 1304001024705</p>
-                    <button class="btn btn-sm btn-green copy-btn" onclick="copyText(this.parentElement.querySelector('p').innerText)">📋 Copy</button>
-                </div>
-                <div class="addr-block" style="border-left:4px solid #F59E0B;">
-                    <p><strong>MoMo:</strong> MTN / Telecel / AirtelTigo<br>Use your Shipping Mark as Reference</p>
-                </div>
-            </div>
+        <h2>📍 Warehouse & Payment Details</h2>
+        <div class="card" style="max-width:500px;margin:0 auto;background:#fff;padding:20px;border-radius:12px;box-shadow:var(--shadow);">
+            <h3>📲 Mobile Money Details</h3>
+            <p style="margin-top:10px;"><strong>MoMo Number:</strong> 0543155883</p>
+            <p><strong>Account Name:</strong> Richmond Wireko Brobbey</p>
+            <p><strong>Networks:</strong> MTN MoMo, Telecel Cash, AirtelTigo Money</p>
         </div>
     </div>
 </section>
@@ -356,69 +271,60 @@ footer h3{color:var(--gold);margin-bottom:12px;}
     <div class="container">
         <h2>🔍 Track Shipment</h2>
         <div class="form-box">
-            <div class="form-group">
-                <label>Enter Tracking Code</label>
-                <input type="text" id="tCode" placeholder="GH001K-ABC-1A2B3C" required>
-            </div>
-            <button class="btn btn-gold btn-block" onclick="doTrack()">Check Status</button>
-            <div id="tResult" style="margin-top:20px;display:none;" class="result">
-                <h3 style="color:var(--navy);margin-bottom:10px;">Shipment Status</h3>
-                <p><strong>Reference:</strong> <span id="tM"></span></p>
-                <p><strong>Status:</strong> <span id="tS"></span></p>
-                <p><strong>Shipping:</strong> <span id="tMo"></span></p>
-            </div>
+            <div class="form-group"><label>Tracking Code</label><input type="text" placeholder="GH001K-XXXXXX"></div>
+            <button class="btn btn-gold btn-block">Search</button>
         </div>
     </div>
 </section>
 
-<!-- REVIEWS -->
-<section id="p-reviews" class="page">
-    <div class="container">
-        <h2>⭐ Customer Reviews</h2>
-        <div id="reviewsList" class="grid-3">
-            <div class="card"><div style="color:var(--gold);font-size:20px;">⭐⭐⭐⭐⭐</div><p style="margin-top:8px;">"Fast delivery, great communication!"</p><strong>— Kofi, Kumasi</strong></div>
-            <div class="card"><div style="color:var(--gold);font-size:20px;">⭐⭐⭐⭐⭐</div><p style="margin-top:8px;">"Transparent pricing, will order again."</p><strong>— Ama, Accra</strong></div>
-            <div class="card"><div style="color:var(--gold);font-size:20px;">⭐⭐⭐⭐</div><p style="margin-top:8px;">"Professional service from start to finish."</p><strong>— Yaw, Takoradi</strong></div>
-        </div>
-        <div class="form-box" style="margin-top:40px;">
-            <h3 style="text-align:center;color:var(--navy);margin-bottom:20px;">Share Your Experience</h3>
-            <form onsubmit="doRev(event)">
-                <div class="form-group">
-                    <label>Rating</label>
-                    <select id="revS" required>
-                        <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
-                        <option value="4">⭐⭐⭐⭐ Very Good</option>
-                    </select>
-                </div>
-                <div class="form-group"><label>Your Comment</label><textarea id="revC" rows="3" required placeholder="Tell us about your experience..."></textarea></div>
-                <div id="revMsg" class="msg"></div>
-                <button class="btn btn-gold btn-block">Submit Review</button>
-            </form>
-        </div>
-    </div>
-</section>
-
-<!-- AUTH / LOGIN -->
+<!-- AUTHENTICATION -->
 <section id="p-auth" class="page">
     <div class="container">
-        <h2>🔐 Account</h2>
+        <h2>🔐 Portal Account Access</h2>
+        <p class="subtitle">Sign in or register. Admin credentials: <code>admin@everivault.com</code> / <code>admin123</code></p>
+        
         <div class="form-box">
             <div class="tabs">
-                <div class="tab active" onclick="authSub(this, 'login')">Login</div>
-                <div class="tab" onclick="authSub(this, 'reg')">Register</div>
+                <div class="tab active" id="tabLogin" onclick="switchAuthTab('login')">Sign In</div>
+                <div class="tab" id="tabReg" onclick="switchAuthTab('reg')">Register</div>
             </div>
+
+            <!-- LOGIN -->
             <form id="fLogin" class="tab-content active" onsubmit="doLogin(event)">
-                <div class="form-group"><label>Email</label><input type="email" id="lem" required></div>
-                <div class="form-group"><label>Password</label><input type="password" id="lpw" required></div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="lem" placeholder="e.g. user@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="lpw" placeholder="Enter password" required>
+                </div>
                 <div id="lmsg" class="msg"></div>
-                <button type="submit" class="btn btn-gold btn-block">Sign In</button>
+                <button type="submit" class="btn btn-gold btn-block">Log In</button>
             </form>
+
+            <!-- REGISTER -->
             <form id="fReg" class="tab-content" onsubmit="doReg(event)">
-                <div class="form-group"><label>Full Name</label><input type="text" id="rn" required></div>
-                <div class="form-group"><label>Email</label><input type="email" id="rem" required></div>
-                <div class="form-group"><label>Phone</label><input type="tel" id="rp" required></div>
-                <div class="form-group"><label>Password</label><input type="password" id="rpw" required></div>
-                <div class="form-group"><label>Confirm Password</label><input type="password" id="rpw2" required></div>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="rn" placeholder="e.g. Kwame Mensah" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="rem" placeholder="e.g. kwame@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="rp" placeholder="e.g. 0543155883" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="rpw" placeholder="Create password" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" id="rpw2" placeholder="Confirm password" required>
+                </div>
                 <div id="rmsg" class="msg"></div>
                 <button type="submit" class="btn btn-gold btn-block">Create Account</button>
             </form>
@@ -427,15 +333,90 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 </section>
 
 <!-- MY ORDERS -->
-<section id="p-orders" class="page auth-only">
+<section id="p-orders" class="page">
     <div class="container">
-        <h2>👤 My Orders</h2>
-        <p class="subtitle">Welcome back! Here are your orders</p>
-        <div id="ordersList">
-            <p style="text-align:center;color:#64748B;padding:40px;">Your orders will appear here once placed.</p>
+        <h2>👤 My Orders & Payments</h2>
+        <p class="subtitle" id="userWelcomeText">Here is your transaction history</p>
+        <div id="ordersList" style="max-width:600px;margin:0 auto;"></div>
+    </div>
+</section>
+
+<!-- ADMIN DASHBOARD -->
+<section id="p-admin" class="page">
+    <div class="container">
+        <h2>🛡️ Administrator Dashboard</h2>
+        <p class="subtitle">Full store, order, user, and inventory management controls</p>
+
+        <!-- Stats Overview -->
+        <div class="admin-stats">
+            <div class="stat-card">
+                <h4>Total Revenue</h4>
+                <div class="val" id="admRev">₵0.00</div>
+            </div>
+            <div class="stat-card">
+                <h4>Total Orders</h4>
+                <div class="val" id="admOrders">0</div>
+            </div>
+            <div class="stat-card">
+                <h4>Registered Users</h4>
+                <div class="val" id="admUsers">0</div>
+            </div>
+            <div class="stat-card">
+                <h4>Store Products</h4>
+                <div class="val" id="admProducts">0</div>
+            </div>
         </div>
-        <div style="text-align:center;margin-top:30px;">
-            <button class="btn btn-outline" onclick="logout()">🚪 Logout</button>
+
+        <div class="tabs">
+            <div class="tab active" id="atabOrders" onclick="switchAdminTab('orders')">📦 All Client Payments & Orders</div>
+            <div class="tab" id="atabProds" onclick="switchAdminTab('prods')">🛒 Add/Manage Products</div>
+            <div class="tab" id="atabUsers" onclick="switchAdminTab('users')">👥 Registered Users</div>
+        </div>
+
+        <!-- ADMIN ORDER MANAGEMENT -->
+        <div id="acontentOrders" class="tab-content active">
+            <h3 style="color:var(--navy);margin-bottom:12px;">All Transaction Records</h3>
+            <div id="adminOrdersTable"></div>
+        </div>
+
+        <!-- ADMIN PRODUCT MANAGEMENT -->
+        <div id="acontentProds" class="tab-content">
+            <div style="display:grid;grid-template-columns:1fr 2fr;gap:20px;align-items:start;">
+                <!-- Add Product Form -->
+                <div class="form-box" style="margin:0;">
+                    <h3 style="color:var(--navy);margin-bottom:15px;">➕ Add New Product</h3>
+                    <form onsubmit="adminAddProduct(event)">
+                        <div class="form-group">
+                            <label>Product Name</label>
+                            <input type="text" id="npName" placeholder="e.g. Wireless Earbuds" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Price (GHS ₵)</label>
+                            <input type="number" id="npPrice" step="0.01" placeholder="e.g. 150" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Emoji Icon</label>
+                            <input type="text" id="npIcon" placeholder="e.g. 🎧" value="📦" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tag / Category</label>
+                            <input type="text" id="npTag" placeholder="e.g. Air Freight / Hot" required>
+                        </div>
+                        <button class="btn btn-green btn-block">Add to Store</button>
+                    </form>
+                </div>
+                <!-- Existing Products List -->
+                <div>
+                    <h3 style="color:var(--navy);margin-bottom:15px;">Current Store Inventory</h3>
+                    <div id="adminProductsTable"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADMIN USER LIST -->
+        <div id="acontentUsers" class="tab-content">
+            <h3 style="color:var(--navy);margin-bottom:12px;">Registered Platform Clients</h3>
+            <div id="adminUsersTable"></div>
         </div>
     </div>
 </section>
@@ -443,187 +424,466 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 <footer>
     <div class="container">
         <h3>EVERIVAULT ENTERPRISE</h3>
-        <p>China ↔ Ghana Trusted Shipping & Store</p>
-        <p>📞 +233 543 155 883 | 📧 richmonwireko@gmail.com</p>
+        <p>MoMo Payment Portal: 0543155883 | 📧 richmonwireko@gmail.com</p>
         <p style="margin-top:15px;font-size:13px;opacity:.6;">© 2026 EveriVault. All rights reserved.</p>
     </div>
 </footer>
 
 <script>
-// State
+const PAYSTACK_PUBLIC_KEY = 'pk_test_YOUR_PAYSTACK_PUBLIC_KEY';
+const MERCHANT_MOMO_NUMBER = '0543155883';
+
 let currentPage = 'home';
 let user = JSON.parse(localStorage.getItem('evUser') || 'null');
-const RATE_SEA_UNDER = 260, RATE_SEA_OVER = 255, RATE_AIR_KG = 17, RATE_AIR_ELECT = 500, EXCHANGE = 13;
+let cart = JSON.parse(localStorage.getItem('evCart') || '[]');
 
-// Navigation
+// Initial default inventory
+const defaultProducts = [
+    { id: 1, name: "20,000mAh Solar Power Bank", priceGhs: 260, icon: "🔋", tag: "Hot Seller" },
+    { id: 2, name: "Smart Fitness Watch Ultra", priceGhs: 350, icon: "⌚", tag: "Air Shipping" },
+    { id: 3, name: "Portable Neck Fan (Rechargeable)", priceGhs: 120, icon: "🌬️", tag: "Trending" },
+    { id: 4, name: "Heavy Duty Shipping Boxes (Set of 10)", priceGhs: 180, icon: "📦", tag: "Bulk" }
+];
+
+function getProducts(){ return JSON.parse(localStorage.getItem('evProducts')) || defaultProducts; }
+function saveProducts(prods){ localStorage.setItem('evProducts', JSON.stringify(prods)); }
+
+if(!localStorage.getItem('evProducts')){ saveProducts(defaultProducts); }
+
 function go(page){
+    if(page === 'admin' && (!user || !user.isAdmin)){
+        alert('⛔ Access Denied! Administrators only.');
+        return false;
+    }
+
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
     document.querySelectorAll('.plink').forEach(l=>l.classList.remove('active'));
     document.getElementById('p-'+page).classList.add('active');
     document.querySelector(`[data-p="${page}"]`)?.classList.add('active');
     currentPage = page;
     document.getElementById('menu').classList.remove('active');
+    if(page === 'shop') renderProducts();
+    if(page === 'orders') renderOrders();
+    if(page === 'admin') renderAdmin();
     return false;
 }
 function toggleMenu(){document.getElementById('menu').classList.toggle('active');}
 
-// Auth helpers
-function updateAuthUI(){
-    const isLoggedIn = !!user;
-    document.getElementById('travelNav').style.display = isLoggedIn ? 'block' : 'none';
-    document.getElementById('ordersNav').style.display = isLoggedIn ? 'block' : 'none';
-    document.getElementById('authBtn').style.display = isLoggedIn ? 'none' : 'block';
-    document.querySelectorAll('.auth-only').forEach(el=>el.classList.toggle('show', isLoggedIn));
-    if(isLoggedIn){
-        document.getElementById('travelLock').style.display = 'none';
-        document.getElementById('travelContent').style.display = 'block';
-    } else {
-        document.getElementById('travelLock').style.display = 'block';
-        document.getElementById('travelContent').style.display = 'none';
-    }
-}
-
-function authSub(tabElem, tab){
-    document.querySelectorAll('#p-auth .tab').forEach(t=>t.classList.remove('active'));
-    document.querySelectorAll('#p-auth .tab-content').forEach(c=>{
-        c.classList.remove('active');
-        c.style.display = 'none';
-    });
-    
-    tabElem.classList.add('active');
-    const targetForm = document.getElementById(tab==='login'?'fLogin':'fReg');
-    targetForm.classList.add('active');
-    targetForm.style.display = 'block';
-
-    // Clear alert messages on tab switch
+/* AUTHENTICATION SYSTEM */
+function switchAuthTab(type){
+    document.getElementById('tabLogin').classList.toggle('active', type==='login');
+    document.getElementById('tabReg').classList.toggle('active', type==='reg');
+    document.getElementById('fLogin').style.display = type==='login' ? 'block' : 'none';
+    document.getElementById('fReg').style.display = type==='reg' ? 'block' : 'none';
     document.getElementById('lmsg').className = 'msg';
     document.getElementById('lmsg').textContent = '';
     document.getElementById('rmsg').className = 'msg';
     document.getElementById('rmsg').textContent = '';
 }
 
-function doLogin(e){
-    e.preventDefault();
-    const em = document.getElementById('lem').value;
-    const pw = document.getElementById('lpw').value;
-    const users = JSON.parse(localStorage.getItem('evUsers') || '[]');
-    const found = users.find(u=>u.email===em && u.password===pw);
-    if(found){
-        user = found;
-        localStorage.setItem('evUser', JSON.stringify(user));
-        document.getElementById('lmsg').className='msg ok';
-        document.getElementById('lmsg').textContent='✅ Welcome back, '+user.name+'! Redirecting...';
-        updateAuthUI();
-        setTimeout(()=>go('home'),1200);
-    } else {
-        document.getElementById('lmsg').className='msg err';
-        document.getElementById('lmsg').textContent='❌ Email or password incorrect';
-    }
-}
-
 function doReg(e){
     e.preventDefault();
-    const name = document.getElementById('rn').value;
-    const email = document.getElementById('rem').value;
-    const phone = document.getElementById('rp').value;
+    const name = document.getElementById('rn').value.trim();
+    const email = document.getElementById('rem').value.trim().toLowerCase();
+    const phone = document.getElementById('rp').value.trim();
     const pw = document.getElementById('rpw').value;
     const pw2 = document.getElementById('rpw2').value;
-    if(pw!==pw2){
-        document.getElementById('rmsg').className='msg err';
-        document.getElementById('rmsg').textContent='❌ Passwords do not match';
-        return;
-    }
+    const msg = document.getElementById('rmsg');
+
+    if(pw !== pw2){ msg.className = 'msg err'; msg.textContent = '❌ Passwords do not match!'; return; }
+
     let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
-    if(users.find(u=>u.email===email)){
-        document.getElementById('rmsg').className='msg err';
-        document.getElementById('rmsg').textContent='❌ Email already registered';
+    if(users.find(u => u.email === email)){ msg.className = 'msg err'; msg.textContent = '❌ Account already exists!'; return; }
+
+    const newUser = { name, email, phone, password: pw, isAdmin: false };
+    users.push(newUser);
+    localStorage.setItem('evUsers', JSON.stringify(users));
+
+    user = { name: newUser.name, email: newUser.email, phone: newUser.phone, isAdmin: false };
+    localStorage.setItem('evUser', JSON.stringify(user));
+
+    msg.className = 'msg ok'; msg.textContent = '✅ Account created! Redirecting...';
+    updateAuthUI();
+    setTimeout(() => { go('home'); }, 1200);
+}
+
+function doLogin(e){
+    e.preventDefault();
+    const email = document.getElementById('lem').value.trim().toLowerCase();
+    const pw = document.getElementById('lpw').value;
+    const msg = document.getElementById('lmsg');
+
+    // Hardcoded Admin Check
+    if(email === 'admin@everivault.com' && pw === 'admin123'){
+        user = { name: 'Super Admin', email: email, phone: '0543155883', isAdmin: true };
+        localStorage.setItem('evUser', JSON.stringify(user));
+        msg.className = 'msg ok'; msg.textContent = '✅ Administrator Logged In!';
+        updateAuthUI();
+        setTimeout(() => { go('admin'); }, 1000);
         return;
     }
-    user = {name,email,phone,password:pw};
-    users.push(user);
-    localStorage.setItem('evUsers', JSON.stringify(users));
-    localStorage.setItem('evUser', JSON.stringify(user));
-    document.getElementById('rmsg').className='msg ok';
-    document.getElementById('rmsg').textContent='✅ Account created! Welcome, '+name+'!';
-    updateAuthUI();
-    setTimeout(()=>go('home'),1200);
+
+    let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
+    const found = users.find(u => u.email === email && u.password === pw);
+
+    if(found){
+        user = { name: found.name, email: found.email, phone: found.phone, isAdmin: !!found.isAdmin };
+        localStorage.setItem('evUser', JSON.stringify(user));
+        document.getElementById('payName').value = found.name;
+        document.getElementById('payEmail').value = found.email;
+        document.getElementById('payPhone').value = found.phone;
+        msg.className = 'msg ok'; msg.textContent = `✅ Welcome back, ${found.name}!`;
+        updateAuthUI();
+        setTimeout(() => { go('home'); }, 1000);
+    } else {
+        msg.className = 'msg err'; msg.textContent = '❌ Invalid credentials!';
+    }
 }
 
 function logout(){
     localStorage.removeItem('evUser');
     user = null;
     updateAuthUI();
+    alert('🔒 Logged out.');
     go('home');
 }
 
-// Calculator
-function calcMode(e, mode){
-    document.querySelectorAll('#p-calc .tab').forEach(t=>t.classList.remove('active'));
-    document.querySelectorAll('#p-calc .tab-content').forEach(c=>c.classList.remove('active'));
-    e.currentTarget.classList.add('active');
-    document.getElementById('calc'+mode.charAt(0).toUpperCase()+mode.slice(1)).classList.add('active');
-}
-function calcSea(){
-    const l=(+document.getElementById('seaL').value||0)/100;
-    const w=(+document.getElementById('seaW').value||0)/100;
-    const h=(+document.getElementById('seaH').value||0)/100;
-    const q=+document.getElementById('seaQty').value||1;
-    const cbm = l*w*h*q;
-    const rate = cbm >= 1 ? RATE_SEA_OVER : RATE_SEA_UNDER;
-    const usd = cbm * rate;
-    document.getElementById('seaCbm').textContent = cbm.toFixed(3);
-    document.getElementById('seaUsd').textContent = usd.toFixed(2);
-    document.getElementById('seaGhs').textContent = (usd*EXCHANGE).toFixed(2);
-}
-function calcAir(){
-    const type = document.getElementById('airType').value;
-    if(type==='elect'){
-        document.getElementById('airKgRow').style.display='none';
-        document.getElementById('airUsd').textContent='0.00';
-        document.getElementById('airGhs').textContent=RATE_AIR_ELECT.toFixed(2);
-    } else {
-        document.getElementById('airKgRow').style.display='block';
-        const kg = +document.getElementById('airKg').value||0;
-        const usd = kg * RATE_AIR_KG;
-        document.getElementById('airUsd').textContent = usd.toFixed(2);
-        document.getElementById('airGhs').textContent = (usd*EXCHANGE).toFixed(2);
+function updateAuthUI(){
+    const isLoggedIn = !!user;
+    const isAdmin = user && user.isAdmin;
+    document.getElementById('authBtn').style.display = isLoggedIn ? 'none' : 'block';
+    document.getElementById('ordersNav').style.display = isLoggedIn ? 'block' : 'none';
+    document.getElementById('adminNav').style.display = isAdmin ? 'block' : 'none';
+    document.getElementById('userProfileNav').style.display = isLoggedIn ? 'block' : 'none';
+    if(isLoggedIn){
+        document.getElementById('userWelcomeText').textContent = `Welcome back, ${user.name}! (${user.email})`;
     }
 }
 
-// Copy
-function copyText(text){
-    navigator.clipboard.writeText(text).then(()=>alert('✅ Copied!'));
+/* STORE & CART FUNCTIONS */
+function renderProducts(){
+    const grid = document.getElementById('productGrid');
+    const prods = getProducts();
+    grid.innerHTML = prods.map(p => `
+        <div class="product-card">
+            <div class="product-img">${p.icon}<span class="product-tag">${p.tag}</span></div>
+            <div class="product-info">
+                <div class="product-title">${p.name}</div>
+                <div class="product-price">₵${parseFloat(p.priceGhs).toFixed(2)}</div>
+                <button class="btn btn-gold btn-sm btn-block" onclick="addToCart(${p.id})">🛒 Add to Cart</button>
+            </div>
+        </div>
+    `).join('');
+    updateCartUI();
 }
 
-// Tracking
-function doTrack(){
-    const code = document.getElementById('tCode').value.trim();
-    if(!code){alert('Please enter a tracking code');return;}
-    document.getElementById('tResult').style.display='block';
-    document.getElementById('tM').textContent = code;
-    document.getElementById('tS').innerHTML = '📦 Processing — Awaiting Shipment';
-    document.getElementById('tMo').innerHTML = 'Check with us for latest updates';
+function addToCart(id){
+    const prods = getProducts();
+    const prod = prods.find(p => p.id === id);
+    const existing = cart.find(item => item.id === id);
+    if(existing){ existing.qty += 1; } else { cart.push({ ...prod, qty: 1 }); }
+    localStorage.setItem('evCart', JSON.stringify(cart));
+    updateCartUI();
 }
 
-// Reviews
-function doRev(e){
+function updateCartUI(){
+    const container = document.getElementById('cartItems');
+    const totalEl = document.getElementById('cartTotal');
+    const countEl = document.getElementById('cartCount');
+    const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+    const totalPrice = cart.reduce((sum, item) => sum + (item.priceGhs * item.qty), 0);
+    
+    countEl.textContent = `${totalQty} item${totalQty === 1 ? '' : 's'}`;
+    totalEl.textContent = totalPrice.toFixed(2);
+
+    if(cart.length === 0){
+        container.innerHTML = '<p style="text-align:center;color:#64748B;padding:20px 0;">Your cart is empty.</p>';
+        return;
+    }
+
+    container.innerHTML = cart.map(item => `
+        <div class="cart-item">
+            <div>
+                <strong style="color:var(--navy);">${item.name}</strong><br>
+                <small style="color:#64748B;">₵${item.priceGhs} x ${item.qty}</small>
+            </div>
+            <span>₵${(item.priceGhs * item.qty).toFixed(2)}</span>
+        </div>
+    `).join('');
+}
+
+function launchPaystackPopup(email, amountGhs, reference, customerPhone, onSuccessCallback) {
+    const handler = PaystackPop.setup({
+        key: PAYSTACK_PUBLIC_KEY,
+        email: email,
+        amount: Math.round(amountGhs * 100),
+        currency: 'GHS',
+        channels: ['mobile_money'],
+        ref: 'EV-' + Math.floor((Math.random() * 10000000) + 1),
+        metadata: {
+            custom_fields: [
+                { display_name: "Merchant MoMo", variable_name: "merchant_momo", value: MERCHANT_MOMO_NUMBER },
+                { display_name: "Customer Phone", variable_name: "customer_phone", value: customerPhone },
+                { display_name: "Payment Note/Ref", variable_name: "payment_ref", value: reference }
+            ]
+        },
+        callback: function(response) {
+            alert('✅ Payment Successful!\nTxRef: ' + response.reference);
+            if(onSuccessCallback) onSuccessCallback(response);
+        },
+        onClose: function() { alert('⚠️ Transaction canceled.'); }
+    });
+    handler.openIframe();
+}
+
+function recordGlobalOrder(orderObj){
+    let globalOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
+    globalOrders.unshift(orderObj);
+    localStorage.setItem('evAllOrders', JSON.stringify(globalOrders));
+
+    let userOrders = JSON.parse(localStorage.getItem('evOrders_' + orderObj.userEmail) || '[]');
+    userOrders.unshift(orderObj);
+    localStorage.setItem('evOrders_' + orderObj.userEmail, JSON.stringify(userOrders));
+}
+
+function triggerDirectPaystack(e){
     e.preventDefault();
-    const s = document.getElementById('revS').value;
-    const c = document.getElementById('revC').value;
-    const stars = '⭐'.repeat(+s);
-    const list = document.getElementById('reviewsList');
-    const newCard = document.createElement('div');
-    newCard.className='card';
-    newCard.innerHTML = `<div style="color:var(--gold);font-size:20px;">${stars}</div><p style="margin-top:8px;">"${c}"</p><strong>— ${user?.name || 'Verified Client'}</strong>`;
-    list.insertBefore(newCard, list.firstChild);
-    document.getElementById('revMsg').className='msg ok';
-    document.getElementById('revMsg').textContent='✅ Thank you for your review!';
-    document.getElementById('revC').value='';
-    setTimeout(()=>document.getElementById('revMsg').className='msg',3000);
+    const name = document.getElementById('payName').value;
+    const email = document.getElementById('payEmail').value;
+    const phone = document.getElementById('payPhone').value;
+    const ref = document.getElementById('payRef').value;
+    const amount = parseFloat(document.getElementById('payAmount').value);
+
+    if(!amount || amount <= 0){ alert('Please enter a valid amount.'); return; }
+
+    launchPaystackPopup(email, amount, ref + ' (By: ' + name + ')', phone, function(resp){
+        recordGlobalOrder({
+            ref: resp.reference,
+            userEmail: email,
+            userName: name,
+            userPhone: phone,
+            date: new Date().toLocaleDateString(),
+            items: [{ name: 'Direct MoMo Payment (' + ref + ')', qty: 1, priceGhs: amount }],
+            total: amount,
+            status: '✅ Paid'
+        });
+        go('orders');
+    });
 }
 
-// Init
+function checkoutWithPaystack(){
+    if(cart.length === 0){ alert('Cart is empty!'); return; }
+    
+    const totalGhs = cart.reduce((sum, item) => sum + (item.priceGhs * item.qty), 0);
+    const email = user ? user.email : prompt('Enter your email address for receipt:');
+    if(!email) return;
+
+    launchPaystackPopup(email, totalGhs, 'Store Purchase', MERCHANT_MOMO_NUMBER, function(resp){
+        recordGlobalOrder({
+            ref: resp.reference,
+            userEmail: email,
+            userName: user ? user.name : 'Guest Customer',
+            userPhone: user ? user.phone : MERCHANT_MOMO_NUMBER,
+            date: new Date().toLocaleDateString(),
+            items: [...cart],
+            total: totalGhs,
+            status: '✅ Paid'
+        });
+        cart = [];
+        localStorage.removeItem('evCart');
+        updateCartUI();
+        go('orders');
+    });
+}
+
+function runCalc(){
+    const kg = parseFloat(document.getElementById('calcKg').value) || 0;
+    document.getElementById('calcTotal').textContent = (kg * 17 * 13).toFixed(2);
+}
+
+function renderOrders(){
+    const list = document.getElementById('ordersList');
+    if(!user){
+        list.innerHTML = '<p style="text-align:center;padding:30px;">Please <a href="#" onclick="go(\'auth\')">log in</a> to view your orders.</p>';
+        return;
+    }
+    const userOrders = JSON.parse(localStorage.getItem('evOrders_' + user.email) || '[]');
+    if(userOrders.length === 0){
+        list.innerHTML = '<p style="text-align:center;padding:30px;">No completed payments found.</p>';
+        return;
+    }
+    list.innerHTML = userOrders.map(o => `
+        <div class="order-item-card">
+            <strong>Transaction Ref: ${o.ref}</strong>
+            <p>Date: ${o.date}</p>
+            <p>Status: <span style="font-weight:bold;color:var(--navy);">${o.status}</span></p>
+            <strong>Total Amount: ₵${o.total.toFixed(2)}</strong>
+        </div>
+    `).join('');
+}
+
+/* ADMIN PANEL FUNCTIONS */
+function switchAdminTab(type){
+    document.getElementById('atabOrders').classList.toggle('active', type==='orders');
+    document.getElementById('atabProds').classList.toggle('active', type==='prods');
+    document.getElementById('atabUsers').classList.toggle('active', type==='users');
+    document.getElementById('acontentOrders').style.display = type==='orders' ? 'block' : 'none';
+    document.getElementById('acontentProds').style.display = type==='prods' ? 'block' : 'none';
+    document.getElementById('acontentUsers').style.display = type==='users' ? 'block' : 'none';
+}
+
+function renderAdmin(){
+    const allOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
+    const allUsers = JSON.parse(localStorage.getItem('evUsers') || '[]');
+    const prods = getProducts();
+
+    const totalRev = allOrders.reduce((sum, o) => sum + o.total, 0);
+
+    document.getElementById('admRev').textContent = '₵' + totalRev.toFixed(2);
+    document.getElementById('admOrders').textContent = allOrders.length;
+    document.getElementById('admUsers').textContent = allUsers.length;
+    document.getElementById('admProducts').textContent = prods.length;
+
+    // Render Orders Table
+    const ordersTable = document.getElementById('adminOrdersTable');
+    if(allOrders.length === 0){
+        ordersTable.innerHTML = '<p style="padding:20px;text-align:center;color:#64748B;">No client orders logged yet.</p>';
+    } else {
+        ordersTable.innerHTML = `
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Ref</th>
+                        <th>Client</th>
+                        <th>Contact</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${allOrders.map(o => `
+                        <tr>
+                            <td><strong>${o.ref}</strong></td>
+                            <td>${o.userName}<br><small>${o.userEmail}</small></td>
+                            <td>${o.userPhone}</td>
+                            <td>₵${o.total.toFixed(2)}</td>
+                            <td><span style="color:var(--green);font-weight:bold;">${o.status}</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-gold" onclick="updateOrderStatus('${o.ref}')">Change Status</button>
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    }
+
+    // Render Products Table
+    const prodsTable = document.getElementById('adminProductsTable');
+    prodsTable.innerHTML = `
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Icon</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Tag</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${prods.map(p => `
+                    <tr>
+                        <td style="font-size:20px;">${p.icon}</td>
+                        <td><strong>${p.name}</strong></td>
+                        <td>₵${parseFloat(p.priceGhs).toFixed(2)}</td>
+                        <td><span style="background:#E2E8F0;padding:2px 8px;border-radius:10px;font-size:12px;">${p.tag}</span></td>
+                        <td><button class="btn btn-sm btn-red" onclick="adminDeleteProduct(${p.id})">🗑️ Delete</button></td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
+
+    // Render Users Table
+    const usersTable = document.getElementById('adminUsersTable');
+    if(allUsers.length === 0){
+        usersTable.innerHTML = '<p style="padding:20px;text-align:center;color:#64748B;">No registered clients found.</p>';
+    } else {
+        usersTable.innerHTML = `
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${allUsers.map(u => `
+                        <tr>
+                            <td><strong>${u.name}</strong></td>
+                            <td>${u.email}</td>
+                            <td>${u.phone}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    }
+}
+
+function adminAddProduct(e){
+    e.preventDefault();
+    const name = document.getElementById('npName').value.trim();
+    const price = parseFloat(document.getElementById('npPrice').value);
+    const icon = document.getElementById('npIcon').value.trim();
+    const tag = document.getElementById('npTag').value.trim();
+
+    let prods = getProducts();
+    const newProd = { id: Date.now(), name, priceGhs: price, icon, tag };
+    prods.push(newProd);
+    saveProducts(prods);
+
+    alert('✅ Product added successfully!');
+    e.target.reset();
+    renderAdmin();
+}
+
+function adminDeleteProduct(id){
+    if(!confirm('Are you sure you want to delete this product?')) return;
+    let prods = getProducts().filter(p => p.id !== id);
+    saveProducts(prods);
+    renderAdmin();
+}
+
+function updateOrderStatus(ref){
+    const newStatus = prompt('Enter new order status (e.g. Shipped, In Transit, Delivered, Processing):');
+    if(!newStatus) return;
+
+    let allOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
+    let found = allOrders.find(o => o.ref === ref);
+    if(found){
+        found.status = newStatus;
+        localStorage.setItem('evAllOrders', JSON.stringify(allOrders));
+
+        // Update in user individual storage as well
+        let userOrders = JSON.parse(localStorage.getItem('evOrders_' + found.userEmail) || '[]');
+        let uFound = userOrders.find(o => o.ref === ref);
+        if(uFound){
+            uFound.status = newStatus;
+            localStorage.setItem('evOrders_' + found.userEmail, JSON.stringify(userOrders));
+        }
+
+        renderAdmin();
+        alert('✅ Order status updated!');
+    }
+}
+
+// Initial setup
 updateAuthUI();
+renderProducts();
 </script>
 </body>
 </html>
