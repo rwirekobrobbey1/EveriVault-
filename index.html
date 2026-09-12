@@ -68,18 +68,23 @@ nav { background: rgba(255, 255, 255, 0.95); border-bottom: 1px solid var(--bord
 .btn-block { width: 100%; }
 
 /* Hero Section */
-.hero { padding: 100px 0 120px; background: linear-gradient(135deg, var(--accent-navy) 0%, #1E293B 100%); color: #FFF; position: relative; overflow: hidden; }
+.hero { padding: 90px 0 110px; background: linear-gradient(135deg, var(--accent-navy) 0%, #1E293B 100%); color: #FFF; position: relative; overflow: hidden; }
 .hero::after { content:''; position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: radial-gradient(circle at 70% 20%, rgba(16, 185, 129, 0.2), transparent 50%); pointer-events: none; }
-.hero-inner { max-width: 820px; margin: 0 auto; text-align: center; position: relative; z-index: 2; }
+.hero-inner { max-width: 960px; margin: 0 auto; text-align: center; position: relative; z-index: 2; }
 .hero-pill { display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); padding: 6px 16px; border-radius: 50px; font-size: 13px; font-weight: 600; color: #CBD5E1; margin-bottom: 24px; }
 .hero-pill span { color: var(--accent-green); }
-.hero h1 { font-size: clamp(40px, 6.5vw, 64px); font-weight: 800; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 20px; color: #FFF; }
+.hero h1 { font-size: clamp(38px, 6vw, 60px); font-weight: 800; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 20px; color: #FFF; }
 .hero h1 span { background: linear-gradient(to right, #34D399, #6EE7B7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.hero p { font-size: clamp(16px, 2vw, 19px); color: #94A3B8; margin-bottom: 36px; max-width: 660px; margin-left: auto; margin-right: auto; }
-.hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.hero p { font-size: clamp(16px, 2vw, 19px); color: #94A3B8; margin-bottom: 32px; max-width: 660px; margin-left: auto; margin-right: auto; }
+.hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 45px; }
+
+/* Real-Life Logistics Image Showcases */
+.hero-image-banner { max-width: 1000px; margin: 0 auto; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4); border: 2px solid rgba(255, 255, 255, 0.1); position: relative; }
+.hero-image-banner img { width: 100%; height: 380px; object-fit: cover; display: block; filter: brightness(0.9); }
+.hero-img-caption { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(15,23,42,0.95), transparent); padding: 24px; text-align: left; font-size: 14px; font-weight: 600; color: #E2E8F0; }
 
 /* Feature Grid */
-.trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: -50px; position: relative; z-index: 10; margin-bottom: 60px; }
+.trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: -30px; position: relative; z-index: 10; margin-bottom: 60px; }
 .trust-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 32px 24px; box-shadow: var(--shadow-card); transition: var(--transition); position: relative; overflow: hidden; }
 .trust-card::before { content:''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--accent-green); opacity: 0; transition: var(--transition); }
 .trust-card:hover { transform: translateY(-5px); border-color: var(--accent-green); box-shadow: var(--shadow-glow); }
@@ -186,6 +191,10 @@ input[type="file"] { padding: 10px; background: #F8FAFC; cursor: pointer; }
 /* Proof Upload Section */
 .proof-upload-box { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 32px; margin-top: 30px; box-shadow: var(--shadow-card); }
 
+/* Terms & Conditions Box */
+.terms-box { background: #F8FAFC; border: 1px solid var(--border-color); padding: 18px; border-radius: var(--radius-sm); max-height: 180px; overflow-y: auto; font-size: 13px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5; }
+.terms-box strong { color: var(--accent-navy); }
+
 /* Footer */
 footer { background: var(--accent-navy); color: #94A3B8; padding: 70px 0 35px; border-top: 1px solid #1E293B; }
 .footer-wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; margin-bottom: 45px; }
@@ -249,6 +258,14 @@ footer { background: var(--accent-navy); color: #94A3B8; padding: 70px 0 35px; b
                     <button class="btn btn-primary" onclick="go('auth')">Request Shipping Mark</button>
                     <button class="btn btn-outline" style="color:#FFF; border-color:rgba(255,255,255,0.3);" onclick="go('shop')">Browse Marketplace</button>
                 </div>
+                
+                <!-- REAL-LIFE LOGISTICS IMAGE BANNER -->
+                <div class="hero-image-banner">
+                    <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80" alt="Global Container Shipping and Freight Forwarding Hub">
+                    <div class="hero-img-caption">
+                        EveriVault Secure Consolidation Facility &bull; Professional Cargo Handling & Inspection Depots in Guangzhou & Foshan
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -257,20 +274,34 @@ footer { background: var(--accent-navy); color: #94A3B8; padding: 70px 0 35px; b
         <div class="trust-grid">
             <div class="trust-card">
                 <h3>Air Cargo Consolidation</h3>
-                <p>Express transit from Guangzhou warehouse directly to our Kumasi distribution hub. Standard rate: <strong>$17 per kg</strong>.</p>
+                <p>Express transit from Guangzhou warehouse directly to our Kumasi distribution hub. Standard rate: <strong>$17 per kg</strong> (7-14 Days).</p>
             </div>
             <div class="trust-card">
                 <h3>Maritime Ocean Freight</h3>
-                <p>Economical containerized shipping from Foshan terminals. Commercial rate: <strong>$260 per CBM</strong>.</p>
+                <p>Economical containerized shipping from Foshan terminals. Commercial rate: <strong>$260 per CBM</strong> (45-60 Days).</p>
             </div>
             <div class="trust-card">
                 <h3>Institutional Settlements</h3>
-                <p>Automated payment processing supporting Mobile Money (0543155883), GTBank, and verified card channels.</p>
+                <p>Automated payment processing supporting Mobile Money, GTBank, and verified card channels with secure proof verification.</p>
             </div>
         </div>
     </div>
 
-    <div class="container" style="padding-top: 40px;">
+    <!-- PRODUCT SHOWCASE / ADVERTISEMENT SECTION -->
+    <div class="container" style="padding-top: 20px; padding-bottom: 40px;">
+        <h2 class="section-title">Featured Wholesale Products</h2>
+        <p class="section-subtitle">Discover top-selling manufacturer inventory ready for direct import and sourcing.</p>
+        
+        <div class="product-grid" id="homeProductShowcase">
+            <!-- Dynamically populated from store catalog -->
+        </div>
+        
+        <div style="text-align: center; margin-top: 35px;">
+            <button class="btn btn-secondary" onclick="go('shop')">Explore Full Marketplace Catalog →</button>
+        </div>
+    </div>
+
+    <div class="container" style="padding-top: 20px;">
         <h2 class="section-title">Standardized Operational Procedure</h2>
         <p class="section-subtitle">A transparent workflow guaranteeing chain-of-custody tracking from factory floor to final delivery.</p>
         
@@ -316,31 +347,41 @@ footer { background: var(--accent-navy); color: #94A3B8; padding: 70px 0 35px; b
             
             <div class="accordion-item">
                 <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <span>How is Sea Freight billing structured?</span>
+                    <span>What is the transit timeframe for Sea Freight?</span>
                     <span class="accordion-icon">+</span>
                 </div>
                 <div class="accordion-content">
-                    <p>Maritime freight is billed strictly per Cubic Meter (CBM) at $260/CBM. Short-term warehousing and consolidation at our Foshan facility are provided complimentary.</p>
+                    <p>Maritime ocean freight container consignments typically require <strong>45 to 60 days</strong> from vessel departure at Foshan ports to customs clearance and intake at our Kumasi distribution hub.</p>
                 </div>
             </div>
 
             <div class="accordion-item">
                 <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <span>What are the approved settlement channels?</span>
+                    <span>What goods are strictly prohibited by EveriVault?</span>
                     <span class="accordion-icon">+</span>
                 </div>
                 <div class="accordion-content">
-                    <p>Settlements can be remitted directly via Mobile Money to <strong>0543155883 (Richmond Wireko Brobbey)</strong>, via GTBank account 1304001024705, or through our automated Paystack portal.</p>
+                    <p>We strictly <strong>do not accept battery goods</strong> and <strong>fragile products</strong> across our logistics lanes to prevent transit hazards and damage liabilities.</p>
                 </div>
             </div>
 
             <div class="accordion-item">
                 <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <span>Why is an assigned Shipping Mark mandatory?</span>
+                    <span>How does cargo consolidation billing work?</span>
                     <span class="accordion-icon">+</span>
                 </div>
                 <div class="accordion-content">
-                    <p>Your unique Shipping Mark ensures incoming packages are correctly logged and attributed to your profile among thousands of consolidated shipments entering our warehouses.</p>
+                    <p>Consolidation is done per request and is <strong>charged differently from the shipping cost</strong>.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>What happens if my package arrives without a Shipping Mark?</span>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Failure to add or correctly display your assigned shipping mark on package waybills will lead to the <strong>client's own loss</strong>, as unlabelled cargo cannot be matched or tracked to your profile.</p>
                 </div>
             </div>
         </div>
@@ -486,7 +527,7 @@ footer { background: var(--accent-navy); color: #94A3B8; padding: 70px 0 35px; b
         <div class="calc-panel active" id="panelAir">
             <div class="form-box">
                 <h3 style="color:var(--accent-navy);margin-bottom:8px;font-size:16px;">Air Cargo Cost Breakdown</h3>
-                <p style="color:var(--text-muted);font-size:13.5px;margin-bottom:20px;">Standard Tariff: <strong>$17 per kg</strong> from Guangzhou warehouse to Kumasi hub.</p>
+                <p style="color:var(--text-muted);font-size:13.5px;margin-bottom:20px;">Standard Tariff: <strong>$17 per kg</strong> (7-14 Days) from Guangzhou warehouse to Kumasi hub.</p>
                 <div class="form-group">
                     <label>Gross Weight (kg)</label>
                     <input type="number" id="calcAirKg" oninput="runAirCalc()" placeholder="e.g. 15.5" min="0" step="0.1">
@@ -505,7 +546,7 @@ footer { background: var(--accent-navy); color: #94A3B8; padding: 70px 0 35px; b
         <div class="calc-panel" id="panelSea">
             <div class="form-box">
                 <h3 style="color:var(--accent-navy);margin-bottom:8px;font-size:16px;">Maritime Sea Freight Breakdown</h3>
-                <p style="color:var(--text-muted);font-size:13.5px;margin-bottom:20px;">Commercial Tariff: <strong>$260 per CBM (m³)</strong> from Foshan terminal to Ghana.</p>
+                <p style="color:var(--text-muted);font-size:13.5px;margin-bottom:20px;">Commercial Tariff: <strong>$260 per CBM (m³)</strong> (45-60 Days) from Foshan terminal to Ghana.</p>
                 <div class="form-group">
                     <label>Cubic Volume (CBM)</label>
                     <input type="number" id="calcSeaCbm" oninput="runSeaCalc()" placeholder="e.g. 2.4" min="0" step="0.01">
@@ -564,7 +605,7 @@ footer { background: var(--accent-navy); color: #94A3B8; padding: 70px 0 35px; b
         <p class="subtitle">Mandatory destination addresses for supplier dispatch routing</p>
         
         <div class="alert-notice" style="max-width:1000px;margin:0 auto 24px;">
-            <strong>SHIPPING MARK DIRECTIVE:</strong> Ensure your manufacturer explicitly labels outer packaging with your assigned alphanumeric Shipping Mark (Format: <code>GHOO1K + First Name + Phone</code>) to guarantee seamless intake at our sorting facility.
+            <strong>SHIPPING MARK DIRECTIVE:</strong> Ensure your manufacturer explicitly labels outer packaging with your assigned alphanumeric Shipping Mark (Format: <code>GHOO1K + First Name + Phone</code>) to guarantee seamless intake at our sorting facility. Failure to add your shipping mark will lead to the client's own loss.
         </div>
 
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;max-width:1000px;margin:0 auto;">
@@ -572,7 +613,7 @@ footer { background: var(--accent-navy); color: #94A3B8; padding: 70px 0 35px; b
             <div style="background:var(--bg-surface);padding:24px;border-radius:var(--radius-md);border:1px solid var(--border-color);border-top:4px solid var(--accent-green);box-shadow:var(--shadow-card);">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
                     <h3 style="color:var(--accent-navy);font-size:17px;">Air Freight Warehouse</h3>
-                    <span style="background:#ECFDF5;color:var(--accent-green-dark);font-weight:700;padding:4px 10px;border-radius:4px;font-size:12px;">$17 / kg</span>
+                    <span style="background:#ECFDF5;color:var(--accent-green-dark);font-weight:700;padding:4px 10px;border-radius:4px;font-size:12px;">$17 / kg (7-14d)</span>
                 </div>
                 
                 <div style="margin-bottom:16px;">
@@ -602,7 +643,7 @@ footer { background: var(--accent-navy); color: #94A3B8; padding: 70px 0 35px; b
             <div style="background:var(--bg-surface);padding:24px;border-radius:var(--radius-md);border:1px solid var(--border-color);border-top:4px solid var(--accent-navy);box-shadow:var(--shadow-card);">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
                     <h3 style="color:var(--accent-navy);font-size:17px;">Sea Freight Warehouse</h3>
-                    <span style="background:#F1F5F9;color:var(--accent-navy);font-weight:700;padding:4px 10px;border-radius:4px;font-size:12px;">$260 / m³</span>
+                    <span style="background:#F1F5F9;color:var(--accent-navy);font-weight:700;padding:4px 10px;border-radius:4px;font-size:12px;">$260 / m³ (45-60d)</span>
                 </div>
 
                 <div style="margin-bottom:14px;">
@@ -700,6 +741,22 @@ footer { background: var(--accent-navy); color: #94A3B8; padding: 70px 0 35px; b
                         <label>Confirm Password</label>
                         <input type="password" id="rpw2" placeholder="Confirm password" required>
                     </div>
+
+                    <!-- MANDATORY TERMS & CONDITIONS SECTION -->
+                    <div class="form-group">
+                        <label>Terms & Conditions Agreement</label>
+                        <div class="terms-box">
+                            <strong>1. Prohibited Goods:</strong> We strictly do not accept <em>battery goods</em> and <em>fragile products</em>.<br><br>
+                            <strong>2. Consolidation Policy:</strong> Consolidation is done per request and is <em>charged differently from the shipping cost</em>.<br><br>
+                            <strong>3. Shipping Mark Responsibility:</strong> Failure to add your assigned shipping mark to supplier packages will lead to the <strong>client's own loss</strong>.<br><br>
+                            <strong>4. Service Agreement:</strong> By registering, you agree to all operational policies and customs procedures enforced by EveriVault Logistics.
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
+                            <input type="checkbox" id="regTerms" required style="width: auto; cursor: pointer;">
+                            <label for="regTerms" style="font-size: 13px; font-weight: 500; margin-bottom: 0; cursor: pointer;">I have read and agree to all terms and conditions</label>
+                        </div>
+                    </div>
+
                     <div id="rmsg" class="msg"></div>
                     <button type="submit" class="btn btn-primary btn-block" style="margin-top: 10px;">Register & Claim Mark</button>
                 </form>
@@ -744,7 +801,7 @@ footer { background: var(--accent-navy); color: #94A3B8; padding: 70px 0 35px; b
                     <span id="userMarkCode">GHOO1K-PENDING</span>
                     <button class="btn btn-sm btn-primary" style="margin-left: 12px; padding: 4px 12px; font-size: 12px;" onclick="copyShippingMark()">Copy</button>
                 </span>
-                <small style="opacity:0.8;display:block;margin-top:10px;font-size:12.5px;color:#94A3B8;">Provide this exact code directly to your Chinese manufacturing suppliers.</small>
+                <small style="opacity:0.8;display:block;margin-top:10px;font-size:12.5px;color:#94A3B8;">Provide this exact code directly to your Chinese manufacturing suppliers. Failure to include this mark leads to client's own loss.</small>
             </div>
             
             <h3 style="color:var(--accent-navy);margin-bottom:16px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; font-size:16px;">Transaction & Payment Proof History</h3>
@@ -859,13 +916,14 @@ footer { background: var(--accent-navy); color: #94A3B8; padding: 70px 0 35px; b
                 <p>Ghana</p>
             </div>
             <div class="footer-col">
-                <h4>Direct Contact</h4>
-                <p>MoMo: 0543155883</p>
-                <p>GTBank: 1304001024705</p>
-                <p>Richmond Wireko Brobbey</p>
+                <h4>Compliance & Policy</h4>
+                <p>No Battery Goods Accepted</p>
+                <p>No Fragile Products Accepted</p>
+                <p>Consolidation Charged Separately</p>
+                <p>Shipping Mark Mandated</p>
             </div>
             <div class="footer-col">
-                <h4>Compliance</h4>
+                <h4>Quick Navigation</h4>
                 <a href="#" onclick="go('auth');return false;">Client Portal</a>
                 <a href="#" onclick="go('address');return false;">Warehouse Directory</a>
                 <a href="#" onclick="go('calc');return false;">Cost Estimators</a>
@@ -986,6 +1044,7 @@ function go(page){
     currentPage = page;
     document.getElementById('menu').classList.remove('active');
     
+    if(page === 'home') renderHomeShowcase();
     if(page === 'shop') renderProducts();
     if(page === 'orders') renderOrders();
     if(page === 'admin') renderAdmin();
@@ -1019,6 +1078,32 @@ async function fetchProductsFromStore(){
         } catch(e){}
     }
     return JSON.parse(localStorage.getItem('evProducts')) || defaultProducts;
+}
+
+async function renderHomeShowcase(){
+    const container = document.getElementById('homeProductShowcase');
+    if(!container) return;
+    const prods = await fetchProductsFromStore();
+    const showcaseProds = prods.slice(0, 4);
+
+    if(showcaseProds.length === 0){
+        container.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:20px;color:var(--text-muted);font-size:13.5px;">No active promotional listings available.</p>';
+        return;
+    }
+
+    container.innerHTML = showcaseProds.map(p => `
+        <div class="product-card">
+            <div class="product-img-box">
+                <img src="${p.imageUrl}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?auto=format&fit=crop&w=600&q=80'">
+                <span class="product-tag">${p.tag || 'Verified'}</span>
+            </div>
+            <div class="product-info">
+                <div class="product-title">${p.name}</div>
+                <div class="product-price">₵${parseFloat(p.priceGhs).toFixed(2)}</div>
+                <button class="btn btn-sm btn-primary btn-block" onclick="addToCart(${p.id})">Add to Order Cart</button>
+            </div>
+        </div>
+    `).join('');
 }
 
 function filterCategory(cat, chipElement){
@@ -1127,8 +1212,10 @@ async function doReg(e){
     const phone = document.getElementById('rp').value.trim();
     const pw = document.getElementById('rpw').value;
     const pw2 = document.getElementById('rpw2').value;
+    const termsChecked = document.getElementById('regTerms').checked;
     const msg = document.getElementById('rmsg');
 
+    if(!termsChecked){ msg.className = 'msg err'; msg.textContent = 'You must agree to all terms and conditions to work with us.'; return; }
     if(pw !== pw2){ msg.className = 'msg err'; msg.textContent = 'Passwords do not match.'; return; }
     
     const assignedCode = generateTrackingCode(name, phone);
@@ -1260,6 +1347,7 @@ function updateAuthUI(){
 
 async function renderProducts(){
     const grid = document.getElementById('productGrid');
+    if(!grid) return;
     const prods = await fetchProductsFromStore();
     const filtered = activeCategoryFilter === 'All' ? prods : prods.filter(p => p.category === activeCategoryFilter);
 
@@ -1287,10 +1375,12 @@ async function renderProducts(){
 async function addToCart(id){
     const prods = await fetchProductsFromStore();
     const prod = prods.find(p => p.id === id);
+    if(!prod) return;
     const existing = cart.find(item => item.id === id);
     if(existing){ existing.qty += 1; } else { cart.push({ ...prod, qty: 1 }); }
     localStorage.setItem('evCart', JSON.stringify(cart));
     updateCartUI();
+    alert('Item added to your order cart.');
 }
 
 function changeQty(id, delta){
@@ -1313,6 +1403,7 @@ function removeFromCart(id){
 
 function updateCartUI(){
     const container = document.getElementById('cartItems');
+    if(!container) return;
     const totalEl = document.getElementById('cartTotal');
     const countEl = document.getElementById('cartCount');
     const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
@@ -1635,6 +1726,7 @@ async function adminAddProduct(e){
             e.target.reset();
             renderAdmin();
             renderProducts();
+            renderHomeShowcase();
         };
         reader.readAsDataURL(fileInput.files[0]);
     } else {
@@ -1651,9 +1743,11 @@ async function adminDeleteProduct(id){
     localStorage.setItem('evProducts', JSON.stringify(prods));
     renderAdmin();
     renderProducts();
+    renderHomeShowcase();
 }
 
 updateAuthUI();
+renderHomeShowcase();
 renderProducts();
 </script>
 </body>
