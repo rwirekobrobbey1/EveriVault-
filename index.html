@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EveriVault — China ↔ Ghana Shipping, Store & Paystack Portal</title>
+<title>EveriVault — China ↔ Ghana Shipping, Store & Payment Portal</title>
 <!-- Paystack Inline JS SDK -->
 <script src="https://js.paystack.co/v1/inline.js"></script>
 <!-- Supabase JS Client CDN -->
@@ -84,6 +84,8 @@ nav{background:var(--navy);position:sticky;top:0;z-index:999;box-shadow:0 4px 20
 .profile-avatar {width: 80px; height: 80px; background: var(--navy); color: var(--gold); font-size: 32px; font-weight: 900; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;}
 .copy-btn {background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; margin-left: 10px; transition: 0.2s;}
 .copy-btn:hover {background: #fff; color: var(--navy);}
+.copy-text-btn {background: var(--navy); color: var(--gold); border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; margin-top: 8px; transition: 0.2s;}
+.copy-text-btn:hover {opacity: 0.9;}
 
 section{padding:clamp(40px,8vw,60px) 0;}
 h2.page-title{text-align:center;font-size:clamp(20px,4vw,30px);color:var(--navy);margin-bottom:10px;}
@@ -94,7 +96,7 @@ h2.page-title::after{content:'';display:block;width:60px;height:4px;background:v
 .cat-chip{background:#E2E8F0;color:#334155;padding:8px 16px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;transition:.2s;}
 .cat-chip.active,.cat-chip:hover{background:var(--navy);color:#fff;}
 
-/* RECONSTRUCTED PORTAL AUTH CARD STYLES */
+/* AUTH CARD STYLES */
 .auth-wrapper {max-width: 480px; margin: 0 auto; background: #fff; border-radius: 20px; box-shadow: 0 12px 36px rgba(10, 36, 99, 0.12); overflow: hidden; border: 1px solid #E2E8F0;}
 .auth-header-tabs {display: grid; grid-template-columns: repeat(3, 1fr); background: #F1F5F9; padding: 6px; gap: 6px;}
 .auth-tab {padding: 12px 8px; text-align: center; font-size: 13px; font-weight: 700; color: #64748B; cursor: pointer; border-radius: 12px; transition: all 0.25s ease; user-select: none;}
@@ -132,6 +134,9 @@ input:focus,select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 
 .product-price{font-size:18px;font-weight:900;color:var(--green);margin-bottom:12px;}
 .cart-card{background:#fff;padding:20px;border-radius:16px;box-shadow:var(--shadow);position:sticky;top:90px;}
 .cart-item{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #E2E8F0;}
+.cart-controls{display:flex;align-items:center;gap:6px;margin-top:6px;}
+.cart-btn{background:#E2E8F0;border:none;width:24px;height:24px;border-radius:4px;font-weight:bold;cursor:pointer;color:var(--navy);display:flex;align-items:center;justify-content:center;}
+.cart-btn:hover{background:var(--navy);color:#fff;}
 .order-item-card{background:#fff;padding:16px;border-radius:12px;box-shadow:var(--shadow);margin-bottom:12px;border-left:4px solid var(--gold);}
 
 .admin-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:30px;}
@@ -144,7 +149,8 @@ input:focus,select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 
 .data-table tr:hover{background:#F8FAFC;}
 .tbl-thumb{width:48px;height:48px;border-radius:8px;object-fit:cover;background:#F1F5F9;}
 
-.paystack-badge{background:#E0F2FE;border:1px solid #0284C7;color:#0369A1;padding:10px;border-radius:10px;margin-bottom:16px;font-size:13px;display:flex;align-items:center;gap:10px;}
+.paystack-badge{background:#E0F2FE;border:1px solid #0284C7;color:#0369A1;padding:14px;border-radius:10px;margin-bottom:20px;font-size:14px;}
+.bank-badge{background:#FEF3C7;border:1px solid #D97706;color:#92400E;padding:14px;border-radius:10px;margin-bottom:20px;font-size:14px;}
 .momo-providers{display:flex;gap:10px;justify-content:center;margin:12px 0;font-weight:bold;font-size:13px;}
 .momo-tag{padding:4px 10px;border-radius:6px;background:#F1F5F9;border:1px solid #CBD5E1;}
 
@@ -197,7 +203,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
         <div class="container">
             <div class="badge">📍 Based in Kumasi, Ghana — KNUST, Ayeduase</div>
             <h1>Seamless China ↔ Ghana <span>Shipping & Sourcing</span></h1>
-            <p>Your trusted partner for Sea Freight, Air Freight, and direct China product purchasing. Pay securely in Cedis via Mobile Money.</p>
+            <p>Your trusted partner for Sea Freight, Air Freight, and direct China product purchasing. Pay securely in Cedis via Mobile Money or Bank Transfer.</p>
             
             <div class="hero-actions">
                 <a href="#" class="btn btn-gold" onclick="go('auth');return false;">📦 Get Your Shipping Mark</a>
@@ -220,8 +226,8 @@ footer h3{color:var(--gold);margin-bottom:12px;}
             </div>
             <div class="feature-card">
                 <div class="feature-icon">💳</div>
-                <h3>MoMo Integrated</h3>
-                <p>No need for Forex. Pay shipping bills directly via Paystack Mobile Money.</p>
+                <h3>Flexible Payment</h3>
+                <p>Pay direct via MoMo (0543155883), GTBank, or Paystack.</p>
             </div>
         </div>
     </div>
@@ -246,7 +252,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
             <div class="step-box">
                 <div class="step-num">3</div>
                 <h4>Track & Pay</h4>
-                <p>Track arrival status and pay for freight securely using Mobile Money.</p>
+                <p>Track arrival status and pay for freight securely using direct MoMo or Bank transfer.</p>
             </div>
             <div class="step-box">
                 <div class="step-num">4</div>
@@ -284,11 +290,11 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 
             <div class="accordion-item">
                 <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <span>Can I pay using my MTN MoMo or Telecel Cash?</span>
+                    <span>How can I pay for my shipping or store items?</span>
                     <span class="icon">+</span>
                 </div>
                 <div class="accordion-content">
-                    <p>Absolutely! We are integrated with Paystack. You can instantly pay your shipping fees or store orders in Cedis using MTN, Telecel, or AirtelTigo directly on this website.</p>
+                    <p>You can send direct MoMo payments to <strong>0543155883 (Richmond Wireko Brobbey)</strong>, direct GTBank transfer to <strong>1304001024705</strong>, or use our Paystack automated checkout portal.</p>
                 </div>
             </div>
 
@@ -317,7 +323,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 <section id="p-shop" class="page">
     <div class="container">
         <h2 class="page-title">🛒 Direct China Store</h2>
-        <p class="subtitle">Browse products stocked by EveriVault Admin and pay instantly via Mobile Money</p>
+        <p class="subtitle">Browse products stocked by EveriVault Admin and pay instantly</p>
         
         <div class="category-bar" id="categoryBar">
             <div class="cat-chip active" onclick="filterCategory('All', this)">✨ All Items</div>
@@ -354,28 +360,41 @@ footer h3{color:var(--gold);margin-bottom:12px;}
     </div>
 </section>
 
-<!-- PAYSTACK PAYMENT PORTAL -->
+<!-- PAYMENT PORTAL -->
 <section id="p-pay" class="page">
     <div class="container">
-        <h2 class="page-title">💳 Paystack Mobile Money Portal</h2>
-        <p class="subtitle">Pay for shipping bills, freight fees, or custom orders directly to 0543155883</p>
+        <h2 class="page-title">💳 Direct Payment & MoMo Portal</h2>
+        <p class="subtitle">Pay shipping bills, freight fees, or custom orders directly via MoMo, Bank Transfer, or Paystack</p>
 
         <div class="form-box">
+            <!-- DIRECT MOMO CARD -->
             <div class="paystack-badge">
-                <span style="font-size:22px;">🔒</span>
-                <div>
-                    <strong>Secured by Paystack</strong><br>
-                    Merchant MoMo Account: <strong>0543155883</strong> (Richmond Wireko Brobbey)
-                </div>
+                <strong style="font-size:16px; color:#0369A1;">📱 Direct Mobile Money Payment</strong><br>
+                Send payment directly to our official MoMo account:<br>
+                • Number: <strong>0543155883</strong><br>
+                • Name: <strong>Richmond Wireko Brobbey</strong><br>
+                <button class="copy-text-btn" onclick="copyDirectInfo('0543155883')">Copy MoMo Number</button>
+            </div>
+
+            <!-- DIRECT GTBANK CARD -->
+            <div class="bank-badge">
+                <strong style="font-size:16px; color:#92400E;">🏦 Direct Bank Transfer</strong><br>
+                • Bank Name: <strong>Guaranty Trust Bank (GTBank)</strong><br>
+                • Account Number: <strong>1304001024705</strong><br>
+                • Account Name: <strong>Richmond Wireko Brobbey</strong><br>
+                <button class="copy-text-btn" style="background:#92400E; color:#FFF;" onclick="copyDirectInfo('1304001024705')">Copy Bank Account Number</button>
             </div>
 
             <div class="momo-providers">
                 <span class="momo-tag" style="color:#B45309;background:#FEF3C7;">🟡 MTN MoMo</span>
                 <span class="momo-tag" style="color:#B91C1C;background:#FEE2E2;">🔴 Telecel Cash</span>
-                <span class="momo-tag" style="color:#1D4ED8;background:#DBEAFE;">🔵 AirtelTigo</span>
+                <span class="momo-tag" style="color:#1D4ED8;background:#DBEAFE;">🔵 GTBank</span>
             </div>
 
+            <hr style="margin:20px 0; border:0; border-top:1px solid #E2E8F0;">
+
             <form id="paystackPortalForm" onsubmit="triggerDirectPaystack(event)">
+                <h4 style="color:var(--navy); margin-bottom:12px;">Or Automate via Paystack Checkout</h4>
                 <div class="form-group">
                     <label>Full Name</label>
                     <input type="text" id="payName" placeholder="e.g. Kwame Mensah" required>
@@ -396,7 +415,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                     <label>Amount (GHS ₵)</label>
                     <input type="number" id="payAmount" step="0.01" min="1" placeholder="e.g. 500" required>
                 </div>
-                <button type="submit" class="btn btn-gold btn-block" style="font-size:16px;">📲 Proceed to MoMo Prompt</button>
+                <button type="submit" class="btn btn-gold btn-block" style="font-size:16px;">📲 Proceed to Automated MoMo Prompt</button>
             </form>
         </div>
     </div>
@@ -433,12 +452,12 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                     <span>₵<span id="calcTotalGhs">0.00</span> ($<span id="calcTotalUsd">0.00</span>)</span>
                 </p>
             </div>
-            <button class="btn btn-sky btn-block" onclick="go('pay')">Proceed to Pay via MoMo</button>
+            <button class="btn btn-sky btn-block" onclick="go('pay')">Proceed to Payment</button>
         </div>
     </div>
 </section>
 
-<!-- ADDRESSES -->
+<!-- ADDRESSES WITH COPY BUTTONS -->
 <section id="p-address" class="page">
     <div class="container">
         <h2 class="page-title">📍 China Warehouse Addresses</h2>
@@ -450,46 +469,65 @@ footer h3{color:var(--gold);margin-bottom:12px;}
         </div>
 
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;max-width:1000px;margin:0 auto;">
+            <!-- AIR WAREHOUSE -->
             <div style="background:#fff;padding:24px;border-radius:16px;box-shadow:var(--shadow);border-top:5px solid var(--sky);">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
                     <h3 style="color:var(--navy);font-size:20px;">✈️ Air Freight Warehouse</h3>
                     <span style="background:#E0F2FE;color:var(--sky);font-weight:800;padding:6px 12px;border-radius:20px;font-size:15px;">$17 / kg</span>
                 </div>
+                
                 <div style="margin-bottom:20px;">
-                    <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇬🇧 English Address</strong>
-                    <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
-                        <strong>Recipient:</strong> EveriVault / [<span class="user-mark-display">Your Shipping Mark</span>]<br>
-                        <strong>Address:</strong> Room 510, Jiujiu Business Center, No. 99 Guangyuan West Road, Yuexiu District, Guangzhou City, Guangdong Province, China
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                        <strong style="color:var(--navy);">🇬🇧 English Address</strong>
+                        <button class="copy-text-btn" onclick="copyAddressText('airEnglishAddr')">Copy English</button>
+                    </div>
+                    <div id="airEnglishAddr" style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
+                        Recipient: EveriVault / <span class="user-mark-display">Your Shipping Mark</span><br>
+                        Address: Room 510, Jiujiu Business Center, No. 99 Guangyuan West Road, Yuexiu District, Guangzhou City, Guangdong Province, China
                     </div>
                 </div>
+
                 <div>
-                    <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇨🇳 Chinese Address (中文地址)</strong>
-                    <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
-                        <strong>收件人:</strong> EveriVault / [<span class="user-mark-display">您的唛头代码</span>]<br>
-                        <strong>地址:</strong> 广州市越秀区广园西路99号玖玖商汇510室
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                        <strong style="color:var(--navy);">🇨🇳 Chinese Address (中文地址)</strong>
+                        <button class="copy-text-btn" onclick="copyAddressText('airChineseAddr')">Copy Chinese</button>
+                    </div>
+                    <div id="airChineseAddr" style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
+                        收件人: EveriVault / <span class="user-mark-display">您的唛头代码</span><br>
+                        地址: 广州市越秀区广园西路99号玖玖商汇510室
                     </div>
                 </div>
             </div>
 
+            <!-- SEA WAREHOUSE -->
             <div style="background:#fff;padding:24px;border-radius:16px;box-shadow:var(--shadow);border-top:5px solid var(--gold);">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-                    <h3 style="color:var(--navy);font-size:20px;">🚢 EVERIVAULT — SEA WAREHOUSE</h3>
+                    <h3 style="color:var(--navy);font-size:20px;">🚢 SEA FREIGHT WAREHOUSE</h3>
                     <span style="background:#FEF3C7;color:#B45309;font-weight:800;padding:6px 12px;border-radius:20px;font-size:15px;">$260 / m³</span>
                 </div>
+
                 <div style="margin-bottom:16px;">
-                    <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇬🇧 English Address</strong>
-                    <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
-                        <strong>Recipient:</strong> EveriVault / [<span class="user-mark-display">Your Shipping Mark</span>]<br>
-                        <strong>Address:</strong> Foshan City, Nanhai District, Shishan Town, Xinpu West Road No.88, Bohui Phase 5, Guangdong, China.
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                        <strong style="color:var(--navy);">🇬🇧 English Address</strong>
+                        <button class="copy-text-btn" onclick="copyAddressText('seaEnglishAddr')">Copy English</button>
+                    </div>
+                    <div id="seaEnglishAddr" style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
+                        Recipient: EveriVault / <span class="user-mark-display">Your Shipping Mark</span><br>
+                        Address: Foshan City, Nanhai District, Shishan Town, Xinpu West Road No.88, Bohui Phase 5, Guangdong, China.
                     </div>
                 </div>
+
                 <div style="margin-bottom:16px;">
-                    <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇨🇳 Chinese Address (中文地址)</strong>
-                    <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
-                        <strong>收件人:</strong> EveriVault / [<span class="user-mark-display">您的唛头代码</span>]<br>
-                        <strong>地址:</strong> 广东省佛山市南海区狮山镇新圃西路88号博汇5期
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                        <strong style="color:var(--navy);">🇨🇳 Chinese Address (中文地址)</strong>
+                        <button class="copy-text-btn" onclick="copyAddressText('seaChineseAddr')">Copy Chinese</button>
+                    </div>
+                    <div id="seaChineseAddr" style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
+                        收件人: EveriVault / <span class="user-mark-display">您的唛头代码</span><br>
+                        地址: 广东省佛山市南海区狮山镇新圃西路88号博汇5期
                     </div>
                 </div>
+
                 <div style="background:#F1F5F9;padding:12px;border-radius:10px;font-size:13px;line-height:1.6;">
                     🧭 <strong>Navigation:</strong> 佛山固菜仓储服务部（博汇5期） / Foshan Gucai Warehousing Service (Bohui Phase 5)<br>
                     📞 <strong>China Contacts:</strong> Mr. Zhang +86 181 2571 7488 | Mr. Yue +86 180 2417 9599<br>
@@ -515,7 +553,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
     </div>
 </section>
 
-<!-- RECONSTRUCTED PORTAL ACCOUNT ACCESS -->
+<!-- PORTAL ACCOUNT ACCESS -->
 <section id="p-auth" class="page">
     <div class="container">
         <h2 class="page-title">🔐 Portal Account Access</h2>
@@ -707,7 +745,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 <footer>
     <div class="container">
         <h3>EVERIVAULT ENTERPRISE</h3>
-        <p>MoMo Payment Portal: 0543155883 | 📧 richmonwireko@gmail.com</p>
+        <p>MoMo: 0543155883 | GTBank: 1304001024705 (Richmond Wireko Brobbey)</p>
         <p style="margin-top:15px;font-size:13px;opacity:.6;">© 2026 EveriVault. All rights reserved.</p>
     </div>
 </footer>
@@ -734,6 +772,29 @@ function copyShippingMark() {
     }).catch(err => {
         alert("❌ Failed to copy!");
     });
+}
+
+function copyDirectInfo(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert("✅ Copied to clipboard: " + text);
+    }).catch(err => {
+        alert("❌ Failed to copy!");
+    });
+}
+
+function copyAddressText(containerId) {
+    const el = document.getElementById(containerId);
+    if(el) {
+        let textToCopy = el.innerText;
+        const mark = user ? user.trackingCode : 'GHOO1K-YOURMARK';
+        textToCopy = textToCopy.replace('Your Shipping Mark', mark).replace('您的唛头代码', mark);
+        
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            alert("✅ Address copied to clipboard!");
+        }).catch(err => {
+            alert("❌ Failed to copy address!");
+        });
+    }
 }
 
 function shareCartToWhatsApp() {
@@ -1060,6 +1121,24 @@ async function addToCart(id){
     updateCartUI();
 }
 
+function changeQty(id, delta){
+    const item = cart.find(i => i.id === id);
+    if(item){
+        item.qty += delta;
+        if(item.qty <= 0){
+            cart = cart.filter(i => i.id !== id);
+        }
+    }
+    localStorage.setItem('evCart', JSON.stringify(cart));
+    updateCartUI();
+}
+
+function removeFromCart(id){
+    cart = cart.filter(i => i.id !== id);
+    localStorage.setItem('evCart', JSON.stringify(cart));
+    updateCartUI();
+}
+
 function updateCartUI(){
     const container = document.getElementById('cartItems');
     const totalEl = document.getElementById('cartTotal');
@@ -1079,9 +1158,15 @@ function updateCartUI(){
         <div class="cart-item">
             <div>
                 <strong style="color:var(--navy);">${item.name}</strong><br>
-                <small style="color:#64748B;">₵${item.priceGhs} x ${item.qty}</small>
+                <small style="color:#64748B;">₵${item.priceGhs} x ${item.qty} = ₵${(item.priceGhs * item.qty).toFixed(2)}</small>
+                <div class="cart-controls">
+                    <button class="cart-btn" onclick="changeQty(${item.id}, -1)">-</button>
+                    <span style="font-size:13px; font-weight:bold; padding:0 4px;">${item.qty}</span>
+                    <button class="cart-btn" onclick="changeQty(${item.id}, 1)">+</button>
+                    <button class="cart-btn" style="background:#FEE2E2; color:#B91C1C; margin-left:8px;" onclick="removeFromCart(${item.id})" title="Remove item">🗑️</button>
+                </div>
             </div>
-            <span>₵${(item.priceGhs * item.qty).toFixed(2)}</span>
+            <span style="font-weight:bold;">₵${(item.priceGhs * item.qty).toFixed(2)}</span>
         </div>
     `).join('');
 }
