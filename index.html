@@ -13,23 +13,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-    --bg-main: #07090E;
-    --bg-surface: #0E131F;
-    --bg-card: #171E2E;
-    --border-color: #26334D;
-    --accent-gold: #F59E0B;
-    --accent-gold-glow: rgba(245, 158, 11, 0.25);
-    --accent-blue: #3B82F6;
-    --accent-blue-glow: rgba(59, 130, 246, 0.25);
-    --text-main: #F8FAFC;
-    --text-muted: #94A3B8;
-    --success: #10B981;
-    --danger: #EF4444;
+    --bg-main: #F4F7FC;
+    --bg-surface: #FFFFFF;
+    --bg-card: #F8FAFC;
+    --border-color: #E2E8F0;
+    --accent-blue: #0284C7;
+    --accent-blue-dark: #0369A1;
+    --accent-blue-glow: rgba(2, 132, 199, 0.15);
+    --text-main: #0F172A;
+    --text-muted: #64748B;
+    --success: #059669;
+    --danger: #DC2626;
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 20px;
-    --shadow-glow: 0 0 30px rgba(59, 130, 246, 0.12);
-    --shadow-card: 0 15px 35px -5px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 30px rgba(2, 132, 199, 0.1);
+    --shadow-card: 0 10px 30px -5px rgba(15, 23, 42, 0.08);
     --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -39,72 +38,73 @@ body { background: var(--bg-main); color: var(--text-main); line-height: 1.6; -w
 .container { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
 
 /* Navigation Architecture */
-nav { background: rgba(7, 9, 14, 0.85); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(16px); }
+nav { background: rgba(255, 255, 255, 0.9); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(16px); }
 .nav-wrap { display: flex; justify-content: space-between; align-items: center; height: 80px; }
 .logo-area { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-.logo-mark { width: 42px; height: 42px; background: linear-gradient(135deg, var(--accent-gold), #D97706); color: #07090E; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); }
-.logo-text { font-size: 20px; font-weight: 800; color: #FFF; letter-spacing: -0.5px; }
-.logo-text span { color: var(--accent-gold); }
+.logo-mark { width: 42px; height: 42px; background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-dark)); color: #FFF; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3); }
+.logo-text { font-size: 20px; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; }
+.logo-text span { color: var(--accent-blue); }
 
 .nav-links { display: flex; gap: 6px; list-style: none; align-items: center; }
 .nav-links a { color: var(--text-muted); text-decoration: none; padding: 8px 14px; border-radius: var(--radius-sm); font-weight: 600; font-size: 13.5px; transition: var(--transition); }
-.nav-links a:hover, .nav-links a.active { color: #FFF; background: var(--bg-card); border: 1px solid var(--border-color); }
-.nav-cta { background: linear-gradient(135deg, var(--accent-gold), #D97706) !important; color: #07090E !important; padding: 9px 18px !important; border-radius: var(--radius-sm) !important; font-weight: 700 !important; box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); }
+.nav-links a:hover, .nav-links a.active { color: var(--accent-blue); background: #E0F2FE; }
+.nav-cta { background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-dark)) !important; color: #FFF !important; padding: 9px 18px !important; border-radius: var(--radius-sm) !important; font-weight: 700 !important; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3); }
 .nav-cta:hover { transform: translateY(-1px); }
-.admin-badge-nav { background: rgba(239, 68, 68, 0.15) !important; color: var(--danger) !important; border: 1px solid rgba(239, 68, 68, 0.3); }
-.menu-toggle { display: none; font-size: 24px; cursor: pointer; color: #FFF; }
+.admin-badge-nav { background: #FEF2F2 !important; color: var(--danger) !important; border: 1px solid #FECACA; }
+.menu-toggle { display: none; font-size: 24px; cursor: pointer; color: var(--text-main); }
 
 /* Buttons & Controls */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 24px; border-radius: var(--radius-sm); font-weight: 700; border: none; cursor: pointer; font-size: 14px; text-decoration: none; transition: var(--transition); }
 .btn:active { transform: scale(0.98); }
-.btn-primary { background: linear-gradient(135deg, var(--accent-gold), #D97706); color: #07090E; box-shadow: 0 0 20px rgba(245, 158, 11, 0.3); }
+.btn-primary { background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-dark)); color: #FFF; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3); }
 .btn-primary:hover { filter: brightness(1.1); transform: translateY(-2px); }
-.btn-secondary { background: linear-gradient(135deg, var(--accent-blue), #2563EB); color: #FFF; box-shadow: 0 0 20px var(--accent-blue-glow); }
-.btn-secondary:hover { filter: brightness(1.1); transform: translateY(-2px); }
+.btn-secondary { background: #0F172A; color: #FFF; box-shadow: 0 4px 15px rgba(15, 23, 42, 0.2); }
+.btn-secondary:hover { background: #1E293B; transform: translateY(-2px); }
 .btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
-.btn-outline:hover { background: var(--bg-card); border-color: var(--text-muted); }
+.btn-outline:hover { background: #E0F2FE; border-color: var(--accent-blue); color: var(--accent-blue); }
 .btn-sm { padding: 8px 16px; font-size: 13px; }
 .btn-block { width: 100%; }
 
 /* Hero Section */
-.hero { padding: 100px 0 120px; background: radial-gradient(circle at 70% 20%, rgba(59, 130, 246, 0.18), transparent 50%), radial-gradient(circle at 20% 80%, rgba(245, 158, 11, 0.12), transparent 50%), var(--bg-main); position: relative; overflow: hidden; }
+.hero { padding: 100px 0 120px; background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); color: #FFF; position: relative; overflow: hidden; }
+.hero::after { content:''; position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: radial-gradient(circle at 70% 20%, rgba(2, 132, 199, 0.25), transparent 50%); pointer-events: none; }
 .hero-inner { max-width: 820px; margin: 0 auto; text-align: center; position: relative; z-index: 2; }
-.hero-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--bg-surface); border: 1px solid var(--border-color); padding: 6px 16px; border-radius: 50px; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 24px; box-shadow: var(--shadow-card); }
-.hero-pill span { color: var(--accent-gold); }
+.hero-pill { display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); padding: 6px 16px; border-radius: 50px; font-size: 13px; font-weight: 600; color: #94A3B8; margin-bottom: 24px; }
+.hero-pill span { color: #38BDF8; }
 .hero h1 { font-size: clamp(40px, 6.5vw, 64px); font-weight: 800; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 20px; color: #FFF; }
-.hero h1 span { background: linear-gradient(to right, var(--accent-gold), #FCD34D, #60A5FA); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.hero p { font-size: clamp(16px, 2vw, 19px); color: var(--text-muted); margin-bottom: 36px; max-width: 660px; margin-left: auto; margin-right: auto; }
+.hero h1 span { background: linear-gradient(to right, #38BDF8, #93C5FD); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p { font-size: clamp(16px, 2vw, 19px); color: #94A3B8; margin-bottom: 36px; max-width: 660px; margin-left: auto; margin-right: auto; }
 .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
 /* Feature Grid */
 .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: -50px; position: relative; z-index: 10; margin-bottom: 60px; }
 .trust-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 32px 24px; box-shadow: var(--shadow-card); transition: var(--transition); position: relative; overflow: hidden; }
-.trust-card::before { content:''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--accent-blue), var(--accent-gold)); opacity: 0; transition: var(--transition); }
+.trust-card::before { content:''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--accent-blue); opacity: 0; transition: var(--transition); }
 .trust-card:hover { transform: translateY(-5px); border-color: var(--accent-blue); box-shadow: var(--shadow-glow); }
 .trust-card:hover::before { opacity: 1; }
-.trust-card h3 { font-size: 18px; font-weight: 700; color: #FFF; margin-bottom: 10px; }
+.trust-card h3 { font-size: 18px; font-weight: 700; color: var(--text-main); margin-bottom: 10px; }
 .trust-card p { font-size: 14px; color: var(--text-muted); }
 
 /* Section Base */
 section { padding: 80px 0; }
-.section-title { font-size: clamp(28px, 4vw, 36px); font-weight: 800; color: #FFF; text-align: center; letter-spacing: -0.5px; margin-bottom: 12px; }
+.section-title { font-size: clamp(28px, 4vw, 36px); font-weight: 800; color: var(--text-main); text-align: center; letter-spacing: -0.5px; margin-bottom: 12px; }
 .section-subtitle { text-align: center; color: var(--text-muted); font-size: 15.5px; max-width: 620px; margin: 0 auto 50px; }
 
 /* Workflow Steps */
 .workflow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
 .workflow-card { background: var(--bg-surface); border: 1px solid var(--border-color); padding: 32px 24px; border-radius: var(--radius-md); position: relative; box-shadow: var(--shadow-card); transition: var(--transition); }
-.workflow-card:hover { border-color: var(--accent-gold); }
-.workflow-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; display: block; }
-.workflow-card h4 { font-size: 17px; font-weight: 700; color: #FFF; margin-bottom: 10px; }
+.workflow-card:hover { border-color: var(--accent-blue); box-shadow: var(--shadow-glow); }
+.workflow-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; display: block; }
+.workflow-card h4 { font-size: 17px; font-weight: 700; color: var(--text-main); margin-bottom: 10px; }
 .workflow-card p { font-size: 14px; color: var(--text-muted); }
 
 /* Accordion FAQ */
 .faq-container { max-width: 780px; margin: 0 auto; }
 .accordion-item { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 14px; overflow: hidden; box-shadow: var(--shadow-card); }
-.accordion-header { padding: 20px 24px; font-weight: 600; color: #FFF; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 15.5px; transition: var(--transition); background: var(--bg-surface); }
-.accordion-header:hover { background: var(--bg-card); }
-.accordion-header.active { background: var(--bg-card); color: var(--accent-gold); }
-.accordion-header.active .accordion-icon { transform: rotate(45deg); color: var(--accent-gold); }
+.accordion-header { padding: 20px 24px; font-weight: 600; color: var(--text-main); display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 15.5px; transition: var(--transition); background: var(--bg-surface); }
+.accordion-header:hover { background: #F0F9FF; color: var(--accent-blue); }
+.accordion-header.active { background: #E0F2FE; color: var(--accent-blue-dark); }
+.accordion-header.active .accordion-icon { transform: rotate(45deg); color: var(--accent-blue); }
 .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: var(--bg-surface); }
 .accordion-content p { padding: 0 24px 24px; color: var(--text-muted); font-size: 14.5px; }
 .accordion-icon { font-size: 20px; color: var(--text-muted); transition: var(--transition); font-weight: 300; }
@@ -112,90 +112,90 @@ section { padding: 80px 0; }
 /* Forms & Cards */
 .form-box { max-width: 620px; margin: 0 auto; background: var(--bg-surface); border: 1px solid var(--border-color); padding: 40px; border-radius: var(--radius-lg); box-shadow: var(--shadow-card); }
 .form-group { margin-bottom: 22px; }
-label { display: block; margin-bottom: 8px; font-weight: 600; color: #FFF; font-size: 14px; }
-input, select, textarea { width: 100%; padding: 13px 18px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 14.5px; color: #FFF; background: var(--bg-main); transition: var(--transition); }
+label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-main); font-size: 14px; }
+input, select, textarea { width: 100%; padding: 13px 18px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 14.5px; color: var(--text-main); background: #FFF; transition: var(--transition); }
 input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-blue); box-shadow: 0 0 0 3px var(--accent-blue-glow); }
-input[type="file"] { padding: 10px; background: var(--bg-main); cursor: pointer; }
+input[type="file"] { padding: 10px; background: #F8FAFC; cursor: pointer; }
 .msg { padding: 14px; border-radius: var(--radius-sm); margin: 14px 0; display: none; font-size: 14px; font-weight: 600; }
-.msg.ok { background: rgba(16, 185, 129, 0.15); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.3); display: block; }
-.msg.err { background: rgba(239, 68, 68, 0.15); color: #F87171; border: 1px solid rgba(239, 68, 68, 0.3); display: block; }
+.msg.ok { background: #ECFDF5; color: #065F45; border: 1px solid #A7F3D0; display: block; }
+.msg.err { background: #FEF2F2; color: #991B1B; border: 1px solid #FECACA; display: block; }
 
 /* Store Layout */
 .store-layout { display: grid; grid-template-columns: 2.6fr 1fr; gap: 28px; align-items: start; }
 .category-bar { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 28px; scrollbar-width: thin; }
 .cat-chip { background: var(--bg-surface); border: 1px solid var(--border-color); color: var(--text-muted); padding: 9px 20px; border-radius: 50px; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: var(--transition); box-shadow: var(--shadow-card); }
-.cat-chip.active, .cat-chip:hover { background: var(--accent-blue); color: #FFF; border-color: var(--accent-blue); box-shadow: 0 0 15px var(--accent-blue-glow); }
+.cat-chip.active, .cat-chip:hover { background: var(--accent-blue); color: #FFF; border-color: var(--accent-blue); box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3); }
 
 .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 22px; }
 .product-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-card); display: flex; flex-direction: column; justify-content: space-between; transition: var(--transition); }
 .product-card:hover { transform: translateY(-4px); border-color: var(--accent-blue); box-shadow: var(--shadow-glow); }
-.product-img-box { height: 190px; background: var(--bg-card); position: relative; overflow: hidden; }
+.product-img-box { height: 190px; background: #F1F5F9; position: relative; overflow: hidden; }
 .product-img-box img { width: 100%; height: 100%; object-fit: cover; }
-.product-tag { position: absolute; top: 12px; left: 12px; background: var(--accent-gold); color: #07090E; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 0 10px rgba(245,158,11,0.4); }
+.product-tag { position: absolute; top: 12px; left: 12px; background: var(--accent-blue); color: #FFF; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3); }
 .product-info { padding: 18px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-.product-title { font-size: 15px; font-weight: 700; color: #FFF; margin-bottom: 8px; line-height: 1.4; }
+.product-title { font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 8px; line-height: 1.4; }
 .product-price { font-size: 17px; font-weight: 800; color: var(--success); margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; }
 
 .cart-card { background: var(--bg-surface); border: 1px solid var(--border-color); padding: 24px; border-radius: var(--radius-md); box-shadow: var(--shadow-card); position: sticky; top: 96px; }
 .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border-color); font-size: 14px; }
 .cart-controls { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
-.cart-btn { background: var(--bg-card); border: 1px solid var(--border-color); width: 24px; height: 24px; border-radius: 4px; font-weight: 700; cursor: pointer; color: #FFF; display: flex; align-items: center; justify-content: center; font-size: 12px; }
-.cart-btn:hover { background: var(--accent-blue); border-color: var(--accent-blue); }
+.cart-btn { background: #F8FAFC; border: 1px solid var(--border-color); width: 24px; height: 24px; border-radius: 4px; font-weight: 700; cursor: pointer; color: var(--text-main); display: flex; align-items: center; justify-content: center; font-size: 12px; }
+.cart-btn:hover { background: var(--accent-blue); border-color: var(--accent-blue); color: #FFF; }
 
 /* Badges & Notices */
-.alert-notice { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); padding: 18px; border-radius: var(--radius-sm); color: #FCD34D; margin-bottom: 24px; font-size: 14px; line-height: 1.5; box-shadow: var(--shadow-card); }
-.paystack-badge { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); color: #93C5FD; padding: 18px; border-radius: var(--radius-sm); margin-bottom: 20px; font-size: 14px; line-height: 1.5; }
-.bank-badge { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #FCD34D; padding: 18px; border-radius: var(--radius-sm); margin-bottom: 20px; font-size: 14px; line-height: 1.5; }
+.alert-notice { background: #EFF6FF; border: 1px solid #BFDBFE; padding: 18px; border-radius: var(--radius-sm); color: #1E40AF; margin-bottom: 24px; font-size: 14px; line-height: 1.5; box-shadow: var(--shadow-card); }
+.paystack-badge { background: #EFF6FF; border: 1px solid #BFDBFE; color: #1E40AF; padding: 18px; border-radius: var(--radius-sm); margin-bottom: 20px; font-size: 14px; line-height: 1.5; }
+.bank-badge { background: #F0FDF4; border: 1px solid #BBF7D0; color: #166534; padding: 18px; border-radius: var(--radius-sm); margin-bottom: 20px; font-size: 14px; line-height: 1.5; }
 
 /* Admin & Profile Panels */
 .admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; margin-bottom: 35px; }
 .stat-card { background: var(--bg-surface); border: 1px solid var(--border-color); padding: 22px; border-radius: var(--radius-md); box-shadow: var(--shadow-card); }
 .stat-card h4 { color: var(--text-muted); font-size: 12px; text-transform: uppercase; margin-bottom: 8px; font-weight: 700; letter-spacing: 0.5px; }
-.stat-card .val { font-size: 26px; font-weight: 800; color: #FFF; font-family: 'JetBrains Mono', monospace; }
+.stat-card .val { font-size: 26px; font-weight: 800; color: var(--text-main); font-family: 'JetBrains Mono', monospace; }
 
 .data-table { width: 100%; border-collapse: collapse; background: var(--bg-surface); border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-color); box-shadow: var(--shadow-card); margin-top: 18px; }
-.data-table th, .data-table td { padding: 16px 20px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 14px; color: #FFF; }
-.data-table th { background: var(--bg-card); color: var(--text-muted); font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
-.data-table tr:hover { background: var(--bg-card); }
-.tbl-thumb { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; background: var(--bg-card); border: 1px solid var(--border-color); }
+.data-table th, .data-table td { padding: 16px 20px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 14px; color: var(--text-main); }
+.data-table th { background: #F8FAFC; color: var(--text-muted); font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
+.data-table tr:hover { background: #F8FAFC; }
+.tbl-thumb { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; background: #F1F5F9; border: 1px solid var(--border-color); }
 
 /* Reviews */
 .review-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; margin-top: 35px; }
 .review-card { background: var(--bg-surface); border: 1px solid var(--border-color); padding: 28px; border-radius: var(--radius-md); box-shadow: var(--shadow-card); }
-.review-stars { color: var(--accent-gold); font-size: 14px; margin-bottom: 12px; font-family: monospace; }
+.review-stars { color: #EAB308; font-size: 14px; margin-bottom: 12px; font-family: monospace; }
 .review-text { color: var(--text-main); font-size: 14.5px; margin-bottom: 18px; font-style: italic; line-height: 1.6; }
-.review-author { font-weight: 700; color: #FFF; font-size: 14px; }
+.review-author { font-weight: 700; color: var(--text-main); font-size: 14px; }
 .review-date { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
 
 /* Calculator Navigation Subtabs */
-.calc-subtabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 35px; background: var(--bg-surface); border: 1px solid var(--border-color); padding: 6px; border-radius: 50px; max-width: 440px; margin-left: auto; margin-right: auto; box-shadow: var(--shadow-card); }
+.calc-subtabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 35px; background: #E2E8F0; padding: 6px; border-radius: 50px; max-width: 440px; margin-left: auto; margin-right: auto; box-shadow: var(--shadow-card); }
 .calc-tab { flex: 1; padding: 11px 20px; border-radius: 50px; font-weight: 700; background: transparent; color: var(--text-muted); cursor: pointer; font-size: 14px; text-align: center; border: none; transition: var(--transition); }
-.calc-tab.active { background: var(--accent-blue); color: #FFF; box-shadow: 0 0 20px var(--accent-blue-glow); }
+.calc-tab.active { background: #FFFFFF; color: var(--accent-blue); box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08); }
 .calc-panel { display: none; }
 .calc-panel.active { display: block; animation: fadeIn 0.3s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 
 /* Profile Card & Tracking Banner */
 .profile-card { background: var(--bg-surface); border: 1px solid var(--border-color); padding: 35px; border-radius: var(--radius-lg); box-shadow: var(--shadow-card); text-align: center; margin-bottom: 28px; }
-.profile-avatar { width: 70px; height: 70px; background: linear-gradient(135deg, var(--accent-blue), #2563EB); color: #FFF; font-size: 24px; font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; box-shadow: 0 0 20px var(--accent-blue-glow); }
-.tracking-banner { background: var(--bg-surface); border: 1px solid var(--border-color); padding: 32px; border-radius: var(--radius-md); margin-bottom: 28px; text-align: center; box-shadow: var(--shadow-card); }
-.tracking-banner .code { font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 700; color: var(--accent-gold); letter-spacing: 1px; margin-top: 12px; display: flex; align-items: center; justify-content: center; }
+.profile-avatar { width: 70px; height: 70px; background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-dark)); color: #FFF; font-size: 24px; font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3); }
+.tracking-banner { background: #0F172A; color: #FFF; padding: 32px; border-radius: var(--radius-md); margin-bottom: 28px; text-align: center; box-shadow: var(--shadow-card); }
+.tracking-banner .code { font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 700; color: #38BDF8; letter-spacing: 1px; margin-top: 12px; display: flex; align-items: center; justify-content: center; }
 
 /* Proof Upload Section */
 .proof-upload-box { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 32px; margin-top: 30px; box-shadow: var(--shadow-card); }
 
 /* Footer */
-footer { background: var(--bg-surface); color: var(--text-muted); padding: 70px 0 35px; border-top: 1px solid var(--border-color); }
+footer { background: #0F172A; color: #94A3B8; padding: 70px 0 35px; border-top: 1px solid #1E293B; }
 .footer-wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; margin-bottom: 45px; }
 .footer-col h4 { color: #FFF; font-size: 15.5px; font-weight: 700; margin-bottom: 18px; letter-spacing: 0.5px; }
-.footer-col p, .footer-col a { color: var(--text-muted); font-size: 14px; text-decoration: none; display: block; margin-bottom: 10px; transition: var(--transition); }
+.footer-col p, .footer-col a { color: #94A3B8; font-size: 14px; text-decoration: none; display: block; margin-bottom: 10px; transition: var(--transition); }
 .footer-col a:hover { color: #FFF; }
-.footer-bottom { border-top: 1px solid var(--border-color); padding-top: 28px; text-align: center; font-size: 13.5px; color: var(--text-muted); }
+.footer-bottom { border-top: 1px solid #1E293B; padding-top: 28px; text-align: center; font-size: 13.5px; color: #64748B; }
 
 /* Utility */
 .page { display: none; }
 .page.active { display: block; }
-.whatsapp-float { position: fixed; bottom: 28px; right: 28px; background: #10B981; color: #FFF; width: 56px; height: 56px; border-radius: 50px; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 26px; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4); z-index: 1000; transition: var(--transition); }
+.whatsapp-float { position: fixed; bottom: 28px; right: 28px; background: #0284C7; color: #FFF; width: 56px; height: 56px; border-radius: 50px; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 26px; box-shadow: 0 10px 25px rgba(2, 132, 199, 0.4); z-index: 1000; transition: var(--transition); }
 .whatsapp-float:hover { transform: scale(1.08); filter: brightness(1.1); }
 
 @media (max-width: 900px) {
@@ -245,7 +245,7 @@ footer { background: var(--bg-surface); color: var(--text-muted); padding: 70px 
                 <p>Engineered for high-volume commercial importers. Secure air consolidation, maritime cargo handling, and direct multi-currency trade settlements.</p>
                 <div class="hero-actions">
                     <button class="btn btn-primary" onclick="go('auth')">Request Shipping Mark</button>
-                    <button class="btn btn-outline" onclick="go('shop')">Browse Marketplace</button>
+                    <button class="btn btn-outline" style="color:#FFF; border-color:rgba(255,255,255,0.3);" onclick="go('shop')">Browse Marketplace</button>
                 </div>
             </div>
         </div>
@@ -345,9 +345,9 @@ footer { background: var(--bg-surface); color: var(--text-muted); padding: 70px 
     </div>
 
     <div class="container">
-        <div style="background:var(--bg-surface); border:1px solid var(--border-color); text-align:center; padding:60px 30px; border-radius:var(--radius-lg); margin-bottom: 60px; box-shadow:var(--shadow-card);">
-            <h2 style="font-size:28px; font-weight:800; margin-bottom:12px; color:#FFF;">Ready to optimize your supply chain?</h2>
-            <p style="color:var(--text-muted); margin-bottom:24px; font-size:15px; max-width:500px; margin-left:auto; margin-right:auto;">Join established commercial enterprises relying on EveriVault logistics infrastructure.</p>
+        <div style="background:#0F172A; color:#FFF; text-align:center; padding:60px 30px; border-radius:var(--radius-lg); margin-bottom: 60px; box-shadow:var(--shadow-card);">
+            <h2 style="font-size:28px; font-weight:800; margin-bottom:12px;">Ready to optimize your supply chain?</h2>
+            <p style="color:#94A3B8; margin-bottom:24px; font-size:15px; max-width:500px; margin-left:auto; margin-right:auto;">Join established commercial enterprises relying on EveriVault logistics infrastructure.</p>
             <button class="btn btn-primary" onclick="go('auth')">Open Commercial Account</button>
         </div>
     </div>
@@ -374,20 +374,20 @@ footer { background: var(--bg-surface); color: var(--text-muted); padding: 70px 
             <div class="product-grid" id="productGrid"></div>
             
             <div class="cart-card">
-                <h3 style="color:#FFF;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;font-size:16px;">
+                <h3 style="color:var(--text-main);margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;font-size:16px;">
                     <span>Order Summary</span>
-                    <span id="cartCount" style="font-size:12px;background:var(--bg-card);color:#FFF;padding:3px 8px;border-radius:4px;font-weight:700;">0 items</span>
+                    <span id="cartCount" style="font-size:12px;background:#F1F5F9;color:var(--text-main);padding:3px 8px;border-radius:4px;font-weight:700;">0 items</span>
                 </h3>
                 <div id="cartItems">
                     <p style="text-align:center;color:var(--text-muted);padding:30px 0;font-size:13.5px;">Cart is currently empty.</p>
                 </div>
                 <div style="margin-top:16px;border-top:1px solid var(--border-color);padding-top:16px;">
-                    <div style="display:flex;justify-content:space-between;font-weight:800;font-size:16px;color:#FFF;margin-bottom:16px;">
+                    <div style="display:flex;justify-content:space-between;font-weight:800;font-size:16px;color:var(--text-main);margin-bottom:16px;">
                         <span>Total:</span>
                         <span>₵<span id="cartTotal">0.00</span></span>
                     </div>
                     <button class="btn btn-secondary btn-block" style="margin-bottom:10px;" onclick="checkoutWithPaystack()">Secure Paystack Checkout</button>
-                    <button class="btn btn-outline btn-block" style="border-color:#10B981; color:#34D399; background:rgba(16,185,129,0.1);" onclick="shareCartToWhatsApp()">Submit Order via WhatsApp</button>
+                    <button class="btn btn-outline btn-block" style="border-color:#059669; color:#059669; background:#ECFDF5;" onclick="shareCartToWhatsApp()">Submit Order via WhatsApp</button>
                 </div>
             </div>
         </div>
@@ -402,14 +402,14 @@ footer { background: var(--bg-surface); color: var(--text-muted); padding: 70px 
 
         <div class="form-box">
             <div class="paystack-badge">
-                <strong style="font-size:14px; color:#93C5FD; display:block; margin-bottom:4px;">Mobile Money Direct Deposit</strong>
+                <strong style="font-size:14px; color:#1E40AF; display:block; margin-bottom:4px;">Mobile Money Direct Deposit</strong>
                 Official Account Number: <strong>0543155883</strong><br>
                 Account Holder Name: <strong>Richmond Wireko Brobbey</strong><br><br>
-                <button class="btn btn-sm btn-secondary" onclick="copyDirectInfo('0543155883')">Copy MoMo Number</button>
+                <button class="btn btn-sm btn-primary" onclick="copyDirectInfo('0543155883')">Copy MoMo Number</button>
             </div>
 
             <div class="bank-badge">
-                <strong style="font-size:14px; color:#FCD34D; display:block; margin-bottom:4px;">Institutional Bank Wire</strong>
+                <strong style="font-size:14px; color:#166534; display:block; margin-bottom:4px;">Institutional Bank Wire</strong>
                 Bank Institution: <strong>Guaranty Trust Bank (GTBank)</strong><br>
                 Account Number: <strong>1304001024705</strong><br>
                 Account Name: <strong>Richmond Wireko Brobbey</strong><br><br>
@@ -419,7 +419,7 @@ footer { background: var(--bg-surface); color: var(--text-muted); padding: 70px 
             <hr style="margin:24px 0; border:0; border-top:1px solid var(--border-color);">
 
             <form id="paystackPortalForm" onsubmit="triggerDirectPaystack(event)">
-                <h4 style="color:#FFF; margin-bottom:16px; font-size:15px;">Automated Card & Mobile Money Processing</h4>
+                <h4 style="color:var(--text-main); margin-bottom:16px; font-size:15px;">Automated Card & Mobile Money Processing</h4>
                 <div class="form-group">
                     <label>Full Legal Name</label>
                     <input type="text" id="payName" placeholder="e.g. Kwame Mensah" required>
@@ -445,7 +445,7 @@ footer { background: var(--bg-surface); color: var(--text-muted); padding: 70px 
 
             <!-- PROOF OF PAYMENT UPLOAD MODULE -->
             <div class="proof-upload-box">
-                <h4 style="color:#FFF; margin-bottom:8px; font-size:16px;">Submit Proof of Manual Payment / Bank Transfer</h4>
+                <h4 style="color:var(--text-main); margin-bottom:8px; font-size:16px;">Submit Proof of Manual Payment / Bank Transfer</h4>
                 <p style="color:var(--text-muted); font-size:13.5px; margin-bottom:20px;">Already transferred funds via MoMo or GTBank? Upload a screenshot receipt or transfer confirmation slip for instant administrative validation.</p>
                 
                 <form onsubmit="submitPaymentProof(event)">
@@ -483,14 +483,14 @@ footer { background: var(--bg-surface); color: var(--text-muted); padding: 70px 
         <!-- AIR PANEL -->
         <div class="calc-panel active" id="panelAir">
             <div class="form-box">
-                <h3 style="color:#FFF;margin-bottom:8px;font-size:16px;">Air Cargo Cost Breakdown</h3>
+                <h3 style="color:var(--text-main);margin-bottom:8px;font-size:16px;">Air Cargo Cost Breakdown</h3>
                 <p style="color:var(--text-muted);font-size:13.5px;margin-bottom:20px;">Standard Tariff: <strong>$17 per kg</strong> from Guangzhou warehouse to Kumasi hub.</p>
                 <div class="form-group">
                     <label>Gross Weight (kg)</label>
                     <input type="number" id="calcAirKg" oninput="runAirCalc()" placeholder="e.g. 15.5" min="0" step="0.1">
                 </div>
-                <div style="background:var(--bg-main);border:1px solid var(--border-color);padding:16px;border-radius:var(--radius-sm);margin:20px 0;">
-                    <p style="display:flex;justify-content:space-between;font-size:17px;color:#FFF;font-weight:800; font-family:'JetBrains Mono',monospace;">
+                <div style="background:#F8FAFC;border:1px solid var(--border-color);padding:16px;border-radius:var(--radius-sm);margin:20px 0;">
+                    <p style="display:flex;justify-content:space-between;font-size:17px;color:var(--text-main);font-weight:800; font-family:'JetBrains Mono',monospace;">
                         <span>Estimated Total:</span>
                         <span>$<span id="resAirUsd">0.00</span> (₵<span id="resAirGhs">0.00</span>)</span>
                     </p>
@@ -502,14 +502,14 @@ footer { background: var(--bg-surface); color: var(--text-muted); padding: 70px 
         <!-- SEA PANEL -->
         <div class="calc-panel" id="panelSea">
             <div class="form-box">
-                <h3 style="color:#FFF;margin-bottom:8px;font-size:16px;">Maritime Sea Freight Breakdown</h3>
+                <h3 style="color:var(--text-main);margin-bottom:8px;font-size:16px;">Maritime Sea Freight Breakdown</h3>
                 <p style="color:var(--text-muted);font-size:13.5px;margin-bottom:20px;">Commercial Tariff: <strong>$260 per CBM (m³)</strong> from Foshan terminal to Ghana.</p>
                 <div class="form-group">
                     <label>Cubic Volume (CBM)</label>
                     <input type="number" id="calcSeaCbm" oninput="runSeaCalc()" placeholder="e.g. 2.4" min="0" step="0.01">
                 </div>
-                <div style="background:var(--bg-main);border:1px solid var(--border-color);padding:16px;border-radius:var(--radius-sm);margin:20px 0;">
-                    <p style="display:flex;justify-content:space-between;font-size:17px;color:#FFF;font-weight:800; font-family:'JetBrains Mono',monospace;">
+                <div style="background:#F8FAFC;border:1px solid var(--border-color);padding:16px;border-radius:var(--radius-sm);margin:20px 0;">
+                    <p style="display:flex;justify-content:space-between;font-size:17px;color:var(--text-main);font-weight:800; font-family:'JetBrains Mono',monospace;">
                         <span>Estimated Total:</span>
                         <span>$<span id="resSeaUsd">0.00</span> (₵<span id="resSeaGhs">0.00</span>)</span>
                     </p>
@@ -527,7 +527,7 @@ footer { background: var(--bg-surface); color: var(--text-muted); padding: 70px 
         <p class="subtitle">Independent reviews from registered commercial importers utilizing our logistics network</p>
 
         <div style="max-width:600px;margin:0 auto 40px;background:var(--bg-surface);padding:32px;border-radius:var(--radius-lg);border:1px solid var(--border-color);box-shadow:var(--shadow-card);">
-            <h3 style="color:#FFF;margin-bottom:16px;font-size:16px;">Publish Review</h3>
+            <h3 style="color:var(--text-main);margin-bottom:16px;font-size:16px;">Publish Review</h3>
             <form onsubmit="submitReview(event)">
                 <div class="form-group">
                     <label>Importer Name / Business Entity</label>
@@ -569,16 +569,16 @@ footer { background: var(--bg-surface); color: var(--text-muted); padding: 70px 
             <!-- AIR WAREHOUSE -->
             <div style="background:var(--bg-surface);padding:24px;border-radius:var(--radius-md);border:1px solid var(--border-color);border-top:4px solid var(--accent-blue);box-shadow:var(--shadow-card);">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-                    <h3 style="color:#FFF;font-size:17px;">Air Freight Warehouse</h3>
-                    <span style="background:rgba(59,130,246,0.1);color:#93C5FD;font-weight:700;padding:4px 10px;border-radius:4px;font-size:12px;">$17 / kg</span>
+                    <h3 style="color:var(--text-main);font-size:17px;">Air Freight Warehouse</h3>
+                    <span style="background:#EFF6FF;color:var(--accent-blue);font-weight:700;padding:4px 10px;border-radius:4px;font-size:12px;">$17 / kg</span>
                 </div>
                 
                 <div style="margin-bottom:16px;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                        <strong style="color:#FFF; font-size:13px;">English Address</strong>
+                        <strong style="color:var(--text-main); font-size:13px;">English Address</strong>
                         <button class="btn btn-sm btn-outline" style="padding:4px 10px; font-size:11px;" onclick="copyAddressText('airEnglishAddr')">Copy</button>
                     </div>
-                    <div id="airEnglishAddr" style="background:var(--bg-main);padding:12px;border-radius:var(--radius-sm);font-size:12.5px;border:1px solid var(--border-color);line-height:1.5;">
+                    <div id="airEnglishAddr" style="background:#F8FAFC;padding:12px;border-radius:var(--radius-sm);font-size:12.5px;border:1px solid var(--border-color);line-height:1.5;">
                         Recipient: EveriVault / <span class="user-mark-display">Your Shipping Mark</span><br>
                         Address: Room 510, Jiujiu Business Center, No. 99 Guangyuan West Road, Yuexiu District, Guangzhou City, Guangdong Province, China
                     </div>
@@ -586,10 +586,10 @@ footer { background: var(--bg-surface); color: var(--text-muted); padding: 70px 
 
                 <div>
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                        <strong style="color:#FFF; font-size:13px;">Chinese Address (中文地址)</strong>
+                        <strong style="color:var(--text-main); font-size:13px;">Chinese Address (中文地址)</strong>
                         <button class="btn btn-sm btn-outline" style="padding:4px 10px; font-size:11px;" onclick="copyAddressText('airChineseAddr')">Copy</button>
                     </div>
-                    <div id="airChineseAddr" style="background:var(--bg-main);padding:12px;border-radius:var(--radius-sm);font-size:12.5px;border:1px solid var(--border-color);line-height:1.5;">
+                    <div id="airChineseAddr" style="background:#F8FAFC;padding:12px;border-radius:var(--radius-sm);font-size:12.5px;border:1px solid var(--border-color);line-height:1.5;">
                         收件人: EveriVault / <span class="user-mark-display">您的唛头代码</span><br>
                         地址: 广州市越秀区广园西路99号玖玖商汇510室
                     </div>
@@ -597,18 +597,18 @@ footer { background: var(--bg-surface); color: var(--text-muted); padding: 70px 
             </div>
 
             <!-- SEA WAREHOUSE -->
-            <div style="background:var(--bg-surface);padding:24px;border-radius:var(--radius-md);border:1px solid var(--border-color);border-top:4px solid var(--accent-gold);box-shadow:var(--shadow-card);">
+            <div style="background:var(--bg-surface);padding:24px;border-radius:var(--radius-md);border:1px solid var(--border-color);border-top:4px solid #0F172A;box-shadow:var(--shadow-card);">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-                    <h3 style="color:#FFF;font-size:17px;">Sea Freight Warehouse</h3>
-                    <span style="background:rgba(245,158,11,0.1);color:#FCD34D;font-weight:700;padding:4px 10px;border-radius:4px;font-size:12px;">$260 / m³</span>
+                    <h3 style="color:var(--text-main);font-size:17px;">Sea Freight Warehouse</h3>
+                    <span style="background:#F1F5F9;color:#0F172A;font-weight:700;padding:4px 10px;border-radius:4px;font-size:12px;">$260 / m³</span>
                 </div>
 
                 <div style="margin-bottom:14px;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                        <strong style="color:#FFF; font-size:13px;">English Address</strong>
+                        <strong style="color:var(--text-main); font-size:13px;">English Address</strong>
                         <button class="btn btn-sm btn-outline" style="padding:4px 10px; font-size:11px;" onclick="copyAddressText('seaEnglishAddr')">Copy</button>
                     </div>
-                    <div id="seaEnglishAddr" style="background:var(--bg-main);padding:12px;border-radius:var(--radius-sm);font-size:12.5px;border:1px solid var(--border-color);line-height:1.5;">
+                    <div id="seaEnglishAddr" style="background:#F8FAFC;padding:12px;border-radius:var(--radius-sm);font-size:12.5px;border:1px solid var(--border-color);line-height:1.5;">
                         Recipient: EveriVault / <span class="user-mark-display">Your Shipping Mark</span><br>
                         Address: Foshan City, Nanhai District, Shishan Town, Xinpu West Road No.88, Bohui Phase 5, Guangdong, China.
                     </div>
@@ -616,16 +616,16 @@ footer { background: var(--bg-surface); color: var(--text-muted); padding: 70px 
 
                 <div style="margin-bottom:14px;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                        <strong style="color:#FFF; font-size:13px;">Chinese Address (中文地址)</strong>
+                        <strong style="color:var(--text-main); font-size:13px;">Chinese Address (中文地址)</strong>
                         <button class="btn btn-sm btn-outline" style="padding:4px 10px; font-size:11px;" onclick="copyAddressText('seaChineseAddr')">Copy</button>
                     </div>
-                    <div id="seaChineseAddr" style="background:var(--bg-main);padding:12px;border-radius:var(--radius-sm);font-size:12.5px;border:1px solid var(--border-color);line-height:1.5;">
+                    <div id="seaChineseAddr" style="background:#F8FAFC;padding:12px;border-radius:var(--radius-sm);font-size:12.5px;border:1px solid var(--border-color);line-height:1.5;">
                         收件人: EveriVault / <span class="user-mark-display">您的唛头代码</span><br>
                         地址: 广东省佛山市南海区狮山镇新圃西路88号博汇5期
                     </div>
                 </div>
 
-                <div style="background:var(--bg-main);padding:12px;border-radius:var(--radius-sm);font-size:12px;line-height:1.5;border:1px solid var(--border-color);">
+                <div style="background:#F8FAFC;padding:12px;border-radius:var(--radius-sm);font-size:12px;line-height:1.5;border:1px solid var(--border-color);">
                     Navigation: 佛山固菜仓储服务部（博汇5期）<br>
                     China Contacts: +86 181 2571 7488 | +86 180 2417 9599<br>
                     Ghana Contact: +233 543 155 883
@@ -657,8 +657,8 @@ footer { background: var(--bg-surface); color: var(--text-muted); padding: 70px 
         <p class="subtitle">Authenticate credentials, register organizational accounts, or execute password recovery</p>
         
         <div style="max-width: 440px; margin: 0 auto; background: var(--bg-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); overflow: hidden; border: 1px solid var(--border-color);">
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); background: var(--bg-card); padding: 6px; gap: 4px; border-bottom: 1px solid var(--border-color);">
-                <button class="btn btn-sm btn-outline active" id="tabLogin" onclick="switchAuthTab('login')" style="border:none; background:var(--bg-surface); color:#FFF; font-size:12px;">Sign In</button>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); background: #F1F5F9; padding: 6px; gap: 4px; border-bottom: 1px solid var(--border-color);">
+                <button class="btn btn-sm btn-outline active" id="tabLogin" onclick="switchAuthTab('login')" style="border:none; background:#FFF; color:var(--text-main); font-size:12px;">Sign In</button>
                 <button class="btn btn-sm btn-outline" id="tabReg" onclick="switchAuthTab('reg')" style="border:none; background:transparent; color:var(--text-muted); font-size:12px;">Register</button>
                 <button class="btn btn-sm btn-outline" id="tabReset" onclick="switchAuthTab('reset')" style="border:none; background:transparent; color:var(--text-muted); font-size:12px;">Reset</button>
             </div>
@@ -731,21 +731,21 @@ footer { background: var(--bg-surface); color: var(--text-muted); padding: 70px 
         <div style="max-width:600px;margin:0 auto;">
             <div class="profile-card">
                 <div class="profile-avatar" id="profileInitials">U</div>
-                <h3 style="color:#FFF; font-size:18px;" id="userWelcomeText">Account Profile</h3>
+                <h3 style="color:var(--text-main); font-size:18px;" id="userWelcomeText">Account Profile</h3>
                 <p style="color:var(--text-muted); margin-bottom:16px; font-size:13.5px;" id="userEmailText">user@enterprise.com</p>
-                <button class="btn btn-sm btn-outline" style="color:var(--danger); border-color:rgba(239,68,68,0.3);" onclick="logout()">Sign Out</button>
+                <button class="btn btn-sm btn-outline" style="color:var(--danger); border-color:#FECACA;" onclick="logout()">Sign Out</button>
             </div>
 
             <div class="tracking-banner">
-                <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--text-muted);">Assigned Shipping Mark</div>
+                <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#94A3B8;">Assigned Shipping Mark</div>
                 <span class="code">
                     <span id="userMarkCode">GHOO1K-PENDING</span>
                     <button class="btn btn-sm btn-primary" style="margin-left: 12px; padding: 4px 12px; font-size: 12px;" onclick="copyShippingMark()">Copy</button>
                 </span>
-                <small style="opacity:0.8;display:block;margin-top:10px;font-size:12.5px;color:var(--text-muted);">Provide this exact code directly to your Chinese manufacturing suppliers.</small>
+                <small style="opacity:0.8;display:block;margin-top:10px;font-size:12.5px;color:#94A3B8;">Provide this exact code directly to your Chinese manufacturing suppliers.</small>
             </div>
             
-            <h3 style="color:#FFF;margin-bottom:16px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; font-size:16px;">Transaction & Payment Proof History</h3>
+            <h3 style="color:var(--text-main);margin-bottom:16px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; font-size:16px;">Transaction & Payment Proof History</h3>
             <div id="ordersList"></div>
         </div>
     </div>
@@ -784,19 +784,19 @@ footer { background: var(--bg-surface); color: var(--text-muted); padding: 70px 
         </div>
 
         <div id="acontentOrders" class="tab-content active">
-            <h3 style="color:#FFF;margin-bottom:12px;font-size:16px;">System Settlement Logs</h3>
+            <h3 style="color:var(--text-main);margin-bottom:12px;font-size:16px;">System Settlement Logs</h3>
             <div id="adminOrdersTable"></div>
         </div>
 
         <div id="acontentProofs" class="tab-content" style="display:none;">
-            <h3 style="color:#FFF;margin-bottom:12px;font-size:16px;">Submitted Payment Proofs for Verification</h3>
+            <h3 style="color:var(--text-main);margin-bottom:12px;font-size:16px;">Submitted Payment Proofs for Verification</h3>
             <div id="adminProofsTable"></div>
         </div>
 
         <div id="acontentProds" class="tab-content" style="display:none;">
             <div style="display:grid;grid-template-columns:1fr 2fr;gap:24px;align-items:start;">
                 <div class="form-box" style="margin:0;">
-                    <h3 style="color:#FFF;margin-bottom:16px;font-size:16px;">Publish Marketplace Listing</h3>
+                    <h3 style="color:var(--text-main);margin-bottom:16px;font-size:16px;">Publish Marketplace Listing</h3>
                     <form onsubmit="adminAddProduct(event)">
                         <div class="form-group">
                             <label>Product Designation</label>
@@ -831,14 +831,14 @@ footer { background: var(--bg-surface); color: var(--text-muted); padding: 70px 
                     </form>
                 </div>
                 <div>
-                    <h3 style="color:#FFF;margin-bottom:16px;font-size:16px;">Active Marketplace Inventory</h3>
+                    <h3 style="color:var(--text-main);margin-bottom:16px;font-size:16px;">Active Marketplace Inventory</h3>
                     <div id="adminProductsTable"></div>
                 </div>
             </div>
         </div>
 
         <div id="acontentUsers" class="tab-content" style="display:none;">
-            <h3 style="color:#FFF;margin-bottom:12px;font-size:16px;">Registered Client Directory</h3>
+            <h3 style="color:var(--text-main);margin-bottom:12px;font-size:16px;">Registered Client Directory</h3>
             <div id="adminUsersTable"></div>
         </div>
     </div>
@@ -1093,14 +1093,14 @@ function submitReview(e){
 }
 
 function switchAuthTab(type){
-    document.getElementById('tabLogin').style.background = type==='login' ? 'var(--bg-surface)' : 'transparent';
-    document.getElementById('tabLogin').style.color = type==='login' ? '#FFF' : 'var(--text-muted)';
+    document.getElementById('tabLogin').style.background = type==='login' ? '#FFF' : 'transparent';
+    document.getElementById('tabLogin').style.color = type==='login' ? 'var(--text-main)' : 'var(--text-muted)';
     
-    document.getElementById('tabReg').style.background = type==='reg' ? 'var(--bg-surface)' : 'transparent';
-    document.getElementById('tabReg').style.color = type==='reg' ? '#FFF' : 'var(--text-muted)';
+    document.getElementById('tabReg').style.background = type==='reg' ? '#FFF' : 'transparent';
+    document.getElementById('tabReg').style.color = type==='reg' ? 'var(--text-main)' : 'var(--text-muted)';
     
-    document.getElementById('tabReset').style.background = type==='reset' ? 'var(--bg-surface)' : 'transparent';
-    document.getElementById('tabReset').style.color = type==='reset' ? '#FFF' : 'var(--text-muted)';
+    document.getElementById('tabReset').style.background = type==='reset' ? '#FFF' : 'transparent';
+    document.getElementById('tabReset').style.color = type==='reset' ? 'var(--text-main)' : 'var(--text-muted)';
     
     document.getElementById('fLogin').style.display = type==='login' ? 'block' : 'none';
     document.getElementById('fReg').style.display = type==='reg' ? 'block' : 'none';
@@ -1327,16 +1327,16 @@ function updateCartUI(){
     container.innerHTML = cart.map(item => `
         <div class="cart-item">
             <div>
-                <strong style="color:#FFF;">${item.name}</strong><br>
+                <strong style="color:var(--text-main);">${item.name}</strong><br>
                 <span style="color:var(--text-muted);font-size:12px;">₵${item.priceGhs} x ${item.qty} = ₵${(item.priceGhs * item.qty).toFixed(2)}</span>
                 <div class="cart-controls">
                     <button class="cart-btn" onclick="changeQty(${item.id}, -1)">-</button>
-                    <span style="font-size:12px; font-weight:700; padding:0 4px; color:#FFF;">${item.qty}</span>
+                    <span style="font-size:12px; font-weight:700; padding:0 4px; color:var(--text-main);">${item.qty}</span>
                     <button class="cart-btn" onclick="changeQty(${item.id}, 1)">+</button>
-                    <button class="cart-btn" style="background:rgba(239,68,68,0.2); color:var(--danger); margin-left:6px;" onclick="removeFromCart(${item.id})" title="Remove">×</button>
+                    <button class="cart-btn" style="background:#FEF2F2; color:var(--danger); margin-left:6px;" onclick="removeFromCart(${item.id})" title="Remove">×</button>
                 </div>
             </div>
-            <span style="font-weight:700; font-family:'JetBrains Mono',monospace; color:#FFF;">₵${(item.priceGhs * item.qty).toFixed(2)}</span>
+            <span style="font-weight:700; font-family:'JetBrains Mono',monospace; color:var(--text-main);">₵${(item.priceGhs * item.qty).toFixed(2)}</span>
         </div>
     `).join('');
 }
@@ -1460,14 +1460,14 @@ function performTracking(){
     if(matches.length > 0){
         resultBox.innerHTML = matches.map(m => `
             <div style="background:var(--bg-surface); border:1px solid var(--border-color); padding:16px; border-radius:var(--radius-sm); margin-bottom:10px;">
-                <strong style="color:#FFF;">Mark / Reference: ${m.trackingMark || m.ref}</strong>
+                <strong style="color:var(--text-main);">Mark / Reference: ${m.trackingMark || m.ref}</strong>
                 <p style="font-size:13.5px; color:var(--text-muted);">Transaction ID: ${m.ref}</p>
-                <p style="font-size:13.5px; color:#FFF;">Status: <span style="font-weight:700;color:var(--success);">${m.status}</span></p>
-                <strong style="font-size:13.5px; font-family:'JetBrains Mono',monospace; color:#FFF;">Total Valuation: ₵${m.total.toFixed(2)}</strong>
+                <p style="font-size:13.5px; color:var(--text-main);">Status: <span style="font-weight:700;color:var(--success);">${m.status}</span></p>
+                <strong style="font-size:13.5px; font-family:'JetBrains Mono',monospace; color:var(--text-main);">Total Valuation: ₵${m.total.toFixed(2)}</strong>
             </div>
         `).join('');
     } else {
-        resultBox.innerHTML = '<div style="background:rgba(239,68,68,0.15);color:#F87171;padding:12px;border-radius:var(--radius-sm);text-align:center;font-size:13.5px; border:1px solid rgba(239,68,68,0.3);">No manifest records matched the supplied reference.</div>';
+        resultBox.innerHTML = '<div style="background:#FEF2F2;color:#991B1B;padding:12px;border-radius:var(--radius-sm);text-align:center;font-size:13.5px; border:1px solid #FECACA;">No manifest records matched the supplied reference.</div>';
     }
 }
 
@@ -1482,25 +1482,25 @@ function renderOrders(){
     let html = '';
     
     if(userOrders.length > 0){
-        html += `<h4 style="color:#FFF; font-size:14.5px; margin-bottom:10px;">Orders & Settlements</h4>`;
+        html += `<h4 style="color:var(--text-main); font-size:14.5px; margin-bottom:10px;">Orders & Settlements</h4>`;
         html += userOrders.map(o => `
             <div style="background:var(--bg-surface); border:1px solid var(--border-color); padding:16px; border-radius:var(--radius-sm); margin-bottom:12px;">
-                <strong style="color:#FFF;">Shipping Mark: ${o.trackingMark || user.trackingCode}</strong>
+                <strong style="color:var(--text-main);">Shipping Mark: ${o.trackingMark || user.trackingCode}</strong>
                 <p style="font-size:13.5px; color:var(--text-muted);">Reference: ${o.ref}</p>
-                <p style="font-size:13.5px; color:#FFF;">Status: <span style="font-weight:700;color:var(--accent-blue);">${o.status}</span></p>
-                <strong style="font-size:13.5px; font-family:'JetBrains Mono',monospace; color:#FFF;">Total Valuation: ₵${o.total.toFixed(2)}</strong>
+                <p style="font-size:13.5px; color:var(--text-main);">Status: <span style="font-weight:700;color:var(--accent-blue);">${o.status}</span></p>
+                <strong style="font-size:13.5px; font-family:'JetBrains Mono',monospace; color:var(--text-main);">Total Valuation: ₵${o.total.toFixed(2)}</strong>
             </div>
         `).join('');
     }
 
     if(userProofs.length > 0){
-        html += `<h4 style="color:#FFF; font-size:14.5px; margin:20px 0 10px;">Submitted Payment Proofs</h4>`;
+        html += `<h4 style="color:var(--text-main); font-size:14.5px; margin:20px 0 10px;">Submitted Payment Proofs</h4>`;
         html += userProofs.map(p => `
             <div style="background:var(--bg-surface); border:1px solid var(--border-color); padding:16px; border-radius:var(--radius-sm); margin-bottom:12px;">
-                <strong style="color:#FFF;">Tx ID: ${p.txId}</strong>
+                <strong style="color:var(--text-main);">Tx ID: ${p.txId}</strong>
                 <p style="font-size:13.5px; color:var(--text-muted);">Date: ${p.date}</p>
-                <p style="font-size:13.5px; color:#FFF;">Status: <span style="font-weight:700;color:var(--accent-gold);">${p.status}</span></p>
-                <p style="font-size:13.5px; font-family:'JetBrains Mono',monospace; color:#FFF; margin-top:4px;">Amount: ₵${p.amount.toFixed(2)}</p>
+                <p style="font-size:13.5px; color:var(--text-main);">Status: <span style="font-weight:700;color:var(--accent-blue);">${p.status}</span></p>
+                <p style="font-size:13.5px; font-family:'JetBrains Mono',monospace; color:var(--text-main); margin-top:4px;">Amount: ₵${p.amount.toFixed(2)}</p>
             </div>
         `).join('');
     }
@@ -1533,7 +1533,7 @@ async function renderAdmin(){
                     <td><strong>${p.name}</strong></td>
                     <td>${p.category}</td>
                     <td style="font-family:'JetBrains Mono',monospace;">₵${parseFloat(p.priceGhs).toFixed(2)}</td>
-                    <td><button class="btn btn-sm btn-outline" style="color:var(--danger); border-color:rgba(239,68,68,0.3);" onclick="adminDeleteProduct(${p.id})">Remove</button></td>
+                    <td><button class="btn btn-sm btn-outline" style="color:var(--danger); border-color:#FECACA;" onclick="adminDeleteProduct(${p.id})">Remove</button></td>
                 </tr>
             `).join('')}</tbody>
         </table>`;
@@ -1575,7 +1575,7 @@ async function renderAdmin(){
                     <td><strong>${u.name}</strong></td>
                     <td>${u.email}</td>
                     <td>${u.phone}</td>
-                    <td><code style="font-family:'JetBrains Mono',monospace; background:var(--bg-card); padding:2px 6px; border-radius:4px; color:#FFF;">${u.trackingCode}</code></td>
+                    <td><code style="font-family:'JetBrains Mono',monospace; background:#F1F5F9; padding:2px 6px; border-radius:4px; color:var(--text-main);">${u.trackingCode}</code></td>
                 </tr>
             `).join('')}</tbody>
         </table>`;
