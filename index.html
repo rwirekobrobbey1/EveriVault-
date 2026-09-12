@@ -6,6 +6,8 @@
 <title>EveriVault — China ↔ Ghana Shipping, Store & Paystack Portal</title>
 <!-- Paystack Inline JS SDK -->
 <script src="https://js.paystack.co/v1/inline.js"></script>
+<!-- Supabase JS Client CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--navy:#0A2463;--gold:#D4AF37;--sky:#0096FF;--green:#22C55E;--red:#EF4444;--light:#F8FAFC;--shadow:0 8px 24px rgba(10,36,99,.1);}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI','Roboto',sans-serif;}
@@ -48,16 +50,16 @@ h2{text-align:center;font-size:clamp(20px,4vw,30px);color:var(--navy);margin-bot
 h2::after{content:'';display:block;width:60px;height:4px;background:var(--gold);margin:10px auto 0;border-radius:2px;}
 .subtitle{text-align:center;color:#64748B;margin-bottom:30px;font-size:15px;max-width:600px;margin-left:auto;margin-right:auto;}
 
+.category-bar{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;margin-bottom:20px;scrollbar-width:thin;}
+.cat-chip{background:#E2E8F0;color:#334155;padding:8px 16px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;transition:.2s;}
+.cat-chip.active,.cat-chip:hover{background:var(--navy);color:#fff;}
+
 .tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;border-bottom:2px solid #E2E8F0;}
 .tab{padding:10px 16px;border-radius:10px 10px 0 0;cursor:pointer;font-weight:700;color:#64748B;border-bottom:3px solid transparent;transition:all 0.2s ease;}
 .tab.active{color:var(--navy);border-bottom-color:var(--gold);background:rgba(212,175,55,.08);}
 .tab-content{display:none;}
 .tab-content.active{display:block !important;animation:fadeIn .3s ease;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
-
-.category-bar{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;margin-bottom:20px;scrollbar-width:thin;}
-.cat-chip{background:#E2E8F0;color:#334155;padding:8px 16px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;transition:.2s;}
-.cat-chip.active,.cat-chip:hover{background:var(--navy);color:#fff;}
 
 .form-box{max-width:550px;margin:0 auto;background:#fff;padding:clamp(20px,5vw,30px);border-radius:16px;box-shadow:var(--shadow);}
 .form-group{margin-bottom:16px;}
@@ -86,7 +88,6 @@ input:focus,select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 
 .cart-item{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #E2E8F0;}
 .order-item-card{background:#fff;padding:16px;border-radius:12px;box-shadow:var(--shadow);margin-bottom:12px;border-left:4px solid var(--gold);}
 
-/* ADMIN STYLES */
 .admin-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:30px;}
 .stat-card{background:#fff;padding:18px;border-radius:12px;box-shadow:var(--shadow);text-align:center;}
 .stat-card h4{color:#64748B;font-size:13px;text-transform:uppercase;margin-bottom:6px;}
@@ -179,7 +180,6 @@ footer h3{color:var(--gold);margin-bottom:12px;}
         <h2>🛒 Direct China Store</h2>
         <p class="subtitle">Browse categories or filter items to buy directly with instant Mobile Money payment</p>
         
-        <!-- CATEGORY CHIPS -->
         <div class="category-bar" id="categoryBar">
             <div class="cat-chip active" onclick="filterCategory('All', this)">✨ All Items</div>
             <div class="cat-chip" onclick="filterCategory('Skin Care', this)">🧴 Skin Care</div>
@@ -282,13 +282,11 @@ footer h3{color:var(--gold);margin-bottom:12px;}
         <p class="subtitle">Include your auto-generated Tracking Code / Shipping Mark on all packages sent to these addresses</p>
         
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;max-width:1000px;margin:0 auto;">
-            
             <div style="background:#fff;padding:24px;border-radius:16px;box-shadow:var(--shadow);border-top:5px solid var(--sky);">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
                     <h3 style="color:var(--navy);font-size:20px;">✈️ Air Freight / 空运仓库</h3>
                     <span style="background:#E0F2FE;color:var(--sky);font-weight:800;padding:6px 12px;border-radius:20px;font-size:15px;">$17 / kg</span>
                 </div>
-                
                 <div style="margin-bottom:20px;">
                     <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇬🇧 English Address</strong>
                     <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
@@ -298,7 +296,6 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                         <strong>Zip Code:</strong> 510400
                     </div>
                 </div>
-
                 <div>
                     <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇨🇳 Chinese Address (中文地址)</strong>
                     <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
@@ -315,7 +312,6 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                     <h3 style="color:var(--navy);font-size:20px;">🚢 Sea Freight / 海运仓库</h3>
                     <span style="background:#FEF3C7;color:#B45309;font-weight:800;padding:6px 12px;border-radius:20px;font-size:15px;">$260 / m³</span>
                 </div>
-
                 <div style="margin-bottom:20px;">
                     <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇬🇧 English Address</strong>
                     <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
@@ -325,7 +321,6 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                         <strong>Zip Code:</strong> 528200
                     </div>
                 </div>
-
                 <div>
                     <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇨🇳 Chinese Address (中文地址)</strong>
                     <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
@@ -336,7 +331,6 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </section>
@@ -423,12 +417,11 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                 <div id="resetMsg" class="msg"></div>
                 <button type="submit" class="btn btn-gold btn-block">Update Password</button>
             </form>
-
         </div>
     </div>
 </section>
 
-<!-- MY ORDERS -->
+<!-- PROFILE & ORDERS -->
 <section id="p-orders" class="page">
     <div class="container">
         <h2>👤 Account Profile & Orders</h2>
@@ -440,7 +433,6 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                 <span class="code" id="userMarkCode">EV-GH-XXXXXX</span>
                 <small style="opacity:.8;display:block;margin-top:6px;">Give this code to China suppliers to mark on all your packages!</small>
             </div>
-
             <h3 style="color:var(--navy);margin-bottom:15px;">Transaction History</h3>
             <div id="ordersList"></div>
         </div>
@@ -483,7 +475,6 @@ footer h3{color:var(--gold);margin-bottom:12px;}
             <div id="adminOrdersTable"></div>
         </div>
 
-        <!-- ADD PRODUCT FORM WITH REAL IMAGES & SECTIONS -->
         <div id="acontentProds" class="tab-content">
             <div style="display:grid;grid-template-columns:1fr 2fr;gap:20px;align-items:start;">
                 <div class="form-box" style="margin:0;">
@@ -511,12 +502,11 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                             <input type="number" id="npPrice" step="0.01" placeholder="e.g. 150" required>
                         </div>
                         <div class="form-group">
-                            <label>Image URL (Direct Web/Unsplash Image Link)</label>
+                            <label>Image URL</label>
                             <input type="url" id="npImageUrl" placeholder="https://images.unsplash.com/photo-..." required>
-                            <small style="color:#64748B;display:block;margin-top:4px;">Paste any direct product image link here.</small>
                         </div>
                         <div class="form-group">
-                            <label>Product Tag / Badge</label>
+                            <label>Product Tag</label>
                             <input type="text" id="npTag" placeholder="e.g. Hot Seller, Air Freight, New" value="New Arrival" required>
                         </div>
                         <button class="btn btn-green btn-block">Upload & Publish Product</button>
@@ -547,11 +537,11 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 <script>
 const PAYSTACK_PUBLIC_KEY = 'pk_test_YOUR_PAYSTACK_PUBLIC_KEY';
 const MERCHANT_MOMO_NUMBER = '0543155883';
+const SMS_CONFIG = { apiKey: 'YOUR_ARKESEL_API_KEY', senderId: 'EveriVault' };
 
-const SMS_CONFIG = {
-    apiKey: 'YOUR_ARKESEL_API_KEY', 
-    senderId: 'EveriVault'           
-};
+const SUPABASE_URL = 'https://YOUR_SUPABASE_PROJECT_ID.supabase.co';
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const db = (typeof supabase !== 'undefined') ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
 let currentPage = 'home';
 let activeCategoryFilter = 'All';
@@ -562,7 +552,6 @@ function generateTrackingCode(){
     return 'EV-GH-' + Math.floor(100000 + Math.random() * 900000);
 }
 
-// DEFAULT STORE PRODUCTS WITH REAL UNSPASH IMAGES & SPECIFIC CATEGORIES
 const defaultProducts = [
     { id: 1, name: "Hydrating Facial Vitamin C Serum", category: "Skin Care", priceGhs: 150, imageUrl: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80", tag: "Hot Seller" },
     { id: 2, name: "Luxury Designer Leather Handbag", category: "Bags", priceGhs: 450, imageUrl: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80", tag: "Trending" },
@@ -573,17 +562,21 @@ const defaultProducts = [
     { id: 7, name: "Digital Touchscreen Air Fryer 5.5L", category: "Home Appliances", priceGhs: 750, imageUrl: "https://images.unsplash.com/photo-1585515320310-259814833e62?auto=format&fit=crop&w=600&q=80", tag: "Home Essential" }
 ];
 
-function getProducts(){ return JSON.parse(localStorage.getItem('evProducts')) || defaultProducts; }
-function saveProducts(prods){ localStorage.setItem('evProducts', JSON.stringify(prods)); }
-
-if(!localStorage.getItem('evProducts')){ saveProducts(defaultProducts); }
+async function fetchProductsFromStore(){
+    if(db){
+        try {
+            const { data, error } = await db.from('products').select('*').order('created_at', { ascending: false });
+            if(!error && data.length > 0) return data.map(p => ({ id: p.id, name: p.name, category: p.category, priceGhs: p.price_ghs, imageUrl: p.image_url, tag: p.tag }));
+        } catch(e){ console.warn('Supabase offline, using local storage.'); }
+    }
+    return JSON.parse(localStorage.getItem('evProducts')) || defaultProducts;
+}
 
 function go(page){
     if(page === 'admin' && (!user || !user.isAdmin)){
         alert('⛔ Access Denied! Administrators only.');
         return false;
     }
-
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
     document.querySelectorAll('.plink').forEach(l=>l.classList.remove('active'));
     document.getElementById('p-'+page).classList.add('active');
@@ -596,7 +589,7 @@ function go(page){
     return false;
 }
 
-function toggleMenu(){document.getElementById('menu').classList.toggle('active');}
+function toggleMenu(){ document.getElementById('menu').classList.toggle('active'); }
 
 function filterCategory(cat, chipElement){
     activeCategoryFilter = cat;
@@ -609,39 +602,26 @@ function switchAuthTab(type){
     document.getElementById('tabLogin').classList.toggle('active', type==='login');
     document.getElementById('tabReg').classList.toggle('active', type==='reg');
     document.getElementById('tabReset').classList.toggle('active', type==='reset');
-    
     document.getElementById('fLogin').style.display = type==='login' ? 'block' : 'none';
     document.getElementById('fReg').style.display = type==='reg' ? 'block' : 'none';
     document.getElementById('fReset').style.display = type==='reset' ? 'block' : 'none';
-
-    document.getElementById('lmsg').className = 'msg';
-    document.getElementById('lmsg').textContent = '';
-    document.getElementById('rmsg').className = 'msg';
-    document.getElementById('rmsg').textContent = '';
-    document.getElementById('resetMsg').className = 'msg';
-    document.getElementById('resetMsg').textContent = '';
 }
 
 async function sendWelcomeSMS(phone, trackingCode, name) {
     const formattedPhone = phone.startsWith('0') ? '233' + phone.slice(1) : phone;
-    const message = `Hello ${name}, welcome to EveriVault! Your unique Shipping Mark & Tracking Code is: ${trackingCode}. Use this mark on all packages sent to our China warehouses.`;
-
+    const message = `Hello ${name}, welcome to EveriVault! Your unique Shipping Mark & Tracking Code is: ${trackingCode}.`;
     try {
-        const response = await fetch(`https://sms.arkesel.com/sms/api?action=send-sms&api_key=${SMS_CONFIG.apiKey}&to=${formattedPhone}&from=${SMS_CONFIG.senderId}&sms=${encodeURIComponent(message)}`);
-        const result = await response.json();
-        console.log('SMS Dispatch Response:', result);
-    } catch (error) {
-        console.error('SMS send error:', error);
-    }
+        await fetch(`https://sms.arkesel.com/sms/api?action=send-sms&api_key=${SMS_CONFIG.apiKey}&to=${formattedPhone}&from=${SMS_CONFIG.senderId}&sms=${encodeURIComponent(message)}`);
+    } catch (e) { console.error('SMS Error:', e); }
 }
 
 function generateWhatsAppAlertUrl(phone, trackingCode, name) {
     const formattedPhone = phone.startsWith('0') ? '233' + phone.slice(1) : phone;
-    const message = `*EveriVault Shipping Mark Confirmation*%0A%0AHello ${encodeURIComponent(name)}, your registration is complete!%0A%0A📦 *Your Shipping Mark / Tracking Code:* \`${trackingCode}\`%0A%0APlease display this mark on all shipments to our Guangzhou & Foshan warehouses.`;
+    const message = `*EveriVault Shipping Mark Confirmation*%0A%0AHello ${encodeURIComponent(name)}, your registration is complete!%0A%0A📦 *Your Shipping Mark:* \`${trackingCode}\``;
     return `https://wa.me/${formattedPhone}?text=${message}`;
 }
 
-function doReg(e){
+async function doReg(e){
     e.preventDefault();
     const name = document.getElementById('rn').value.trim();
     const email = document.getElementById('rem').value.trim().toLowerCase();
@@ -651,46 +631,38 @@ function doReg(e){
     const msg = document.getElementById('rmsg');
 
     if(pw !== pw2){ msg.className = 'msg err'; msg.textContent = '❌ Passwords do not match!'; return; }
-
-    let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
-    if(users.find(u => u.email === email)){ msg.className = 'msg err'; msg.textContent = '❌ Account already exists!'; return; }
-
     const assignedCode = generateTrackingCode();
 
-    const newUser = { name, email, phone, password: pw, trackingCode: assignedCode, isAdmin: false, createdAt: new Date().toISOString() };
-    users.push(newUser);
+    if(db){
+        const { error } = await db.from('users').insert([{ name, email, phone, password: pw, tracking_code: assignedCode, is_admin: false }]);
+        if(error){ msg.className = 'msg err'; msg.textContent = '❌ Registration failed: ' + error.message; return; }
+    }
+
+    let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
+    users.push({ name, email, phone, password: pw, trackingCode: assignedCode, isAdmin: false });
     localStorage.setItem('evUsers', JSON.stringify(users));
 
-    user = { name: newUser.name, email: newUser.email, phone: newUser.phone, trackingCode: newUser.trackingCode, isAdmin: false };
+    user = { name, email, phone, trackingCode: assignedCode, isAdmin: false };
     localStorage.setItem('evUser', JSON.stringify(user));
 
     sendWelcomeSMS(phone, assignedCode, name);
-
     const waUrl = generateWhatsAppAlertUrl(phone, assignedCode, name);
 
     msg.className = 'msg ok'; 
-    msg.innerHTML = `
-        ✅ Account created successfully!<br>
-        📦 <strong>Your Tracking Mark: ${assignedCode}</strong><br><br>
-        <a href="${waUrl}" target="_blank" class="btn btn-green btn-sm btn-block" style="text-decoration:none;display:inline-block;text-align:center;">
-            📱 Push Copy to My WhatsApp
-        </a>
-    `;
-
+    msg.innerHTML = `✅ Account created!<br>📦 <strong>Tracking Mark: ${assignedCode}</strong><br><br><a href="${waUrl}" target="_blank" class="btn btn-green btn-sm btn-block">📱 Push to WhatsApp</a>`;
     updateAuthUI();
-    setTimeout(() => { go('orders'); }, 3000);
+    setTimeout(() => { go('orders'); }, 2500);
 }
 
-function doLogin(e){
+async function doLogin(e){
     e.preventDefault();
     const email = document.getElementById('lem').value.trim().toLowerCase();
     const pw = document.getElementById('lpw').value;
     const msg = document.getElementById('lmsg');
 
     const adminPassword = localStorage.getItem('evAdminPassword') || 'admin123';
-
     if(email === 'admin@everivault.com' && pw === adminPassword){
-        user = { name: 'Super Admin', email: email, phone: '0543155883', trackingCode: 'ADMIN-001', isAdmin: true };
+        user = { name: 'Super Admin', email, phone: '0543155883', trackingCode: 'ADMIN-001', isAdmin: true };
         localStorage.setItem('evUser', JSON.stringify(user));
         msg.className = 'msg ok'; msg.textContent = '✅ Administrator Logged In!';
         updateAuthUI();
@@ -698,11 +670,18 @@ function doLogin(e){
         return;
     }
 
-    let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
-    const found = users.find(u => u.email === email && u.password === pw);
+    let found = null;
+    if(db){
+        const { data } = await db.from('users').select('*').eq('email', email).eq('password', pw);
+        if(data && data.length > 0) found = { name: data[0].name, email: data[0].email, phone: data[0].phone, trackingCode: data[0].tracking_code, isAdmin: data[0].is_admin };
+    }
+    if(!found){
+        let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
+        found = users.find(u => u.email === email && u.password === pw);
+    }
 
     if(found){
-        user = { name: found.name, email: found.email, phone: found.phone, trackingCode: found.trackingCode || generateTrackingCode(), isAdmin: !!found.isAdmin };
+        user = found;
         localStorage.setItem('evUser', JSON.stringify(user));
         msg.className = 'msg ok'; msg.textContent = `✅ Welcome back, ${found.name}!`;
         updateAuthUI();
@@ -712,48 +691,38 @@ function doLogin(e){
     }
 }
 
-function doResetPassword(e){
+async function doResetPassword(e){
     e.preventDefault();
     const identifier = document.getElementById('resetId').value.trim().toLowerCase();
     const newPw1 = document.getElementById('resetPw1').value;
     const newPw2 = document.getElementById('resetPw2').value;
     const msg = document.getElementById('resetMsg');
 
-    if(newPw1 !== newPw2){
-        msg.className = 'msg err';
-        msg.textContent = '❌ Passwords do not match!';
-        return;
-    }
+    if(newPw1 !== newPw2){ msg.className = 'msg err'; msg.textContent = '❌ Passwords do not match!'; return; }
 
     if(identifier === 'admin@everivault.com' || identifier === 'admin-001'){
         localStorage.setItem('evAdminPassword', newPw1);
-        msg.className = 'msg ok';
-        msg.textContent = '✅ Administrator password updated successfully!';
+        msg.className = 'msg ok'; msg.textContent = '✅ Admin password updated!';
         setTimeout(() => switchAuthTab('login'), 2000);
         return;
     }
 
-    let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
-    const userIndex = users.findIndex(u => 
-        u.email.toLowerCase() === identifier || 
-        (u.trackingCode && u.trackingCode.toLowerCase() === identifier)
-    );
+    let updated = false;
+    if(db){
+        const { data } = await db.from('users').update({ password: newPw1 }).or(`email.eq.${identifier},tracking_code.ilike.${identifier}`).select();
+        if(data && data.length > 0) updated = true;
+    }
+    if(!updated){
+        let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
+        const idx = users.findIndex(u => u.email.toLowerCase() === identifier || (u.trackingCode && u.trackingCode.toLowerCase() === identifier));
+        if(idx !== -1){ users[idx].password = newPw1; localStorage.setItem('evUsers', JSON.stringify(users)); updated = true; }
+    }
 
-    if(userIndex !== -1){
-        users[userIndex].password = newPw1;
-        localStorage.setItem('evUsers', JSON.stringify(users));
-
-        if(user && user.email.toLowerCase() === users[userIndex].email.toLowerCase()){
-            user.password = newPw1;
-            localStorage.setItem('evUser', JSON.stringify(user));
-        }
-
-        msg.className = 'msg ok';
-        msg.textContent = '✅ Password updated successfully! Redirecting to sign in...';
+    if(updated){
+        msg.className = 'msg ok'; msg.textContent = '✅ Password updated successfully!';
         setTimeout(() => switchAuthTab('login'), 2000);
     } else {
-        msg.className = 'msg err';
-        msg.textContent = '❌ No account matches that Email or Shipping Mark Code!';
+        msg.className = 'msg err'; msg.textContent = '❌ No record matched that identifier!';
     }
 }
 
@@ -761,7 +730,6 @@ function logout(){
     localStorage.removeItem('evUser');
     user = null;
     updateAuthUI();
-    alert('🔒 Logged out.');
     go('home');
 }
 
@@ -780,24 +748,16 @@ function updateAuthUI(){
         document.getElementById('payEmail').value = user.email;
         document.getElementById('payPhone').value = user.phone;
         document.getElementById('payRef').value = user.trackingCode || '';
-
-        document.querySelectorAll('.user-mark-display').forEach(el => {
-            el.textContent = user.trackingCode || 'Your Shipping Mark';
-        });
+        document.querySelectorAll('.user-mark-display').forEach(el => el.textContent = user.trackingCode || 'Your Shipping Mark');
     } else {
-        document.querySelectorAll('.user-mark-display').forEach(el => {
-            el.textContent = 'Your Shipping Mark';
-        });
+        document.querySelectorAll('.user-mark-display').forEach(el => el.textContent = 'Your Shipping Mark');
     }
 }
 
-function renderProducts(){
+async function renderProducts(){
     const grid = document.getElementById('productGrid');
-    const prods = getProducts();
-    
-    const filtered = activeCategoryFilter === 'All' 
-        ? prods 
-        : prods.filter(p => p.category === activeCategoryFilter);
+    const prods = await fetchProductsFromStore();
+    const filtered = activeCategoryFilter === 'All' ? prods : prods.filter(p => p.category === activeCategoryFilter);
 
     if(filtered.length === 0){
         grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:40px;color:#64748B;">No products found in this section.</p>';
@@ -821,8 +781,8 @@ function renderProducts(){
     updateCartUI();
 }
 
-function addToCart(id){
-    const prods = getProducts();
+async function addToCart(id){
+    const prods = await fetchProductsFromStore();
     const prod = prods.find(p => p.id === id);
     const existing = cart.find(item => item.id === id);
     if(existing){ existing.qty += 1; } else { cart.push({ ...prod, qty: 1 }); }
@@ -864,13 +824,7 @@ function launchPaystackPopup(email, amountGhs, reference, customerPhone, onSucce
         currency: 'GHS',
         channels: ['mobile_money'],
         ref: 'EV-' + Math.floor((Math.random() * 10000000) + 1),
-        metadata: {
-            custom_fields: [
-                { display_name: "Merchant MoMo", variable_name: "merchant_momo", value: MERCHANT_MOMO_NUMBER },
-                { display_name: "Customer Phone", variable_name: "customer_phone", value: customerPhone },
-                { display_name: "Tracking Mark / Ref", variable_name: "payment_ref", value: reference }
-            ]
-        },
+        metadata: { custom_fields: [{ display_name: "Tracking Mark", variable_name: "payment_ref", value: reference }] },
         callback: function(response) {
             alert('✅ Payment Successful!\nTxRef: ' + response.reference);
             if(onSuccessCallback) onSuccessCallback(response);
@@ -880,7 +834,10 @@ function launchPaystackPopup(email, amountGhs, reference, customerPhone, onSucce
     handler.openIframe();
 }
 
-function recordGlobalOrder(orderObj){
+async function recordGlobalOrder(orderObj){
+    if(db){
+        await db.from('orders').insert([{ ref: orderObj.ref, tracking_mark: orderObj.trackingMark, user_email: orderObj.userEmail, user_name: orderObj.userName, user_phone: orderObj.userPhone, total_ghs: orderObj.total, status: orderObj.status, items: orderObj.items }]);
+    }
     let globalOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
     globalOrders.unshift(orderObj);
     localStorage.setItem('evAllOrders', JSON.stringify(globalOrders));
@@ -898,45 +855,21 @@ function triggerDirectPaystack(e){
     const ref = document.getElementById('payRef').value;
     const amount = parseFloat(document.getElementById('payAmount').value);
 
-    if(!amount || amount <= 0){ alert('Please enter a valid amount.'); return; }
-
     launchPaystackPopup(email, amount, ref + ' (' + name + ')', phone, function(resp){
-        recordGlobalOrder({
-            ref: resp.reference,
-            trackingMark: ref,
-            userEmail: email,
-            userName: name,
-            userPhone: phone,
-            date: new Date().toLocaleDateString(),
-            items: [{ name: 'Direct MoMo Fee (' + ref + ')', qty: 1, priceGhs: amount }],
-            total: amount,
-            status: '✅ Paid'
-        });
+        recordGlobalOrder({ ref: resp.reference, trackingMark: ref, userEmail: email, userName: name, userPhone: phone, date: new Date().toLocaleDateString(), items: [{ name: 'MoMo Payment (' + ref + ')', qty: 1, priceGhs: amount }], total: amount, status: '✅ Paid' });
         go('orders');
     });
 }
 
 function checkoutWithPaystack(){
     if(cart.length === 0){ alert('Cart is empty!'); return; }
-    
     const totalGhs = cart.reduce((sum, item) => sum + (item.priceGhs * item.qty), 0);
-    const email = user ? user.email : prompt('Enter your email address for receipt:');
+    const email = user ? user.email : prompt('Enter your email address:');
     if(!email) return;
 
     const userMark = user ? user.trackingCode : 'GUEST-MARK';
-
-    launchPaystackPopup(email, totalGhs, 'Store Purchase - ' + userMark, MERCHANT_MOMO_NUMBER, function(resp){
-        recordGlobalOrder({
-            ref: resp.reference,
-            trackingMark: userMark,
-            userEmail: email,
-            userName: user ? user.name : 'Guest Customer',
-            userPhone: user ? user.phone : MERCHANT_MOMO_NUMBER,
-            date: new Date().toLocaleDateString(),
-            items: [...cart],
-            total: totalGhs,
-            status: '✅ Paid'
-        });
+    launchPaystackPopup(email, totalGhs, 'Store Order - ' + userMark, MERCHANT_MOMO_NUMBER, function(resp){
+        recordGlobalOrder({ ref: resp.reference, trackingMark: userMark, userEmail: email, userName: user ? user.name : 'Guest', userPhone: user ? user.phone : MERCHANT_MOMO_NUMBER, date: new Date().toLocaleDateString(), items: [...cart], total: totalGhs, status: '✅ Paid' });
         cart = [];
         localStorage.removeItem('evCart');
         updateCartUI();
@@ -952,7 +885,7 @@ function runCalc(){
 function performTracking(){
     const query = document.getElementById('trackInput').value.trim().toUpperCase();
     const resultBox = document.getElementById('trackResult');
-    if(!query){ alert('Please enter a tracking code or mark.'); return; }
+    if(!query){ alert('Please enter a tracking code.'); return; }
 
     const allOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
     const matches = allOrders.filter(o => o.ref.toUpperCase().includes(query) || (o.trackingMark && o.trackingMark.toUpperCase().includes(query)));
@@ -960,36 +893,28 @@ function performTracking(){
     if(matches.length > 0){
         resultBox.innerHTML = matches.map(m => `
             <div class="order-item-card">
-                <strong>Tracking Mark / Ref: ${m.trackingMark || m.ref}</strong>
+                <strong>Mark: ${m.trackingMark || m.ref}</strong>
                 <p>Tx ID: ${m.ref}</p>
-                <p>Date: ${m.date}</p>
                 <p>Status: <span style="font-weight:bold;color:var(--green);">${m.status}</span></p>
-                <strong>Total Amount: ₵${m.total.toFixed(2)}</strong>
+                <strong>Total: ₵${m.total.toFixed(2)}</strong>
             </div>
         `).join('');
     } else {
-        resultBox.innerHTML = '<div style="background:#FEF2F2;color:#B91C1C;padding:12px;border-radius:10px;text-align:center;">❌ No shipment records found for this code.</div>';
+        resultBox.innerHTML = '<div style="background:#FEF2F2;color:#B91C1C;padding:12px;border-radius:10px;text-align:center;">❌ No shipment records found.</div>';
     }
 }
 
 function renderOrders(){
     const list = document.getElementById('ordersList');
-    if(!user){
-        list.innerHTML = '<p style="text-align:center;padding:30px;">Please <a href="#" onclick="go(\'auth\')">log in</a> to view your orders.</p>';
-        return;
-    }
+    if(!user){ list.innerHTML = '<p style="text-align:center;padding:30px;">Please log in to view orders.</p>'; return; }
     const userOrders = JSON.parse(localStorage.getItem('evOrders_' + user.email) || '[]');
-    if(userOrders.length === 0){
-        list.innerHTML = '<p style="text-align:center;padding:30px;">No completed payments found.</p>';
-        return;
-    }
+    if(userOrders.length === 0){ list.innerHTML = '<p style="text-align:center;padding:30px;">No completed orders found.</p>'; return; }
     list.innerHTML = userOrders.map(o => `
         <div class="order-item-card">
             <strong>Shipping Mark: ${o.trackingMark || user.trackingCode}</strong>
             <p>Tx Ref: ${o.ref}</p>
-            <p>Date: ${o.date}</p>
             <p>Status: <span style="font-weight:bold;color:var(--navy);">${o.status}</span></p>
-            <strong>Total Amount: ₵${o.total.toFixed(2)}</strong>
+            <strong>Total: ₵${o.total.toFixed(2)}</strong>
         </div>
     `).join('');
 }
@@ -1003,108 +928,32 @@ function switchAdminTab(type){
     document.getElementById('acontentUsers').style.display = type==='users' ? 'block' : 'none';
 }
 
-function renderAdmin(){
+async function renderAdmin(){
     const allOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
     const allUsers = JSON.parse(localStorage.getItem('evUsers') || '[]');
-    const prods = getProducts();
+    const prods = await fetchProductsFromStore();
 
-    const totalRev = allOrders.reduce((sum, o) => sum + o.total, 0);
-
-    document.getElementById('admRev').textContent = '₵' + totalRev.toFixed(2);
+    document.getElementById('admRev').textContent = '₵' + allOrders.reduce((s, o) => s + o.total, 0).toFixed(2);
     document.getElementById('admOrders').textContent = allOrders.length;
     document.getElementById('admUsers').textContent = allUsers.length;
     document.getElementById('admProducts').textContent = prods.length;
 
-    const ordersTable = document.getElementById('adminOrdersTable');
-    if(allOrders.length === 0){
-        ordersTable.innerHTML = '<p style="padding:20px;text-align:center;color:#64748B;">No client orders logged yet.</p>';
-    } else {
-        ordersTable.innerHTML = `
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Ref / Mark</th>
-                        <th>Client</th>
-                        <th>Contact</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${allOrders.map(o => `
-                        <tr>
-                            <td><strong>${o.trackingMark || 'N/A'}</strong><br><small>${o.ref}</small></td>
-                            <td>${o.userName}<br><small>${o.userEmail}</small></td>
-                            <td>${o.userPhone}</td>
-                            <td>₵${o.total.toFixed(2)}</td>
-                            <td><span style="color:var(--green);font-weight:bold;">${o.status}</span></td>
-                            <td>
-                                <button class="btn btn-sm btn-gold" onclick="updateOrderStatus('${o.ref}')">Change Status</button>
-                            </td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            </table>
-        `;
-    }
-
-    const prodsTable = document.getElementById('adminProductsTable');
-    prodsTable.innerHTML = `
+    document.getElementById('adminProductsTable').innerHTML = `
         <table class="data-table">
-            <thead>
+            <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Action</th></tr></thead>
+            <tbody>${prods.map(p => `
                 <tr>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                    <th>Action</th>
+                    <td><img src="${p.imageUrl}" class="tbl-thumb" onerror="this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?auto=format&fit=crop&w=600&q=80'"></td>
+                    <td><strong>${p.name}</strong></td>
+                    <td>${p.category}</td>
+                    <td>₵${parseFloat(p.priceGhs).toFixed(2)}</td>
+                    <td><button class="btn btn-sm btn-red" onclick="adminDeleteProduct(${p.id})">🗑️ Delete</button></td>
                 </tr>
-            </thead>
-            <tbody>
-                ${prods.map(p => `
-                    <tr>
-                        <td><img src="${p.imageUrl}" class="tbl-thumb" onerror="this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?auto=format&fit=crop&w=600&q=80'"></td>
-                        <td><strong>${p.name}</strong><br><small>${p.tag}</small></td>
-                        <td><span style="background:#E2E8F0;padding:2px 8px;border-radius:10px;font-size:12px;font-weight:700;">${p.category || 'General'}</span></td>
-                        <td>₵${parseFloat(p.priceGhs).toFixed(2)}</td>
-                        <td><button class="btn btn-sm btn-red" onclick="adminDeleteProduct(${p.id})">🗑️ Delete</button></td>
-                    </tr>
-                `).join('')}
-            </tbody>
-        </table>
-    `;
-
-    const usersTable = document.getElementById('adminUsersTable');
-    if(allUsers.length === 0){
-        usersTable.innerHTML = '<p style="padding:20px;text-align:center;color:#64748B;">No registered clients found.</p>';
-    } else {
-        usersTable.innerHTML = `
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Assigned Tracking Mark</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${allUsers.map(u => `
-                        <tr>
-                            <td><strong style="color:var(--navy);">${u.trackingCode || 'EV-GH-NONE'}</strong></td>
-                            <td><strong>${u.name}</strong></td>
-                            <td>${u.email}</td>
-                            <td>${u.phone}</td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            </table>
-        `;
-    }
+            `).join('')}</tbody>
+        </table>`;
 }
 
-function adminAddProduct(e){
+async function adminAddProduct(e){
     e.preventDefault();
     const name = document.getElementById('npName').value.trim();
     const category = document.getElementById('npCategory').value;
@@ -1112,45 +961,24 @@ function adminAddProduct(e){
     const imageUrl = document.getElementById('npImageUrl').value.trim();
     const tag = document.getElementById('npTag').value.trim();
 
-    let prods = getProducts();
-    const newProd = { id: Date.now(), name, category, priceGhs: price, imageUrl, tag };
-    prods.push(newProd);
-    saveProducts(prods);
+    if(db){ await db.from('products').insert([{ name, category, price_ghs: price, image_url: imageUrl, tag }]); }
+    let prods = JSON.parse(localStorage.getItem('evProducts') || '[]');
+    prods.push({ id: Date.now(), name, category, priceGhs: price, imageUrl, tag });
+    localStorage.setItem('evProducts', JSON.stringify(prods));
 
-    alert('✅ Product added successfully!');
+    alert('✅ Product added!');
     e.target.reset();
     renderAdmin();
     renderProducts();
 }
 
-function adminDeleteProduct(id){
-    if(!confirm('Are you sure you want to delete this product?')) return;
-    let prods = getProducts().filter(p => p.id !== id);
-    saveProducts(prods);
+async function adminDeleteProduct(id){
+    if(!confirm('Delete this product?')) return;
+    if(db){ await db.from('products').delete().eq('id', id); }
+    let prods = (JSON.parse(localStorage.getItem('evProducts')) || defaultProducts).filter(p => p.id !== id);
+    localStorage.setItem('evProducts', JSON.stringify(prods));
     renderAdmin();
     renderProducts();
-}
-
-function updateOrderStatus(ref){
-    const newStatus = prompt('Enter new order status (e.g. Received at Guangzhou, In Transit, Arrived Ghana, Ready for Pickup):');
-    if(!newStatus) return;
-
-    let allOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
-    let found = allOrders.find(o => o.ref === ref);
-    if(found){
-        found.status = newStatus;
-        localStorage.setItem('evAllOrders', JSON.stringify(allOrders));
-
-        let userOrders = JSON.parse(localStorage.getItem('evOrders_' + found.userEmail) || '[]');
-        let uFound = userOrders.find(o => o.ref === ref);
-        if(uFound){
-            uFound.status = newStatus;
-            localStorage.setItem('evOrders_' + found.userEmail, JSON.stringify(userOrders));
-        }
-
-        renderAdmin();
-        alert('✅ Order status updated!');
-    }
 }
 
 updateAuthUI();
