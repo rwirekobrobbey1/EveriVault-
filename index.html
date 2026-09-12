@@ -186,7 +186,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 </nav>
 
 <!-- FLOATING WHATSAPP BUTTON -->
-<a href="https://wa.me/233543155883?text=Hello%20EveriVault,%20I%20need%20help%20with%20shipping." target="_blank" class="whatsapp-float" title="Chat on WhatsApp">💬</a>
+<a href="https://wa.me/13095194647?text=Hello%20EveriVault,%20I%20need%20help%20with%20shipping." target="_blank" class="whatsapp-float" title="Chat on WhatsApp">💬</a>
 
 <!-- HOME / ADVERTISING LANDING PAGE -->
 <section id="p-home" class="page active" style="padding: 0;">
@@ -673,7 +673,6 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                             <label>Price (GHS ₵)</label>
                             <input type="number" id="npPrice" step="0.01" placeholder="e.g. 150" required>
                         </div>
-                        <!-- CHANGED FROM IMAGE URL TO UPLOAD IMAGE FROM DEVICE -->
                         <div class="form-group">
                             <label>Upload Product Image</label>
                             <input type="file" id="npImageFile" accept="image/*" required>
@@ -711,11 +710,13 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 <script>
 const PAYSTACK_PUBLIC_KEY = 'pk_test_YOUR_PAYSTACK_PUBLIC_KEY';
 const MERCHANT_MOMO_NUMBER = '0543155883';
+const ADMIN_WHATSAPP_NUMBER = '13095194647';
 const SMS_CONFIG = { apiKey: 'YOUR_ARKESEL_API_KEY', senderId: 'EveriVault' };
 
+// Configured with your Supabase publishable key
 const SUPABASE_URL = 'https://YOUR_SUPABASE_PROJECT_ID.supabase.co';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
-const db = (typeof supabase !== 'undefined') ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_ZdxSIdlfrMQStQkt8Zq3oQ_0wIrkxIF';
+const db = (typeof supabase !== 'undefined') ? supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY) : null;
 
 let currentPage = 'home';
 let activeCategoryFilter = 'All';
@@ -751,9 +752,7 @@ function shareCartToWhatsApp() {
     
     message += `\n\nI would like to process this order.`;
     
-    const formattedPhone = MERCHANT_MOMO_NUMBER.startsWith('0') ? '233' + MERCHANT_MOMO_NUMBER.slice(1) : MERCHANT_MOMO_NUMBER;
-    const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(message)}`;
-    
+    const whatsappUrl = `https://wa.me/${ADMIN_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
 }
 
@@ -858,15 +857,24 @@ function switchAdminTab(type){
 async function sendWelcomeSMS(phone, trackingCode, name) {
     const formattedPhone = phone.startsWith('0') ? '233' + phone.slice(1) : phone;
     const message = `Hello ${name}, welcome to EveriVault! Your unique Shipping Mark & Reference Number is: ${trackingCode}.`;
+    
+    if (SMS_CONFIG.apiKey === 'YOUR_ARKESEL_API_KEY') {
+        return;
+    }
+
     try {
-        await fetch(`https://sms.arkesel.com/sms/api?action=send-sms&api_key=${SMS_CONFIG.apiKey}&to=${formattedPhone}&from=${SMS_CONFIG.senderId}&sms=${encodeURIComponent(message)}`);
-    } catch (e) { console.error('SMS Error:', e); }
+        await fetch(`https://sms.arkesel.com/sms/api?action=send-sms&api_key=${SMS_CONFIG.apiKey}&to=${formattedPhone}&from=${SMS_CONFIG.senderId}&sms=${encodeURIComponent(message)}`, {
+            method: 'GET',
+            mode: 'no-cors'
+        });
+    } catch (e) { 
+        console.warn('SMS Gateway notice:', e); 
+    }
 }
 
 function generateWhatsAppAlertUrl(phone, trackingCode, name) {
-    const formattedPhone = phone.startsWith('0') ? '233' + phone.slice(1) : phone;
     const message = `*EveriVault Shipping Mark Confirmation*%0A%0AHello ${encodeURIComponent(name)}, your registration is complete!%0A%0A📦 *Your Shipping Mark / Tracking Code:* \`${trackingCode}\``;
-    return `https://wa.me/${formattedPhone}?text=${message}`;
+    return `https://wa.me/${ADMIN_WHATSAPP_NUMBER}?text=${message}`;
 }
 
 async function doReg(e){
@@ -883,8 +891,11 @@ async function doReg(e){
     const assignedCode = generateTrackingCode(name, phone);
 
     if(db){
-        const { error } = await db.from('users').insert([{ name, email, phone, password: pw, tracking_code: assignedCode, is_admin: false }]);
-        if(error){ msg.className = 'msg err'; msg.textContent = '❌ Registration failed: ' + error.message; return; }
+        try {
+            await db.from('users').insert([{ name, email, phone, password: pw, tracking_code: assignedCode, is_admin: false }]);
+        } catch(err) {
+            console.warn('Supabase DB error:', err);
+        }
     }
 
     let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
@@ -898,9 +909,9 @@ async function doReg(e){
     const waUrl = generateWhatsAppAlertUrl(phone, assignedCode, name);
 
     msg.className = 'msg ok'; 
-    msg.innerHTML = `✅ Account created!<br>📦 <strong>Generated Reference Mark: ${assignedCode}</strong><br><br><a href="${waUrl}" target="_blank" class="btn btn-green btn-sm btn-block">📱 Push to WhatsApp</a>`;
+    msg.innerHTML = `✅ Account created!<br>📦 <strong>Generated Reference Mark: ${assignedCode}</strong><br><br><a href="${waUrl}" target="_blank" class="btn btn-green btn-sm btn-block">📱 Push Confirmation to WhatsApp</a>`;
     updateAuthUI();
-    setTimeout(() => { go('orders'); }, 2500);
+    setTimeout(() => { go('orders'); }, 3000);
 }
 
 async function doLogin(e){
@@ -911,7 +922,7 @@ async function doLogin(e){
 
     const adminPassword = localStorage.getItem('evAdminPassword') || 'admin123';
     if(email === 'admin@everivault.com' && pw === adminPassword){
-        user = { name: 'Super Admin', email, phone: '0543155883', trackingCode: 'GHOO1KADMIN', isAdmin: true };
+        user = { name: 'Super Admin', email, phone: ADMIN_WHATSAPP_NUMBER, trackingCode: 'GHOO1KADMIN', isAdmin: true };
         localStorage.setItem('evUser', JSON.stringify(user));
         msg.className = 'msg ok'; msg.textContent = '✅ Administrator Logged In!';
         updateAuthUI();
@@ -921,8 +932,10 @@ async function doLogin(e){
 
     let found = null;
     if(db){
-        const { data } = await db.from('users').select('*').eq('email', email).eq('password', pw);
-        if(data && data.length > 0) found = { name: data[0].name, email: data[0].email, phone: data[0].phone, trackingCode: data[0].tracking_code, isAdmin: data[0].is_admin };
+        try {
+            const { data } = await db.from('users').select('*').eq('email', email).eq('password', pw);
+            if(data && data.length > 0) found = { name: data[0].name, email: data[0].email, phone: data[0].phone, trackingCode: data[0].tracking_code, isAdmin: data[0].is_admin };
+        } catch(e){}
     }
     if(!found){
         let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
@@ -958,8 +971,10 @@ async function doResetPassword(e){
 
     let updated = false;
     if(db){
-        const { data } = await db.from('users').update({ password: newPw1 }).or(`email.eq.${identifier},tracking_code.ilike.${identifier}`).select();
-        if(data && data.length > 0) updated = true;
+        try {
+            const { data } = await db.from('users').update({ password: newPw1 }).or(`email.eq.${identifier},tracking_code.ilike.${identifier}`).select();
+            if(data && data.length > 0) updated = true;
+        } catch(e){}
     }
     if(!updated){
         let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
@@ -1087,7 +1102,9 @@ function launchPaystackPopup(email, amountGhs, reference, customerPhone, onSucce
 
 async function recordGlobalOrder(orderObj){
     if(db){
-        await db.from('orders').insert([{ ref: orderObj.ref, tracking_mark: orderObj.trackingMark, user_email: orderObj.userEmail, user_name: orderObj.userName, user_phone: orderObj.userPhone, total_ghs: orderObj.total, status: orderObj.status, items: orderObj.items }]);
+        try {
+            await db.from('orders').insert([{ ref: orderObj.ref, tracking_mark: orderObj.trackingMark, user_email: orderObj.userEmail, user_name: orderObj.userName, user_phone: orderObj.userPhone, total_ghs: orderObj.total, status: orderObj.status, items: orderObj.items }]);
+        } catch(e){ console.warn('Supabase DB error:', e); }
     }
     let globalOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
     globalOrders.unshift(orderObj);
@@ -1210,7 +1227,6 @@ async function renderAdmin(){
         </table>`;
 }
 
-// CONVERT UPLOADED FILE TO BASE64 AND ADD TO STORE
 async function adminAddProduct(e){
     e.preventDefault();
     const name = document.getElementById('npName').value.trim();
@@ -1225,7 +1241,9 @@ async function adminAddProduct(e){
             const base64ImageUrl = event.target.result;
 
             if(db){ 
-                await db.from('products').insert([{ name, category, price_ghs: price, image_url: base64ImageUrl, tag }]); 
+                try {
+                    await db.from('products').insert([{ name, category, price_ghs: price, image_url: base64ImageUrl, tag }]); 
+                } catch(err) { console.warn('Supabase DB error:', err); }
             }
             
             let prods = JSON.parse(localStorage.getItem('evProducts') || '[]');
@@ -1245,7 +1263,9 @@ async function adminAddProduct(e){
 
 async function adminDeleteProduct(id){
     if(!confirm('Delete this product?')) return;
-    if(db){ await db.from('products').delete().eq('id', id); }
+    if(db){ 
+        try { await db.from('products').delete().eq('id', id); } catch(e){} 
+    }
     let prods = (JSON.parse(localStorage.getItem('evProducts')) || defaultProducts).filter(p => p.id !== id);
     localStorage.setItem('evProducts', JSON.stringify(prods));
     renderAdmin();
