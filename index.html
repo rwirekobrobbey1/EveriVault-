@@ -21,7 +21,6 @@ nav{background:var(--navy);position:sticky;top:0;z-index:999;box-shadow:0 4px 20
 .nav-links{display:flex;gap:4px;list-style:none;flex-wrap:wrap;align-items:center;}
 .nav-links a{color:#E0E7FF;text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:600;font-size:14px;}
 .nav-links a:hover,.nav-links a.active{background:rgba(255,255,255,.1);color:var(--gold);}
-.nav-cta{background:linear-gradient(135deg,var(--gold),#B8860B);color:var(--navy)!important;}
 .admin-badge-nav{background:var(--red);color:#fff!important;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:800;}
 .menu-toggle{display:none;color:#fff;font-size:28px;cursor:pointer;}
 
@@ -34,6 +33,7 @@ nav{background:var(--navy);position:sticky;top:0;z-index:999;box-shadow:0 4px 20
 .btn-red{background:var(--red);color:#fff;}
 .btn-sm{padding:6px 12px;font-size:13px;}
 .btn-block{width:100%;justify-content:center;}
+.btn-outline{border:2px solid var(--navy);background:transparent;color:var(--navy);}
 
 .hero{background:linear-gradient(135deg,#051238,var(--navy),#1E40AF);color:#fff;padding:clamp(40px,10vw,60px) 0;text-align:center;}
 .badge{display:inline-block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:8px 18px;border-radius:50px;font-weight:700;margin-bottom:16px;font-size:14px;}
@@ -50,6 +50,11 @@ h2{text-align:center;font-size:clamp(20px,4vw,30px);color:var(--navy);margin-bot
 h2::after{content:'';display:block;width:60px;height:4px;background:var(--gold);margin:10px auto 0;border-radius:2px;}
 .subtitle{text-align:center;color:#64748B;margin-bottom:30px;font-size:15px;max-width:600px;margin-left:auto;margin-right:auto;}
 
+/* STRICT ISOLATED PAGE VIEW SYSTEM - PREVENTS OVERLAPPING */
+.page { display: none !important; }
+.page.active { display: block !important; animation: fadeIn 0.25s ease-in-out; }
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
 .category-bar{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;margin-bottom:20px;scrollbar-width:thin;}
 .cat-chip{background:#E2E8F0;color:#334155;padding:8px 16px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;transition:.2s;}
 .cat-chip.active,.cat-chip:hover{background:var(--navy);color:#fff;}
@@ -58,8 +63,7 @@ h2::after{content:'';display:block;width:60px;height:4px;background:var(--gold);
 .tab{padding:10px 16px;border-radius:10px 10px 0 0;cursor:pointer;font-weight:700;color:#64748B;border-bottom:3px solid transparent;transition:all 0.2s ease;}
 .tab.active{color:var(--navy);border-bottom-color:var(--gold);background:rgba(212,175,55,.08);}
 .tab-content{display:none;}
-.tab-content.active{display:block !important;animation:fadeIn .3s ease;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.tab-content.active{display:block !important;}
 
 .form-box{max-width:550px;margin:0 auto;background:#fff;padding:clamp(20px,5vw,30px);border-radius:16px;box-shadow:var(--shadow);}
 .form-group{margin-bottom:16px;}
@@ -70,10 +74,11 @@ input:focus,select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 
 .msg.ok{background:#ECFDF5;color:#065F45;display:block;}
 .msg.err{background:#FEF2F2;color:#B91C1C;display:block;}
 
+/* TRACKING BANNER WITH EXACT 1.5 LETTER SPACING & 1.5 LINE HEIGHT */
 .tracking-banner{background:linear-gradient(135deg,var(--navy),#1E40AF);color:#fff;padding:18px;border-radius:12px;margin-bottom:24px;text-align:center;box-shadow:var(--shadow);}
-.tracking-banner .code{font-size:24px;font-weight:900;color:var(--gold);letter-spacing:1px;margin-top:4px;display:block;}
+.tracking-banner .code{font-size:24px;font-weight:900;color:var(--gold);letter-spacing:1.5px;line-height:1.5;margin-top:4px;display:block;word-break:break-all;}
 
-.alert-notice{background:#FEF3C7;border-left:5px solid var(--gold);padding:14px;border-radius:8px;color:#78350F;margin-bottom:20px;font-size:14px;}
+.alert-notice{background:#FEF3C7;border-left:5px solid var(--gold);padding:14px;border-radius:8px;color:#78350F;margin-bottom:20px;font-size:14px;line-height:1.6;}
 
 .store-layout{display:grid;grid-template-columns:2.5fr 1fr;gap:24px;align-items:start;}
 .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;}
@@ -104,9 +109,6 @@ input:focus,select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 
 .paystack-badge{background:#E0F2FE;border:1px solid #0284C7;color:#0369A1;padding:10px;border-radius:10px;margin-bottom:16px;font-size:13px;display:flex;align-items:center;gap:10px;}
 .momo-providers{display:flex;gap:10px;justify-content:center;margin:12px 0;font-weight:bold;font-size:13px;}
 .momo-tag{padding:4px 10px;border-radius:6px;background:#F1F5F9;border:1px solid #CBD5E1;}
-
-.page{display:none;}
-.page.active{display:block;}
 
 footer{background:#051238;color:#CBD5E1;padding:30px 0 20px;margin-top:20px;text-align:center;}
 footer h3{color:var(--gold);margin-bottom:12px;}
@@ -144,7 +146,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
     </div>
 </nav>
 
-<!-- HOME -->
+<!-- HOME PAGE -->
 <section id="p-home" class="page active">
     <div class="hero">
         <div class="container">
@@ -176,7 +178,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
     </div>
 </section>
 
-<!-- STORE -->
+<!-- STORE PAGE -->
 <section id="p-shop" class="page">
     <div class="container">
         <h2>🛒 Direct China Store</h2>
@@ -216,7 +218,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
     </div>
 </section>
 
-<!-- PAYSTACK PAYMENT PORTAL -->
+<!-- PAYSTACK PAYMENT PORTAL PAGE -->
 <section id="p-pay" class="page">
     <div class="container">
         <h2>💳 Paystack Mobile Money Portal</h2>
@@ -264,7 +266,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
     </div>
 </section>
 
-<!-- CALCULATOR (AIR & SEA FREIGHT) -->
+<!-- CALCULATOR PAGE (AIR & SEA DUAL CALCULATOR) -->
 <section id="p-calc" class="page">
     <div class="container">
         <h2>📐 Shipping Cost Calculator</h2>
@@ -283,11 +285,11 @@ footer h3{color:var(--gold);margin-bottom:12px;}
             <div style="background:#F1F5F9;padding:16px;border-radius:12px;margin:20px 0;line-height:1.8;">
                 <p style="display:flex;justify-content:space-between;">
                     <span>✈️ Air Freight Total:</span>
-                    <strong>$<span><span id="calcAirUsd">0.00</span></span> (₵<span id="calcAirGhs">0.00</span>)</strong>
+                    <strong>$<span id="calcAirUsd">0.00</span> (₵<span id="calcAirGhs">0.00</span>)</strong>
                 </p>
                 <p style="display:flex;justify-content:space-between;">
                     <span>🚢 Sea Freight Total:</span>
-                    <strong>$<span><span id="calcSeaUsd">0.00</span></span> (₵<span id="calcSeaGhs">0.00</span>)</strong>
+                    <strong>$<span id="calcSeaUsd">0.00</span> (₵<span id="calcSeaGhs">0.00</span>)</strong>
                 </p>
                 <hr style="margin:10px 0;border:0;border-top:2px dashed #CBD5E1;">
                 <p style="display:flex;justify-content:space-between;font-size:18px;color:var(--navy);font-weight:900;">
@@ -300,7 +302,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
     </div>
 </section>
 
-<!-- ADDRESSES (EXACT SPECIFIED AIR AND SEA WAREHOUSES) -->
+<!-- SHIPPING INFO / WAREHOUSES PAGE -->
 <section id="p-address" class="page">
     <div class="container">
         <h2>📍 China Warehouse Addresses</h2>
@@ -371,7 +373,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
     </div>
 </section>
 
-<!-- TRACKING -->
+<!-- TRACKING PAGE -->
 <section id="p-track" class="page">
     <div class="container">
         <h2>🔍 Track Shipment</h2>
@@ -386,7 +388,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
     </div>
 </section>
 
-<!-- AUTHENTICATION -->
+<!-- AUTHENTICATION PAGE -->
 <section id="p-auth" class="page">
     <div class="container">
         <h2>🔐 Portal Account Access</h2>
@@ -457,7 +459,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
     </div>
 </section>
 
-<!-- PROFILE & ORDERS -->
+<!-- USER PROFILE & ORDERS PAGE -->
 <section id="p-orders" class="page">
     <div class="container">
         <h2>👤 Account Profile & Tracking Mark</h2>
@@ -475,7 +477,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
     </div>
 </section>
 
-<!-- ADMIN DASHBOARD (RESTRICTED PRODUCTS MANAGEMENT) -->
+<!-- ADMIN DASHBOARD PAGE -->
 <section id="p-admin" class="page">
     <div class="container">
         <h2>🛡️ Administrator Dashboard</h2>
@@ -562,6 +564,20 @@ footer h3{color:var(--gold);margin-bottom:12px;}
     </div>
 </section>
 
+<!-- PRINTABLE WAYBILL & INVOICE MODAL -->
+<div id="invoiceModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;padding:16px;">
+    <div style="background:#fff;max-width:600px;width:100%;padding:24px;border-radius:16px;box-shadow:var(--shadow);max-height:90vh;overflow-y:auto;position:relative;">
+        <button onclick="closeInvoiceModal()" style="position:absolute;top:16px;right:16px;border:none;background:#CBD5E1;width:32px;height:32px;border-radius:50%;font-weight:bold;cursor:pointer;">✕</button>
+        
+        <div id="printableArea"></div>
+
+        <div style="margin-top:20px;display:flex;gap:10px;justify-content:flex-end;">
+            <button class="btn btn-gold btn-sm" onclick="printInvoice()">🖨️ Print Waybill / Invoice</button>
+            <button class="btn btn-outline btn-sm" onclick="closeInvoiceModal()">Close</button>
+        </div>
+    </div>
+</div>
+
 <footer>
     <div class="container">
         <h3>EVERIVAULT ENTERPRISE</h3>
@@ -611,20 +627,38 @@ async function fetchProductsFromStore(){
     return JSON.parse(localStorage.getItem('evProducts')) || defaultProducts;
 }
 
-function go(page){
-    if(page === 'admin' && (!user || !user.isAdmin)){
+// STRICT ISOLATED PAGE TOGGLE FUNCTION (PREVENTS PAGE OVERLAPPING / CLOUDING)
+function go(pageId){
+    if(pageId === 'admin' && (!user || !user.isAdmin)){
         alert('⛔ Access Denied! Administrators only.');
         return false;
     }
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    document.querySelectorAll('.plink').forEach(l=>l.classList.remove('active'));
-    document.getElementById('p-'+page).classList.add('active');
-    document.querySelector(`[data-p="${page}"]`)?.classList.add('active');
-    currentPage = page;
+    
+    // Hide ALL sections completely first
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(p => {
+        p.classList.remove('active');
+        p.style.display = 'none';
+    });
+
+    // Show ONLY the target section
+    const target = document.getElementById('p-' + pageId);
+    if(target){
+        target.classList.add('active');
+        target.style.display = 'block';
+    }
+
+    // Update Nav bar links
+    document.querySelectorAll('.plink').forEach(l => l.classList.remove('active'));
+    document.querySelector(`[data-p="${pageId}"]`)?.classList.add('active');
     document.getElementById('menu').classList.remove('active');
-    if(page === 'shop') renderProducts();
-    if(page === 'orders') renderOrders();
-    if(page === 'admin') renderAdmin();
+
+    currentPage = pageId;
+    if(pageId === 'shop') renderProducts();
+    if(pageId === 'orders') renderOrders();
+    if(pageId === 'admin') renderAdmin();
+
+    window.scrollTo(0, 0);
     return false;
 }
 
@@ -671,7 +705,6 @@ async function doReg(e){
 
     if(pw !== pw2){ msg.className = 'msg err'; msg.textContent = '❌ Passwords do not match!'; return; }
     
-    // GENERATE TRACKING CODE: GHOO1K + FIRST NAME + PHONE
     const assignedCode = generateTrackingCode(name, phone);
 
     if(db){
@@ -918,9 +951,8 @@ function checkoutWithPaystack(){
     });
 }
 
-// AIR & SEA FREIGHT CALCULATOR LOGIC
 function runCalc(){
-    const exchangeRate = 13; // 1 USD = 13 GHS
+    const exchangeRate = 13;
     const kg = parseFloat(document.getElementById('calcKg').value) || 0;
     const cbm = parseFloat(document.getElementById('calcCbm').value) || 0;
 
@@ -956,6 +988,7 @@ function performTracking(){
                 <p>Tx ID: ${m.ref}</p>
                 <p>Status: <span style="font-weight:bold;color:var(--green);">${m.status}</span></p>
                 <strong>Total: ₵${m.total.toFixed(2)}</strong>
+                <br><button class="btn btn-sm btn-gold" style="margin-top:8px;" onclick="generatePrintableReceipt('${m.ref}')">📄 Print Waybill / Invoice</button>
             </div>
         `).join('');
     } else {
@@ -974,6 +1007,7 @@ function renderOrders(){
             <p>Tx Ref: ${o.ref}</p>
             <p>Status: <span style="font-weight:bold;color:var(--navy);">${o.status}</span></p>
             <strong>Total: ₵${o.total.toFixed(2)}</strong>
+            <br><button class="btn btn-sm btn-gold" style="margin-top:10px;" onclick="generatePrintableReceipt('${o.ref}')">📄 Print Waybill / Invoice</button>
         </div>
     `).join('');
 }
@@ -997,6 +1031,24 @@ async function renderAdmin(){
     document.getElementById('admUsers').textContent = allUsers.length;
     document.getElementById('admProducts').textContent = prods.length;
 
+    document.getElementById('adminOrdersTable').innerHTML = `
+        <table class="data-table">
+            <thead><tr><th>Ref / Mark</th><th>Client</th><th>Contact</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>${allOrders.map(o => `
+                <tr>
+                    <td><strong>${o.trackingMark || 'N/A'}</strong><br><small>${o.ref}</small></td>
+                    <td>${o.userName}<br><small>${o.userEmail}</small></td>
+                    <td>${o.userPhone}</td>
+                    <td>₵${o.total.toFixed(2)}</td>
+                    <td><span style="color:var(--green);font-weight:bold;">${o.status}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-gold" onclick="updateOrderStatus('${o.ref}')">Status</button>
+                        <button class="btn btn-sm btn-sky" onclick="generatePrintableReceipt('${o.ref}')">🖨️ Label</button>
+                    </td>
+                </tr>
+            `).join('')}</tbody>
+        </table>`;
+
     document.getElementById('adminProductsTable').innerHTML = `
         <table class="data-table">
             <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Action</th></tr></thead>
@@ -1007,6 +1059,19 @@ async function renderAdmin(){
                     <td>${p.category}</td>
                     <td>₵${parseFloat(p.priceGhs).toFixed(2)}</td>
                     <td><button class="btn btn-sm btn-red" onclick="adminDeleteProduct(${p.id})">🗑️ Delete</button></td>
+                </tr>
+            `).join('')}</tbody>
+        </table>`;
+
+    document.getElementById('adminUsersTable').innerHTML = `
+        <table class="data-table">
+            <thead><tr><th>Assigned Tracking Mark</th><th>Name</th><th>Email</th><th>Phone</th></tr></thead>
+            <tbody>${allUsers.map(u => `
+                <tr>
+                    <td><strong style="color:var(--navy);letter-spacing:1.5px;line-height:1.5;">${u.trackingCode || 'GHOO1K-NONE'}</strong></td>
+                    <td><strong>${u.name}</strong></td>
+                    <td>${u.email}</td>
+                    <td>${u.phone}</td>
                 </tr>
             `).join('')}</tbody>
         </table>`;
@@ -1040,6 +1105,124 @@ async function adminDeleteProduct(id){
     renderProducts();
 }
 
+function updateOrderStatus(ref){
+    const newStatus = prompt('Enter new order status (e.g. Received at Guangzhou, In Transit, Arrived Ghana, Ready for Pickup):');
+    if(!newStatus) return;
+
+    let allOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
+    let found = allOrders.find(o => o.ref === ref);
+    if(found){
+        found.status = newStatus;
+        localStorage.setItem('evAllOrders', JSON.stringify(allOrders));
+
+        let userOrders = JSON.parse(localStorage.getItem('evOrders_' + found.userEmail) || '[]');
+        let uFound = userOrders.find(o => o.ref === ref);
+        if(uFound){
+            uFound.status = newStatus;
+            localStorage.setItem('evOrders_' + found.userEmail, JSON.stringify(userOrders));
+        }
+
+        renderAdmin();
+        alert('✅ Order status updated!');
+    }
+}
+
+// PRINTABLE WAYBILL & RECEIPT GENERATOR (LETTER-SPACING 1.5 & LINE-HEIGHT 1.5)
+function generatePrintableReceipt(orderRef) {
+    const allOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
+    const order = allOrders.find(o => o.ref === orderRef);
+
+    if (!order) {
+        alert('Order record not found!');
+        return;
+    }
+
+    const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(order.trackingMark)}`;
+    const printableArea = document.getElementById('printableArea');
+
+    printableArea.innerHTML = `
+        <div style="border:2px solid #0A2463;padding:20px;border-radius:12px;font-family:sans-serif;">
+            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #D4AF37;padding-bottom:12px;margin-bottom:16px;">
+                <div>
+                    <h2 style="color:#0A2463;margin:0;font-size:22px;">EVERIVAULT LOGISTICS</h2>
+                    <p style="margin:2px 0;font-size:12px;color:#64748B;">China ↔ Ghana Shipping & Cargo Portal</p>
+                    <p style="margin:2px 0;font-size:12px;color:#64748B;">Contact: +233 543 155 883 | Kumasi, Ghana</p>
+                </div>
+                <img src="${qrCodeUrl}" alt="QR Mark" style="width:90px;height:90px;border:1px solid #CBD5E1;padding:4px;border-radius:6px;">
+            </div>
+
+            <div style="background:#0A2463;color:#fff;text-align:center;padding:12px;border-radius:8px;margin-bottom:16px;">
+                <span style="font-size:12px;text-transform:uppercase;letter-spacing:1.5px;line-height:1.5;display:block;opacity:.8;">
+                    Official Shipping Mark / Package Tag
+                </span>
+                <strong style="font-size:22px;color:#D4AF37;letter-spacing:1.5px;line-height:1.5;word-break:break-all;">
+                    ${order.trackingMark}
+                </strong>
+            </div>
+
+            <table style="width:100%;font-size:13px;margin-bottom:16px;border-collapse:collapse;">
+                <tr>
+                    <td style="padding:4px 0;"><strong>Customer Name:</strong> ${order.userName}</td>
+                    <td style="padding:4px 0;text-align:right;"><strong>Date:</strong> ${order.date}</td>
+                </tr>
+                <tr>
+                    <td style="padding:4px 0;"><strong>Phone Number:</strong> ${order.userPhone}</td>
+                    <td style="padding:4px 0;text-align:right;"><strong>Payment Ref:</strong> ${order.ref}</td>
+                </tr>
+                <tr>
+                    <td style="padding:4px 0;"><strong>Email Address:</strong> ${order.userEmail}</td>
+                    <td style="padding:4px 0;text-align:right;"><strong>Status:</strong> <span style="color:#22C55E;font-weight:bold;">${order.status}</span></td>
+                </tr>
+            </table>
+
+            <table style="width:100%;border-collapse:collapse;font-size:13px;margin-bottom:16px;">
+                <thead>
+                    <tr style="background:#F1F5F9;text-align:left;">
+                        <th style="padding:8px;border-bottom:1px solid #CBD5E1;">Item / Description</th>
+                        <th style="padding:8px;border-bottom:1px solid #CBD5E1;text-align:center;">Qty</th>
+                        <th style="padding:8px;border-bottom:1px solid #CBD5E1;text-align:right;">Price (GHS)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${order.items.map(item => `
+                        <tr>
+                            <td style="padding:8px;border-bottom:1px solid #E2E8F0;">${item.name}</td>
+                            <td style="padding:8px;border-bottom:1px solid #E2E8F0;text-align:center;">${item.qty || 1}</td>
+                            <td style="padding:8px;border-bottom:1px solid #E2E8F0;text-align:right;">₵${parseFloat(item.priceGhs || order.total).toFixed(2)}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;background:#F8FAFC;padding:12px;border-radius:8px;border:1px solid #E2E8F0;">
+                <span style="font-weight:bold;color:#0A2463;">Total Paid via Paystack MoMo:</span>
+                <strong style="font-size:18px;color:#22C55E;">₵${order.total.toFixed(2)}</strong>
+            </div>
+
+            <p style="font-size:11px;color:#64748B;margin-top:14px;text-align:center;">
+                ⚠️ <em>Attach a printed copy of this label to all cargo packages shipped to Guangzhou or Foshan warehouses.</em>
+            </p>
+        </div>
+    `;
+
+    document.getElementById('invoiceModal').style.display = 'flex';
+}
+
+function closeInvoiceModal() {
+    document.getElementById('invoiceModal').style.display = 'none';
+}
+
+function printInvoice() {
+    const content = document.getElementById('printableArea').innerHTML;
+    const printWindow = window.open('', '', 'height=700,width=800');
+    printWindow.document.write('<html><head><title>EveriVault Waybill Invoice</title></head><body style="padding:20px;">');
+    printWindow.document.write(content);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
+}
+
+// Initial Launch Setup
 updateAuthUI();
 renderProducts();
 </script>
