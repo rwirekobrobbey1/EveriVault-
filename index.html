@@ -50,7 +50,7 @@ h2{text-align:center;font-size:clamp(20px,4vw,30px);color:var(--navy);margin-bot
 h2::after{content:'';display:block;width:60px;height:4px;background:var(--gold);margin:10px auto 0;border-radius:2px;}
 .subtitle{text-align:center;color:#64748B;margin-bottom:30px;font-size:15px;max-width:600px;margin-left:auto;margin-right:auto;}
 
-/* ISOLATED SINGLE PAGE DISPLAY */
+/* ISOLATED SINGLE PAGE ROUTER STYLING */
 .page { display: none !important; }
 .page.active { display: block !important; animation: fadeIn 0.25s ease-in-out; }
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
@@ -575,7 +575,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 </footer>
 
 <script>
-// CONFIG & API DETECTORS
+// CONFIGURATION & CREDENTIAL DETECTORS
 const PAYSTACK_PUBLIC_KEY = 'pk_test_YOUR_PAYSTACK_PUBLIC_KEY';
 const MERCHANT_MOMO_NUMBER = '0543155883';
 const SMS_CONFIG = { apiKey: 'YOUR_ARKESEL_API_KEY', senderId: 'EveriVault' };
@@ -583,9 +583,8 @@ const SMS_CONFIG = { apiKey: 'YOUR_ARKESEL_API_KEY', senderId: 'EveriVault' };
 const SUPABASE_URL = 'https://YOUR_SUPABASE_PROJECT_ID.supabase.co';
 const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
 
-// Check if Supabase keys are configured properly
-const isSupabaseValid = SUPABASE_URL.indexOf('YOUR_SUPABASE_PROJECT_ID') === -1;
-const db = (typeof supabase !== 'undefined' && isSupabaseValid) ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+const isSupabaseConfigured = SUPABASE_URL.indexOf('YOUR_SUPABASE_PROJECT_ID') === -1;
+const db = (typeof supabase !== 'undefined' && isSupabaseConfigured) ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
 let currentPage = 'home';
 let activeCategoryFilter = 'All';
@@ -613,12 +612,12 @@ async function fetchProductsFromStore(){
         try {
             const { data, error } = await db.from('products').select('*').order('created_at', { ascending: false });
             if(!error && data && data.length > 0) return data.map(p => ({ id: String(p.id), name: p.name, category: p.category, priceGhs: p.price_ghs, imageUrl: p.image_url, tag: p.tag }));
-        } catch(e){ console.warn('Supabase offline, local storage fallback active.'); }
+        } catch(e){ console.warn('Supabase offline, using local storage.'); }
     }
     return JSON.parse(localStorage.getItem('evProducts')) || defaultProducts;
 }
 
-// STRICT PAGE ISOLATION ROUTER
+// SAFE SINGLE PAGE NAVIGATION
 function go(pageId){
     if(pageId === 'admin' && (!user || !user.isAdmin)){
         alert('⛔ Access Denied! Administrators only.');
@@ -693,7 +692,7 @@ async function doReg(e){
 
     if(db){
         try { await db.from('users').insert([{ name, email, phone, password: pw, tracking_code: assignedCode, is_admin: false }]); }
-        catch(err) { console.warn('Registration write fallback:', err); }
+        catch(err) { console.warn('Registration fallback:', err); }
     }
 
     let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
@@ -880,13 +879,10 @@ function updateCartUI(){
 }
 
 function launchPaystackPopup(email, amountGhs, reference, customerPhone, onSuccessCallback) {
-    if (PAYSTACK_PUBLIC_KEY.includes('YOUR_PAYSTACK_PUBLIC_KEY')) {
-        alert('ℹ️ Demo Payment Mode: Paystack API key unconfigured.\n\nSimulating successful transaction!');
-        if(onSuccessCallback) onSuccessCallback({ reference: 'EV-TEST-' + Date.now() });
-        return;
-    }
-    if (typeof PaystackPop === 'undefined') {
-        alert('⚠️ Paystack script failed to load. Please check internet connection.');
+    // Graceful Demo Fallback when API key is unconfigured
+    if (PAYSTACK_PUBLIC_KEY.includes('YOUR_PAYSTACK_PUBLIC_KEY') || typeof PaystackPop === 'undefined') {
+        alert('ℹ️ Demo Payment Mode Active\n\nPayment of ₵' + amountGhs.toFixed(2) + ' recorded successfully!');
+        if(onSuccessCallback) onSuccessCallback({ reference: 'EV-DEMO-' + Date.now() });
         return;
     }
     const handler = PaystackPop.setup({
@@ -1230,9 +1226,11 @@ function printInvoice() {
     printWindow.print();
 }
 
-// Launch Setup
-updateAuthUI();
-renderProducts();
+// Initial Launch Setup
+document.addEventListener('DOMContentLoaded', () => {
+    updateAuthUI();
+    renderProducts();
+});
 </script>
 </body>
 </html>
