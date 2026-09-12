@@ -74,7 +74,6 @@ input:focus,select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 
 .msg.ok{background:#ECFDF5;color:#065F45;display:block;}
 .msg.err{background:#FEF2F2;color:#B91C1C;display:block;}
 
-/* TRACKING BANNER WITH EXACT 1.5 LETTER SPACING & 1.5 LINE HEIGHT */
 .tracking-banner{background:linear-gradient(135deg,var(--navy),#1E40AF);color:#fff;padding:18px;border-radius:12px;margin-bottom:24px;text-align:center;box-shadow:var(--shadow);}
 .tracking-banner .code{font-size:24px;font-weight:900;color:var(--gold);letter-spacing:1.5px;line-height:1.5;margin-top:4px;display:block;word-break:break-all;}
 
@@ -314,14 +313,11 @@ footer h3{color:var(--gold);margin-bottom:12px;}
         </div>
 
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;max-width:1000px;margin:0 auto;">
-            
-            <!-- AIR FREIGHT WAREHOUSE -->
             <div style="background:#fff;padding:24px;border-radius:16px;box-shadow:var(--shadow);border-top:5px solid var(--sky);">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
                     <h3 style="color:var(--navy);font-size:20px;">✈️ Air Freight Warehouse</h3>
                     <span style="background:#E0F2FE;color:var(--sky);font-weight:800;padding:6px 12px;border-radius:20px;font-size:15px;">$17 / kg</span>
                 </div>
-                
                 <div style="margin-bottom:20px;">
                     <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇬🇧 English Address</strong>
                     <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
@@ -329,7 +325,6 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                         <strong>Address:</strong> Room 510, Jiujiu Business Center, No. 99 Guangyuan West Road, Yuexiu District, Guangzhou City, Guangdong Province, China
                     </div>
                 </div>
-
                 <div>
                     <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇨🇳 Chinese Address (中文地址)</strong>
                     <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
@@ -339,13 +334,11 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                 </div>
             </div>
 
-            <!-- SEA FREIGHT WAREHOUSE -->
             <div style="background:#fff;padding:24px;border-radius:16px;box-shadow:var(--shadow);border-top:5px solid var(--gold);">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
                     <h3 style="color:var(--navy);font-size:20px;">🚢 EVERIVAULT — SEA WAREHOUSE</h3>
                     <span style="background:#FEF3C7;color:#B45309;font-weight:800;padding:6px 12px;border-radius:20px;font-size:15px;">$260 / m³</span>
                 </div>
-
                 <div style="margin-bottom:16px;">
                     <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇬🇧 English Address</strong>
                     <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
@@ -353,7 +346,6 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                         <strong>Address:</strong> Foshan City, Nanhai District, Shishan Town, Xinpu West Road No.88, Bohui Phase 5, Guangdong, China.
                     </div>
                 </div>
-
                 <div style="margin-bottom:16px;">
                     <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇨🇳 Chinese Address (中文地址)</strong>
                     <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
@@ -361,14 +353,12 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                         <strong>地址:</strong> 广东省佛山市南海区狮山镇新圃西路88号博汇5期
                     </div>
                 </div>
-
                 <div style="background:#F1F5F9;padding:12px;border-radius:10px;font-size:13px;line-height:1.6;">
                     🧭 <strong>Navigation:</strong> 佛山固菜仓储服务部（博汇5期） / Foshan Gucai Warehousing Service (Bohui Phase 5)<br>
                     📞 <strong>China Contacts:</strong> Mr. Zhang +86 181 2571 7488 | Mr. Yue +86 180 2417 9599<br>
                     📞 <strong>Ghana Contact:</strong> +233 543 155 883
                 </div>
             </div>
-
         </div>
     </div>
 </section>
@@ -568,9 +558,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 <div id="invoiceModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;padding:16px;">
     <div style="background:#fff;max-width:600px;width:100%;padding:24px;border-radius:16px;box-shadow:var(--shadow);max-height:90vh;overflow-y:auto;position:relative;">
         <button onclick="closeInvoiceModal()" style="position:absolute;top:16px;right:16px;border:none;background:#CBD5E1;width:32px;height:32px;border-radius:50%;font-weight:bold;cursor:pointer;">✕</button>
-        
         <div id="printableArea"></div>
-
         <div style="margin-top:20px;display:flex;gap:10px;justify-content:flex-end;">
             <button class="btn btn-gold btn-sm" onclick="printInvoice()">🖨️ Print Waybill / Invoice</button>
             <button class="btn btn-outline btn-sm" onclick="closeInvoiceModal()">Close</button>
@@ -587,20 +575,23 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 </footer>
 
 <script>
+// CONFIG & API DETECTORS
 const PAYSTACK_PUBLIC_KEY = 'pk_test_YOUR_PAYSTACK_PUBLIC_KEY';
 const MERCHANT_MOMO_NUMBER = '0543155883';
 const SMS_CONFIG = { apiKey: 'YOUR_ARKESEL_API_KEY', senderId: 'EveriVault' };
 
 const SUPABASE_URL = 'https://YOUR_SUPABASE_PROJECT_ID.supabase.co';
 const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
-const db = (typeof supabase !== 'undefined') ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+// Check if Supabase keys are configured properly
+const isSupabaseValid = SUPABASE_URL.indexOf('YOUR_SUPABASE_PROJECT_ID') === -1;
+const db = (typeof supabase !== 'undefined' && isSupabaseValid) ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
 let currentPage = 'home';
 let activeCategoryFilter = 'All';
 let user = JSON.parse(localStorage.getItem('evUser') || 'null');
 let cart = JSON.parse(localStorage.getItem('evCart') || '[]');
 
-// AUTOMATIC TRACKING CODE FORMULA: GHOO1K + USER FIRST NAME + USER PHONE NUMBER
 function generateTrackingCode(fullName, phoneStr){
     const firstName = fullName ? fullName.trim().split(' ')[0].toUpperCase() : 'USER';
     const cleanPhone = phoneStr ? phoneStr.trim().replace(/[^0-9]/g, '') : '0000000000';
@@ -622,22 +613,19 @@ async function fetchProductsFromStore(){
         try {
             const { data, error } = await db.from('products').select('*').order('created_at', { ascending: false });
             if(!error && data && data.length > 0) return data.map(p => ({ id: String(p.id), name: p.name, category: p.category, priceGhs: p.price_ghs, imageUrl: p.image_url, tag: p.tag }));
-        } catch(e){ console.warn('Supabase offline, using local storage fallback.'); }
+        } catch(e){ console.warn('Supabase offline, local storage fallback active.'); }
     }
     return JSON.parse(localStorage.getItem('evProducts')) || defaultProducts;
 }
 
-// STRICT ISOLATED PAGE TOGGLE FUNCTION (PREVENTS PAGE OVERLAPPING)
+// STRICT PAGE ISOLATION ROUTER
 function go(pageId){
     if(pageId === 'admin' && (!user || !user.isAdmin)){
         alert('⛔ Access Denied! Administrators only.');
         return false;
     }
     
-    const pages = document.querySelectorAll('.page');
-    pages.forEach(p => {
-        p.classList.remove('active');
-    });
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
 
     const target = document.getElementById('p-' + pageId);
     if(target){
@@ -676,11 +664,12 @@ function switchAuthTab(type){
 }
 
 async function sendWelcomeSMS(phone, trackingCode, name) {
+    if (SMS_CONFIG.apiKey.includes('YOUR_ARKESEL_API_KEY')) return;
     const formattedPhone = phone.startsWith('0') ? '233' + phone.slice(1) : phone;
     const message = `Hello ${name}, welcome to EveriVault! Your unique Shipping Mark & Reference Number is: ${trackingCode}.`;
     try {
         await fetch(`https://sms.arkesel.com/sms/api?action=send-sms&api_key=${SMS_CONFIG.apiKey}&to=${formattedPhone}&from=${SMS_CONFIG.senderId}&sms=${encodeURIComponent(message)}`);
-    } catch (e) { console.error('SMS Notification Error:', e); }
+    } catch (e) { console.error('SMS Error:', e); }
 }
 
 function generateWhatsAppAlertUrl(phone, trackingCode, name) {
@@ -704,7 +693,7 @@ async function doReg(e){
 
     if(db){
         try { await db.from('users').insert([{ name, email, phone, password: pw, tracking_code: assignedCode, is_admin: false }]); }
-        catch(err) { console.warn('Supabase registration write fallback:', err); }
+        catch(err) { console.warn('Registration write fallback:', err); }
     }
 
     let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
@@ -744,7 +733,7 @@ async function doLogin(e){
         try {
             const { data } = await db.from('users').select('*').eq('email', email).eq('password', pw);
             if(data && data.length > 0) found = { name: data[0].name, email: data[0].email, phone: data[0].phone, trackingCode: data[0].tracking_code, isAdmin: data[0].is_admin };
-        } catch(err) { console.warn('Supabase login check fallback:', err); }
+        } catch(err) { console.warn('Login fallback:', err); }
     }
     if(!found){
         let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
@@ -783,7 +772,7 @@ async function doResetPassword(e){
         try {
             const { data } = await db.from('users').update({ password: newPw1 }).or(`email.eq.${identifier},tracking_code.ilike.${identifier}`).select();
             if(data && data.length > 0) updated = true;
-        } catch(err) { console.warn('Supabase reset fallback:', err); }
+        } catch(err) { console.warn('Reset fallback:', err); }
     }
     if(!updated){
         let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
@@ -891,8 +880,13 @@ function updateCartUI(){
 }
 
 function launchPaystackPopup(email, amountGhs, reference, customerPhone, onSuccessCallback) {
+    if (PAYSTACK_PUBLIC_KEY.includes('YOUR_PAYSTACK_PUBLIC_KEY')) {
+        alert('ℹ️ Demo Payment Mode: Paystack API key unconfigured.\n\nSimulating successful transaction!');
+        if(onSuccessCallback) onSuccessCallback({ reference: 'EV-TEST-' + Date.now() });
+        return;
+    }
     if (typeof PaystackPop === 'undefined') {
-        alert('⚠️ Paystack SDK failed to load. Please check your internet connection.');
+        alert('⚠️ Paystack script failed to load. Please check internet connection.');
         return;
     }
     const handler = PaystackPop.setup({
@@ -916,7 +910,7 @@ async function recordGlobalOrder(orderObj){
     if(db){
         try {
             await db.from('orders').insert([{ ref: orderObj.ref, tracking_mark: orderObj.trackingMark, user_email: orderObj.userEmail, user_name: orderObj.userName, user_phone: orderObj.userPhone, total_ghs: orderObj.total, status: orderObj.status, items: orderObj.items }]);
-        } catch(e) { console.warn('Supabase order write fallback:', e); }
+        } catch(e) { console.warn('Order write fallback:', e); }
     }
     let globalOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
     globalOrders.unshift(orderObj);
@@ -1095,7 +1089,7 @@ async function adminAddProduct(e){
 
     if(db){
         try { await db.from('products').insert([{ name, category, price_ghs: price, image_url: imageUrl, tag }]); }
-        catch(err) { console.warn('Supabase product insert fallback:', err); }
+        catch(err) { console.warn('Product insert fallback:', err); }
     }
     let prods = JSON.parse(localStorage.getItem('evProducts') || '[]');
     prods.push(newProd);
@@ -1111,7 +1105,7 @@ async function adminDeleteProduct(id){
     if(!confirm('Delete this product?')) return;
     if(db){
         try { await db.from('products').delete().eq('id', id); }
-        catch(err) { console.warn('Supabase product delete fallback:', err); }
+        catch(err) { console.warn('Product delete fallback:', err); }
     }
     let prods = (JSON.parse(localStorage.getItem('evProducts')) || defaultProducts).filter(p => String(p.id) !== String(id));
     localStorage.setItem('evProducts', JSON.stringify(prods));
@@ -1236,7 +1230,7 @@ function printInvoice() {
     printWindow.print();
 }
 
-// Initial Launch Setup
+// Launch Setup
 updateAuthUI();
 renderProducts();
 </script>
