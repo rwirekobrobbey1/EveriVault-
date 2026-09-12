@@ -79,6 +79,12 @@ nav{background:var(--navy);position:sticky;top:0;z-index:999;box-shadow:0 4px 20
 .whatsapp-float{position:fixed; bottom:25px; right:25px; background-color:#25D366; color:#fff; width:60px; height:60px; border-radius:50px; text-align:center; font-size:32px; box-shadow:0 6px 20px rgba(37,211,102,0.4); z-index:1000; display:flex; align-items:center; justify-content:center; text-decoration:none; transition:.3s;}
 .whatsapp-float:hover{transform:scale(1.1); background-color:#20ba5a;}
 
+/* PROFILE ENHANCEMENTS */
+.profile-card {background: #fff; padding: 30px; border-radius: 16px; box-shadow: var(--shadow); text-align: center; margin-bottom: 30px;}
+.profile-avatar {width: 80px; height: 80px; background: var(--navy); color: var(--gold); font-size: 32px; font-weight: 900; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;}
+.copy-btn {background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; margin-left: 10px; transition: 0.2s;}
+.copy-btn:hover {background: #fff; color: var(--navy);}
+
 section{padding:clamp(40px,8vw,60px) 0;}
 h2.page-title{text-align:center;font-size:clamp(20px,4vw,30px);color:var(--navy);margin-bottom:10px;}
 h2.page-title::after{content:'';display:block;width:60px;height:4px;background:var(--gold);margin:10px auto 0;border-radius:2px;}
@@ -99,13 +105,14 @@ h2.page-title::after{content:'';display:block;width:60px;height:4px;background:v
 .form-group{margin-bottom:16px;}
 label{display:block;margin-bottom:6px;font-weight:600;color:var(--navy);}
 input,select,textarea{width:100%;padding:14px;border:2px solid #E2E8F0;border-radius:10px;font-size:15px;}
+input[type="file"]{padding: 10px; background: #F8FAFC; cursor: pointer;}
 input:focus,select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(10,36,99,.1);}
 .msg{padding:12px;border-radius:10px;margin:12px 0;display:none;font-weight:600;}
 .msg.ok{background:#ECFDF5;color:#065F45;display:block;}
 .msg.err{background:#FEF2F2;color:#B91C1C;display:block;}
 
-.tracking-banner{background:linear-gradient(135deg,var(--navy),#1E40AF);color:#fff;padding:18px;border-radius:12px;margin-bottom:24px;text-align:center;box-shadow:var(--shadow);}
-.tracking-banner .code{font-size:24px;font-weight:900;color:var(--gold);letter-spacing:1px;margin-top:4px;display:block;}
+.tracking-banner{background:linear-gradient(135deg,var(--navy),#1E40AF);color:#fff;padding:24px;border-radius:12px;margin-bottom:24px;text-align:center;box-shadow:var(--shadow);}
+.tracking-banner .code{font-size:26px;font-weight:900;color:var(--gold);letter-spacing:1px;margin-top:10px;display:flex; align-items:center; justify-content:center;}
 
 .alert-notice{background:#FEF3C7;border-left:5px solid var(--gold);padding:14px;border-radius:8px;color:#78350F;margin-bottom:20px;font-size:14px;}
 
@@ -179,7 +186,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 </nav>
 
 <!-- FLOATING WHATSAPP BUTTON -->
-<a href="https://wa.me/233543155883?text=Hello%20EveriVault,%20I%20have%20an%20inquiry%20about%20shipping." target="_blank" class="whatsapp-float" title="Chat on WhatsApp">💬</a>
+<a href="https://wa.me/233543155883?text=Hello%20EveriVault,%20I%20need%20help%20with%20shipping." target="_blank" class="whatsapp-float" title="Chat on WhatsApp">💬</a>
 
 <!-- HOME / ADVERTISING LANDING PAGE -->
 <section id="p-home" class="page active" style="padding: 0;">
@@ -246,7 +253,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
         </div>
     </div>
 
-    <!-- ACCORDION FAQ SECTION (One tap opens, closes others) -->
+    <!-- ACCORDION FAQ SECTION -->
     <div class="container" style="padding-top: 40px; padding-bottom: 60px;">
         <h2 class="section-title">Frequently Asked Questions</h2>
         <p class="section-subtitle">Everything you need to know about shipping with EveriVault.</p>
@@ -332,11 +339,12 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                     <p style="text-align:center;color:#64748B;padding:20px 0;">Your cart is empty.</p>
                 </div>
                 <div style="margin-top:15px;border-top:2px solid #E2E8F0;padding-top:15px;">
-                    <div style="display:flex;justify-content:space-between;font-weight:800;font-size:18px;color:var(--navy);">
+                    <div style="display:flex;justify-content:space-between;font-weight:800;font-size:18px;color:var(--navy);margin-bottom:15px;">
                         <span>Total:</span>
                         <span>₵<span id="cartTotal">0.00</span></span>
                     </div>
-                    <button class="btn btn-green btn-block" style="margin-top:15px;" onclick="checkoutWithPaystack()">🔒 Pay Now with Paystack MoMo</button>
+                    <button class="btn btn-green btn-block" style="margin-bottom:10px;" onclick="checkoutWithPaystack()">🔒 Pay via Paystack MoMo</button>
+                    <button class="btn btn-block" style="background:#25D366;color:#fff;" onclick="shareCartToWhatsApp()">💬 Send Order to Admin via WhatsApp</button>
                 </div>
             </div>
         </div>
@@ -579,15 +587,25 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 <section id="p-orders" class="page">
     <div class="container">
         <h2 class="page-title">👤 Account Profile & Tracking Mark</h2>
-        <p class="subtitle" id="userWelcomeText">Here is your unique tracking reference code and order history</p>
         
         <div style="max-width:600px;margin:0 auto;">
-            <div class="tracking-banner">
-                <span>📦 Your Assigned Tracking & Shipping Mark Code</span>
-                <span class="code" id="userMarkCode">GHOO1K-PENDING</span>
-                <small style="opacity:.8;display:block;margin-top:6px;">Instruct China suppliers to mark this exact code on all outer boxes!</small>
+            <div class="profile-card">
+                <div class="profile-avatar" id="profileInitials">U</div>
+                <h3 style="color:var(--navy); font-size:22px;" id="userWelcomeText">Welcome!</h3>
+                <p style="color:#64748B; margin-bottom:15px;" id="userEmailText">user@email.com</p>
+                <button class="btn btn-red btn-sm" onclick="logout()">🚪 Logout</button>
             </div>
-            <h3 style="color:var(--navy);margin-bottom:15px;">Transaction History</h3>
+
+            <div class="tracking-banner">
+                <span>📦 Your Assigned Tracking & Shipping Mark</span>
+                <span class="code">
+                    <span id="userMarkCode">GHOO1K-PENDING</span>
+                    <button class="copy-btn" onclick="copyShippingMark()">Copy</button>
+                </span>
+                <small style="opacity:.9;display:block;margin-top:10px;">Instruct China suppliers to write/print this exact code on all outer boxes!</small>
+            </div>
+            
+            <h3 style="color:var(--navy);margin-bottom:15px; border-bottom: 2px solid #E2E8F0; padding-bottom: 10px;">Transaction History</h3>
             <div id="ordersList"></div>
         </div>
     </div>
@@ -655,9 +673,11 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                             <label>Price (GHS ₵)</label>
                             <input type="number" id="npPrice" step="0.01" placeholder="e.g. 150" required>
                         </div>
+                        <!-- CHANGED FROM IMAGE URL TO UPLOAD IMAGE FROM DEVICE -->
                         <div class="form-group">
-                            <label>Image URL</label>
-                            <input type="url" id="npImageUrl" placeholder="https://images.unsplash.com/photo-..." required>
+                            <label>Upload Product Image</label>
+                            <input type="file" id="npImageFile" accept="image/*" required>
+                            <small style="color:#64748B; display:block; margin-top:4px;">Select photo from your device/gallery</small>
                         </div>
                         <div class="form-group">
                             <label>Product Tag</label>
@@ -702,7 +722,41 @@ let activeCategoryFilter = 'All';
 let user = JSON.parse(localStorage.getItem('evUser') || 'null');
 let cart = JSON.parse(localStorage.getItem('evCart') || '[]');
 
-// ACCORDION LOGIC - Closes others when one is opened
+function copyShippingMark() {
+    const markText = document.getElementById('userMarkCode').innerText;
+    navigator.clipboard.writeText(markText).then(() => {
+        alert("✅ Shipping Mark copied: " + markText);
+    }).catch(err => {
+        alert("❌ Failed to copy!");
+    });
+}
+
+function shareCartToWhatsApp() {
+    if(cart.length === 0){ alert('Cart is empty!'); return; }
+    
+    let message = `*EveriVault New Order* 🛒\n\n`;
+    let total = 0;
+    
+    cart.forEach(item => {
+        let subtotal = item.priceGhs * item.qty;
+        total += subtotal;
+        message += `▪️ ${item.qty}x ${item.name} (₵${subtotal})\n`;
+    });
+    
+    message += `\n*Total Amount:* ₵${total.toFixed(2)}`;
+    
+    if(user && user.trackingCode) {
+        message += `\n*Client Mark:* ${user.trackingCode}`;
+    }
+    
+    message += `\n\nI would like to process this order.`;
+    
+    const formattedPhone = MERCHANT_MOMO_NUMBER.startsWith('0') ? '233' + MERCHANT_MOMO_NUMBER.slice(1) : MERCHANT_MOMO_NUMBER;
+    const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(message)}`;
+    
+    window.open(whatsappUrl, '_blank');
+}
+
 function toggleAccordion(element) {
     const content = element.nextElementSibling;
     const allContents = document.querySelectorAll('.accordion-content');
@@ -729,7 +783,6 @@ function toggleAccordion(element) {
     }
 }
 
-// SINGLE PAGE ROUTING - Opens only one section at a time
 function go(page){
     if(page === 'admin' && (!user || !user.isAdmin)){
         alert('⛔ Access Denied! Administrators only.');
@@ -935,10 +988,12 @@ function updateAuthUI(){
     document.getElementById('authBtn').style.display = isLoggedIn ? 'none' : 'block';
     document.getElementById('ordersNav').style.display = isLoggedIn ? 'block' : 'none';
     document.getElementById('adminNav').style.display = isAdmin ? 'block' : 'none';
-    document.getElementById('userProfileNav').style.display = isLoggedIn ? 'block' : 'none';
     
     if(isLoggedIn){
-        document.getElementById('userWelcomeText').textContent = `Welcome back, ${user.name}! (${user.email})`;
+        document.getElementById('userWelcomeText').textContent = user.name;
+        document.getElementById('userEmailText').textContent = user.email + " • " + user.phone;
+        document.getElementById('profileInitials').textContent = user.name.charAt(0).toUpperCase();
+        
         document.getElementById('userMarkCode').textContent = user.trackingCode || 'GHOO1K-PENDING';
         document.getElementById('payName').value = user.name;
         document.getElementById('payEmail').value = user.email;
@@ -1117,9 +1172,9 @@ function performTracking(){
 
 function renderOrders(){
     const list = document.getElementById('ordersList');
-    if(!user){ list.innerHTML = '<p style="text-align:center;padding:30px;">Please log in to view orders.</p>'; return; }
+    if(!user){ list.innerHTML = '<p style="text-align:center;padding:30px;color:#64748B;">Please log in to view orders.</p>'; return; }
     const userOrders = JSON.parse(localStorage.getItem('evOrders_' + user.email) || '[]');
-    if(userOrders.length === 0){ list.innerHTML = '<p style="text-align:center;padding:30px;">No completed orders found.</p>'; return; }
+    if(userOrders.length === 0){ list.innerHTML = '<p style="text-align:center;padding:30px;background:#F8FAFC;border-radius:12px;">You do not have any transaction history yet.</p>'; return; }
     list.innerHTML = userOrders.map(o => `
         <div class="order-item-card">
             <strong>Shipping Mark: ${o.trackingMark || user.trackingCode}</strong>
@@ -1155,23 +1210,37 @@ async function renderAdmin(){
         </table>`;
 }
 
+// CONVERT UPLOADED FILE TO BASE64 AND ADD TO STORE
 async function adminAddProduct(e){
     e.preventDefault();
     const name = document.getElementById('npName').value.trim();
     const category = document.getElementById('npCategory').value;
     const price = parseFloat(document.getElementById('npPrice').value);
-    const imageUrl = document.getElementById('npImageUrl').value.trim();
+    const fileInput = document.getElementById('npImageFile');
     const tag = document.getElementById('npTag').value.trim();
 
-    if(db){ await db.from('products').insert([{ name, category, price_ghs: price, image_url: imageUrl, tag }]); }
-    let prods = JSON.parse(localStorage.getItem('evProducts') || '[]');
-    prods.push({ id: Date.now(), name, category, priceGhs: price, imageUrl, tag });
-    localStorage.setItem('evProducts', JSON.stringify(prods));
+    if(fileInput.files && fileInput.files[0]){
+        const reader = new FileReader();
+        reader.onload = async function(event) {
+            const base64ImageUrl = event.target.result;
 
-    alert('✅ Product added to store by Admin!');
-    e.target.reset();
-    renderAdmin();
-    renderProducts();
+            if(db){ 
+                await db.from('products').insert([{ name, category, price_ghs: price, image_url: base64ImageUrl, tag }]); 
+            }
+            
+            let prods = JSON.parse(localStorage.getItem('evProducts') || '[]');
+            prods.push({ id: Date.now(), name, category, priceGhs: price, imageUrl: base64ImageUrl, tag });
+            localStorage.setItem('evProducts', JSON.stringify(prods));
+
+            alert('✅ Product successfully uploaded & published!');
+            e.target.reset();
+            renderAdmin();
+            renderProducts();
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+    } else {
+        alert('❌ Please select an image file to upload.');
+    }
 }
 
 async function adminDeleteProduct(id){
