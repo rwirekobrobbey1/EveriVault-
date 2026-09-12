@@ -17,37 +17,68 @@ body{background:#F8FAFC;color:#333;line-height:1.6;}
 
 nav{background:var(--navy);position:sticky;top:0;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,.15);}
 .nav-wrap{display:flex;justify-content:space-between;align-items:center;padding:12px 0;}
-.logo{font-size:clamp(20px,5vw,26px);font-weight:900;color:var(--gold);text-decoration:none;}
+.logo{font-size:clamp(20px,5vw,26px);font-weight:900;color:var(--gold);text-decoration:none; display: flex; align-items: center; gap: 8px;}
 .nav-links{display:flex;gap:4px;list-style:none;flex-wrap:wrap;align-items:center;}
-.nav-links a{color:#E0E7FF;text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:600;font-size:14px;}
+.nav-links a{color:#E0E7FF;text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:600;font-size:14px; transition: .2s;}
 .nav-links a:hover,.nav-links a.active{background:rgba(255,255,255,.1);color:var(--gold);}
-.nav-cta{background:linear-gradient(135deg,var(--gold),#B8860B);color:var(--navy)!important;}
+.nav-cta{background:linear-gradient(135deg,var(--gold),#B8860B);color:var(--navy)!important; box-shadow: 0 4px 15px rgba(212,175,55,.4);}
 .admin-badge-nav{background:var(--red);color:#fff!important;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:800;}
 .menu-toggle{display:none;color:#fff;font-size:28px;cursor:pointer;}
 
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:10px;font-weight:700;border:none;cursor:pointer;font-size:15px;text-decoration:none;transition:.2s;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 24px;border-radius:10px;font-weight:700;border:none;cursor:pointer;font-size:15px;text-decoration:none;transition:.2s;}
 .btn:active{transform:scale(.97);}
 .btn-gold{background:linear-gradient(135deg,var(--gold),#B8860B);color:var(--navy);box-shadow:0 4px 12px rgba(212,175,55,.3);}
-.btn-gold:hover{transform:translateY(-2px);}
+.btn-gold:hover{transform:translateY(-3px); box-shadow:0 6px 18px rgba(212,175,55,.4);}
 .btn-sky{background:var(--sky);color:#fff;}
 .btn-green{background:var(--green);color:#fff;}
 .btn-red{background:var(--red);color:#fff;}
-.btn-sm{padding:6px 12px;font-size:13px;}
+.btn-sm{padding:8px 16px;font-size:13px;}
 .btn-block{width:100%;justify-content:center;}
 
-.hero{background:linear-gradient(135deg,#051238,var(--navy),#1E40AF);color:#fff;padding:clamp(40px,10vw,60px) 0;text-align:center;}
-.badge{display:inline-block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:8px 18px;border-radius:50px;font-weight:700;margin-bottom:16px;font-size:14px;}
-.hero h1{font-size:clamp(24px,6vw,44px);margin-bottom:12px;}
+/* --- NEW HOMEPAGE / ADVERTISING STYLES --- */
+.hero{background:linear-gradient(rgba(5, 18, 56, 0.85), rgba(10, 36, 99, 0.95)), url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80') center/cover; color:#fff; padding:clamp(60px,12vw,100px) 0; text-align:center; position: relative;}
+.badge{display:inline-flex; align-items:center; gap:6px; background:rgba(212,175,55,.2); border:1px solid var(--gold); color:var(--gold); padding:8px 18px; border-radius:50px; font-weight:700; margin-bottom:20px; font-size:14px;}
+.hero h1{font-size:clamp(32px,6vw,54px);margin-bottom:16px; font-weight:900; line-height:1.2;}
 .hero h1 span{color:var(--gold);}
-.hero p{font-size:clamp(15px,3vw,18px);opacity:.9;max-width:650px;margin:0 auto 24px;}
-.rate-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;max-width:900px;margin:0 auto 24px;}
-.rate-card{background:rgba(255,255,255,.08);border-radius:14px;padding:18px;}
-.rate-card .big{font-size:clamp(22px,5vw,26px);font-weight:900;color:var(--gold);}
-.hero-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.hero p{font-size:clamp(16px,3vw,20px);opacity:.9;max-width:700px;margin:0 auto 30px;}
+.hero-actions{display:flex;gap:15px;justify-content:center;flex-wrap:wrap; margin-bottom: 40px;}
+
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px; margin-top: -50px; position: relative; z-index: 10; padding: 0 16px;}
+.feature-card{background:#fff; border-radius:16px; padding:30px 20px; box-shadow:var(--shadow); text-align:center; transition:.3s;}
+.feature-card:hover{transform:translateY(-10px);}
+.feature-icon{width:60px; height:60px; background:rgba(10,36,99,.05); color:var(--navy); border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:28px; margin-bottom:15px;}
+.feature-card h3{color:var(--navy); margin-bottom:10px;}
+.feature-card p{color:#64748B; font-size:14px;}
+
+.section-title{text-align:center;font-size:clamp(24px,5vw,36px);color:var(--navy);margin-bottom:15px; font-weight:900;}
+.section-title::after{content:'';display:block;width:80px;height:5px;background:var(--gold);margin:12px auto 0;border-radius:3px;}
+.section-subtitle{text-align:center;color:#64748B;margin-bottom:40px;font-size:16px;max-width:700px;margin-left:auto;margin-right:auto;}
+
+.steps-container{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; margin-bottom:40px;}
+.step-box{background:#fff; padding:25px; border-radius:16px; border:2px solid #E2E8F0; text-align:center; position:relative;}
+.step-num{position:absolute; top:-15px; left:50%; transform:translateX(-50%); background:var(--gold); color:var(--navy); width:35px; height:35px; display:flex; align-items:center; justify-content:center; border-radius:50%; font-weight:900; font-size:18px; box-shadow:0 4px 10px rgba(212,175,55,.4);}
+.step-box h4{color:var(--navy); margin:15px 0 10px; font-size:18px;}
+.step-box p{color:#64748B; font-size:14px;}
+
+/* ACCORDION FAQ STYLES */
+.faq-container{max-width:800px; margin: 0 auto;}
+.accordion-item{background:#fff; border-radius:12px; margin-bottom:12px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); overflow:hidden;}
+.accordion-header{padding:20px; font-weight:700; color:var(--navy); display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition:.3s; background:#fff;}
+.accordion-header:hover{background:#F8FAFC;}
+.accordion-header.active{color:var(--gold); background:var(--navy);}
+.accordion-header.active .icon{transform:rotate(45deg); color:var(--gold);}
+.accordion-content{max-height:0; overflow:hidden; transition:max-height 0.3s ease-out; background:#fff;}
+.accordion-content p{padding:0 20px 20px; color:#475569; font-size:15px;}
+.icon{font-size:24px; font-weight:300; transition:.3s; color:#94A3B8;}
+
+.cta-section{background:var(--navy); color:#fff; text-align:center; padding:60px 20px; border-radius:24px; margin: 40px 0; background-image:radial-gradient(circle at top right, rgba(212,175,55,.15), transparent);}
+.cta-section h2{color:#fff; margin-bottom: 20px;}
+.cta-section h2::after{display:none;}
+/* -------------------------------------- */
 
 section{padding:clamp(40px,8vw,60px) 0;}
-h2{text-align:center;font-size:clamp(20px,4vw,30px);color:var(--navy);margin-bottom:10px;}
-h2::after{content:'';display:block;width:60px;height:4px;background:var(--gold);margin:10px auto 0;border-radius:2px;}
+h2.page-title{text-align:center;font-size:clamp(20px,4vw,30px);color:var(--navy);margin-bottom:10px;}
+h2.page-title::after{content:'';display:block;width:60px;height:4px;background:var(--gold);margin:10px auto 0;border-radius:2px;}
 .subtitle{text-align:center;color:#64748B;margin-bottom:30px;font-size:15px;max-width:600px;margin-left:auto;margin-right:auto;}
 
 .category-bar{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;margin-bottom:20px;scrollbar-width:thin;}
@@ -64,7 +95,7 @@ h2::after{content:'';display:block;width:60px;height:4px;background:var(--gold);
 .form-box{max-width:550px;margin:0 auto;background:#fff;padding:clamp(20px,5vw,30px);border-radius:16px;box-shadow:var(--shadow);}
 .form-group{margin-bottom:16px;}
 label{display:block;margin-bottom:6px;font-weight:600;color:var(--navy);}
-input,select,textarea{width:100%;padding:12px;border:2px solid #E2E8F0;border-radius:10px;font-size:15px;}
+input,select,textarea{width:100%;padding:14px;border:2px solid #E2E8F0;border-radius:10px;font-size:15px;}
 input:focus,select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(10,36,99,.1);}
 .msg{padding:12px;border-radius:10px;margin:12px 0;display:none;font-weight:600;}
 .msg.ok{background:#ECFDF5;color:#065F45;display:block;}
@@ -94,7 +125,6 @@ input:focus,select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 
 .stat-card{background:#fff;padding:18px;border-radius:12px;box-shadow:var(--shadow);text-align:center;}
 .stat-card h4{color:#64748B;font-size:13px;text-transform:uppercase;margin-bottom:6px;}
 .stat-card .val{font-size:24px;font-weight:900;color:var(--navy);}
-
 .data-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);margin-top:15px;}
 .data-table th,.data-table td{padding:12px 14px;text-align:left;border-bottom:1px solid #E2E8F0;font-size:14px;vertical-align:middle;}
 .data-table th{background:var(--navy);color:#fff;}
@@ -108,7 +138,7 @@ input:focus,select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 
 .page{display:none;}
 .page.active{display:block;}
 
-footer{background:#051238;color:#CBD5E1;padding:30px 0 20px;margin-top:20px;text-align:center;}
+footer{background:#051238;color:#CBD5E1;padding:40px 0 20px; text-align:center;}
 footer h3{color:var(--gold);margin-bottom:12px;}
 
 @media(max-width:900px){
@@ -118,8 +148,9 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 }
 @media(max-width:768px){
     .menu-toggle{display:block;}
-    .nav-links{position:absolute;top:100%;left:0;right:0;background:var(--navy);flex-direction:column;padding:16px;display:none;}
+    .nav-links{position:absolute;top:100%;left:0;right:0;background:var(--navy);flex-direction:column;padding:16px;display:none; box-shadow: 0 10px 20px rgba(0,0,0,0.2);}
     .nav-links.active{display:flex;}
+    .features-grid{grid-template-columns: 1fr; margin-top: -20px;}
 }
 </style>
 </head>
@@ -127,7 +158,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 
 <nav>
     <div class="container nav-wrap">
-        <a href="#" class="logo" onclick="go('home');return false;">EVERIVAULT</a>
+        <a href="#" class="logo" onclick="go('home');return false;">🌍 EVERIVAULT</a>
         <ul class="nav-links" id="menu">
             <li><a href="#" class="plink active" data-p="home" onclick="go('home');return false;">Home</a></li>
             <li><a href="#" class="plink" data-p="shop" onclick="go('shop');return false;">🛒 Store</a></li>
@@ -135,8 +166,8 @@ footer h3{color:var(--gold);margin-bottom:12px;}
             <li><a href="#" class="plink" data-p="calc" onclick="go('calc');return false;">📐 Calculator</a></li>
             <li><a href="#" class="plink" data-p="address" onclick="go('address');return false;">📍 Shipping Info</a></li>
             <li><a href="#" class="plink" data-p="track" onclick="go('track');return false;">🔍 Track</a></li>
-            <li id="ordersNav" style="display:none;"><a href="#" class="plink" data-p="orders" onclick="go('orders');return false;">👤 My Profile & Mark</a></li>
-            <li id="adminNav" style="display:none;"><a href="#" class="plink admin-badge-nav" data-p="admin" onclick="go('admin');return false;">🛡️ Admin Dashboard</a></li>
+            <li id="ordersNav" style="display:none;"><a href="#" class="plink" data-p="orders" onclick="go('orders');return false;">👤 Profile</a></li>
+            <li id="adminNav" style="display:none;"><a href="#" class="plink admin-badge-nav" data-p="admin" onclick="go('admin');return false;">🛡️ Admin</a></li>
             <li id="authBtn"><a href="#" class="nav-cta plink" data-p="auth" onclick="go('auth');return false;">Login / Register</a></li>
             <li id="userProfileNav" style="display:none;"><a href="#" class="plink" onclick="logout();return false;" style="color:var(--red);">🚪 Logout</a></li>
         </ul>
@@ -144,34 +175,128 @@ footer h3{color:var(--gold);margin-bottom:12px;}
     </div>
 </nav>
 
-<!-- HOME -->
-<section id="p-home" class="page active">
+<!-- HOME / ADVERTISING LANDING PAGE -->
+<section id="p-home" class="page active" style="padding: 0;">
+    <!-- Attractive Hero Section -->
     <div class="hero">
         <div class="container">
-            <div class="badge">📍 Kumasi — KNUST, Ayeduase New Site</div>
-            <h1>China ↔ Ghana <span>Trusted Shipping & Store</span></h1>
-            <p>Shop Direct • Instant MoMo Payments via Paystack • Real-Time Tracking</p>
-            <div class="rate-grid">
-                <div class="rate-card">
-                    <h3>🚢 Sea Freight</h3>
-                    <div class="big">$260/m³</div>
-                    <div>Under 1 CBM</div>
-                </div>
-                <div class="rate-card">
-                    <h3>✈️ Air Freight</h3>
-                    <div class="big">$17/kg</div>
-                    <div>Standard Goods</div>
-                </div>
-                <div class="rate-card">
-                    <h3>📲 Direct MoMo</h3>
-                    <div class="big">0543155883</div>
-                    <div>MTN / Telecel / AirtelTigo</div>
-                </div>
-            </div>
+            <div class="badge">📍 Based in Kumasi, Ghana — KNUST, Ayeduase</div>
+            <h1>Seamless China ↔ Ghana <span>Shipping & Sourcing</span></h1>
+            <p>Your trusted partner for Sea Freight, Air Freight, and direct China product purchasing. Pay securely in Cedis via Mobile Money.</p>
+            
             <div class="hero-actions">
-                <a href="#" class="btn btn-gold" onclick="go('shop');return false;">🛒 Shop Products</a>
-                <a href="#" class="btn btn-green" onclick="go('pay');return false;">💳 Pay via Paystack MoMo</a>
+                <a href="#" class="btn btn-gold" onclick="go('auth');return false;">📦 Get Your Shipping Mark</a>
+                <a href="#" class="btn btn-sky" onclick="go('shop');return false;">🛒 Browse China Store</a>
             </div>
+        </div>
+    </div>
+
+    <!-- Highlight / Rate Cards overlap -->
+    <div class="container">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">✈️</div>
+                <h3>Air Freight</h3>
+                <p>Fast delivery. <strong>$17/kg</strong> for standard goods directly to our Kumasi hub.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚢</div>
+                <h3>Sea Freight</h3>
+                <p>Best for bulky orders. <strong>$260/CBM</strong> straight from Foshan to Ghana.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💳</div>
+                <h3>MoMo Integrated</h3>
+                <p>No need for Forex. Pay shipping bills directly via Paystack Mobile Money.</p>
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+    
+    <!-- How It Works Section -->
+    <div class="container" style="padding-top: 40px;">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">A simple, transparent process from China to your doorstep in Ghana.</p>
+        
+        <div class="steps-container">
+            <div class="step-box">
+                <div class="step-num">1</div>
+                <h4>Register & Get Mark</h4>
+                <p>Create an account instantly to generate your unique Shipping Mark code.</p>
+            </div>
+            <div class="step-box">
+                <div class="step-num">2</div>
+                <h4>Ship / Buy Goods</h4>
+                <p>Give your China supplier our warehouse address or buy from our local store.</p>
+            </div>
+            <div class="step-box">
+                <div class="step-num">3</div>
+                <h4>Track & Pay</h4>
+                <p>Track arrival status and pay for freight securely using Mobile Money.</p>
+            </div>
+            <div class="step-box">
+                <div class="step-num">4</div>
+                <h4>Receive in Ghana</h4>
+                <p>Pick up at our Kumasi office or request a quick nationwide delivery.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accordion FAQ Section: "One tap to open... close the other" -->
+    <div class="container" style="padding-top: 40px; padding-bottom: 60px;">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle">Everything you need to know about shipping with EveriVault.</p>
+        
+        <div class="faq-container">
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>How long does Air Freight take to arrive?</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Air Freight typically takes between 7 to 14 working days after departure from our Guangzhou warehouse. Updates are provided via our tracking portal.</p>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>How does Sea Freight billing work?</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Sea Freight is ideal for bulky, heavy items and takes around 45-60 days. You are billed at $260 per Cubic Meter (CBM). We provide free warehousing in Foshan for consolidation.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>Can I pay using my MTN MoMo or Telecel Cash?</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Absolutely! We are integrated with Paystack. You can instantly pay your shipping fees or store orders in Cedis using MTN, Telecel, or AirtelTigo directly on this website.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>Why do I need a Shipping Mark?</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Your Shipping Mark is a unique code (e.g. GHOO1K-KWAME) that tells us exactly who owns a package when it arrives at our China warehouse among thousands of boxes. You must instruct your supplier to print this on your box.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Final Call to Action -->
+    <div class="container">
+        <div class="cta-section">
+            <h2>Ready to start shipping with confidence?</h2>
+            <p style="margin-bottom: 25px; opacity: 0.9;">Join hundreds of importers and businesses in Ghana using EveriVault today.</p>
+            <button class="btn btn-gold" style="padding: 16px 30px; font-size: 16px;" onclick="go('auth')">Create Free Account Now</button>
         </div>
     </div>
 </section>
@@ -179,7 +304,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 <!-- STORE -->
 <section id="p-shop" class="page">
     <div class="container">
-        <h2>🛒 Direct China Store</h2>
+        <h2 class="page-title">🛒 Direct China Store</h2>
         <p class="subtitle">Browse products stocked by EveriVault Admin and pay instantly via Mobile Money</p>
         
         <div class="category-bar" id="categoryBar">
@@ -219,7 +344,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 <!-- PAYSTACK PAYMENT PORTAL -->
 <section id="p-pay" class="page">
     <div class="container">
-        <h2>💳 Paystack Mobile Money Portal</h2>
+        <h2 class="page-title">💳 Paystack Mobile Money Portal</h2>
         <p class="subtitle">Pay for shipping bills, freight fees, or custom orders directly to 0543155883</p>
 
         <div class="form-box">
@@ -267,7 +392,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 <!-- CALCULATOR (AIR & SEA FREIGHT) -->
 <section id="p-calc" class="page">
     <div class="container">
-        <h2>📐 Shipping Cost Calculator</h2>
+        <h2 class="page-title">📐 Shipping Cost Calculator</h2>
         <p class="subtitle">Calculate estimated costs for Air Freight, Sea Freight, and Combined Total</p>
         
         <div class="form-box">
@@ -303,7 +428,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 <!-- ADDRESSES (EXACT SPECIFIED AIR AND SEA WAREHOUSES) -->
 <section id="p-address" class="page">
     <div class="container">
-        <h2>📍 China Warehouse Addresses</h2>
+        <h2 class="page-title">📍 China Warehouse Addresses</h2>
         <p class="subtitle">Send your supplier items directly to our Guangzhou Air or Foshan Sea warehouses</p>
         
         <div class="alert-notice" style="max-width:1000px;margin:0 auto 24px;">
@@ -374,7 +499,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 <!-- TRACKING -->
 <section id="p-track" class="page">
     <div class="container">
-        <h2>🔍 Track Shipment</h2>
+        <h2 class="page-title">🔍 Track Shipment</h2>
         <div class="form-box">
             <div class="form-group">
                 <label>Tracking Code / Reference Number / Shipping Mark</label>
@@ -389,7 +514,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 <!-- AUTHENTICATION -->
 <section id="p-auth" class="page">
     <div class="container">
-        <h2>🔐 Portal Account Access</h2>
+        <h2 class="page-title">🔐 Portal Account Access</h2>
         <p class="subtitle">Sign in, register, or reset your password</p>
         
         <div class="form-box">
@@ -434,13 +559,13 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                     <input type="password" id="rpw2" placeholder="Confirm password" required>
                 </div>
                 <div id="rmsg" class="msg"></div>
-                <button type="submit" class="btn btn-gold btn-block">Create Account & Auto-Generate Tracking Code</button>
+                <button type="submit" class="btn btn-gold btn-block">Create Account & Get Tracking Code</button>
             </form>
 
             <form id="fReset" class="tab-content" onsubmit="doResetPassword(event)">
                 <div class="form-group">
                     <label>Email Address OR Shipping Mark Reference</label>
-                    <input type="text" id="resetId" placeholder="e.g. kwame@gmail.com OR GHOO1KKWAME0543155883" required>
+                    <input type="text" id="resetId" placeholder="e.g. kwame@gmail.com OR GHOO1KKWAME" required>
                 </div>
                 <div class="form-group">
                     <label>New Password</label>
@@ -460,7 +585,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 <!-- PROFILE & ORDERS -->
 <section id="p-orders" class="page">
     <div class="container">
-        <h2>👤 Account Profile & Tracking Mark</h2>
+        <h2 class="page-title">👤 Account Profile & Tracking Mark</h2>
         <p class="subtitle" id="userWelcomeText">Here is your unique tracking reference code and order history</p>
         
         <div style="max-width:600px;margin:0 auto;">
@@ -475,10 +600,10 @@ footer h3{color:var(--gold);margin-bottom:12px;}
     </div>
 </section>
 
-<!-- ADMIN DASHBOARD (RESTRICTED PRODUCTS MANAGEMENT) -->
+<!-- ADMIN DASHBOARD -->
 <section id="p-admin" class="page">
     <div class="container">
-        <h2>🛡️ Administrator Dashboard</h2>
+        <h2 class="page-title">🛡️ Administrator Dashboard</h2>
         <p class="subtitle">Only administrators can publish products to the client storefront, edit inventory, and update statuses</p>
 
         <div class="admin-stats">
@@ -501,9 +626,9 @@ footer h3{color:var(--gold);margin-bottom:12px;}
         </div>
 
         <div class="tabs">
-            <div class="tab active" id="atabOrders" onclick="switchAdminTab('orders')">📦 All Client Payments & Orders</div>
-            <div class="tab" id="atabProds" onclick="switchAdminTab('prods')">🛒 Add Product to Client Store</div>
-            <div class="tab" id="atabUsers" onclick="switchAdminTab('users')">👥 Registered Users & Marks</div>
+            <div class="tab active" id="atabOrders" onclick="switchAdminTab('orders')">📦 All Client Orders</div>
+            <div class="tab" id="atabProds" onclick="switchAdminTab('prods')">🛒 Add Product to Store</div>
+            <div class="tab" id="atabUsers" onclick="switchAdminTab('users')">👥 Registered Users</div>
         </div>
 
         <div id="acontentOrders" class="tab-content active">
@@ -584,7 +709,64 @@ let activeCategoryFilter = 'All';
 let user = JSON.parse(localStorage.getItem('evUser') || 'null');
 let cart = JSON.parse(localStorage.getItem('evCart') || '[]');
 
-// AUTOMATIC TRACKING CODE FORMULA: GHOO1K + USER FIRST NAME + USER PHONE NUMBER
+// ACCORDION LOGIC - Closes others when one is opened
+function toggleAccordion(element) {
+    const content = element.nextElementSibling;
+    const allContents = document.querySelectorAll('.accordion-content');
+    const allHeaders = document.querySelectorAll('.accordion-header');
+
+    // Close all other accordions first
+    allContents.forEach(c => {
+        if (c !== content) {
+            c.style.maxHeight = null;
+        }
+    });
+    
+    allHeaders.forEach(h => {
+        if (h !== element) {
+            h.classList.remove('active');
+        }
+    });
+
+    // Toggle the clicked one
+    if (content.style.maxHeight) {
+        content.style.maxHeight = null;
+        element.classList.remove('active');
+    } else {
+        content.style.maxHeight = content.scrollHeight + "px";
+        element.classList.add('active');
+    }
+}
+
+// PAGE NAVIGATION
+function go(page){
+    if(page === 'admin' && (!user || !user.isAdmin)){
+        alert('⛔ Access Denied! Administrators only.');
+        return false;
+    }
+    // Hides all pages and opens only the targeted one
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.plink').forEach(l=>l.classList.remove('active'));
+    document.getElementById('p-'+page).classList.add('active');
+    document.querySelector(`[data-p="${page}"]`)?.classList.add('active');
+    
+    currentPage = page;
+    
+    // Automatically close the mobile menu immediately when a user clicks a link
+    document.getElementById('menu').classList.remove('active');
+    
+    if(page === 'shop') renderProducts();
+    if(page === 'orders') renderOrders();
+    if(page === 'admin') renderAdmin();
+    window.scrollTo(0,0);
+    return false;
+}
+
+function toggleMenu(){ 
+    document.getElementById('menu').classList.toggle('active'); 
+}
+
+// AUTOMATIC TRACKING CODE FORMULA
 function generateTrackingCode(fullName, phoneStr){
     const firstName = fullName ? fullName.trim().split(' ')[0].toUpperCase() : 'USER';
     const cleanPhone = phoneStr ? phoneStr.trim().replace(/[^0-9]/g, '') : '0000000000';
@@ -595,10 +777,7 @@ const defaultProducts = [
     { id: 1, name: "Hydrating Facial Vitamin C Serum", category: "Skin Care", priceGhs: 150, imageUrl: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80", tag: "Hot Seller" },
     { id: 2, name: "Luxury Designer Leather Handbag", category: "Bags", priceGhs: 450, imageUrl: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80", tag: "Trending" },
     { id: 3, name: "Flagship 5G Smartphone 256GB", category: "Phones", priceGhs: 2800, imageUrl: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80", tag: "Top Tech" },
-    { id: 4, name: "Car Dashboard Multi-Media System", category: "Cars", priceGhs: 850, imageUrl: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80", tag: "Automotive" },
-    { id: 5, name: "Unisex Cushioned Running Sneakers", category: "Footwear", priceGhs: 320, imageUrl: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80", tag: "Popular" },
-    { id: 6, name: "Designer Oversized Cotton Hoodie", category: "Clothing", priceGhs: 240, imageUrl: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=600&q=80", tag: "New Arrival" },
-    { id: 7, name: "Digital Touchscreen Air Fryer 5.5L", category: "Home Appliances", priceGhs: 750, imageUrl: "https://images.unsplash.com/photo-1585515320310-259814833e62?auto=format&fit=crop&w=600&q=80", tag: "Home Essential" }
+    { id: 4, name: "Car Dashboard Multi-Media System", category: "Cars", priceGhs: 850, imageUrl: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80", tag: "Automotive" }
 ];
 
 async function fetchProductsFromStore(){
@@ -611,25 +790,6 @@ async function fetchProductsFromStore(){
     return JSON.parse(localStorage.getItem('evProducts')) || defaultProducts;
 }
 
-function go(page){
-    if(page === 'admin' && (!user || !user.isAdmin)){
-        alert('⛔ Access Denied! Administrators only.');
-        return false;
-    }
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    document.querySelectorAll('.plink').forEach(l=>l.classList.remove('active'));
-    document.getElementById('p-'+page).classList.add('active');
-    document.querySelector(`[data-p="${page}"]`)?.classList.add('active');
-    currentPage = page;
-    document.getElementById('menu').classList.remove('active');
-    if(page === 'shop') renderProducts();
-    if(page === 'orders') renderOrders();
-    if(page === 'admin') renderAdmin();
-    return false;
-}
-
-function toggleMenu(){ document.getElementById('menu').classList.toggle('active'); }
-
 function filterCategory(cat, chipElement){
     activeCategoryFilter = cat;
     document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
@@ -637,6 +797,7 @@ function filterCategory(cat, chipElement){
     renderProducts();
 }
 
+// Ensure Auth tabs and Admin tabs close others automatically
 function switchAuthTab(type){
     document.getElementById('tabLogin').classList.toggle('active', type==='login');
     document.getElementById('tabReg').classList.toggle('active', type==='reg');
@@ -644,6 +805,15 @@ function switchAuthTab(type){
     document.getElementById('fLogin').style.display = type==='login' ? 'block' : 'none';
     document.getElementById('fReg').style.display = type==='reg' ? 'block' : 'none';
     document.getElementById('fReset').style.display = type==='reset' ? 'block' : 'none';
+}
+
+function switchAdminTab(type){
+    document.getElementById('atabOrders').classList.toggle('active', type==='orders');
+    document.getElementById('atabProds').classList.toggle('active', type==='prods');
+    document.getElementById('atabUsers').classList.toggle('active', type==='users');
+    document.getElementById('acontentOrders').style.display = type==='orders' ? 'block' : 'none';
+    document.getElementById('acontentProds').style.display = type==='prods' ? 'block' : 'none';
+    document.getElementById('acontentUsers').style.display = type==='users' ? 'block' : 'none';
 }
 
 async function sendWelcomeSMS(phone, trackingCode, name) {
@@ -671,7 +841,6 @@ async function doReg(e){
 
     if(pw !== pw2){ msg.className = 'msg err'; msg.textContent = '❌ Passwords do not match!'; return; }
     
-    // GENERATE TRACKING CODE: GHOO1K + FIRST NAME + PHONE
     const assignedCode = generateTrackingCode(name, phone);
 
     if(db){
@@ -703,7 +872,7 @@ async function doLogin(e){
 
     const adminPassword = localStorage.getItem('evAdminPassword') || 'admin123';
     if(email === 'admin@everivault.com' && pw === adminPassword){
-        user = { name: 'Super Admin', email, phone: '0543155883', trackingCode: 'GHOO1KADMIN0543155883', isAdmin: true };
+        user = { name: 'Super Admin', email, phone: '0543155883', trackingCode: 'GHOO1KADMIN', isAdmin: true };
         localStorage.setItem('evUser', JSON.stringify(user));
         msg.className = 'msg ok'; msg.textContent = '✅ Administrator Logged In!';
         updateAuthUI();
@@ -918,18 +1087,15 @@ function checkoutWithPaystack(){
     });
 }
 
-// AIR & SEA FREIGHT CALCULATOR LOGIC
 function runCalc(){
-    const exchangeRate = 13; // 1 USD = 13 GHS
+    const exchangeRate = 13; 
     const kg = parseFloat(document.getElementById('calcKg').value) || 0;
     const cbm = parseFloat(document.getElementById('calcCbm').value) || 0;
 
     const airUsd = kg * 17;
     const airGhs = airUsd * exchangeRate;
-
     const seaUsd = cbm * 260;
     const seaGhs = seaUsd * exchangeRate;
-
     const totalUsd = airUsd + seaUsd;
     const totalGhs = totalUsd * exchangeRate;
 
@@ -976,15 +1142,6 @@ function renderOrders(){
             <strong>Total: ₵${o.total.toFixed(2)}</strong>
         </div>
     `).join('');
-}
-
-function switchAdminTab(type){
-    document.getElementById('atabOrders').classList.toggle('active', type==='orders');
-    document.getElementById('atabProds').classList.toggle('active', type==='prods');
-    document.getElementById('atabUsers').classList.toggle('active', type==='users');
-    document.getElementById('acontentOrders').style.display = type==='orders' ? 'block' : 'none';
-    document.getElementById('acontentProds').style.display = type==='prods' ? 'block' : 'none';
-    document.getElementById('acontentUsers').style.display = type==='users' ? 'block' : 'none';
 }
 
 async function renderAdmin(){
