@@ -35,8 +35,8 @@ nav{background:var(--navy);position:sticky;top:0;z-index:999;box-shadow:0 4px 20
 .btn-sm{padding:8px 16px;font-size:13px;}
 .btn-block{width:100%;justify-content:center;}
 
-/* --- NEW HOMEPAGE / ADVERTISING STYLES --- */
-.hero{background:linear-gradient(rgba(5, 18, 56, 0.85), rgba(10, 36, 99, 0.95)), url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80') center/cover; color:#fff; padding:clamp(60px,12vw,100px) 0; text-align:center; position: relative;}
+/* --- ADVERTISING & HOMEPAGE STYLES --- */
+.hero{background:linear-gradient(rgba(5, 18, 56, 0.85), rgba(10, 36, 99, 0.95)), url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1200&q=80') center/cover; color:#fff; padding:clamp(60px,12vw,100px) 0; text-align:center; position: relative;}
 .badge{display:inline-flex; align-items:center; gap:6px; background:rgba(212,175,55,.2); border:1px solid var(--gold); color:var(--gold); padding:8px 18px; border-radius:50px; font-weight:700; margin-bottom:20px; font-size:14px;}
 .hero h1{font-size:clamp(32px,6vw,54px);margin-bottom:16px; font-weight:900; line-height:1.2;}
 .hero h1 span{color:var(--gold);}
@@ -74,7 +74,10 @@ nav{background:var(--navy);position:sticky;top:0;z-index:999;box-shadow:0 4px 20
 .cta-section{background:var(--navy); color:#fff; text-align:center; padding:60px 20px; border-radius:24px; margin: 40px 0; background-image:radial-gradient(circle at top right, rgba(212,175,55,.15), transparent);}
 .cta-section h2{color:#fff; margin-bottom: 20px;}
 .cta-section h2::after{display:none;}
-/* -------------------------------------- */
+
+/* FLOATING WHATSAPP BUTTON */
+.whatsapp-float{position:fixed; bottom:25px; right:25px; background-color:#25D366; color:#fff; width:60px; height:60px; border-radius:50px; text-align:center; font-size:32px; box-shadow:0 6px 20px rgba(37,211,102,0.4); z-index:1000; display:flex; align-items:center; justify-content:center; text-decoration:none; transition:.3s;}
+.whatsapp-float:hover{transform:scale(1.1); background-color:#20ba5a;}
 
 section{padding:clamp(40px,8vw,60px) 0;}
 h2.page-title{text-align:center;font-size:clamp(20px,4vw,30px);color:var(--navy);margin-bottom:10px;}
@@ -175,9 +178,11 @@ footer h3{color:var(--gold);margin-bottom:12px;}
     </div>
 </nav>
 
+<!-- FLOATING WHATSAPP BUTTON -->
+<a href="https://wa.me/233543155883?text=Hello%20EveriVault,%20I%20have%20an%20inquiry%20about%20shipping." target="_blank" class="whatsapp-float" title="Chat on WhatsApp">💬</a>
+
 <!-- HOME / ADVERTISING LANDING PAGE -->
 <section id="p-home" class="page active" style="padding: 0;">
-    <!-- Attractive Hero Section -->
     <div class="hero">
         <div class="container">
             <div class="badge">📍 Based in Kumasi, Ghana — KNUST, Ayeduase</div>
@@ -191,7 +196,6 @@ footer h3{color:var(--gold);margin-bottom:12px;}
         </div>
     </div>
 
-    <!-- Highlight / Rate Cards overlap -->
     <div class="container">
         <div class="features-grid">
             <div class="feature-card">
@@ -214,7 +218,6 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 
     <br><br>
     
-    <!-- How It Works Section -->
     <div class="container" style="padding-top: 40px;">
         <h2 class="section-title">How It Works</h2>
         <p class="section-subtitle">A simple, transparent process from China to your doorstep in Ghana.</p>
@@ -243,7 +246,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
         </div>
     </div>
 
-    <!-- Accordion FAQ Section: "One tap to open... close the other" -->
+    <!-- ACCORDION FAQ SECTION (One tap opens, closes others) -->
     <div class="container" style="padding-top: 40px; padding-bottom: 60px;">
         <h2 class="section-title">Frequently Asked Questions</h2>
         <p class="section-subtitle">Everything you need to know about shipping with EveriVault.</p>
@@ -291,7 +294,6 @@ footer h3{color:var(--gold);margin-bottom:12px;}
         </div>
     </div>
 
-    <!-- Final Call to Action -->
     <div class="container">
         <div class="cta-section">
             <h2>Ready to start shipping with confidence?</h2>
@@ -389,7 +391,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
     </div>
 </section>
 
-<!-- CALCULATOR (AIR & SEA FREIGHT) -->
+<!-- CALCULATOR -->
 <section id="p-calc" class="page">
     <div class="container">
         <h2 class="page-title">📐 Shipping Cost Calculator</h2>
@@ -425,7 +427,7 @@ footer h3{color:var(--gold);margin-bottom:12px;}
     </div>
 </section>
 
-<!-- ADDRESSES (EXACT SPECIFIED AIR AND SEA WAREHOUSES) -->
+<!-- ADDRESSES -->
 <section id="p-address" class="page">
     <div class="container">
         <h2 class="page-title">📍 China Warehouse Addresses</h2>
@@ -437,14 +439,11 @@ footer h3{color:var(--gold);margin-bottom:12px;}
         </div>
 
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;max-width:1000px;margin:0 auto;">
-            
-            <!-- AIR FREIGHT WAREHOUSE -->
             <div style="background:#fff;padding:24px;border-radius:16px;box-shadow:var(--shadow);border-top:5px solid var(--sky);">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
                     <h3 style="color:var(--navy);font-size:20px;">✈️ Air Freight Warehouse</h3>
                     <span style="background:#E0F2FE;color:var(--sky);font-weight:800;padding:6px 12px;border-radius:20px;font-size:15px;">$17 / kg</span>
                 </div>
-                
                 <div style="margin-bottom:20px;">
                     <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇬🇧 English Address</strong>
                     <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
@@ -452,7 +451,6 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                         <strong>Address:</strong> Room 510, Jiujiu Business Center, No. 99 Guangyuan West Road, Yuexiu District, Guangzhou City, Guangdong Province, China
                     </div>
                 </div>
-
                 <div>
                     <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇨🇳 Chinese Address (中文地址)</strong>
                     <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
@@ -462,13 +460,11 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                 </div>
             </div>
 
-            <!-- SEA FREIGHT WAREHOUSE -->
             <div style="background:#fff;padding:24px;border-radius:16px;box-shadow:var(--shadow);border-top:5px solid var(--gold);">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
                     <h3 style="color:var(--navy);font-size:20px;">🚢 EVERIVAULT — SEA WAREHOUSE</h3>
                     <span style="background:#FEF3C7;color:#B45309;font-weight:800;padding:6px 12px;border-radius:20px;font-size:15px;">$260 / m³</span>
                 </div>
-
                 <div style="margin-bottom:16px;">
                     <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇬🇧 English Address</strong>
                     <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
@@ -476,7 +472,6 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                         <strong>Address:</strong> Foshan City, Nanhai District, Shishan Town, Xinpu West Road No.88, Bohui Phase 5, Guangdong, China.
                     </div>
                 </div>
-
                 <div style="margin-bottom:16px;">
                     <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇨🇳 Chinese Address (中文地址)</strong>
                     <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
@@ -484,14 +479,12 @@ footer h3{color:var(--gold);margin-bottom:12px;}
                         <strong>地址:</strong> 广东省佛山市南海区狮山镇新圃西路88号博汇5期
                     </div>
                 </div>
-
                 <div style="background:#F1F5F9;padding:12px;border-radius:10px;font-size:13px;line-height:1.6;">
                     🧭 <strong>Navigation:</strong> 佛山固菜仓储服务部（博汇5期） / Foshan Gucai Warehousing Service (Bohui Phase 5)<br>
                     📞 <strong>China Contacts:</strong> Mr. Zhang +86 181 2571 7488 | Mr. Yue +86 180 2417 9599<br>
                     📞 <strong>Ghana Contact:</strong> +233 543 155 883
                 </div>
             </div>
-
         </div>
     </div>
 </section>
@@ -715,7 +708,6 @@ function toggleAccordion(element) {
     const allContents = document.querySelectorAll('.accordion-content');
     const allHeaders = document.querySelectorAll('.accordion-header');
 
-    // Close all other accordions first
     allContents.forEach(c => {
         if (c !== content) {
             c.style.maxHeight = null;
@@ -728,7 +720,6 @@ function toggleAccordion(element) {
         }
     });
 
-    // Toggle the clicked one
     if (content.style.maxHeight) {
         content.style.maxHeight = null;
         element.classList.remove('active');
@@ -738,21 +729,18 @@ function toggleAccordion(element) {
     }
 }
 
-// PAGE NAVIGATION
+// SINGLE PAGE ROUTING - Opens only one section at a time
 function go(page){
     if(page === 'admin' && (!user || !user.isAdmin)){
         alert('⛔ Access Denied! Administrators only.');
         return false;
     }
-    // Hides all pages and opens only the targeted one
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
     document.querySelectorAll('.plink').forEach(l=>l.classList.remove('active'));
     document.getElementById('p-'+page).classList.add('active');
     document.querySelector(`[data-p="${page}"]`)?.classList.add('active');
     
     currentPage = page;
-    
-    // Automatically close the mobile menu immediately when a user clicks a link
     document.getElementById('menu').classList.remove('active');
     
     if(page === 'shop') renderProducts();
@@ -766,7 +754,6 @@ function toggleMenu(){
     document.getElementById('menu').classList.toggle('active'); 
 }
 
-// AUTOMATIC TRACKING CODE FORMULA
 function generateTrackingCode(fullName, phoneStr){
     const firstName = fullName ? fullName.trim().split(' ')[0].toUpperCase() : 'USER';
     const cleanPhone = phoneStr ? phoneStr.trim().replace(/[^0-9]/g, '') : '0000000000';
@@ -797,7 +784,6 @@ function filterCategory(cat, chipElement){
     renderProducts();
 }
 
-// Ensure Auth tabs and Admin tabs close others automatically
 function switchAuthTab(type){
     document.getElementById('tabLogin').classList.toggle('active', type==='login');
     document.getElementById('tabReg').classList.toggle('active', type==='reg');
