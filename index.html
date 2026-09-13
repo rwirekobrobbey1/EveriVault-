@@ -3,1790 +3,608 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EveriVault Logistics — Global Sourcing & Freight Forwarding</title>
-<!-- Paystack Inline JS SDK -->
+<title>EveriVault | Premium China ↔ Ghana Logistics & Commerce</title>
 <script src="https://js.paystack.co/v1/inline.js"></script>
-<!-- Supabase JS Client CDN -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-    --bg-main: #0B132B;
-    --bg-surface: #1C2541;
-    --bg-card: #222E50;
-    --border-color: #3A506B;
-    --accent-navy: #1C2541;
-    --accent-navy-dark: #0B132B;
-    --accent-green: #00F5D4;
-    --accent-green-dark: #00BB9E;
-    --accent-green-glow: rgba(0, 245, 212, 0.25);
-    --text-main: #F0F4F8;
-    --text-muted: #8D99AE;
-    --success: #00F5D4;
-    --danger: #FF5964;
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 20px;
-    --shadow-glow: 0 0 40px rgba(0, 245, 212, 0.2);
-    --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.4);
-    --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --primary: #0f172a;    /* Deep Navy */
+  --secondary: #3b82f6;  /* Vivid Blue */
+  --accent: #d4af37;     /* Premium Gold */
+  --success: #10b981;    /* Emerald */
+  --warning: #f59e0b;    /* Amber */
+  --bg-light: #f8fafc;
+  --bg-card: #ffffff;
+  --text-main: #334155;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+  --radius: 12px;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-html { scroll-behavior: smooth; }
-body { background: var(--bg-main); color: var(--text-main); line-height: 1.6; -webkit-font-smoothing: antialiased; }
-.container { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+body { background: var(--bg-light); color: var(--text-main); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+.container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
 
-/* Navigation Architecture */
-nav { background: rgba(11, 19, 43, 0.95); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(16px); }
-.nav-wrap { display: flex; justify-content: space-between; align-items: center; height: 80px; }
-.logo-area { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-.logo-mark { width: 42px; height: 42px; background: linear-gradient(135deg, var(--accent-green), var(--accent-green-dark)); color: var(--bg-main); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; box-shadow: 0 4px 14px rgba(0, 245, 212, 0.3); }
-.logo-text { font-size: 20px; font-weight: 800; color: #FFF; letter-spacing: -0.5px; }
-.logo-text span { color: var(--accent-green); }
-
-.nav-links { display: flex; gap: 6px; list-style: none; align-items: center; }
-.nav-links a { color: var(--text-muted); text-decoration: none; padding: 8px 14px; border-radius: var(--radius-sm); font-weight: 600; font-size: 13.5px; transition: var(--transition); }
-.nav-links a:hover, .nav-links a.active { color: #FFF; background: rgba(0, 245, 212, 0.12); }
-.nav-cta { background: linear-gradient(135deg, var(--accent-green), var(--accent-green-dark)) !important; color: var(--bg-main) !important; padding: 9px 18px !important; border-radius: var(--radius-sm) !important; font-weight: 700 !important; box-shadow: 0 4px 14px rgba(0, 245, 212, 0.3); }
-.nav-cta:hover { transform: translateY(-1px); filter: brightness(1.05); }
-.admin-badge-nav { background: rgba(255, 89, 100, 0.15) !important; color: var(--danger) !important; border: 1px solid rgba(255, 89, 100, 0.3); }
-.menu-toggle { display: none; font-size: 24px; cursor: pointer; color: #FFF; }
-
-/* Buttons & Controls */
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 24px; border-radius: var(--radius-sm); font-weight: 700; border: none; cursor: pointer; font-size: 14px; text-decoration: none; transition: var(--transition); }
-.btn:active { transform: scale(0.98); }
-.btn-primary { background: linear-gradient(135deg, var(--accent-green), var(--accent-green-dark)); color: var(--bg-main); box-shadow: 0 4px 15px rgba(0, 245, 212, 0.3); }
-.btn-primary:hover { filter: brightness(1.1); transform: translateY(-2px); }
-.btn-secondary { background: #3A506B; color: #FFF; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
-.btn-secondary:hover { background: #4B6584; transform: translateY(-2px); }
-.btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
-.btn-outline:hover { background: rgba(0, 245, 212, 0.1); border-color: var(--accent-green); color: var(--accent-green); }
-.btn-sm { padding: 8px 16px; font-size: 13px; }
-.btn-block { width: 100%; }
+/* Sticky Glass Header */
+header {
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(10px);
+  color: white;
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+nav { display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 1.5rem; font-weight: 700; color: white; display: flex; align-items: center; gap: 8px; }
+.logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; }
+.nav-links a:hover { color: white; }
+.nav-buttons { display: flex; gap: 12px; }
+.btn { padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; border: none; }
+.btn-outline { background: transparent; color: white; border: 1px solid var(--border); }
+.btn-outline:hover { background: rgba(255,255,255,0.1); }
+.btn-primary { background: var(--secondary); color: white; }
+.btn-primary:hover { background: #2563eb; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-accent { background: var(--accent); color: var(--primary); }
+.btn-accent:hover { background: #b8962e; transform: translateY(-1px); }
 
 /* Hero Section */
-.hero { padding: 90px 0 110px; background: linear-gradient(135deg, #070D1D 0%, var(--bg-main) 100%); color: #FFF; position: relative; overflow: hidden; }
-.hero::after { content:''; position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: radial-gradient(circle at 70% 20%, rgba(0, 245, 212, 0.15), transparent 60%); pointer-events: none; }
-.hero-inner { max-width: 960px; margin: 0 auto; text-align: center; position: relative; z-index: 2; }
-.hero-pill { display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 16px; border-radius: 50px; font-size: 13px; font-weight: 600; color: #CBD5E1; margin-bottom: 24px; }
-.hero-pill span { color: var(--accent-green); }
-.hero h1 { font-size: clamp(38px, 6vw, 60px); font-weight: 800; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 20px; color: #FFF; }
-.hero h1 span { background: linear-gradient(to right, #00F5D4, #70FFF0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.hero p { font-size: clamp(16px, 2vw, 19px); color: var(--text-muted); margin-bottom: 32px; max-width: 660px; margin-left: auto; margin-right: auto; }
-.hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 45px; }
+.hero {
+  padding: 6rem 0;
+  text-align: center;
+  background: linear-gradient(180deg, #e0e7ff 0%, var(--bg-light) 100%);
+  position: relative;
+  overflow: hidden;
+}
+.hero h1 { font-size: 3.5rem; font-weight: 800; color: var(--primary); letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 1.5rem; }
+.hero p { font-size: 1.15rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 2.5rem; }
+.hero-buttons { display: flex; justify-content: center; gap: 16px; }
+.hero-buttons .btn { padding: 0.8rem 2rem; font-size: 1rem; }
 
-/* Real-Life Logistics Image Showcases */
-.hero-image-banner { max-width: 1000px; margin: 0 auto; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6); border: 2px solid rgba(255, 255, 255, 0.1); position: relative; }
-.hero-image-banner img { width: 100%; height: 420px; object-fit: cover; display: block; filter: brightness(0.95); }
-.hero-img-caption { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(11,19,43,0.98), transparent); padding: 24px; text-align: left; font-size: 14px; font-weight: 600; color: #E2E8F0; }
+/* Section Globals */
+section { padding: 5rem 0; }
+.section-header { text-align: center; margin-bottom: 4rem; }
+.section-header h2 { font-size: 2.25rem; color: var(--primary); font-weight: 700; margin-bottom: 1rem; }
+.section-header p { color: var(--text-muted); max-width: 500px; margin: 0 auto; }
 
-/* Logistics & Delivery HD Gallery Grid */
-.logistics-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin: 60px 0; }
-.gallery-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-card); transition: var(--transition); }
-.gallery-card:hover { transform: translateY(-4px); border-color: var(--accent-green); box-shadow: var(--shadow-glow); }
-.gallery-img { height: 230px; width: 100%; object-fit: cover; }
-.gallery-content { padding: 22px; }
-.gallery-content h4 { color: #FFF; font-size: 17px; font-weight: 700; margin-bottom: 8px; }
-.gallery-content p { color: var(--text-muted); font-size: 13.5px; line-height: 1.5; }
+/* Grids & Cards */
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+.card { background: var(--bg-card); padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow-md); border: 1px solid var(--border); transition: transform 0.2s, box-shadow 0.2s; }
+.card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; }
+.card-header h3 { font-size: 1.25rem; color: var(--primary); font-weight: 600; }
+.icon-box { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+.bg-blue { background: #dbeafe; color: #1e40af; }
+.bg-green { background: #d1fae5; color: #065f46; }
 
-/* Feature Grid */
-.trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: -30px; position: relative; z-index: 10; margin-bottom: 60px; }
-.trust-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 32px 24px; box-shadow: var(--shadow-card); transition: var(--transition); position: relative; overflow: hidden; }
-.trust-card::before { content:''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--accent-green); opacity: 0; transition: var(--transition); }
-.trust-card:hover { transform: translateY(-5px); border-color: var(--accent-green); box-shadow: var(--shadow-glow); }
-.trust-card:hover::before { opacity: 1; }
-.trust-card h3 { font-size: 18px; font-weight: 700; color: #FFF; margin-bottom: 10px; }
-.trust-card p { font-size: 14px; color: var(--text-muted); }
+/* Pricing & Addresses */
+.price-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+.price-row:last-of-type { border-bottom: none; }
+.price-row strong { color: var(--primary); }
+.addr-box { background: #f1f5f9; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-main); position: relative; }
+.copy-btn { position: absolute; top: 1rem; right: 1rem; background: white; border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: 500; transition: all 0.2s; }
+.copy-btn:hover { background: var(--bg-light); border-color: var(--secondary); color: var(--secondary); }
 
-/* Section Base */
-section { padding: 80px 0; }
-.section-title { font-size: clamp(28px, 4vw, 36px); font-weight: 800; color: #FFF; text-align: center; letter-spacing: -0.5px; margin-bottom: 12px; }
-.section-subtitle { text-align: center; color: var(--text-muted); font-size: 15.5px; max-width: 620px; margin: 0 auto 50px; }
+/* Forms */
+.form-group { margin-bottom: 1rem; }
+.form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--primary); margin-bottom: 6px; }
+input, select, textarea { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; background: var(--bg-light); transition: all 0.2s; }
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--secondary); background: white; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
 
-/* Workflow Steps */
-.workflow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
-.workflow-card { background: var(--bg-surface); border: 1px solid var(--border-color); padding: 32px 24px; border-radius: var(--radius-md); position: relative; box-shadow: var(--shadow-card); transition: var(--transition); }
-.workflow-card:hover { border-color: var(--accent-green); box-shadow: var(--shadow-glow); }
-.workflow-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; color: var(--accent-green); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; display: block; }
-.workflow-card h4 { font-size: 17px; font-weight: 700; color: #FFF; margin-bottom: 10px; }
-.workflow-card p { font-size: 14px; color: var(--text-muted); }
+/* Storefront */
+.filters { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 3rem; }
+.filter-btn { padding: 0.5rem 1.2rem; border-radius: 20px; font-size: 0.9rem; font-weight: 500; border: 1px solid var(--border); background: white; color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+.filter-btn.active, .filter-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+.product-card { background: white; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow-sm); transition: transform 0.2s; display: flex; flex-direction: column; }
+.product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.product-img { height: 200px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; font-size: 3rem; position: relative; }
+.tag { position: absolute; top: 12px; left: 12px; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; }
+.tag.available { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+.tag.preorder { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+.product-body { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
+.product-category { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+.product-title { font-size: 1.1rem; font-weight: 600; color: var(--primary); margin-bottom: 8px; }
+.product-price { font-size: 1.25rem; font-weight: 700; color: var(--secondary); margin-bottom: 1rem; }
+.product-btn { margin-top: auto; width: 100%; text-align: center; }
 
-/* Accordion FAQ */
-.faq-container { max-width: 780px; margin: 0 auto; }
-.accordion-item { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 14px; overflow: hidden; box-shadow: var(--shadow-card); }
-.accordion-header { padding: 20px 24px; font-weight: 600; color: #FFF; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 15.5px; transition: var(--transition); background: var(--bg-surface); }
-.accordion-header:hover { background: rgba(0, 245, 212, 0.08); color: var(--accent-green); }
-.accordion-header.active { background: rgba(0, 245, 212, 0.08); color: var(--accent-green); }
-.accordion-header.active .accordion-icon { transform: rotate(45deg); color: var(--accent-green); }
-.accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: var(--bg-surface); }
-.accordion-content p { padding: 0 24px 24px; color: var(--text-muted); font-size: 14.5px; }
-.accordion-icon { font-size: 20px; color: var(--text-muted); transition: var(--transition); font-weight: 300; }
-
-/* Forms & Cards */
-.form-box { max-width: 620px; margin: 0 auto; background: var(--bg-surface); border: 1px solid var(--border-color); padding: 40px; border-radius: var(--radius-lg); box-shadow: var(--shadow-card); }
-.form-group { margin-bottom: 22px; }
-label { display: block; margin-bottom: 8px; font-weight: 600; color: #FFF; font-size: 14px; }
-input, select, textarea { width: 100%; padding: 13px 18px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 14.5px; color: #FFF; background: var(--bg-card); transition: var(--transition); }
-input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-green); box-shadow: 0 0 0 3px var(--accent-green-glow); }
-input[type="file"] { padding: 10px; background: var(--bg-card); cursor: pointer; }
-.msg { padding: 14px; border-radius: var(--radius-sm); margin: 14px 0; display: none; font-size: 14px; font-weight: 600; }
-.msg.ok { background: rgba(0, 245, 212, 0.15); color: var(--accent-green); border: 1px solid rgba(0, 245, 212, 0.3); display: block; }
-.msg.err { background: rgba(255, 89, 100, 0.15); color: var(--danger); border: 1px solid rgba(255, 89, 100, 0.3); display: block; }
-
-/* Store Layout */
-.store-layout { display: grid; grid-template-columns: 2.6fr 1fr; gap: 28px; align-items: start; }
-.category-bar { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 28px; scrollbar-width: thin; }
-.cat-chip { background: var(--bg-surface); border: 1px solid var(--border-color); color: var(--text-muted); padding: 9px 20px; border-radius: 50px; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: var(--transition); box-shadow: var(--shadow-card); }
-.cat-chip.active, .cat-chip:hover { background: var(--accent-green); color: var(--bg-main); border-color: var(--accent-green); box-shadow: 0 4px 14px rgba(0, 245, 212, 0.3); }
-
-.product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 22px; }
-.product-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-card); display: flex; flex-direction: column; justify-content: space-between; transition: var(--transition); }
-.product-card:hover { transform: translateY(-4px); border-color: var(--accent-green); box-shadow: var(--shadow-glow); }
-.product-img-box { height: 190px; background: var(--bg-card); position: relative; overflow: hidden; }
-.product-img-box img { width: 100%; height: 100%; object-fit: cover; }
-.product-tag { position: absolute; top: 12px; left: 12px; background: var(--accent-green); color: var(--bg-main); font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 2px 8px rgba(0, 245, 212, 0.3); }
-.product-info { padding: 18px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-.product-title { font-size: 15px; font-weight: 700; color: #FFF; margin-bottom: 8px; line-height: 1.4; }
-.product-price { font-size: 17px; font-weight: 800; color: var(--success); margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; }
-
-.cart-card { background: var(--bg-surface); border: 1px solid var(--border-color); padding: 24px; border-radius: var(--radius-md); box-shadow: var(--shadow-card); position: sticky; top: 96px; }
-.cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border-color); font-size: 14px; }
-.cart-controls { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
-.cart-btn { background: var(--bg-card); border: 1px solid var(--border-color); width: 24px; height: 24px; border-radius: 4px; font-weight: 700; cursor: pointer; color: #FFF; display: flex; align-items: center; justify-content: center; font-size: 12px; }
-.cart-btn:hover { background: var(--accent-green); border-color: var(--accent-green); color: var(--bg-main); }
-
-/* Badges & Notices */
-.alert-notice { background: rgba(0, 245, 212, 0.1); border: 1px solid rgba(0, 245, 212, 0.3); padding: 18px; border-radius: var(--radius-sm); color: #70FFF0; margin-bottom: 24px; font-size: 14px; line-height: 1.5; box-shadow: var(--shadow-card); }
-.paystack-badge { background: rgba(58, 80, 107, 0.4); border: 1px solid var(--border-color); color: #70FFF0; padding: 18px; border-radius: var(--radius-sm); margin-bottom: 20px; font-size: 14px; line-height: 1.5; }
-.bank-badge { background: rgba(0, 245, 212, 0.08); border: 1px solid rgba(0, 245, 212, 0.2); color: #70FFF0; padding: 18px; border-radius: var(--radius-sm); margin-bottom: 20px; font-size: 14px; line-height: 1.5; }
-
-/* Admin & Profile Panels */
-.admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; margin-bottom: 35px; }
-.stat-card { background: var(--bg-surface); border: 1px solid var(--border-color); padding: 22px; border-radius: var(--radius-md); box-shadow: var(--shadow-card); }
-.stat-card h4 { color: var(--text-muted); font-size: 12px; text-transform: uppercase; margin-bottom: 8px; font-weight: 700; letter-spacing: 0.5px; }
-.stat-card .val { font-size: 26px; font-weight: 800; color: #FFF; font-family: 'JetBrains Mono', monospace; }
-
-.data-table { width: 100%; border-collapse: collapse; background: var(--bg-surface); border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-color); box-shadow: var(--shadow-card); margin-top: 18px; }
-.data-table th, .data-table td { padding: 16px 20px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 14px; color: var(--text-main); }
-.data-table th { background: var(--bg-card); color: var(--text-muted); font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
-.data-table tr:hover { background: rgba(255, 255, 255, 0.02); }
-.tbl-thumb { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; background: var(--bg-card); border: 1px solid var(--border-color); }
-
-/* Reviews */
-.review-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; margin-top: 35px; }
-.review-card { background: var(--bg-surface); border: 1px solid var(--border-color); padding: 28px; border-radius: var(--radius-md); box-shadow: var(--shadow-card); }
-.review-stars { color: #FFD166; font-size: 14px; margin-bottom: 12px; font-family: monospace; }
-.review-text { color: var(--text-main); font-size: 14.5px; margin-bottom: 18px; font-style: italic; line-height: 1.6; }
-.review-author { font-weight: 700; color: #FFF; font-size: 14px; }
-.review-date { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
-
-/* Calculator Navigation Subtabs */
-.calc-subtabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 35px; background: var(--bg-card); padding: 6px; border-radius: 50px; max-width: 440px; margin-left: auto; margin-right: auto; box-shadow: var(--shadow-card); border: 1px solid var(--border-color); }
-.calc-tab { flex: 1; padding: 11px 20px; border-radius: 50px; font-weight: 700; background: transparent; color: var(--text-muted); cursor: pointer; font-size: 14px; text-align: center; border: none; transition: var(--transition); }
-.calc-tab.active { background: var(--accent-green); color: var(--bg-main); box-shadow: 0 4px 14px rgba(0, 245, 212, 0.3); }
-.calc-panel { display: none; }
-.calc-panel.active { display: block; animation: fadeIn 0.3s ease; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
-
-/* Profile Card & Tracking Banner */
-.profile-card { background: var(--bg-surface); border: 1px solid var(--border-color); padding: 35px; border-radius: var(--radius-lg); box-shadow: var(--shadow-card); text-align: center; margin-bottom: 28px; }
-.profile-avatar { width: 70px; height: 70px; background: linear-gradient(135deg, var(--accent-green), var(--accent-green-dark)); color: var(--bg-main); font-size: 24px; font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; box-shadow: 0 4px 14px rgba(0, 245, 212, 0.3); }
-.tracking-banner { background: var(--bg-card); border: 1px solid var(--border-color); color: #FFF; padding: 32px; border-radius: var(--radius-md); margin-bottom: 28px; text-align: center; box-shadow: var(--shadow-card); }
-.tracking-banner .code { font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 700; color: var(--accent-green); letter-spacing: 1px; margin-top: 12px; display: flex; align-items: center; justify-content: center; }
-
-/* Proof Upload Section */
-.proof-upload-box { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 32px; margin-top: 30px; box-shadow: var(--shadow-card); }
-
-/* Terms & Conditions Box */
-.terms-box { background: var(--bg-card); border: 1px solid var(--border-color); padding: 18px; border-radius: var(--radius-sm); max-height: 180px; overflow-y: auto; font-size: 13px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5; }
-.terms-box strong { color: #FFF; }
+/* Modals */
+.modal { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
+.modal.active { display: flex; opacity: 1; }
+.modal-content { background: white; padding: 2.5rem; border-radius: var(--radius); width: 100%; max-width: 400px; position: relative; transform: translateY(20px); transition: transform 0.3s ease; }
+.modal.active .modal-content { transform: translateY(0); }
+.modal-close { position: absolute; top: 1.2rem; right: 1.2rem; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); line-height: 1; }
 
 /* Footer */
-footer { background: var(--bg-card); color: var(--text-muted); padding: 70px 0 35px; border-top: 1px solid var(--border-color); }
-.footer-wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; margin-bottom: 45px; }
-.footer-col h4 { color: #FFF; font-size: 15.5px; font-weight: 700; margin-bottom: 18px; letter-spacing: 0.5px; }
-.footer-col p, .footer-col a { color: var(--text-muted); font-size: 14px; text-decoration: none; display: block; margin-bottom: 10px; transition: var(--transition); }
-.footer-col a:hover { color: #FFF; }
-.footer-bottom { border-top: 1px solid var(--border-color); padding-top: 28px; text-align: center; font-size: 13.5px; color: var(--text-muted); }
+footer { background: var(--primary); color: #cbd5e1; padding: 4rem 0 2rem; border-top: 1px solid rgba(255,255,255,0.1); }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 3rem; }
+.footer-title { color: white; font-size: 1.1rem; font-weight: 600; margin-bottom: 1.2rem; }
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 0.75rem; }
+.footer-links a { color: #cbd5e1; text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--accent); }
+.footer-bottom { text-align: center; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; }
 
-/* Utility */
-.page { display: none; }
-.page.active { display: block; }
-.whatsapp-float { position: fixed; bottom: 28px; right: 28px; background: var(--accent-green); color: var(--bg-main); width: 56px; height: 56px; border-radius: 50px; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 26px; box-shadow: 0 10px 25px rgba(0, 245, 212, 0.4); z-index: 1000; transition: var(--transition); }
-.whatsapp-float:hover { transform: scale(1.08); filter: brightness(1.1); }
-
-@media (max-width: 900px) {
-    .store-layout { grid-template-columns: 1fr; }
-    .cart-card { position: static; }
-    .menu-toggle { display: block; }
-    .nav-links { position: absolute; top: 80px; left: 0; right: 0; background: var(--bg-surface); flex-direction: column; padding: 24px; display: none; border-bottom: 1px solid var(--border-color); box-shadow: var(--shadow-card); }
-    .nav-links.active { display: flex; }
+@media(max-width: 768px) {
+  .nav-links { display: none; }
+  .hero h1 { font-size: 2.5rem; }
 }
 </style>
 </head>
 <body>
 
-<nav>
-    <div class="container nav-wrap">
-        <a href="#" class="logo-area" onclick="go('home');return false;">
-            <div class="logo-mark">EV</div>
-            <div class="logo-text">EVERIVAULT<span>.</span></div>
-        </a>
-        <ul class="nav-links" id="menu">
-            <li><a href="#" class="plink active" data-p="home" onclick="go('home');return false;">Overview</a></li>
-            <li><a href="#" class="plink" data-p="shop" onclick="go('shop');return false;">Marketplace</a></li>
-            <li><a href="#" class="plink" data-p="pay" onclick="go('pay');return false;">Payments & Proof</a></li>
-            <li><a href="#" class="plink" data-p="calc" onclick="go('calc');return false;">Calculator</a></li>
-            <li><a href="#" class="plink" data-p="address" onclick="go('address');return false;">Warehouses</a></li>
-            <li><a href="#" class="plink" data-p="track" onclick="go('track');return false;">Track Cargo</a></li>
-            <li><a href="#" class="plink" data-p="reviews" onclick="go('reviews');return false;">Testimonials</a></li>
-            <li id="ordersNav" style="display:none;"><a href="#" class="plink" data-p="orders" onclick="go('orders');return false;">Client Portal</a></li>
-            <li id="adminNav" style="display:none;"><a href="#" class="plink admin-badge-nav" data-p="admin" onclick="go('admin');return false;">Admin Console</a></li>
-            <li id="authBtn"><a href="#" class="nav-cta plink" data-p="auth" onclick="go('auth');return false;">Sign In</a></li>
-            <li id="userProfileNav" style="display:none;"><a href="#" class="plink" onclick="logout();return false;" style="color:var(--danger);">Sign Out</a></li>
-        </ul>
-        <span class="menu-toggle" onclick="toggleMenu()">&#9776;</span>
+<!-- NAVIGATION -->
+<header>
+  <div class="container">
+    <nav>
+      <div class="logo">Everi<span>Vault</span></div>
+      <ul class="nav-links">
+        <li><a href="#shipping">Logistics</a></li>
+        <li><a href="#store">Commerce</a></li>
+        <li><a href="#travels">Sourcing Updates</a></li>
+      </ul>
+      <div class="nav-buttons">
+        <button class="btn btn-outline" onclick="openModal('loginModal')">Sign In</button>
+        <button class="btn btn-accent" onclick="openModal('registerModal')">Create Account</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <h1>Enterprise Logistics & Commerce</h1>
+    <p>Seamlessly bridging the gap between Asian manufacturing and West African markets. Premium hardware, apparel sourcing, and cross-border shipping managed in one secure portal.</p>
+    <div class="hero-buttons">
+      <button class="btn btn-primary" onclick="document.getElementById('shipping').scrollIntoView({behavior:'smooth'})">Calculate Freight</button>
+      <button class="btn btn-outline" style="color: var(--primary); border-color: var(--border); background: white;" onclick="document.getElementById('store').scrollIntoView({behavior:'smooth'})">Access Storefront</button>
     </div>
-</nav>
-
-<!-- FLOATING WHATSAPP BUTTON -->
-<a href="https://wa.me/13095194647?text=Hello%20EveriVault,%20I%20require%20assistance%20regarding%20my%20shipment." target="_blank" class="whatsapp-float" title="Support Chat">💬</a>
-
-<!-- HOME / LANDING PAGE -->
-<section id="p-home" class="page active" style="padding: 0;">
-    <div class="hero">
-        <div class="container">
-            <div class="hero-inner">
-                <div class="hero-pill">Kumasi Operational Hub &bull; KNUST Ayeduase</div>
-                <h1>Direct China-Ghana <span>Freight Forwarding</span> & Sourcing</h1>
-                <p>Engineered for high-volume commercial importers. Secure air consolidation, maritime cargo handling, and direct multi-currency trade settlements.</p>
-                <div class="hero-actions">
-                    <button class="btn btn-primary" onclick="go('auth')">Request Shipping Mark</button>
-                    <button class="btn btn-outline" style="color:#FFF; border-color:rgba(255,255,255,0.3);" onclick="go('shop')">Browse Marketplace</button>
-                </div>
-                
-                <!-- REAL-LIFE LOGISTICS IMAGE BANNER -->
-                <div class="hero-image-banner">
-                    <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1400&q=85" alt="Global Container Shipping and Freight Forwarding Hub">
-                    <div class="hero-img-caption">
-                        EveriVault Secure Consolidation Facility &bull; Professional Cargo Handling & Inspection Depots in Guangzhou & Foshan
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="trust-grid">
-            <div class="trust-card">
-                <h3>Air Cargo Consolidation</h3>
-                <p>Express transit from Guangzhou warehouse directly to our Kumasi distribution hub. Standard rate: <strong>$17 per kg</strong> (7-14 Days).</p>
-            </div>
-            <div class="trust-card">
-                <h3>Maritime Ocean Freight</h3>
-                <p>Economical containerized shipping from Foshan terminals. Commercial rate: <strong>$260 per CBM</strong> (45-60 Days).</p>
-            </div>
-            <div class="trust-card">
-                <h3>Institutional Settlements</h3>
-                <p>Automated payment processing supporting Mobile Money, GTBank, and verified card channels with secure proof verification.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- LOGISTICS, DELIVERY & QUALITY INSPECTION HD GALLERY -->
-    <div class="container" style="padding-top: 20px; padding-bottom: 20px;">
-        <h2 class="section-title">Logistics Infrastructure & Delivery Operations</h2>
-        <p class="section-subtitle">HD visualization of our consolidation, quality inspection, and regional delivery network.</p>
-        
-        <div class="logistics-gallery">
-            <div class="gallery-card">
-                <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=800&q=85" alt="Global Port Operations" class="gallery-img">
-                <div class="gallery-content">
-                    <h4>Global Port & Terminal Management</h4>
-                    <p>High-capacity cargo handling and vessel dispatch across international shipping terminals in Guangzhou and Foshan.</p>
-                </div>
-            </div>
-            <div class="gallery-card">
-                <img src="https://www.punctuallogistics.com/images/generated/service-inspection-consolidation.webp" alt="Consolidation and Quality Inspection" class="gallery-img">
-                <div class="gallery-content">
-                    <h4>Consolidation & Quality Inspection</h4>
-                    <p>Rigorous multi-point quality inspection and packaging consolidation services designed to safeguard your merchandise prior to transit.</p>
-                </div>
-            </div>
-            <div class="gallery-card">
-                <img src="https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&w=800&q=85" alt="Secure Delivery Hub Ghana" class="gallery-img">
-                <div class="gallery-content">
-                    <h4>Express Delivery & Hub Distribution</h4>
-                    <p>Seamless cargo intake, customs clearance, and prompt final delivery from our KNUST Ayeduase distribution depot across Ghana.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- PRODUCT SHOWCASE / ADVERTISEMENT SECTION -->
-    <div class="container" style="padding-top: 20px; padding-bottom: 40px;">
-        <h2 class="section-title">Featured Wholesale Products</h2>
-        <p class="section-subtitle">Discover top-selling manufacturer inventory ready for direct import and sourcing.</p>
-        
-        <div class="product-grid" id="homeProductShowcase">
-            <!-- Dynamically populated from store catalog -->
-        </div>
-        
-        <div style="text-align: center; margin-top: 35px;">
-            <button class="btn btn-secondary" onclick="go('shop')">Explore Full Marketplace Catalog →</button>
-        </div>
-    </div>
-
-    <div class="container" style="padding-top: 20px;">
-        <h2 class="section-title">Standardized Operational Procedure</h2>
-        <p class="section-subtitle">A transparent workflow guaranteeing chain-of-custody tracking from factory floor to final delivery.</p>
-        
-        <div class="workflow-grid">
-            <div class="workflow-card">
-                <span class="workflow-num">Stage 01</span>
-                <h4>Account Enrollment</h4>
-                <p>Register online to instantly provision a unique alphanumeric shipping identifier.</p>
-            </div>
-            <div class="workflow-card">
-                <span class="workflow-num">Stage 02</span>
-                <h4>Supplier Dispatch</h4>
-                <p>Direct your Chinese manufacturers to route domestic cargo to our secure consolidation depots.</p>
-            </div>
-            <div class="workflow-card">
-                <span class="workflow-num">Stage 03</span>
-                <h4>Manifest & Verification</h4>
-                <p>Monitor package intake, volumetric calculation, and settle freight fees securely.</p>
-            </div>
-            <div class="workflow-card">
-                <span class="workflow-num">Stage 04</span>
-                <h4>Kumasi Intake / Delivery</h4>
-                <p>Collect goods directly from our Ayeduase hub or schedule regional dispatch.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- ACCORDION FAQ SECTION -->
-    <div class="container" style="padding-top: 60px; padding-bottom: 60px;">
-        <h2 class="section-title">Frequently Asked Questions</h2>
-        <p class="section-subtitle">Operational guidelines regarding manifest clearance, volumetric parameters, and payment structures.</p>
-        
-        <div class="faq-container">
-            <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <span>What is the standard transit timeframe for Air Cargo?</span>
-                    <span class="accordion-icon">+</span>
-                </div>
-                <div class="accordion-content">
-                    <p>Air consignments typically clear customs and arrive at our Kumasi hub within 7 to 14 working days following departure from our Guangzhou consolidation facility.</p>
-                </div>
-            </div>
-            
-            <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <span>What is the transit timeframe for Sea Freight?</span>
-                    <span class="accordion-icon">+</span>
-                </div>
-                <div class="accordion-content">
-                    <p>Maritime ocean freight container consignments typically require <strong>45 to 60 days</strong> from vessel departure at Foshan ports to customs clearance and intake at our Kumasi distribution hub.</p>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <span>What goods are strictly prohibited by EveriVault?</span>
-                    <span class="accordion-icon">+</span>
-                </div>
-                <div class="accordion-content">
-                    <p>We strictly <strong>do not accept battery goods</strong> and <strong>fragile products</strong> across our logistics lanes to prevent transit hazards and damage liabilities.</p>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <span>How does cargo consolidation billing work?</span>
-                    <span class="accordion-icon">+</span>
-                </div>
-                <div class="accordion-content">
-                    <p>Consolidation is done per request and is <strong>charged differently from the shipping cost</strong>.</p>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <span>What happens if my package arrives without a Shipping Mark?</span>
-                    <span class="accordion-icon">+</span>
-                </div>
-                <div class="accordion-content">
-                    <p>Failure to add or correctly display your assigned shipping mark on package waybills will lead to the <strong>client's own loss</strong>, as unlabelled cargo cannot be matched or tracked to your profile.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div style="background:var(--bg-card); color:#FFF; text-align:center; padding:60px 30px; border-radius:var(--radius-lg); margin-bottom: 60px; box-shadow:var(--shadow-card); border:1px solid var(--border-color);">
-            <h2 style="font-size:28px; font-weight:800; margin-bottom:12px;">Ready to optimize your supply chain?</h2>
-            <p style="color:var(--text-muted); margin-bottom:24px; font-size:15px; max-width:500px; margin-left:auto; margin-right:auto;">Join established commercial enterprises relying on EveriVault logistics infrastructure.</p>
-            <button class="btn btn-primary" onclick="go('auth')">Open Commercial Account</button>
-        </div>
-    </div>
+  </div>
 </section>
 
-<!-- STORE -->
-<section id="p-shop" class="page">
-    <div class="container">
-        <h2 class="page-title">Sourcing Marketplace</h2>
-        <p class="subtitle">Wholesale inventory catalog inspected and verified by EveriVault administration</p>
+<!-- LOGISTICS / SHIPPING -->
+<section id="shipping">
+  <div class="container">
+    <div class="section-header">
+      <h2>Freight & Logistics Hub</h2>
+      <p>Transparent pricing, dedicated warehousing, and streamlined fulfillment from Guangzhou to Kumasi.</p>
+    </div>
+    
+    <div class="grid-2">
+      <!-- Sea Freight -->
+      <div class="card">
+        <div class="card-header">
+          <div class="icon-box bg-blue">🚢</div>
+          <h3>Sea Freight</h3>
+        </div>
+        <div class="price-row"><span>Estimated Transit</span><strong>45–60 Days</strong></div>
+        <div class="price-row"><span>Below 1 CBM</span><strong>$260 USD / CBM</strong></div>
+        <div class="price-row"><span>1 CBM & Above</span><strong>$255 USD / CBM</strong></div>
+        <div class="price-row"><span>Exchange Rate</span><strong>$1 = ₵13</strong></div>
+        <p style="font-size: 0.8rem; color: var(--warning); margin-top: 1rem;">* Battery-powered electronics strictly prohibited via sea freight.</p>
         
-        <div class="category-bar" id="categoryBar">
-            <div class="cat-chip active" onclick="filterCategory('All', this)">All Categories</div>
-            <div class="cat-chip" onclick="filterCategory('Skin Care', this)">Skin Care</div>
-            <div class="cat-chip" onclick="filterCategory('Bags', this)">Bags & Luggage</div>
-            <div class="cat-chip" onclick="filterCategory('Phones', this)">Consumer Electronics</div>
-            <div class="cat-chip" onclick="filterCategory('Cars', this)">Automotive</div>
-            <div class="cat-chip" onclick="filterCategory('Footwear', this)">Footwear</div>
-            <div class="cat-chip" onclick="filterCategory('Clothing', this)">Apparel</div>
-            <div class="cat-chip" onclick="filterCategory('Home Appliances', this)">Home Appliances</div>
+        <div class="addr-box">
+          <button class="copy-btn" onclick="copyText(this, '广东省佛山市南海区狮山镇新圃西路88号博汇5期')">Copy</button>
+          <div style="font-weight: 600; margin-bottom: 4px;">Warehouse Receiving (China)</div>
+          广东省佛山市南海区狮山镇新圃西路88号博汇5期<br>
+          导航：佛山固菜仓储服务部（博汇5期）<br>
+          张生：18125717488
         </div>
-
-        <div class="store-layout">
-            <div class="product-grid" id="productGrid"></div>
-            
-            <div class="cart-card">
-                <h3 style="color:#FFF;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;font-size:16px;">
-                    <span>Order Summary</span>
-                    <span id="cartCount" style="font-size:12px;background:var(--bg-card);color:#FFF;padding:3px 8px;border-radius:4px;font-weight:700;border:1px solid var(--border-color);">0 items</span>
-                </h3>
-                <div id="cartItems">
-                    <p style="text-align:center;color:var(--text-muted);padding:30px 0;font-size:13.5px;">Cart is currently empty.</p>
-                </div>
-                <div style="margin-top:16px;border-top:1px solid var(--border-color);padding-top:16px;">
-                    <div style="display:flex;justify-content:space-between;font-weight:800;font-size:16px;color:#FFF;margin-bottom:16px;">
-                        <span>Total:</span>
-                        <span>₵<span id="cartTotal">0.00</span></span>
-                    </div>
-                    <button class="btn btn-secondary btn-block" style="margin-bottom:10px;" onclick="checkoutWithPaystack()">Secure Paystack Checkout</button>
-                    <button class="btn btn-outline btn-block" style="border-color:var(--accent-green); color:var(--accent-green); background:rgba(0,245,212,0.08);" onclick="shareCartToWhatsApp()">Submit Order via WhatsApp</button>
-                </div>
-            </div>
+      </div>
+      
+      <!-- Air Freight -->
+      <div class="card">
+        <div class="card-header">
+          <div class="icon-box bg-green">✈️</div>
+          <h3>Air Freight</h3>
         </div>
-    </div>
-</section>
-
-<!-- PAYMENT PORTAL & PROOF OF PAYMENT UPLOAD -->
-<section id="p-pay" class="page">
-    <div class="container">
-        <h2 class="page-title">Payment Settlement Gateway & Verification</h2>
-        <p class="subtitle">Remit freight or purchase fees and submit transaction proofs for automated account reconciliation</p>
-
-        <div class="form-box">
-            <div class="paystack-badge">
-                <strong style="font-size:14px; color:#70FFF0; display:block; margin-bottom:4px;">Mobile Money Direct Deposit</strong>
-                Official Account Number: <strong>0543155883</strong><br>
-                Account Holder Name: <strong>Richmond Wireko Brobbey</strong><br><br>
-                <button class="btn btn-sm btn-primary" onclick="copyDirectInfo('0543155883')">Copy MoMo Number</button>
-            </div>
-
-            <div class="bank-badge">
-                <strong style="font-size:14px; color:#70FFF0; display:block; margin-bottom:4px;">Institutional Bank Wire</strong>
-                Bank Institution: <strong>Guaranty Trust Bank (GTBank)</strong><br>
-                Account Number: <strong>1304001024705</strong><br>
-                Account Name: <strong>Richmond Wireko Brobbey</strong><br><br>
-                <button class="btn btn-sm btn-primary" onclick="copyDirectInfo('1304001024705')">Copy Account Number</button>
-            </div>
-
-            <hr style="margin:24px 0; border:0; border-top:1px solid var(--border-color);">
-
-            <form id="paystackPortalForm" onsubmit="triggerDirectPaystack(event)">
-                <h4 style="color:#FFF; margin-bottom:16px; font-size:15px;">Automated Card & Mobile Money Processing</h4>
-                <div class="form-group">
-                    <label>Full Legal Name</label>
-                    <input type="text" id="payName" placeholder="e.g. Kwame Mensah" required>
-                </div>
-                <div class="form-group">
-                    <label>Corporate Email</label>
-                    <input type="email" id="payEmail" placeholder="e.g. kwame@enterprise.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Mobile Number</label>
-                    <input type="tel" id="payPhone" placeholder="e.g. 0543155883" value="0543155883" required>
-                </div>
-                <div class="form-group">
-                    <label>Shipping Mark / Reference ID</label>
-                    <input type="text" id="payRef" placeholder="e.g. GHOO1KKWAME" required>
-                </div>
-                <div class="form-group">
-                    <label>Settlement Amount (GHS)</label>
-                    <input type="number" id="payAmount" step="0.01" min="1" placeholder="e.g. 500.00" required>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block" style="margin-top:8px;">Initialize Automated Settlement</button>
-            </form>
-
-            <!-- PROOF OF PAYMENT UPLOAD MODULE -->
-            <div class="proof-upload-box">
-                <h4 style="color:#FFF; margin-bottom:8px; font-size:16px;">Submit Proof of Manual Payment / Bank Transfer</h4>
-                <p style="color:var(--text-muted); font-size:13.5px; margin-bottom:20px;">Already transferred funds via MoMo or GTBank? Upload a screenshot receipt or transfer confirmation slip for instant administrative validation.</p>
-                
-                <form onsubmit="submitPaymentProof(event)">
-                    <div class="form-group">
-                        <label>Transaction Reference / Transaction ID</label>
-                        <input type="text" id="proofTxId" placeholder="e.g. MOMO-TX-984210" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Amount Transferred (GHS)</label>
-                        <input type="number" id="proofAmount" step="0.01" placeholder="e.g. 500.00" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Upload Receipt Screenshot / Document</label>
-                        <input type="file" id="proofFile" accept="image/*,application/pdf" required>
-                    </div>
-                    <div id="proofMsg" class="msg"></div>
-                    <button type="submit" class="btn btn-secondary btn-block">Submit Proof for Verification</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- SEPARATED SHIPPING COST CALCULATORS -->
-<section id="p-calc" class="page">
-    <div class="container">
-        <h2 class="page-title">Logistics Cost Estimator</h2>
-        <p class="subtitle">Calculate precise freight valuations independently for Air or Sea transport lanes</p>
+        <div class="price-row"><span>Estimated Transit</span><strong>3–7 Days</strong></div>
+        <div class="price-row"><span>Standard Goods</span><strong>$17 USD / kg</strong></div>
+        <div class="price-row"><span>Phones / Laptops</span><strong>₵500 Flat Rate</strong></div>
         
-        <div class="calc-subtabs">
-            <button class="calc-tab active" id="tabAir" onclick="switchCalcTab('air')">Air Freight Calculator</button>
-            <button class="calc-tab" id="tabSea" onclick="switchCalcTab('sea')">Sea Freight Calculator</button>
+        <div class="addr-box">
+          <button class="copy-btn" onclick="copyText(this, '广州市越秀区广园西路99号玖玖商汇510室')">Copy</button>
+          <div style="font-weight: 600; margin-bottom: 4px;">Express Receiving (China)</div>
+          广州市越秀区广园西路99号玖玖商汇510室
         </div>
-
-        <!-- AIR PANEL -->
-        <div class="calc-panel active" id="panelAir">
-            <div class="form-box">
-                <h3 style="color:#FFF;margin-bottom:8px;font-size:16px;">Air Cargo Cost Breakdown</h3>
-                <p style="color:var(--text-muted);font-size:13.5px;margin-bottom:20px;">Standard Tariff: <strong>$17 per kg</strong> (7-14 Days) from Guangzhou warehouse to Kumasi hub.</p>
-                <div class="form-group">
-                    <label>Gross Weight (kg)</label>
-                    <input type="number" id="calcAirKg" oninput="runAirCalc()" placeholder="e.g. 15.5" min="0" step="0.1">
-                </div>
-                <div style="background:var(--bg-card);border:1px solid var(--border-color);padding:16px;border-radius:var(--radius-sm);margin:20px 0;">
-                    <p style="display:flex;justify-content:space-between;font-size:17px;color:#FFF;font-weight:800; font-family:'JetBrains Mono',monospace;">
-                        <span>Estimated Total:</span>
-                        <span>$<span id="resAirUsd">0.00</span> (₵<span id="resAirGhs">0.00</span>)</span>
-                    </p>
-                </div>
-                <button class="btn btn-primary btn-block" onclick="go('pay')">Proceed to Settlement</button>
-            </div>
-        </div>
-
-        <!-- SEA PANEL -->
-        <div class="calc-panel" id="panelSea">
-            <div class="form-box">
-                <h3 style="color:#FFF;margin-bottom:8px;font-size:16px;">Maritime Sea Freight Breakdown</h3>
-                <p style="color:var(--text-muted);font-size:13.5px;margin-bottom:20px;">Commercial Tariff: <strong>$260 per CBM (m³)</strong> (45-60 Days) from Foshan terminal to Ghana.</p>
-                <div class="form-group">
-                    <label>Cubic Volume (CBM)</label>
-                    <input type="number" id="calcSeaCbm" oninput="runSeaCalc()" placeholder="e.g. 2.4" min="0" step="0.01">
-                </div>
-                <div style="background:var(--bg-card);border:1px solid var(--border-color);padding:16px;border-radius:var(--radius-sm);margin:20px 0;">
-                    <p style="display:flex;justify-content:space-between;font-size:17px;color:#FFF;font-weight:800; font-family:'JetBrains Mono',monospace;">
-                        <span>Estimated Total:</span>
-                        <span>$<span id="resSeaUsd">0.00</span> (₵<span id="resSeaGhs">0.00</span>)</span>
-                    </p>
-                </div>
-                <button class="btn btn-primary btn-block" onclick="go('pay')">Proceed to Settlement</button>
-            </div>
-        </div>
+      </div>
     </div>
+
+    <!-- Smart Calculator -->
+    <div class="card" style="margin-top: 24px; padding: 3rem;">
+      <div class="card-header">
+        <div class="icon-box" style="background: #f1f5f9;">🧮</div>
+        <h3>Freight Estimator</h3>
+      </div>
+      <div class="grid-2">
+        <div>
+          <div class="form-group"><label>Dimensions (L × W × H in cm)</label>
+            <div style="display: flex; gap: 8px;">
+              <input type="number" id="len" placeholder="L">
+              <input type="number" id="wid" placeholder="W">
+              <input type="number" id="hgt" placeholder="H">
+            </div>
+          </div>
+          <div class="form-group"><label>Weight (kg) — Air Only</label>
+            <input type="number" id="wgt" placeholder="Enter weight">
+          </div>
+        </div>
+        <div>
+          <div class="form-group"><label>Shipping Method</label>
+            <select id="method">
+              <option value="sea">Sea Freight (CBM)</option>
+              <option value="air">Air Freight (Weight)</option>
+              <option value="device">Smart Devices (Flat)</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Client Reference ID</label>
+            <input type="text" id="mark" value="GH001K_">
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="calcCost()" style="width: 100%; margin-top: 1rem; padding: 1rem;">Generate Freight Quote</button>
+      
+      <div id="result" style="display: none; margin-top: 2rem; padding: 1.5rem; background: var(--bg-light); border-radius: 8px; border: 1px solid var(--border);"></div>
+    </div>
+  </div>
 </section>
 
-<!-- REVIEWS & TESTIMONIALS PORTAL -->
-<section id="p-reviews" class="page">
-    <div class="container">
-        <h2 class="page-title">Client Testimonials & Feedback</h2>
-        <p class="subtitle">Independent reviews from registered commercial importers utilizing our logistics network</p>
-
-        <div style="max-width:600px;margin:0 auto 40px;background:var(--bg-surface);padding:32px;border-radius:var(--radius-lg);border:1px solid var(--border-color);box-shadow:var(--shadow-card);">
-            <h3 style="color:#FFF;margin-bottom:16px;font-size:16px;">Publish Review</h3>
-            <form onsubmit="submitReview(event)">
-                <div class="form-group">
-                    <label>Importer Name / Business Entity</label>
-                    <input type="text" id="revName" placeholder="e.g. Ama Serwaa Trading" required>
-                </div>
-                <div class="form-group">
-                    <label>Service Rating</label>
-                    <select id="revRating" required>
-                        <option value="5">5 Stars — Outstanding Service Quality</option>
-                        <option value="4">4 Stars — Highly Professional</option>
-                        <option value="3">3 Stars — Satisfactory Execution</option>
-                        <option value="2">2 Stars — Needs Improvement</option>
-                        <option value="1">1 Star — Unsatisfactory</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Feedback Commentary</label>
-                    <textarea id="revComment" rows="3" placeholder="Detail your operational logistics experience with EveriVault..." required></textarea>
-                </div>
-                <button class="btn btn-primary btn-block">Publish Testimonial</button>
-            </form>
-        </div>
-
-        <div class="review-grid" id="reviewsContainer"></div>
+<!-- COMMERCE / STORE -->
+<section id="store" style="background: white;">
+  <div class="container">
+    <div class="section-header">
+      <h2>Commercial Sourcing</h2>
+      <p>Pre-order direct imports and shop in-stock apparel, timepieces, and commercial printing hardware.</p>
     </div>
+    
+    <div class="filters">
+      <button class="filter-btn active" onclick="filterProducts('all')">All Inventory</button>
+      <button class="filter-btn" onclick="filterProducts('hardware')">Printing Hardware</button>
+      <button class="filter-btn" onclick="filterProducts('apparel')">Streetwear & Apparel</button>
+      <button class="filter-btn" onclick="filterProducts('accessories')">Luxury Timepieces</button>
+    </div>
+
+    <div class="grid-3" id="productsGrid">
+      
+      <!-- Hardware -->
+      <div class="product-card" data-category="hardware">
+        <div class="product-img">🖨️<span class="tag preorder">Pre-Order</span></div>
+        <div class="product-body">
+          <div class="product-category">Commercial Hardware</div>
+          <h4 class="product-title">UV DTF Sticker Printer</h4>
+          <div class="product-price">Custom Quote</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Industrial grade UV direct-to-film printer. Perfect for custom merchandise. Factory direct sourcing.</p>
+          <button class="btn btn-outline product-btn" style="color: var(--primary); border-color: var(--primary);" onclick="openModal('loginModal')">Request Specs</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-category="hardware">
+        <div class="product-img">👕<span class="tag preorder">Pre-Order</span></div>
+        <div class="product-body">
+          <div class="product-category">Commercial Hardware</div>
+          <h4 class="product-title">Direct-to-Garment (DTG) Press</h4>
+          <div class="product-price">Custom Quote</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Automated hat/cap and flatbed heat press machines for high-volume textile printing operations.</p>
+          <button class="btn btn-outline product-btn" style="color: var(--primary); border-color: var(--primary);" onclick="openModal('loginModal')">Request Specs</button>
+        </div>
+      </div>
+
+      <!-- Accessories -->
+      <div class="product-card" data-category="accessories">
+        <div class="product-img">⌚<span class="tag available">In Stock</span></div>
+        <div class="product-body">
+          <div class="product-category">Luxury Timepieces</div>
+          <h4 class="product-title">VVS Moissanite Watch</h4>
+          <div class="product-price">₵4,200</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Premium iced-out quartz movement timepiece. Passes standard diamond testers. Includes display box.</p>
+          <button class="btn btn-primary product-btn" onclick="openModal('loginModal')">Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-category="accessories">
+        <div class="product-img">✨<span class="tag available">In Stock</span></div>
+        <div class="product-body">
+          <div class="product-category">Luxury Timepieces</div>
+          <h4 class="product-title">Quartz Watch & Bracelet Set</h4>
+          <div class="product-price">₵1,850</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Executive multi-piece analog watch and matching metallic bracelet set. Professional wear.</p>
+          <button class="btn btn-primary product-btn" onclick="openModal('loginModal')">Add to Cart</button>
+        </div>
+      </div>
+
+      <!-- Apparel -->
+      <div class="product-card" data-category="apparel">
+        <div class="product-img">👖<span class="tag available">In Stock</span></div>
+        <div class="product-body">
+          <div class="product-category">Men's Streetwear</div>
+          <h4 class="product-title">Tech-Fleece Cargo Pants</h4>
+          <div class="product-price">₵450</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">High-utility tactical cargo trousers. Multi-pocket design, adjustable cuffs. Sizes M - XXL.</p>
+          <button class="btn btn-primary product-btn" onclick="openModal('loginModal')">Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-category="apparel">
+        <div class="product-img">🧥<span class="tag available">In Stock</span></div>
+        <div class="product-body">
+          <div class="product-category">Men's Streetwear</div>
+          <h4 class="product-title">Two-Piece Utility Short Set</h4>
+          <div class="product-price">₵550</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Summer-weight matching top and short set. Breathable fabric tailored for the Ghanaian climate.</p>
+          <button class="btn btn-primary product-btn" onclick="openModal('loginModal')">Add to Cart</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </section>
 
-<!-- WAREHOUSE DIRECTORY -->
-<section id="p-address" class="page">
-    <div class="container">
-        <h2 class="page-title">China Warehouse Directory</h2>
-        <p class="subtitle">Mandatory destination addresses for supplier dispatch routing</p>
-        
-        <div class="alert-notice" style="max-width:1000px;margin:0 auto 24px;">
-            <strong>SHIPPING MARK DIRECTIVE:</strong> Ensure your manufacturer explicitly labels outer packaging with your assigned alphanumeric Shipping Mark (Format: <code>GHOO1K + First Name + Phone</code>) to guarantee seamless intake at our sorting facility. Failure to add your shipping mark will lead to the client's own loss.
-        </div>
-
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;max-width:1000px;margin:0 auto;">
-            <!-- AIR WAREHOUSE -->
-            <div style="background:var(--bg-surface);padding:24px;border-radius:var(--radius-md);border:1px solid var(--border-color);border-top:4px solid var(--accent-green);box-shadow:var(--shadow-card);">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-                    <h3 style="color:#FFF;font-size:17px;">Air Freight Warehouse</h3>
-                    <span style="background:rgba(0,245,212,0.1);color:var(--accent-green);font-weight:700;padding:4px 10px;border-radius:4px;font-size:12px;">$17 / kg (7-14d)</span>
-                </div>
-                
-                <div style="margin-bottom:16px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                        <strong style="color:#FFF; font-size:13px;">English Address</strong>
-                        <button class="btn btn-sm btn-outline" style="padding:4px 10px; font-size:11px;" onclick="copyAddressText('airEnglishAddr')">Copy</button>
-                    </div>
-                    <div id="airEnglishAddr" style="background:var(--bg-card);padding:12px;border-radius:var(--radius-sm);font-size:12.5px;border:1px solid var(--border-color);line-height:1.5;color:var(--text-muted);">
-                        Recipient: EveriVault / <span class="user-mark-display" style="color:#FFF;">Your Shipping Mark</span><br>
-                        Address: Room 510, Jiujiu Business Center, No. 99 Guangyuan West Road, Yuexiu District, Guangzhou City, Guangdong Province, China
-                    </div>
-                </div>
-
-                <div>
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                        <strong style="color:#FFF; font-size:13px;">Chinese Address (中文地址)</strong>
-                        <button class="btn btn-sm btn-outline" style="padding:4px 10px; font-size:11px;" onclick="copyAddressText('airChineseAddr')">Copy</button>
-                    </div>
-                    <div id="airChineseAddr" style="background:var(--bg-card);padding:12px;border-radius:var(--radius-sm);font-size:12.5px;border:1px solid var(--border-color);line-height:1.5;color:var(--text-muted);">
-                        收件人: EveriVault / <span class="user-mark-display" style="color:#FFF;">您的唛头代码</span><br>
-                        地址: 广州市越秀区广园西路99号玖玖商汇510室
-                    </div>
-                </div>
-            </div>
-
-            <!-- SEA WAREHOUSE -->
-            <div style="background:var(--bg-surface);padding:24px;border-radius:var(--radius-md);border:1px solid var(--border-color);border-top:4px solid var(--border-color);box-shadow:var(--shadow-card);">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-                    <h3 style="color:#FFF;font-size:17px;">Sea Freight Warehouse</h3>
-                    <span style="background:var(--bg-card);color:#FFF;font-weight:700;padding:4px 10px;border-radius:4px;font-size:12px;border:1px solid var(--border-color);">$260 / m³ (45-60d)</span>
-                </div>
-
-                <div style="margin-bottom:14px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                        <strong style="color:#FFF; font-size:13px;">English Address</strong>
-                        <button class="btn btn-sm btn-outline" style="padding:4px 10px; font-size:11px;" onclick="copyAddressText('seaEnglishAddr')">Copy</button>
-                    </div>
-                    <div id="seaEnglishAddr" style="background:var(--bg-card);padding:12px;border-radius:var(--radius-sm);font-size:12.5px;border:1px solid var(--border-color);line-height:1.5;color:var(--text-muted);">
-                        Recipient: EveriVault / <span class="user-mark-display" style="color:#FFF;">Your Shipping Mark</span><br>
-                        Address: Foshan City, Nanhai District, Shishan Town, Xinpu West Road No.88, Bohui Phase 5, Guangdong, China.
-                    </div>
-                </div>
-
-                <div style="margin-bottom:14px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                        <strong style="color:#FFF; font-size:13px;">Chinese Address (中文地址)</strong>
-                        <button class="btn btn-sm btn-outline" style="padding:4px 10px; font-size:11px;" onclick="copyAddressText('seaChineseAddr')">Copy</button>
-                    </div>
-                    <div id="seaChineseAddr" style="background:var(--bg-card);padding:12px;border-radius:var(--radius-sm);font-size:12.5px;border:1px solid var(--border-color);line-height:1.5;color:var(--text-muted);">
-                        收件人: EveriVault / <span class="user-mark-display" style="color:#FFF;">您的唛头代码</span><br>
-                        地址: 广东省佛山市南海区狮山镇新圃西路88号博汇5期
-                    </div>
-                </div>
-
-                <div style="background:var(--bg-card);padding:12px;border-radius:var(--radius-sm);font-size:12px;line-height:1.5;border:1px solid var(--border-color);color:var(--text-muted);">
-                    Navigation: 佛山固菜仓储服务部（博汇5期）<br>
-                    China Contacts: +86 181 2571 7488 | +86 180 2417 9599<br>
-                    Ghana Contact: +233 543 155 883
-                </div>
-            </div>
-        </div>
+<!-- CEO TRAVELS / SOURCING UPDATES -->
+<section id="travels">
+  <div class="container">
+    <div class="section-header">
+      <h2>Global Sourcing Network</h2>
+      <p>Exclusive supply chain updates and factory direct verification reports.</p>
     </div>
+    
+    <div id="travelsContent" style="display:none;">
+      <div class="grid-3">
+        <div class="card" style="border-top: 4px solid var(--secondary);">
+          <h4 style="color: var(--primary); margin-bottom: 8px;">🇨🇳 Guangzhou Manufacturing Audit</h4>
+          <div style="font-size: 0.85rem; color: var(--secondary); font-weight: 600; margin-bottom: 12px;">July 25 - August 15, 2026</div>
+          <p style="font-size: 0.95rem; color: var(--text-muted);">Completed a 21-night sourcing expedition stationed at the Hanqun Hotel near Baiyun International Airport. Successfully secured new direct-to-garment (DTG) printing hardware lines and negotiated updated volume pricing for streetwear and moissanite timepiece inventories.</p>
+        </div>
+        <div class="card" style="border-top: 4px solid var(--primary);">
+          <h4 style="color: var(--primary); margin-bottom: 8px;">🇿🇦 Cape Town Logistics Summit</h4>
+          <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600; margin-bottom: 12px;">December 2025</div>
+          <p style="font-size: 0.95rem; color: var(--text-muted);">Attended regional supply chain networking events to optimize southern freight routes and explore backup distribution centers for cross-border African forwarding.</p>
+        </div>
+        <div class="card" style="border-top: 4px solid var(--primary);">
+          <h4 style="color: var(--primary); margin-bottom: 8px;">🇶🇦 Doha Business Forum</h4>
+          <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600; margin-bottom: 12px;">April 2025</div>
+          <p style="font-size: 0.95rem; color: var(--text-muted);">Participated in international commerce discussions regarding digital payments and cross-border digital financial management solutions for import/export firms.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div id="travelsLocked" style="text-align: center; padding: 4rem 2rem; background: var(--bg-card); border-radius: var(--radius); border: 1px dashed #cbd5e1;">
+      <div style="font-size: 3rem; margin-bottom: 1rem;">🔒</div>
+      <h3 style="margin-bottom: 1rem; color: var(--primary);">Secure Corporate Network</h3>
+      <p style="color: var(--text-muted); margin-bottom: 2rem; max-width: 400px; margin-left: auto; margin-right: auto;">Authentication is required to view proprietary supply chain routes, supplier updates, and factory verification logs.</p>
+      <button class="btn btn-primary" onclick="openModal('loginModal')">Authenticate Access</button>
+    </div>
+  </div>
 </section>
 
-<!-- TRACKING -->
-<section id="p-track" class="page">
-    <div class="container">
-        <h2 class="page-title">Cargo Tracking System</h2>
-        <div class="form-box">
-            <div class="form-group">
-                <label>Enter Tracking Reference / Shipping Mark</label>
-                <input type="text" id="trackInput" placeholder="e.g. GHOO1KKWAME">
-            </div>
-            <button class="btn btn-primary btn-block" onclick="performTracking()">Query Manifest Status</button>
-            <div id="trackResult" style="margin-top:20px;"></div>
-        </div>
-    </div>
-</section>
-
-<!-- PORTAL ACCOUNT ACCESS -->
-<section id="p-auth" class="page">
-    <div class="container">
-        <h2 class="page-title">Client Access Portal</h2>
-        <p class="subtitle">Authenticate credentials, register organizational accounts, or execute password recovery</p>
-        
-        <div style="max-width: 440px; margin: 0 auto; background: var(--bg-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); overflow: hidden; border: 1px solid var(--border-color);">
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); background: var(--bg-card); padding: 6px; gap: 4px; border-bottom: 1px solid var(--border-color);">
-                <button class="btn btn-sm btn-outline active" id="tabLogin" onclick="switchAuthTab('login')" style="border:none; background:var(--accent-green); color:var(--bg-main); font-size:12px;">Sign In</button>
-                <button class="btn btn-sm btn-outline" id="tabReg" onclick="switchAuthTab('reg')" style="border:none; background:transparent; color:var(--text-muted); font-size:12px;">Register</button>
-                <button class="btn btn-sm btn-outline" id="tabReset" onclick="switchAuthTab('reset')" style="border:none; background:transparent; color:var(--text-muted); font-size:12px;">Reset</button>
-            </div>
-
-            <div style="padding: 32px;">
-                <form id="fLogin" class="auth-form-panel active" onsubmit="doLogin(event)">
-                    <div class="form-group">
-                        <label>Corporate Email</label>
-                        <input type="email" id="lem" placeholder="e.g. user@domain.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" id="lpw" placeholder="Enter password" required>
-                    </div>
-                    <div id="lmsg" class="msg"></div>
-                    <button type="submit" class="btn btn-primary btn-block" style="margin-top: 10px;">Access Portal</button>
-                </form>
-
-                <form id="fReg" class="auth-form-panel" style="display:none;" onsubmit="doReg(event)">
-                    <div class="form-group">
-                        <label>Full Name / Business Entity</label>
-                        <input type="text" id="rn" placeholder="e.g. Kwame Mensah" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Corporate Email</label>
-                        <input type="email" id="rem" placeholder="e.g. kwame@enterprise.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Phone Number</label>
-                        <input type="tel" id="rp" placeholder="e.g. 0543155883" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" id="rpw" placeholder="Create secure password" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Confirm Password</label>
-                        <input type="password" id="rpw2" placeholder="Confirm password" required>
-                    </div>
-
-                    <!-- MANDATORY TERMS & CONDITIONS SECTION -->
-                    <div class="form-group">
-                        <label>Terms & Conditions Agreement</label>
-                        <div class="terms-box">
-                            <strong>1. Prohibited Goods:</strong> We strictly do not accept <em>battery goods</em> and <em>fragile products</em>.<br><br>
-                            <strong>2. Consolidation Policy:</strong> Consolidation is done per request and is <em>charged differently from the shipping cost</em>.<br><br>
-                            <strong>3. Shipping Mark Responsibility:</strong> Failure to add your assigned shipping mark to supplier packages will lead to the <strong>client's own loss</strong>.<br><br>
-                            <strong>4. Service Agreement:</strong> By registering, you agree to all operational policies and customs procedures enforced by EveriVault Logistics.
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
-                            <input type="checkbox" id="regTerms" required style="width: auto; cursor: pointer;">
-                            <label for="regTerms" style="font-size: 13px; font-weight: 500; margin-bottom: 0; cursor: pointer;">I have read and agree to all terms and conditions</label>
-                        </div>
-                    </div>
-
-                    <div id="rmsg" class="msg"></div>
-                    <button type="submit" class="btn btn-primary btn-block" style="margin-top: 10px;">Register & Claim Mark</button>
-                </form>
-
-                <form id="fReset" class="auth-form-panel" style="display:none;" onsubmit="doResetPassword(event)">
-                    <div class="form-group">
-                        <label>Email Address or Shipping Mark</label>
-                        <input type="text" id="resetId" placeholder="e.g. user@domain.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label>New Password</label>
-                        <input type="password" id="resetPw1" placeholder="Enter new password" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Confirm New Password</label>
-                        <input type="password" id="resetPw2" placeholder="Confirm new password" required>
-                    </div>
-                    <div id="resetMsg" class="msg"></div>
-                    <button type="submit" class="btn btn-primary btn-block" style="margin-top: 10px;">Update Credentials</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- PROFILE & ORDERS -->
-<section id="p-orders" class="page">
-    <div class="container">
-        <h2 class="page-title">Client Account Dashboard</h2>
-        
-        <div style="max-width:600px;margin:0 auto;">
-            <div class="profile-card">
-                <div class="profile-avatar" id="profileInitials">U</div>
-                <h3 style="color:#FFF; font-size:18px;" id="userWelcomeText">Account Profile</h3>
-                <p style="color:var(--text-muted); margin-bottom:16px; font-size:13.5px;" id="userEmailText">user@enterprise.com</p>
-                <button class="btn btn-sm btn-outline" style="color:var(--danger); border-color:rgba(255,89,100,0.3);" onclick="logout()">Sign Out</button>
-            </div>
-
-            <div class="tracking-banner">
-                <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--text-muted);">Assigned Shipping Mark</div>
-                <span class="code">
-                    <span id="userMarkCode">GHOO1K-PENDING</span>
-                    <button class="btn btn-sm btn-primary" style="margin-left: 12px; padding: 4px 12px; font-size: 12px;" onclick="copyShippingMark()">Copy</button>
-                </span>
-                <small style="opacity:0.8;display:block;margin-top:10px;font-size:12.5px;color:var(--text-muted);">Provide this exact code directly to your Chinese manufacturing suppliers. Failure to include this mark leads to client's own loss.</small>
-            </div>
-            
-            <h3 style="color:#FFF;margin-bottom:16px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; font-size:16px;">Transaction & Payment Proof History</h3>
-            <div id="ordersList"></div>
-        </div>
-    </div>
-</section>
-
-<!-- ADMIN CONSOLE -->
-<section id="p-admin" class="page">
-    <div class="container">
-        <h2 class="page-title">Administration Console</h2>
-        <p class="subtitle">Restricted environment for inventory governance, payment proof validation, and manifest management</p>
-
-        <div class="admin-stats">
-            <div class="stat-card">
-                <h4>Total Revenue</h4>
-                <div class="val" id="admRev">₵0.00</div>
-            </div>
-            <div class="stat-card">
-                <h4>Total Orders</h4>
-                <div class="val" id="admOrders">0</div>
-            </div>
-            <div class="stat-card">
-                <h4>Payment Proofs</h4>
-                <div class="val" id="admProofsCount">0</div>
-            </div>
-            <div class="stat-card">
-                <h4>Registered Clients</h4>
-                <div class="val" id="admUsers">0</div>
-            </div>
-        </div>
-
-        <div class="calc-subtabs">
-            <button class="calc-tab active" id="atabOrders" onclick="switchAdminTab('orders')" style="border-radius:50px;">Transactions</button>
-            <button class="calc-tab" id="atabProofs" onclick="switchAdminTab('proofs')" style="border-radius:50px;">Payment Proofs</button>
-            <button class="calc-tab" id="atabProds" onclick="switchAdminTab('prods')" style="border-radius:50px;">Catalog</button>
-            <button class="calc-tab" id="atabUsers" onclick="switchAdminTab('users')" style="border-radius:50px;">Clients</button>
-        </div>
-
-        <div id="acontentOrders" class="tab-content active">
-            <h3 style="color:#FFF;margin-bottom:12px;font-size:16px;">System Settlement Logs</h3>
-            <div id="adminOrdersTable"></div>
-        </div>
-
-        <div id="acontentProofs" class="tab-content" style="display:none;">
-            <h3 style="color:#FFF;margin-bottom:12px;font-size:16px;">Submitted Payment Proofs for Verification</h3>
-            <div id="adminProofsTable"></div>
-        </div>
-
-        <div id="acontentProds" class="tab-content" style="display:none;">
-            <div style="display:grid;grid-template-columns:1fr 2fr;gap:24px;align-items:start;">
-                <div class="form-box" style="margin:0;">
-                    <h3 style="color:#FFF;margin-bottom:16px;font-size:16px;">Publish Marketplace Listing</h3>
-                    <form onsubmit="adminAddProduct(event)">
-                        <div class="form-group">
-                            <label>Product Designation</label>
-                            <input type="text" id="npName" placeholder="e.g. Industrial Serum" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Catalog Category</label>
-                            <select id="npCategory" required>
-                                <option value="Skin Care">Skin Care</option>
-                                <option value="Bags">Bags & Luggage</option>
-                                <option value="Phones">Consumer Electronics</option>
-                                <option value="Cars">Automotive Accessories</option>
-                                <option value="Footwear">Footwear</option>
-                                <option value="Clothing">Apparel</option>
-                                <option value="Home Appliances">Home Appliances</option>
-                                <option value="General">General Merchandise</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Unit Price (GHS)</label>
-                            <input type="number" id="npPrice" step="0.01" placeholder="e.g. 150.00" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Product Image Asset</label>
-                            <input type="file" id="npImageFile" accept="image/*" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Catalog Badge Tag</label>
-                            <input type="text" id="npTag" placeholder="e.g. Verified Supplier" value="Featured" required>
-                        </div>
-                        <button class="btn btn-primary btn-block">Publish Listing</button>
-                    </form>
-                </div>
-                <div>
-                    <h3 style="color:#FFF;margin-bottom:16px;font-size:16px;">Active Marketplace Inventory</h3>
-                    <div id="adminProductsTable"></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="acontentUsers" class="tab-content" style="display:none;">
-            <h3 style="color:#FFF;margin-bottom:12px;font-size:16px;">Registered Client Directory</h3>
-            <div id="adminUsersTable"></div>
-        </div>
-    </div>
-</section>
-
+<!-- FOOTER -->
 <footer>
-    <div class="container">
-        <div class="footer-wrap">
-            <div class="footer-col">
-                <h4>EVERIVAULT ENTERPRISE</h4>
-                <p>Global logistics and supply chain facilitation connecting China manufacturing hubs directly to Kumasi, Ghana.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Operational Hub</h4>
-                <p>KNUST Ayeduase, Kumasi</p>
-                <p>Ghana</p>
-            </div>
-            <div class="footer-col">
-                <h4>Compliance & Policy</h4>
-                <p>No Battery Goods Accepted</p>
-                <p>No Fragile Products Accepted</p>
-                <p>Consolidation Charged Separately</p>
-                <p>Shipping Mark Mandated</p>
-            </div>
-            <div class="footer-col">
-                <h4>Quick Navigation</h4>
-                <a href="#" onclick="go('auth');return false;">Client Portal</a>
-                <a href="#" onclick="go('address');return false;">Warehouse Directory</a>
-                <a href="#" onclick="go('calc');return false;">Cost Estimators</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            &copy; 2026 EveriVault Enterprise Limited. All rights reserved.
-        </div>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="logo" style="margin-bottom: 1rem;">Everi<span>Vault</span></div>
+        <p style="font-size: 0.9rem; max-width: 250px;">Your dedicated logistics and procurement partner bridging Asian manufacturing with West African enterprise.</p>
+      </div>
+      <div>
+        <div class="footer-title">Platform</div>
+        <ul class="footer-links">
+          <li><a href="#shipping">Freight Estimator</a></li>
+          <li><a href="#store">Commercial Storefront</a></li>
+          <li><a href="#travels">Supply Chain Network</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-title">Headquarters</div>
+        <ul class="footer-links" style="font-size: 0.9rem;">
+          <li>Richmond Wireko Brobbey</li>
+          <li>KNUST Campus, Ayeduase New Site</li>
+          <li>Kumasi, Ashanti Region, Ghana</li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-title">Contact & Support</div>
+        <ul class="footer-links" style="font-size: 0.9rem;">
+          <li>GH Phone: +233 543 155 883</li>
+          <li>WhatsApp: +1 309 519 4647</li>
+          <li>Email: richmonwireko@gmail.com</li>
+          <li style="margin-top: 1rem; color: var(--accent);">Powered by Paystack Secure Payments</li>
+        </ul>
+      </div>
     </div>
+    <div class="footer-bottom">
+      &copy; 2026 EveriVault Enterprise. All rights reserved.
+    </div>
+  </div>
 </footer>
 
+<!-- MODALS -->
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal('loginModal')">&times;</span>
+    <h3 style="color: var(--primary); margin-bottom: 1.5rem; font-size: 1.5rem;">Client Authentication</h3>
+    <div class="form-group">
+      <input type="email" id="loginEmail" placeholder="Corporate Email">
+    </div>
+    <div class="form-group">
+      <input type="password" id="loginPass" placeholder="Password">
+    </div>
+    <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="handleLogin()">Sign In</button>
+    <p style="margin-top: 1.5rem; text-align: center; font-size: 0.85rem; color: var(--text-muted);">
+      New partner? <a href="#" onclick="closeModal('loginModal'); openModal('registerModal')" style="color: var(--secondary); text-decoration: none; font-weight: 600;">Request an account</a>
+    </p>
+  </div>
+</div>
+
+<!-- Register Modal -->
+<div id="registerModal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal('registerModal')">&times;</span>
+    <h3 style="color: var(--primary); margin-bottom: 1.5rem; font-size: 1.5rem;">Partner Registration</h3>
+    <div class="form-group"><input type="text" id="regName" placeholder="Full Legal Name"></div>
+    <div class="form-group"><input type="tel" id="regPhone" placeholder="Mobile / WhatsApp"></div>
+    <div class="form-group"><input type="email" id="regEmail" placeholder="Email Address"></div>
+    <div class="form-group"><input type="password" id="regPass" placeholder="Create Password"></div>
+    <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="handleRegister()">Register Account</button>
+  </div>
+</div>
+
+<!-- Payment Modal -->
+<div id="paymentModal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal('paymentModal')">&times;</span>
+    <h3 style="color: var(--primary); margin-bottom: 1rem;">Secure Checkout</h3>
+    <div id="paymentDetails" style="margin-bottom: 1.5rem; background: #f1f5f9; padding: 1rem; border-radius: 8px; font-size: 0.95rem;"></div>
+    <button class="btn" style="width: 100%; background: #09A5DB; color: white;" onclick="initiatePayment()">Pay Securely via Paystack</button>
+    <p style="margin-top: 1rem; font-size: 0.8rem; text-align: center; color: var(--text-muted);">Payments are processed securely via GTBank Gateway integration.</p>
+  </div>
+</div>
+
 <script>
-const PAYSTACK_PUBLIC_KEY = 'pk_test_YOUR_PAYSTACK_PUBLIC_KEY';
-const MERCHANT_MOMO_NUMBER = '0543155883';
-const ADMIN_WHATSAPP_NUMBER = '13095194647';
+let currentUser = null;
+const USD_RATE = 13;
 
-const SUPABASE_URL = 'https://YOUR_SUPABASE_PROJECT_ID.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_ZdxSIdlfrMQStQkt8Zq3oQ_0wIrkxIF';
-const db = (typeof supabase !== 'undefined') ? supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY) : null;
-
-let currentPage = 'home';
-let activeCategoryFilter = 'All';
-let user = JSON.parse(localStorage.getItem('evUser') || 'null');
-let cart = JSON.parse(localStorage.getItem('evCart') || '[]');
-
-function copyShippingMark() {
-    const markText = document.getElementById('userMarkCode').innerText;
-    navigator.clipboard.writeText(markText).then(() => {
-        alert("Shipping mark copied to clipboard: " + markText);
-    }).catch(() => {
-        alert("Operation failed.");
-    });
+function copyText(button, text) {
+  navigator.clipboard.writeText(text);
+  const original = button.innerText;
+  button.innerText = 'Copied!';
+  button.style.background = 'var(--success)';
+  button.style.color = 'white';
+  setTimeout(() => {
+    button.innerText = original;
+    button.style.background = 'white';
+    button.style.color = 'var(--text-main)';
+  }, 2000);
 }
 
-function copyDirectInfo(text) {
-    navigator.clipboard.writeText(text).then(() => {
-        alert("Data copied to clipboard: " + text);
-    }).catch(() => {
-        alert("Operation failed.");
-    });
+function calcCost() {
+  const l = parseFloat(document.getElementById('len').value) || 0;
+  const w = parseFloat(document.getElementById('wid').value) || 0;
+  const h = parseFloat(document.getElementById('hgt').value) || 0;
+  const wgt = parseFloat(document.getElementById('wgt').value) || 0;
+  const method = document.getElementById('method').value;
+  const mark = document.getElementById('mark').value || 'GH001K_';
+  
+  let cbm = (l * w * h) / 1000000;
+  let costUSD = 0;
+  let desc = '';
+  
+  if (method === 'sea') {
+    costUSD = cbm < 1 ? 260 : 255 * cbm;
+    desc = `Sea Freight — ${cbm.toFixed(3)} CBM`;
+  } else if (method === 'air') {
+    costUSD = 17 * wgt;
+    desc = `Air Freight — ${wgt} kg`;
+  } else {
+    costUSD = 500 / USD_RATE;
+    desc = 'Smart Devices — Flat Rate';
+  }
+  
+  const costGHS = costUSD * USD_RATE;
+  const tracking = mark + Date.now().toString().slice(-6);
+  
+  const resDiv = document.getElementById('result');
+  resDiv.style.display = 'block';
+  resDiv.innerHTML = `
+    <h4 style="color: var(--primary); margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">Logistics Quote Generated</h4>
+    <div style="display: grid; gap: 8px; font-size: 0.95rem;">
+      <div style="display:flex; justify-content:space-between;"><span>Tracking Ref:</span> <strong>${tracking}</strong></div>
+      <div style="display:flex; justify-content:space-between;"><span>Service:</span> <strong>${desc}</strong></div>
+      <div style="display:flex; justify-content:space-between; margin-top: 8px; font-size: 1.1rem; color: var(--secondary);">
+        <span>Total Due:</span> <strong>₵${costGHS.toFixed(2)}</strong>
+      </div>
+    </div>
+    <button class="btn btn-primary" style="width:100%; margin-top:1rem;" onclick="openPayment('${tracking}', ${costGHS})">Authorize Payment</button>
+  `;
 }
 
-function copyAddressText(containerId) {
-    const el = document.getElementById(containerId);
-    if(el) {
-        let textToCopy = el.innerText;
-        const mark = user ? user.trackingCode : 'GHOO1K-YOURMARK';
-        textToCopy = textToCopy.replace('Your Shipping Mark', mark).replace('您的唛头代码', mark);
-        
-        navigator.clipboard.writeText(textToCopy).then(() => {
-            alert("Warehouse address successfully copied.");
-        }).catch(() => {
-            alert("Operation failed.");
-        });
+function openPayment(ref, amountGHS) {
+  closeAllModals();
+  document.getElementById('paymentDetails').innerHTML = `
+    <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>Ref:</span> <strong>${ref}</strong></div>
+    <div style="display:flex; justify-content:space-between;"><span>Amount:</span> <strong>₵${amountGHS.toFixed(2)}</strong></div>
+  `;
+  window.paymentRef = ref;
+  window.paymentAmount = amountGHS * 100; // Paystack uses pesewas/kobo
+  openModal('paymentModal');
+}
+
+function initiatePayment() {
+  if (!currentUser) {
+    closeModal('paymentModal');
+    openModal('loginModal');
+    return;
+  }
+  const handler = PaystackPop.setup({
+    key: 'pk_test_your_public_key_here',
+    email: currentUser.email,
+    amount: window.paymentAmount,
+    ref: window.paymentRef,
+    callback: function(resp) {
+      alert('Transaction Authorized! Reference: ' + resp.reference);
+      closeModal('paymentModal');
+    },
+    onClose: function() {
+      alert('Transaction window closed.');
     }
+  });
+  handler.openIframe();
 }
 
-function shareCartToWhatsApp() {
-    if(cart.length === 0){ alert('Cart is empty.'); return; }
-    
-    let message = `*EveriVault Enterprise Purchase Order*\n\n`;
-    let total = 0;
-    
-    cart.forEach(item => {
-        let subtotal = item.priceGhs * item.qty;
-        total += subtotal;
-        message += `- ${item.qty}x ${item.name} (₵${subtotal})\n`;
-    });
-    
-    message += `\n*Total Valuation:* ₵${total.toFixed(2)}`;
-    
-    if(user && user.trackingCode) {
-        message += `\n*Client Shipping Mark:* ${user.trackingCode}`;
-    }
-    
-    message += `\n\nPlease confirm fulfillment availability.`;
-    
-    const whatsappUrl = `https://wa.me/${ADMIN_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+function handleRegister() {
+  const name = document.getElementById('regName').value;
+  const email = document.getElementById('regEmail').value;
+  const pass = document.getElementById('regPass').value;
+  if (!name || !email || !pass) { alert('Please complete all fields.'); return; }
+  localStorage.setItem('everivault_user', JSON.stringify({name, email, password: pass}));
+  alert('Account provisioned successfully.');
+  closeModal('registerModal');
+  openModal('loginModal');
 }
 
-function toggleAccordion(element) {
-    const content = element.nextElementSibling;
-    const allContents = document.querySelectorAll('.accordion-content');
-    const allHeaders = document.querySelectorAll('.accordion-header');
+function handleLogin() {
+  const email = document.getElementById('loginEmail').value;
+  const pass = document.getElementById('loginPass').value;
+  const saved = JSON.parse(localStorage.getItem('everivault_user') || '{}');
+  
+  if (saved.email === email && saved.password === pass) {
+    currentUser = saved;
+    closeModal('loginModal');
+    document.getElementById('travelsContent').style.display = 'block';
+    document.getElementById('travelsLocked').style.display = 'none';
+  } else {
+    alert('Authentication failed. Verify credentials.');
+  }
+}
 
-    allContents.forEach(c => {
-        if (c !== content) {
-            c.style.maxHeight = null;
-        }
-    });
-    
-    allHeaders.forEach(h => {
-        if (h !== element) {
-            h.classList.remove('active');
-        }
-    });
-
-    if (content.style.maxHeight) {
-        content.style.maxHeight = null;
-        element.classList.remove('active');
+function filterProducts(cat) {
+  const cards = document.querySelectorAll('.product-card');
+  cards.forEach(c => {
+    if (cat === 'all' || c.dataset.category === cat) {
+      c.style.display = 'flex';
     } else {
-        content.style.maxHeight = content.scrollHeight + "px";
-        element.classList.add('active');
+      c.style.display = 'none';
     }
+  });
+  
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
 }
 
-function go(page){
-    if(page === 'admin' && (!user || !user.isAdmin)){
-        alert('Access Restricted. Administrators only.');
-        return false;
-    }
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    document.querySelectorAll('.plink').forEach(l=>l.classList.remove('active'));
-    document.getElementById('p-'+page).classList.add('active');
-    document.querySelector(`[data-p="${page}"]`)?.classList.add('active');
-    
-    currentPage = page;
-    document.getElementById('menu').classList.remove('active');
-    
-    if(page === 'home') renderHomeShowcase();
-    if(page === 'shop') renderProducts();
-    if(page === 'orders') renderOrders();
-    if(page === 'admin') renderAdmin();
-    if(page === 'reviews') renderReviews();
-    window.scrollTo(0,0);
-    return false;
-}
-
-function toggleMenu(){ 
-    document.getElementById('menu').classList.toggle('active'); 
-}
-
-function generateTrackingCode(fullName, phoneStr){
-    const firstName = fullName ? fullName.trim().split(' ')[0].toUpperCase() : 'USER';
-    const cleanPhone = phoneStr ? phoneStr.trim().replace(/[^0-9]/g, '') : '0000000000';
-    return `GHOO1K${firstName}${cleanPhone}`;
-}
-
-const defaultProducts = [
-    { id: 1, name: "Hydrating Facial Vitamin C Serum", category: "Skin Care", priceGhs: 150, imageUrl: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=85", tag: "Featured" },
-    { id: 2, name: "Luxury Designer Leather Handbag", category: "Bags", priceGhs: 450, imageUrl: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=85", tag: "Trending" },
-    { id: 3, name: "Flagship 5G Smartphone 256GB", category: "Phones", priceGhs: 2800, imageUrl: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=85", tag: "Top Tech" },
-    { id: 4, name: "Automotive Multimedia Dashboard System", category: "Cars", priceGhs: 850, imageUrl: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=85", tag: "Wholesale" }
-];
-
-async function fetchProductsFromStore(){
-    if(db){
-        try {
-            const { data, error } = await db.from('products').select('*').order('created_at', { ascending: false });
-            if(!error && data.length > 0) return data.map(p => ({ id: p.id, name: p.name, category: p.category, priceGhs: p.price_ghs, imageUrl: p.image_url, tag: p.tag }));
-        } catch(e){}
-    }
-    return JSON.parse(localStorage.getItem('evProducts')) || defaultProducts;
-}
-
-async function renderHomeShowcase(){
-    const container = document.getElementById('homeProductShowcase');
-    if(!container) return;
-    const prods = await fetchProductsFromStore();
-    const showcaseProds = prods.slice(0, 4);
-
-    if(showcaseProds.length === 0){
-        container.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:20px;color:var(--text-muted);font-size:13.5px;">No active promotional listings available.</p>';
-        return;
-    }
-
-    container.innerHTML = showcaseProds.map(p => `
-        <div class="product-card">
-            <div class="product-img-box">
-                <img src="${p.imageUrl}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?auto=format&fit=crop&w=800&q=85'">
-                <span class="product-tag">${p.tag || 'Verified'}</span>
-            </div>
-            <div class="product-info">
-                <div class="product-title">${p.name}</div>
-                <div class="product-price">₵${parseFloat(p.priceGhs).toFixed(2)}</div>
-                <button class="btn btn-sm btn-primary btn-block" onclick="addToCart(${p.id})">Add to Order Cart</button>
-            </div>
-        </div>
-    `).join('');
-}
-
-function filterCategory(cat, chipElement){
-    activeCategoryFilter = cat;
-    document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
-    if(chipElement) chipElement.classList.add('active');
-    renderProducts();
-}
-
-function switchCalcTab(type){
-    document.getElementById('tabAir').classList.toggle('active', type==='air');
-    document.getElementById('tabSea').classList.toggle('active', type==='sea');
-    document.getElementById('panelAir').classList.toggle('active', type==='air');
-    document.getElementById('panelSea').classList.toggle('active', type==='sea');
-}
-
-function runAirCalc(){
-    const rate = 17;
-    const exchangeRate = 13;
-    const kg = parseFloat(document.getElementById('calcAirKg').value) || 0;
-    const usd = kg * rate;
-    const ghs = usd * exchangeRate;
-    document.getElementById('resAirUsd').textContent = usd.toFixed(2);
-    document.getElementById('resAirGhs').textContent = ghs.toFixed(2);
-}
-
-function runSeaCalc(){
-    const rate = 260;
-    const exchangeRate = 13;
-    const cbm = parseFloat(document.getElementById('calcSeaCbm').value) || 0;
-    const usd = cbm * rate;
-    const ghs = usd * exchangeRate;
-    document.getElementById('resSeaUsd').textContent = usd.toFixed(2);
-    document.getElementById('resSeaGhs').textContent = ghs.toFixed(2);
-}
-
-const defaultReviews = [
-    { name: "Kofi Boateng Enterprise", rating: 5, comment: "EveriVault provides exceptionally structured freight clearing services from Guangzhou to Kumasi.", date: "May 12, 2026" },
-    { name: "Abena Mensah Commercials", rating: 5, comment: "Accurate volumetric calculator and transparent MoMo verification workflows.", date: "June 03, 2026" },
-    { name: "Yaw Frimpong Logistics", rating: 5, comment: "Dependable B2B trade facilitation partner between China and Ghana.", date: "August 20, 2026" }
-];
-
-async function renderReviews(){
-    let reviews = JSON.parse(localStorage.getItem('evReviews') || 'null');
-    if(!reviews){
-        reviews = defaultReviews;
-        localStorage.setItem('evReviews', JSON.stringify(reviews));
-    }
-    const container = document.getElementById('reviewsContainer');
-    container.innerHTML = reviews.map(r => `
-        <div class="review-card">
-            <div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
-            <p class="review-text">"${r.comment}"</p>
-            <div class="review-author">— ${r.name}</div>
-            <div class="review-date">${r.date}</div>
-        </div>
-    `).join('');
-}
-
-function submitReview(e){
-    e.preventDefault();
-    const name = document.getElementById('revName').value.trim();
-    const rating = parseInt(document.getElementById('revRating').value);
-    const comment = document.getElementById('revComment').value.trim();
-    const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-
-    let reviews = JSON.parse(localStorage.getItem('evReviews') || '[]');
-    reviews.unshift({ name, rating, comment, date });
-    localStorage.setItem('evReviews', JSON.stringify(reviews));
-
-    alert('Testimonial successfully published.');
-    e.target.reset();
-    renderReviews();
-}
-
-function switchAuthTab(type){
-    document.getElementById('tabLogin').style.background = type==='login' ? 'var(--accent-green)' : 'transparent';
-    document.getElementById('tabLogin').style.color = type==='login' ? 'var(--bg-main)' : 'var(--text-muted)';
-    
-    document.getElementById('tabReg').style.background = type==='reg' ? 'var(--accent-green)' : 'transparent';
-    document.getElementById('tabReg').style.color = type==='reg' ? 'var(--bg-main)' : 'var(--text-muted)';
-    
-    document.getElementById('tabReset').style.background = type==='reset' ? 'var(--accent-green)' : 'transparent';
-    document.getElementById('tabReset').style.color = type==='reset' ? 'var(--bg-main)' : 'var(--text-muted)';
-    
-    document.getElementById('fLogin').style.display = type==='login' ? 'block' : 'none';
-    document.getElementById('fReg').style.display = type==='reg' ? 'block' : 'none';
-    document.getElementById('fReset').style.display = type==='reset' ? 'block' : 'none';
-}
-
-function switchAdminTab(type){
-    document.getElementById('atabOrders').classList.toggle('active', type==='orders');
-    document.getElementById('atabProofs').classList.toggle('active', type==='proofs');
-    document.getElementById('atabProds').classList.toggle('active', type==='prods');
-    document.getElementById('atabUsers').classList.toggle('active', type==='users');
-    document.getElementById('acontentOrders').style.display = type==='orders' ? 'block' : 'none';
-    document.getElementById('acontentProofs').style.display = type==='proofs' ? 'block' : 'none';
-    document.getElementById('acontentProds').style.display = type==='prods' ? 'block' : 'none';
-    document.getElementById('acontentUsers').style.display = type==='users' ? 'block' : 'none';
-}
-
-async function doReg(e){
-    e.preventDefault();
-    const name = document.getElementById('rn').value.trim();
-    const email = document.getElementById('rem').value.trim().toLowerCase();
-    const phone = document.getElementById('rp').value.trim();
-    const pw = document.getElementById('rpw').value;
-    const pw2 = document.getElementById('rpw2').value;
-    const termsChecked = document.getElementById('regTerms').checked;
-    const msg = document.getElementById('rmsg');
-
-    if(!termsChecked){ msg.className = 'msg err'; msg.textContent = 'You must agree to all terms and conditions to work with us.'; return; }
-    if(pw !== pw2){ msg.className = 'msg err'; msg.textContent = 'Passwords do not match.'; return; }
-    
-    const assignedCode = generateTrackingCode(name, phone);
-
-    if(db){
-        try {
-            await db.from('users').insert([{ name, email, phone, password: pw, tracking_code: assignedCode, is_admin: false }]);
-        } catch(err) {}
-    }
-
-    let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
-    users.push({ name, email, phone, password: pw, trackingCode: assignedCode, isAdmin: false });
-    localStorage.setItem('evUsers', JSON.stringify(users));
-
-    user = { name, email, phone, trackingCode: assignedCode, isAdmin: false };
-    localStorage.setItem('evUser', JSON.stringify(user));
-
-    msg.className = 'msg ok'; 
-    msg.innerHTML = `Account established successfully.<br><strong>Assigned Shipping Mark: ${assignedCode}</strong>`;
-    updateAuthUI();
-    setTimeout(() => { go('orders'); }, 3000);
-}
-
-async function doLogin(e){
-    e.preventDefault();
-    const email = document.getElementById('lem').value.trim().toLowerCase();
-    const pw = document.getElementById('lpw').value;
-    const msg = document.getElementById('lmsg');
-
-    const adminPassword = localStorage.getItem('evAdminPassword') || 'admin123';
-    if(email === 'admin@everivault.com' && pw === adminPassword){
-        user = { name: 'Super Admin', email, phone: ADMIN_WHATSAPP_NUMBER, trackingCode: 'GHOO1KADMIN', isAdmin: true };
-        localStorage.setItem('evUser', JSON.stringify(user));
-        msg.className = 'msg ok'; msg.textContent = 'Administrator session verified.';
-        updateAuthUI();
-        setTimeout(() => { go('admin'); }, 1000);
-        return;
-    }
-
-    let found = null;
-    if(db){
-        try {
-            const { data } = await db.from('users').select('*').eq('email', email).eq('password', pw);
-            if(data && data.length > 0) found = { name: data[0].name, email: data[0].email, phone: data[0].phone, trackingCode: data[0].tracking_code, isAdmin: data[0].is_admin };
-        } catch(e){}
-    }
-    if(!found){
-        let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
-        found = users.find(u => u.email === email && u.password === pw);
-    }
-
-    if(found){
-        user = found;
-        localStorage.setItem('evUser', JSON.stringify(user));
-        msg.className = 'msg ok'; msg.textContent = `Welcome back, ${found.name}.`;
-        updateAuthUI();
-        setTimeout(() => { go('home'); }, 1000);
-    } else {
-        msg.className = 'msg err'; msg.textContent = 'Invalid authentication credentials.';
-    }
-}
-
-async function doResetPassword(e){
-    e.preventDefault();
-    const identifier = document.getElementById('resetId').value.trim().toLowerCase();
-    const newPw1 = document.getElementById('resetPw1').value;
-    const newPw2 = document.getElementById('resetPw2').value;
-    const msg = document.getElementById('resetMsg');
-
-    if(newPw1 !== newPw2){ msg.className = 'msg err'; msg.textContent = 'Passwords do not match.'; return; }
-
-    if(identifier === 'admin@everivault.com' || identifier.includes('ghoo1kadmin')){
-        localStorage.setItem('evAdminPassword', newPw1);
-        msg.className = 'msg ok'; msg.textContent = 'Admin credentials successfully modified.';
-        setTimeout(() => switchAuthTab('login'), 2000);
-        return;
-    }
-
-    let updated = false;
-    if(db){
-        try {
-            const { data } = await db.from('users').update({ password: newPw1 }).or(`email.eq.${identifier},tracking_code.ilike.${identifier}`).select();
-            if(data && data.length > 0) updated = true;
-        } catch(e){}
-    }
-    if(!updated){
-        let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
-        const idx = users.findIndex(u => u.email.toLowerCase() === identifier || (u.trackingCode && u.trackingCode.toLowerCase() === identifier));
-        if(idx !== -1){ users[idx].password = newPw1; localStorage.setItem('evUsers', JSON.stringify(users)); updated = true; }
-    }
-
-    if(updated){
-        msg.className = 'msg ok'; msg.textContent = 'Password profile successfully updated.';
-        setTimeout(() => switchAuthTab('login'), 2000);
-    } else {
-        msg.className = 'msg err'; msg.textContent = 'No corresponding record located.';
-    }
-}
-
-function logout(){
-    localStorage.removeItem('evUser');
-    user = null;
-    updateAuthUI();
-    go('home');
-}
-
-function updateAuthUI(){
-    const isLoggedIn = !!user;
-    const isAdmin = user && user.isAdmin;
-    document.getElementById('authBtn').style.display = isLoggedIn ? 'none' : 'block';
-    document.getElementById('ordersNav').style.display = isLoggedIn ? 'block' : 'none';
-    document.getElementById('adminNav').style.display = isAdmin ? 'block' : 'none';
-    
-    if(isLoggedIn){
-        document.getElementById('userWelcomeText').textContent = user.name;
-        document.getElementById('userEmailText').textContent = user.email + " | " + user.phone;
-        document.getElementById('profileInitials').textContent = user.name.charAt(0).toUpperCase();
-        
-        document.getElementById('userMarkCode').textContent = user.trackingCode || 'GHOO1K-PENDING';
-        document.getElementById('payName').value = user.name;
-        document.getElementById('payEmail').value = user.email;
-        document.getElementById('payPhone').value = user.phone;
-        document.getElementById('payRef').value = user.trackingCode || '';
-        document.querySelectorAll('.user-mark-display').forEach(el => el.textContent = user.trackingCode || 'Your Shipping Mark');
-    } else {
-        document.querySelectorAll('.user-mark-display').forEach(el => el.textContent = 'Your Shipping Mark');
-    }
-}
-
-async function renderProducts(){
-    const grid = document.getElementById('productGrid');
-    if(!grid) return;
-    const prods = await fetchProductsFromStore();
-    const filtered = activeCategoryFilter === 'All' ? prods : prods.filter(p => p.category === activeCategoryFilter);
-
-    if(filtered.length === 0){
-        grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted);font-size:13.5px;">No inventory items available in this category.</p>';
-        return;
-    }
-
-    grid.innerHTML = filtered.map(p => `
-        <div class="product-card">
-            <div class="product-img-box">
-                <img src="${p.imageUrl}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?auto=format&fit=crop&w=800&q=85'">
-                <span class="product-tag">${p.tag || 'Verified'}</span>
-            </div>
-            <div class="product-info">
-                <div class="product-title">${p.name}</div>
-                <div class="product-price">₵${parseFloat(p.priceGhs).toFixed(2)}</div>
-                <button class="btn btn-sm btn-primary btn-block" onclick="addToCart(${p.id})">Add to Order Cart</button>
-            </div>
-        </div>
-    `).join('');
-    updateCartUI();
-}
-
-async function addToCart(id){
-    const prods = await fetchProductsFromStore();
-    const prod = prods.find(p => p.id === id);
-    if(!prod) return;
-    const existing = cart.find(item => item.id === id);
-    if(existing){ existing.qty += 1; } else { cart.push({ ...prod, qty: 1 }); }
-    localStorage.setItem('evCart', JSON.stringify(cart));
-    updateCartUI();
-    alert('Item added to your order cart.');
-}
-
-function changeQty(id, delta){
-    const item = cart.find(i => i.id === id);
-    if(item){
-        item.qty += delta;
-        if(item.qty <= 0){
-            cart = cart.filter(i => i.id !== id);
-        }
-    }
-    localStorage.setItem('evCart', JSON.stringify(cart));
-    updateCartUI();
-}
-
-function removeFromCart(id){
-    cart = cart.filter(i => i.id !== id);
-    localStorage.setItem('evCart', JSON.stringify(cart));
-    updateCartUI();
-}
-
-function updateCartUI(){
-    const container = document.getElementById('cartItems');
-    if(!container) return;
-    const totalEl = document.getElementById('cartTotal');
-    const countEl = document.getElementById('cartCount');
-    const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-    const totalPrice = cart.reduce((sum, item) => sum + (item.priceGhs * item.qty), 0);
-    
-    countEl.textContent = `${totalQty} item${totalQty === 1 ? '' : 's'}`;
-    totalEl.textContent = totalPrice.toFixed(2);
-
-    if(cart.length === 0){
-        container.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:20px 0;font-size:13.5px;">Cart is currently empty.</p>';
-        return;
-    }
-
-    container.innerHTML = cart.map(item => `
-        <div class="cart-item">
-            <div>
-                <strong style="color:#FFF;">${item.name}</strong><br>
-                <span style="color:var(--text-muted);font-size:12px;">₵${item.priceGhs} x ${item.qty} = ₵${(item.priceGhs * item.qty).toFixed(2)}</span>
-                <div class="cart-controls">
-                    <button class="cart-btn" onclick="changeQty(${item.id}, -1)">-</button>
-                    <span style="font-size:12px; font-weight:700; padding:0 4px; color:#FFF;">${item.qty}</span>
-                    <button class="cart-btn" onclick="changeQty(${item.id}, 1)">+</button>
-                    <button class="cart-btn" style="background:rgba(255,89,100,0.15); color:var(--danger); border-color:rgba(255,89,100,0.3); margin-left:6px;" onclick="removeFromCart(${item.id})" title="Remove">×</button>
-                </div>
-            </div>
-            <span style="font-weight:700; font-family:'JetBrains Mono',monospace; color:#FFF;">₵${(item.priceGhs * item.qty).toFixed(2)}</span>
-        </div>
-    `).join('');
-}
-
-function launchPaystackPopup(email, amountGhs, reference, customerPhone, onSuccessCallback) {
-    const handler = PaystackPop.setup({
-        key: PAYSTACK_PUBLIC_KEY,
-        email: email,
-        amount: Math.round(amountGhs * 100),
-        currency: 'GHS',
-        channels: ['mobile_money'],
-        ref: 'EV-' + Math.floor((Math.random() * 10000000) + 1),
-        metadata: { custom_fields: [{ display_name: "Reference", variable_name: "payment_ref", value: reference }] },
-        callback: function(response) {
-            alert('Payment settlement confirmed. Ref: ' + response.reference);
-            if(onSuccessCallback) onSuccessCallback(response);
-        },
-        onClose: function() { alert('Transaction processing canceled.'); }
-    });
-    handler.openIframe();
-}
-
-async function recordGlobalOrder(orderObj){
-    if(db){
-        try {
-            await db.from('orders').insert([{ ref: orderObj.ref, tracking_mark: orderObj.trackingMark, user_email: orderObj.userEmail, user_name: orderObj.userName, user_phone: orderObj.userPhone, total_ghs: orderObj.total, status: orderObj.status, items: orderObj.items }]);
-        } catch(e){}
-    }
-    let globalOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
-    globalOrders.unshift(orderObj);
-    localStorage.setItem('evAllOrders', JSON.stringify(globalOrders));
-
-    let userOrders = JSON.parse(localStorage.getItem('evOrders_' + orderObj.userEmail) || '[]');
-    userOrders.unshift(orderObj);
-    localStorage.setItem('evOrders_' + orderObj.userEmail, JSON.stringify(userOrders));
-}
-
-function triggerDirectPaystack(e){
-    e.preventDefault();
-    const name = document.getElementById('payName').value;
-    const email = document.getElementById('payEmail').value;
-    const phone = document.getElementById('payPhone').value;
-    const ref = document.getElementById('payRef').value;
-    const amount = parseFloat(document.getElementById('payAmount').value);
-
-    launchPaystackPopup(email, amount, ref + ' (' + name + ')', phone, function(resp){
-        recordGlobalOrder({ ref: resp.reference, trackingMark: ref, userEmail: email, userName: name, userPhone: phone, date: new Date().toLocaleDateString(), items: [{ name: 'Direct Settlement (' + ref + ')', qty: 1, priceGhs: amount }], total: amount, status: 'Verified Settled' });
-        go('orders');
-    });
-}
-
-function submitPaymentProof(e){
-    e.preventDefault();
-    const txId = document.getElementById('proofTxId').value.trim();
-    const amount = parseFloat(document.getElementById('proofAmount').value);
-    const fileInput = document.getElementById('proofFile');
-    const msg = document.getElementById('proofMsg');
-
-    if(!user){
-        alert('Please sign in to submit payment proof associated with your account.');
-        go('auth');
-        return;
-    }
-
-    if(fileInput.files && fileInput.files[0]){
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            const proofDataUrl = event.target.result;
-            
-            const proofObj = {
-                id: 'PROOF-' + Math.floor(Math.random() * 1000000),
-                txId,
-                amount,
-                userEmail: user.email,
-                userName: user.name,
-                trackingMark: user.trackingCode,
-                proofUrl: proofDataUrl,
-                date: new Date().toLocaleDateString(),
-                status: 'Pending Verification'
-            };
-
-            let proofs = JSON.parse(localStorage.getItem('evPaymentProofs') || '[]');
-            proofs.unshift(proofObj);
-            localStorage.setItem('evPaymentProofs', JSON.stringify(proofs));
-
-            msg.className = 'msg ok';
-            msg.textContent = 'Payment proof submitted successfully! Our finance department will verify and update your ledger.';
-            e.target.reset();
-        };
-        reader.readAsDataURL(fileInput.files[0]);
-    } else {
-        msg.className = 'msg err';
-        msg.textContent = 'Please attach a valid payment receipt file.';
-    }
-}
-
-function checkoutWithPaystack(){
-    if(cart.length === 0){ alert('Order cart is empty.'); return; }
-    const totalGhs = cart.reduce((sum, item) => sum + (item.priceGhs * item.qty), 0);
-    const email = user ? user.email : prompt('Enter corporate email address:');
-    if(!email) return;
-
-    const userMark = user ? user.trackingCode : 'GHOO1KGUEST';
-    launchPaystackPopup(email, totalGhs, 'Marketplace Order - ' + userMark, MERCHANT_MOMO_NUMBER, function(resp){
-        recordGlobalOrder({ ref: resp.reference, trackingMark: userMark, userEmail: email, userName: user ? user.name : 'Guest Importer', userPhone: user ? user.phone : MERCHANT_MOMO_NUMBER, date: new Date().toLocaleDateString(), items: [...cart], total: totalGhs, status: 'Verified Settled' });
-        cart = [];
-        localStorage.removeItem('evCart');
-        updateCartUI();
-        go('orders');
-    });
-}
-
-function performTracking(){
-    const query = document.getElementById('trackInput').value.trim().toUpperCase();
-    const resultBox = document.getElementById('trackResult');
-    if(!query){ alert('Enter a tracking reference string.'); return; }
-
-    const allOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
-    const matches = allOrders.filter(o => o.ref.toUpperCase().includes(query) || (o.trackingMark && o.trackingMark.toUpperCase().includes(query)));
-
-    if(matches.length > 0){
-        resultBox.innerHTML = matches.map(m => `
-            <div style="background:var(--bg-card); border:1px solid var(--border-color); padding:16px; border-radius:var(--radius-sm); margin-bottom:10px;">
-                <strong style="color:#FFF;">Mark / Reference: ${m.trackingMark || m.ref}</strong>
-                <p style="font-size:13.5px; color:var(--text-muted);">Transaction ID: ${m.ref}</p>
-                <p style="font-size:13.5px; color:#FFF;">Status: <span style="font-weight:700;color:var(--success);">${m.status}</span></p>
-                <strong style="font-size:13.5px; font-family:'JetBrains Mono',monospace; color:#FFF;">Total Valuation: ₵${m.total.toFixed(2)}</strong>
-            </div>
-        `).join('');
-    } else {
-        resultBox.innerHTML = '<div style="background:rgba(255,89,100,0.15);color:var(--danger);padding:12px;border-radius:var(--radius-sm);text-align:center;font-size:13.5px; border:1px solid rgba(255,89,100,0.3);">No manifest records matched the supplied reference.</div>';
-    }
-}
-
-function renderOrders(){
-    const list = document.getElementById('ordersList');
-    if(!user){ list.innerHTML = '<p style="text-align:center;padding:20px;color:var(--text-muted);font-size:13.5px;">Authenticate session to review transactions.</p>'; return; }
-    
-    const userOrders = JSON.parse(localStorage.getItem('evOrders_' + user.email) || '[]');
-    const allProofs = JSON.parse(localStorage.getItem('evPaymentProofs') || '[]');
-    const userProofs = allProofs.filter(p => p.userEmail === user.email);
-
-    let html = '';
-    
-    if(userOrders.length > 0){
-        html += `<h4 style="color:#FFF; font-size:14.5px; margin-bottom:10px;">Orders & Settlements</h4>`;
-        html += userOrders.map(o => `
-            <div style="background:var(--bg-card); border:1px solid var(--border-color); padding:16px; border-radius:var(--radius-sm); margin-bottom:12px;">
-                <strong style="color:#FFF;">Shipping Mark: ${o.trackingMark || user.trackingCode}</strong>
-                <p style="font-size:13.5px; color:var(--text-muted);">Reference: ${o.ref}</p>
-                <p style="font-size:13.5px; color:#FFF;">Status: <span style="font-weight:700;color:var(--accent-green);">${o.status}</span></p>
-                <strong style="font-size:13.5px; font-family:'JetBrains Mono',monospace; color:#FFF;">Total Valuation: ₵${o.total.toFixed(2)}</strong>
-            </div>
-        `).join('');
-    }
-
-    if(userProofs.length > 0){
-        html += `<h4 style="color:#FFF; font-size:14.5px; margin:20px 0 10px;">Submitted Payment Proofs</h4>`;
-        html += userProofs.map(p => `
-            <div style="background:var(--bg-card); border:1px solid var(--border-color); padding:16px; border-radius:var(--radius-sm); margin-bottom:12px;">
-                <strong style="color:#FFF;">Tx ID: ${p.txId}</strong>
-                <p style="font-size:13.5px; color:var(--text-muted);">Date: ${p.date}</p>
-                <p style="font-size:13.5px; color:#FFF;">Status: <span style="font-weight:700;color:var(--accent-green);">${p.status}</span></p>
-                <p style="font-size:13.5px; font-family:'JetBrains Mono',monospace; color:#FFF; margin-top:4px;">Amount: ₵${p.amount.toFixed(2)}</p>
-            </div>
-        `).join('');
-    }
-
-    if(!html){
-        html = '<p style="text-align:center;padding:20px;background:var(--bg-card);border-radius:var(--radius-sm);font-size:13.5px;border:1px solid var(--border-color);color:var(--text-muted);">No transactional history or payment proofs recorded.</p>';
-    }
-
-    list.innerHTML = html;
-}
-
-async function renderAdmin(){
-    const allOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
-    const allUsers = JSON.parse(localStorage.getItem('evUsers') || '[]');
-    const allProofs = JSON.parse(localStorage.getItem('evPaymentProofs') || '[]');
-    const prods = await fetchProductsFromStore();
-
-    document.getElementById('admRev').textContent = '₵' + allOrders.reduce((s, o) => s + o.total, 0).toFixed(2);
-    document.getElementById('admOrders').textContent = allOrders.length;
-    document.getElementById('admProofsCount').textContent = allProofs.length;
-    document.getElementById('admUsers').textContent = allUsers.length;
-
-    document.getElementById('adminProductsTable').innerHTML = `
-        <table class="data-table">
-            <thead><tr><th>Asset</th><th>Name</th><th>Category</th><th>Price</th><th>Control</th></tr></thead>
-            <tbody>${prods.map(p => `
-                <tr>
-                    <td><img src="${p.imageUrl}" class="tbl-thumb" onerror="this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?auto=format&fit=crop&w=800&q=85'"></td>
-                    <td><strong style="color:#FFF;">${p.name}</strong></td>
-                    <td>${p.category}</td>
-                    <td style="font-family:'JetBrains Mono',monospace; color:var(--accent-green);">₵${parseFloat(p.priceGhs).toFixed(2)}</td>
-                    <td><button class="btn btn-sm btn-outline" style="color:var(--danger); border-color:rgba(255,89,100,0.3);" onclick="adminDeleteProduct(${p.id})">Remove</button></td>
-                </tr>
-            `).join('')}</tbody>
-        </table>`;
-    
-    document.getElementById('adminOrdersTable').innerHTML = `
-        <table class="data-table">
-            <thead><tr><th>Ref ID</th><th>Client Mark</th><th>Client Name</th><th>Total</th><th>Status</th></tr></thead>
-            <tbody>${allOrders.length === 0 ? '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">No transactions recorded.</td></tr>' : allOrders.map(o => `
-                <tr>
-                    <td>${o.ref}</td>
-                    <td><strong style="color:#FFF;">${o.trackingMark || 'N/A'}</strong></td>
-                    <td>${o.userName || 'Guest'}</td>
-                    <td style="font-family:'JetBrains Mono',monospace; color:var(--accent-green);">₵${o.total.toFixed(2)}</td>
-                    <td><span style="color:var(--success);font-weight:700;">${o.status}</span></td>
-                </tr>
-            `).join('')}</tbody>
-        </table>`;
-
-    document.getElementById('adminProofsTable').innerHTML = `
-        <table class="data-table">
-            <thead><tr><th>Tx ID</th><th>Client</th><th>Mark</th><th>Amount</th><th>Receipt</th><th>Action</th></tr></thead>
-            <tbody>${allProofs.length === 0 ? '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);">No payment proofs submitted.</td></tr>' : allProofs.map((p, idx) => `
-                <tr>
-                    <td><strong style="color:#FFF;">${p.txId}</strong></td>
-                    <td>${p.userName}</td>
-                    <td><code>${p.trackingMark}</code></td>
-                    <td style="font-family:'JetBrains Mono',monospace; color:var(--accent-green);">₵${p.amount.toFixed(2)}</td>
-                    <td><a href="${p.proofUrl}" target="_blank" style="color:var(--accent-green); text-decoration:underline; font-size:13px;">View Receipt</a></td>
-                    <td><button class="btn btn-sm btn-primary" onclick="adminVerifyProof(${idx})">Approve</button></td>
-                </tr>
-            `).join('')}</tbody>
-        </table>`;
-
-    document.getElementById('adminUsersTable').innerHTML = `
-        <table class="data-table">
-            <thead><tr><th>Client Name</th><th>Email</th><th>Phone</th><th>Shipping Mark</th></tr></thead>
-            <tbody>${allUsers.length === 0 ? '<tr><td colspan="4" style="text-align:center;color:var(--text-muted);">No registered clients found.</td></tr>' : allUsers.map(u => `
-                <tr>
-                    <td><strong style="color:#FFF;">${u.name}</strong></td>
-                    <td>${u.email}</td>
-                    <td>${u.phone}</td>
-                    <td><code style="font-family:'JetBrains Mono',monospace; background:var(--bg-card); padding:2px 6px; border-radius:4px; color:var(--accent-green);">${u.trackingCode}</code></td>
-                </tr>
-            `).join('')}</tbody>
-        </table>`;
-}
-
-function adminVerifyProof(index){
-    let proofs = JSON.parse(localStorage.getItem('evPaymentProofs') || '[]');
-    if(proofs[index]){
-        const proof = proofs[index];
-        proof.status = 'Verified & Settled';
-        
-        recordGlobalOrder({
-            ref: proof.txId,
-            trackingMark: proof.trackingMark,
-            userEmail: proof.userEmail,
-            userName: proof.userName,
-            userPhone: 'N/A',
-            date: proof.date,
-            items: [{ name: 'Manual Payment Proof (' + proof.txId + ')', qty: 1, priceGhs: proof.amount }],
-            total: proof.amount,
-            status: 'Verified Settled'
-        });
-
-        proofs.splice(index, 1);
-        localStorage.setItem('evPaymentProofs', JSON.stringify(proofs));
-        alert('Payment proof approved and logged to transactions.');
-        renderAdmin();
-    }
-}
-
-async function adminAddProduct(e){
-    e.preventDefault();
-    const name = document.getElementById('npName').value.trim();
-    const category = document.getElementById('npCategory').value;
-    const price = parseFloat(document.getElementById('npPrice').value);
-    const fileInput = document.getElementById('npImageFile');
-    const tag = document.getElementById('npTag').value.trim();
-
-    if(fileInput.files && fileInput.files[0]){
-        const reader = new FileReader();
-        reader.onload = async function(event) {
-            const base64ImageUrl = event.target.result;
-
-            if(db){ 
-                try {
-                    await db.from('products').insert([{ name, category, price_ghs: price, image_url: base64ImageUrl, tag }]); 
-                } catch(err) {}
-            }
-            
-            let prods = JSON.parse(localStorage.getItem('evProducts') || '[]');
-            prods.push({ id: Date.now(), name, category, priceGhs: price, imageUrl: base64ImageUrl, tag });
-            localStorage.setItem('evProducts', JSON.stringify(prods));
-
-            alert('Marketplace listing published.');
-            e.target.reset();
-            renderAdmin();
-            renderProducts();
-            renderHomeShowcase();
-        };
-        reader.readAsDataURL(fileInput.files[0]);
-    } else {
-        alert('Select an image asset file.');
-    }
-}
-
-async function adminDeleteProduct(id){
-    if(!confirm('Confirm asset deletion?')) return;
-    if(db){ 
-        try { await db.from('products').delete().eq('id', id); } catch(e){} 
-    }
-    let prods = (JSON.parse(localStorage.getItem('evProducts')) || defaultProducts).filter(p => p.id !== id);
-    localStorage.setItem('evProducts', JSON.stringify(prods));
-    renderAdmin();
-    renderProducts();
-    renderHomeShowcase();
-}
-
-updateAuthUI();
-renderHomeShowcase();
-renderProducts();
+// Modal Logic
+function openModal(id) { document.getElementById(id).classList.add('active'); }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+function closeAllModals() { document.querySelectorAll('.modal').forEach(m => m.classList.remove('active')); }
+
+document.querySelectorAll('.modal').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('active'); });
+});
 </script>
 </body>
 </html>
