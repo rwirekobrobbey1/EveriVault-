@@ -3,607 +3,1233 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EveriVault | Premium China ↔ Ghana Logistics & Commerce</title>
+<title>EveriVault — China ↔ Ghana Shipping, Store & Paystack Portal</title>
+<!-- Paystack Inline JS SDK -->
 <script src="https://js.paystack.co/v1/inline.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- Supabase JS Client CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root {
-  --primary: #0f172a;    /* Deep Navy */
-  --secondary: #3b82f6;  /* Vivid Blue */
-  --accent: #d4af37;     /* Premium Gold */
-  --success: #10b981;    /* Emerald */
-  --warning: #f59e0b;    /* Amber */
-  --bg-light: #f8fafc;
-  --bg-card: #ffffff;
-  --text-main: #334155;
-  --text-muted: #64748b;
-  --border: #e2e8f0;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
-  --radius: 12px;
+:root{--navy:#0A2463;--gold:#D4AF37;--sky:#0096FF;--green:#22C55E;--red:#EF4444;--light:#F8FAFC;--shadow:0 8px 24px rgba(10,36,99,.1);}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI','Roboto',sans-serif;}
+html{scroll-behavior:smooth;}
+body{background:#F8FAFC;color:#333;line-height:1.6;}
+.container{max-width:1200px;margin:0 auto;padding:0 16px;}
+
+nav{background:var(--navy);position:sticky;top:0;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,.15);}
+.nav-wrap{display:flex;justify-content:space-between;align-items:center;padding:12px 0;}
+.logo{font-size:clamp(20px,5vw,26px);font-weight:900;color:var(--gold);text-decoration:none;}
+.nav-links{display:flex;gap:4px;list-style:none;flex-wrap:wrap;align-items:center;}
+.nav-links a{color:#E0E7FF;text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:600;font-size:14px;}
+.nav-links a:hover,.nav-links a.active{background:rgba(255,255,255,.1);color:var(--gold);}
+.admin-badge-nav{background:var(--red);color:#fff!important;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:800;}
+.menu-toggle{display:none;color:#fff;font-size:28px;cursor:pointer;}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:10px;font-weight:700;border:none;cursor:pointer;font-size:15px;text-decoration:none;transition:.2s;}
+.btn:active{transform:scale(.97);}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#B8860B);color:var(--navy);box-shadow:0 4px 12px rgba(212,175,55,.3);}
+.btn-gold:hover{transform:translateY(-2px);}
+.btn-sky{background:var(--sky);color:#fff;}
+.btn-green{background:var(--green);color:#fff;}
+.btn-red{background:var(--red);color:#fff;}
+.btn-sm{padding:6px 12px;font-size:13px;}
+.btn-block{width:100%;justify-content:center;}
+.btn-outline{border:2px solid var(--navy);background:transparent;color:var(--navy);}
+
+.hero{background:linear-gradient(135deg,#051238,var(--navy),#1E40AF);color:#fff;padding:clamp(40px,10vw,60px) 0;text-align:center;}
+.badge{display:inline-block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:8px 18px;border-radius:50px;font-weight:700;margin-bottom:16px;font-size:14px;}
+.hero h1{font-size:clamp(24px,6vw,44px);margin-bottom:12px;}
+.hero h1 span{color:var(--gold);}
+.hero p{font-size:clamp(15px,3vw,18px);opacity:.9;max-width:650px;margin:0 auto 24px;}
+.rate-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;max-width:900px;margin:0 auto 24px;}
+.rate-card{background:rgba(255,255,255,.08);border-radius:14px;padding:18px;}
+.rate-card .big{font-size:clamp(22px,5vw,26px);font-weight:900;color:var(--gold);}
+.hero-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+
+section{padding:clamp(40px,8vw,60px) 0;}
+h2{text-align:center;font-size:clamp(20px,4vw,30px);color:var(--navy);margin-bottom:10px;}
+h2::after{content:'';display:block;width:60px;height:4px;background:var(--gold);margin:10px auto 0;border-radius:2px;}
+.subtitle{text-align:center;color:#64748B;margin-bottom:30px;font-size:15px;max-width:600px;margin-left:auto;margin-right:auto;}
+
+/* ISOLATED SINGLE PAGE ROUTER STYLING */
+.page { display: none !important; }
+.page.active { display: block !important; animation: fadeIn 0.25s ease-in-out; }
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+.category-bar{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;margin-bottom:20px;scrollbar-width:thin;}
+.cat-chip{background:#E2E8F0;color:#334155;padding:8px 16px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;transition:.2s;}
+.cat-chip.active,.cat-chip:hover{background:var(--navy);color:#fff;}
+
+.tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;border-bottom:2px solid #E2E8F0;}
+.tab{padding:10px 16px;border-radius:10px 10px 0 0;cursor:pointer;font-weight:700;color:#64748B;border-bottom:3px solid transparent;transition:all 0.2s ease;}
+.tab.active{color:var(--navy);border-bottom-color:var(--gold);background:rgba(212,175,55,.08);}
+.tab-content{display:none;}
+.tab-content.active{display:block !important;}
+
+.form-box{max-width:550px;margin:0 auto;background:#fff;padding:clamp(20px,5vw,30px);border-radius:16px;box-shadow:var(--shadow);}
+.form-group{margin-bottom:16px;}
+label{display:block;margin-bottom:6px;font-weight:600;color:var(--navy);}
+input,select,textarea{width:100%;padding:12px;border:2px solid #E2E8F0;border-radius:10px;font-size:15px;}
+input:focus,select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(10,36,99,.1);}
+.msg{padding:12px;border-radius:10px;margin:12px 0;display:none;font-weight:600;}
+.msg.ok{background:#ECFDF5;color:#065F45;display:block;}
+.msg.err{background:#FEF2F2;color:#B91C1C;display:block;}
+
+.tracking-banner{background:linear-gradient(135deg,var(--navy),#1E40AF);color:#fff;padding:18px;border-radius:12px;margin-bottom:24px;text-align:center;box-shadow:var(--shadow);}
+.tracking-banner .code{font-size:24px;font-weight:900;color:var(--gold);letter-spacing:1.5px;line-height:1.5;margin-top:4px;display:block;word-break:break-all;}
+
+.alert-notice{background:#FEF3C7;border-left:5px solid var(--gold);padding:14px;border-radius:8px;color:#78350F;margin-bottom:20px;font-size:14px;line-height:1.6;}
+
+.store-layout{display:grid;grid-template-columns:2.5fr 1fr;gap:24px;align-items:start;}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;}
+.product-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:space-between;transition:.2s;}
+.product-card:hover{transform:translateY(-4px);}
+.product-img-box{height:180px;background:#F1F5F9;position:relative;overflow:hidden;}
+.product-img-box img{width:100%;height:100%;object-fit:cover;}
+.product-tag{position:absolute;top:10px;left:10px;background:var(--gold);color:var(--navy);font-size:11px;font-weight:800;padding:3px 8px;border-radius:12px;text-transform:uppercase;}
+.product-cat-tag{position:absolute;bottom:10px;right:10px;background:rgba(10,36,99,.85);color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;}
+.product-info{padding:16px;flex-grow:1;display:flex;flex-direction:column;justify-content:space-between;}
+.product-title{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px;line-height:1.3;}
+.product-price{font-size:18px;font-weight:900;color:var(--green);margin-bottom:12px;}
+.cart-card{background:#fff;padding:20px;border-radius:16px;box-shadow:var(--shadow);position:sticky;top:90px;}
+.cart-item{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #E2E8F0;}
+.order-item-card{background:#fff;padding:16px;border-radius:12px;box-shadow:var(--shadow);margin-bottom:12px;border-left:4px solid var(--gold);}
+
+.admin-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:30px;}
+.stat-card{background:#fff;padding:18px;border-radius:12px;box-shadow:var(--shadow);text-align:center;}
+.stat-card h4{color:#64748B;font-size:13px;text-transform:uppercase;margin-bottom:6px;}
+.stat-card .val{font-size:24px;font-weight:900;color:var(--navy);}
+
+.data-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);margin-top:15px;}
+.data-table th,.data-table td{padding:12px 14px;text-align:left;border-bottom:1px solid #E2E8F0;font-size:14px;vertical-align:middle;}
+.data-table th{background:var(--navy);color:#fff;}
+.data-table tr:hover{background:#F8FAFC;}
+.tbl-thumb{width:48px;height:48px;border-radius:8px;object-fit:cover;background:#F1F5F9;}
+
+.paystack-badge{background:#E0F2FE;border:1px solid #0284C7;color:#0369A1;padding:10px;border-radius:10px;margin-bottom:16px;font-size:13px;display:flex;align-items:center;gap:10px;}
+.momo-providers{display:flex;gap:10px;justify-content:center;margin:12px 0;font-weight:bold;font-size:13px;}
+.momo-tag{padding:4px 10px;border-radius:6px;background:#F1F5F9;border:1px solid #CBD5E1;}
+
+footer{background:#051238;color:#CBD5E1;padding:30px 0 20px;margin-top:20px;text-align:center;}
+footer h3{color:var(--gold);margin-bottom:12px;}
+
+@media(max-width:900px){
+    .store-layout{grid-template-columns:1fr;}
+    .cart-card{position:static;}
+    .data-table{display:block;overflow-x:auto;}
 }
-
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-body { background: var(--bg-light); color: var(--text-main); line-height: 1.6; -webkit-font-smoothing: antialiased; }
-.container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
-
-/* Sticky Glass Header */
-header {
-  background: rgba(15, 23, 42, 0.95);
-  backdrop-filter: blur(10px);
-  color: white;
-  padding: 1rem 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-nav { display: flex; justify-content: space-between; align-items: center; }
-.logo { font-size: 1.5rem; font-weight: 700; color: white; display: flex; align-items: center; gap: 8px; }
-.logo span { color: var(--accent); }
-.nav-links { display: flex; gap: 2rem; list-style: none; }
-.nav-links a { color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; }
-.nav-links a:hover { color: white; }
-.nav-buttons { display: flex; gap: 12px; }
-.btn { padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; border: none; }
-.btn-outline { background: transparent; color: white; border: 1px solid var(--border); }
-.btn-outline:hover { background: rgba(255,255,255,0.1); }
-.btn-primary { background: var(--secondary); color: white; }
-.btn-primary:hover { background: #2563eb; transform: translateY(-1px); box-shadow: var(--shadow-md); }
-.btn-accent { background: var(--accent); color: var(--primary); }
-.btn-accent:hover { background: #b8962e; transform: translateY(-1px); }
-
-/* Hero Section */
-.hero {
-  padding: 6rem 0;
-  text-align: center;
-  background: linear-gradient(180deg, #e0e7ff 0%, var(--bg-light) 100%);
-  position: relative;
-  overflow: hidden;
-}
-.hero h1 { font-size: 3.5rem; font-weight: 800; color: var(--primary); letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 1.5rem; }
-.hero p { font-size: 1.15rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 2.5rem; }
-.hero-buttons { display: flex; justify-content: center; gap: 16px; }
-.hero-buttons .btn { padding: 0.8rem 2rem; font-size: 1rem; }
-
-/* Section Globals */
-section { padding: 5rem 0; }
-.section-header { text-align: center; margin-bottom: 4rem; }
-.section-header h2 { font-size: 2.25rem; color: var(--primary); font-weight: 700; margin-bottom: 1rem; }
-.section-header p { color: var(--text-muted); max-width: 500px; margin: 0 auto; }
-
-/* Grids & Cards */
-.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
-.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
-.card { background: var(--bg-card); padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow-md); border: 1px solid var(--border); transition: transform 0.2s, box-shadow 0.2s; }
-.card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-.card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; }
-.card-header h3 { font-size: 1.25rem; color: var(--primary); font-weight: 600; }
-.icon-box { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-.bg-blue { background: #dbeafe; color: #1e40af; }
-.bg-green { background: #d1fae5; color: #065f46; }
-
-/* Pricing & Addresses */
-.price-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
-.price-row:last-of-type { border-bottom: none; }
-.price-row strong { color: var(--primary); }
-.addr-box { background: #f1f5f9; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-main); position: relative; }
-.copy-btn { position: absolute; top: 1rem; right: 1rem; background: white; border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: 500; transition: all 0.2s; }
-.copy-btn:hover { background: var(--bg-light); border-color: var(--secondary); color: var(--secondary); }
-
-/* Forms */
-.form-group { margin-bottom: 1rem; }
-.form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--primary); margin-bottom: 6px; }
-input, select, textarea { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; background: var(--bg-light); transition: all 0.2s; }
-input:focus, select:focus, textarea:focus { outline: none; border-color: var(--secondary); background: white; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
-
-/* Storefront */
-.filters { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 3rem; }
-.filter-btn { padding: 0.5rem 1.2rem; border-radius: 20px; font-size: 0.9rem; font-weight: 500; border: 1px solid var(--border); background: white; color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
-.filter-btn.active, .filter-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
-.product-card { background: white; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow-sm); transition: transform 0.2s; display: flex; flex-direction: column; }
-.product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-.product-img { height: 200px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; font-size: 3rem; position: relative; }
-.tag { position: absolute; top: 12px; left: 12px; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; }
-.tag.available { background: rgba(16, 185, 129, 0.1); color: var(--success); }
-.tag.preorder { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
-.product-body { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
-.product-category { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
-.product-title { font-size: 1.1rem; font-weight: 600; color: var(--primary); margin-bottom: 8px; }
-.product-price { font-size: 1.25rem; font-weight: 700; color: var(--secondary); margin-bottom: 1rem; }
-.product-btn { margin-top: auto; width: 100%; text-align: center; }
-
-/* Modals */
-.modal { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
-.modal.active { display: flex; opacity: 1; }
-.modal-content { background: white; padding: 2.5rem; border-radius: var(--radius); width: 100%; max-width: 400px; position: relative; transform: translateY(20px); transition: transform 0.3s ease; }
-.modal.active .modal-content { transform: translateY(0); }
-.modal-close { position: absolute; top: 1.2rem; right: 1.2rem; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); line-height: 1; }
-
-/* Footer */
-footer { background: var(--primary); color: #cbd5e1; padding: 4rem 0 2rem; border-top: 1px solid rgba(255,255,255,0.1); }
-.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 3rem; }
-.footer-title { color: white; font-size: 1.1rem; font-weight: 600; margin-bottom: 1.2rem; }
-.footer-links { list-style: none; }
-.footer-links li { margin-bottom: 0.75rem; }
-.footer-links a { color: #cbd5e1; text-decoration: none; transition: color 0.2s; }
-.footer-links a:hover { color: var(--accent); }
-.footer-bottom { text-align: center; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; }
-
-@media(max-width: 768px) {
-  .nav-links { display: none; }
-  .hero h1 { font-size: 2.5rem; }
+@media(max-width:768px){
+    .menu-toggle{display:block;}
+    .nav-links{position:absolute;top:100%;left:0;right:0;background:var(--navy);flex-direction:column;padding:16px;display:none;}
+    .nav-links.active{display:flex;}
 }
 </style>
 </head>
 <body>
 
-<!-- NAVIGATION -->
-<header>
-  <div class="container">
-    <nav>
-      <div class="logo">Everi<span>Vault</span></div>
-      <ul class="nav-links">
-        <li><a href="#shipping">Logistics</a></li>
-        <li><a href="#store">Commerce</a></li>
-        <li><a href="#travels">Sourcing Updates</a></li>
-      </ul>
-      <div class="nav-buttons">
-        <button class="btn btn-outline" onclick="openModal('loginModal')">Sign In</button>
-        <button class="btn btn-accent" onclick="openModal('registerModal')">Create Account</button>
-      </div>
-    </nav>
-  </div>
-</header>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="container">
-    <h1>Enterprise Logistics & Commerce</h1>
-    <p>Seamlessly bridging the gap between Asian manufacturing and West African markets. Premium hardware, apparel sourcing, and cross-border shipping managed in one secure portal.</p>
-    <div class="hero-buttons">
-      <button class="btn btn-primary" onclick="document.getElementById('shipping').scrollIntoView({behavior:'smooth'})">Calculate Freight</button>
-      <button class="btn btn-outline" style="color: var(--primary); border-color: var(--border); background: white;" onclick="document.getElementById('store').scrollIntoView({behavior:'smooth'})">Access Storefront</button>
+<nav>
+    <div class="container nav-wrap">
+        <a href="#" class="logo" onclick="go('home');return false;">EVERIVAULT</a>
+        <ul class="nav-links" id="menu">
+            <li><a href="#" class="plink active" data-p="home" onclick="go('home');return false;">Home</a></li>
+            <li><a href="#" class="plink" data-p="shop" onclick="go('shop');return false;">🛒 Store</a></li>
+            <li><a href="#" class="plink" data-p="pay" onclick="go('pay');return false;">💳 Pay Online</a></li>
+            <li><a href="#" class="plink" data-p="calc" onclick="go('calc');return false;">📐 Calculator</a></li>
+            <li><a href="#" class="plink" data-p="address" onclick="go('address');return false;">📍 Shipping Info</a></li>
+            <li><a href="#" class="plink" data-p="track" onclick="go('track');return false;">🔍 Track</a></li>
+            <li id="ordersNav" style="display:none;"><a href="#" class="plink" data-p="orders" onclick="go('orders');return false;">👤 My Profile & Mark</a></li>
+            <li id="adminNav" style="display:none;"><a href="#" class="plink admin-badge-nav" data-p="admin" onclick="go('admin');return false;">🛡️ Admin Dashboard</a></li>
+            <li id="authBtn"><a href="#" class="nav-cta plink" data-p="auth" onclick="go('auth');return false;">Login / Register</a></li>
+            <li id="userProfileNav" style="display:none;"><a href="#" class="plink" onclick="logout();return false;" style="color:var(--red);">🚪 Logout</a></li>
+        </ul>
+        <span class="menu-toggle" onclick="toggleMenu()">☰</span>
     </div>
-  </div>
-</section>
+</nav>
 
-<!-- LOGISTICS / SHIPPING -->
-<section id="shipping">
-  <div class="container">
-    <div class="section-header">
-      <h2>Freight & Logistics Hub</h2>
-      <p>Transparent pricing, dedicated warehousing, and streamlined fulfillment from Guangzhou to Kumasi.</p>
-    </div>
-    
-    <div class="grid-2">
-      <!-- Sea Freight -->
-      <div class="card">
-        <div class="card-header">
-          <div class="icon-box bg-blue">🚢</div>
-          <h3>Sea Freight</h3>
-        </div>
-        <div class="price-row"><span>Estimated Transit</span><strong>45–60 Days</strong></div>
-        <div class="price-row"><span>Below 1 CBM</span><strong>$260 USD / CBM</strong></div>
-        <div class="price-row"><span>1 CBM & Above</span><strong>$255 USD / CBM</strong></div>
-        <div class="price-row"><span>Exchange Rate</span><strong>$1 = ₵13</strong></div>
-        <p style="font-size: 0.8rem; color: var(--warning); margin-top: 1rem;">* Battery-powered electronics strictly prohibited via sea freight.</p>
-        
-        <div class="addr-box">
-          <button class="copy-btn" onclick="copyText(this, '广东省佛山市南海区狮山镇新圃西路88号博汇5期')">Copy</button>
-          <div style="font-weight: 600; margin-bottom: 4px;">Warehouse Receiving (China)</div>
-          广东省佛山市南海区狮山镇新圃西路88号博汇5期<br>
-          导航：佛山固菜仓储服务部（博汇5期）<br>
-          张生：18125717488
-        </div>
-      </div>
-      
-      <!-- Air Freight -->
-      <div class="card">
-        <div class="card-header">
-          <div class="icon-box bg-green">✈️</div>
-          <h3>Air Freight</h3>
-        </div>
-        <div class="price-row"><span>Estimated Transit</span><strong>3–7 Days</strong></div>
-        <div class="price-row"><span>Standard Goods</span><strong>$17 USD / kg</strong></div>
-        <div class="price-row"><span>Phones / Laptops</span><strong>₵500 Flat Rate</strong></div>
-        
-        <div class="addr-box">
-          <button class="copy-btn" onclick="copyText(this, '广州市越秀区广园西路99号玖玖商汇510室')">Copy</button>
-          <div style="font-weight: 600; margin-bottom: 4px;">Express Receiving (China)</div>
-          广州市越秀区广园西路99号玖玖商汇510室
-        </div>
-      </div>
-    </div>
-
-    <!-- Smart Calculator -->
-    <div class="card" style="margin-top: 24px; padding: 3rem;">
-      <div class="card-header">
-        <div class="icon-box" style="background: #f1f5f9;">🧮</div>
-        <h3>Freight Estimator</h3>
-      </div>
-      <div class="grid-2">
-        <div>
-          <div class="form-group"><label>Dimensions (L × W × H in cm)</label>
-            <div style="display: flex; gap: 8px;">
-              <input type="number" id="len" placeholder="L">
-              <input type="number" id="wid" placeholder="W">
-              <input type="number" id="hgt" placeholder="H">
+<!-- HOME PAGE -->
+<section id="p-home" class="page active">
+    <div class="hero">
+        <div class="container">
+            <div class="badge">📍 Kumasi — KNUST, Ayeduase New Site</div>
+            <h1>China ↔ Ghana <span>Trusted Shipping & Store</span></h1>
+            <p>Shop Direct • Instant MoMo Payments via Paystack • Real-Time Tracking</p>
+            <div class="rate-grid">
+                <div class="rate-card">
+                    <h3>🚢 Sea Freight</h3>
+                    <div class="big">$260/m³</div>
+                    <div>Under 1 CBM</div>
+                </div>
+                <div class="rate-card">
+                    <h3>✈️ Air Freight</h3>
+                    <div class="big">$17/kg</div>
+                    <div>Standard Goods</div>
+                </div>
+                <div class="rate-card">
+                    <h3>📲 Direct MoMo</h3>
+                    <div class="big">0543155883</div>
+                    <div>MTN / Telecel / AirtelTigo</div>
+                </div>
             </div>
-          </div>
-          <div class="form-group"><label>Weight (kg) — Air Only</label>
-            <input type="number" id="wgt" placeholder="Enter weight">
-          </div>
+            <div class="hero-actions">
+                <a href="#" class="btn btn-gold" onclick="go('shop');return false;">🛒 Shop Products</a>
+                <a href="#" class="btn btn-green" onclick="go('pay');return false;">💳 Pay via Paystack MoMo</a>
+            </div>
         </div>
-        <div>
-          <div class="form-group"><label>Shipping Method</label>
-            <select id="method">
-              <option value="sea">Sea Freight (CBM)</option>
-              <option value="air">Air Freight (Weight)</option>
-              <option value="device">Smart Devices (Flat)</option>
-            </select>
-          </div>
-          <div class="form-group"><label>Client Reference ID</label>
-            <input type="text" id="mark" value="GH001K_">
-          </div>
-        </div>
-      </div>
-      <button class="btn btn-primary" onclick="calcCost()" style="width: 100%; margin-top: 1rem; padding: 1rem;">Generate Freight Quote</button>
-      
-      <div id="result" style="display: none; margin-top: 2rem; padding: 1.5rem; background: var(--bg-light); border-radius: 8px; border: 1px solid var(--border);"></div>
     </div>
-  </div>
 </section>
 
-<!-- COMMERCE / STORE -->
-<section id="store" style="background: white;">
-  <div class="container">
-    <div class="section-header">
-      <h2>Commercial Sourcing</h2>
-      <p>Pre-order direct imports and shop in-stock apparel, timepieces, and commercial printing hardware.</p>
+<!-- STORE PAGE -->
+<section id="p-shop" class="page">
+    <div class="container">
+        <h2>🛒 Direct China Store</h2>
+        <p class="subtitle">Browse products stocked by EveriVault Admin and pay instantly via Mobile Money</p>
+        
+        <div class="category-bar" id="categoryBar">
+            <div class="cat-chip active" onclick="filterCategory('All', this)">✨ All Items</div>
+            <div class="cat-chip" onclick="filterCategory('Skin Care', this)">🧴 Skin Care</div>
+            <div class="cat-chip" onclick="filterCategory('Bags', this)">👜 Bags</div>
+            <div class="cat-chip" onclick="filterCategory('Phones', this)">📱 Phones & Tech</div>
+            <div class="cat-chip" onclick="filterCategory('Cars', this)">🚗 Car Accessories</div>
+            <div class="cat-chip" onclick="filterCategory('Footwear', this)">👟 Men & Ladies Footwear</div>
+            <div class="cat-chip" onclick="filterCategory('Clothing', this)">👗 Men & Ladies Clothes</div>
+            <div class="cat-chip" onclick="filterCategory('Home Appliances', this)">🍳 Home Appliances</div>
+        </div>
+
+        <div class="store-layout">
+            <div class="product-grid" id="productGrid"></div>
+            
+            <div class="cart-card">
+                <h3 style="color:var(--navy);margin-bottom:15px;display:flex;align-items:center;justify-content:space-between;">
+                    <span>🛍️ Your Cart</span>
+                    <span id="cartCount" style="font-size:14px;background:var(--gold);color:var(--navy);padding:2px 8px;border-radius:10px;">0 items</span>
+                </h3>
+                <div id="cartItems">
+                    <p style="text-align:center;color:#64748B;padding:20px 0;">Your cart is empty.</p>
+                </div>
+                <div style="margin-top:15px;border-top:2px solid #E2E8F0;padding-top:15px;">
+                    <div style="display:flex;justify-content:space-between;font-weight:800;font-size:18px;color:var(--navy);">
+                        <span>Total:</span>
+                        <span>₵<span id="cartTotal">0.00</span></span>
+                    </div>
+                    <button class="btn btn-green btn-block" style="margin-top:15px;" onclick="checkoutWithPaystack()">🔒 Pay Now with Paystack MoMo</button>
+                </div>
+            </div>
+        </div>
     </div>
-    
-    <div class="filters">
-      <button class="filter-btn active" onclick="filterProducts('all')">All Inventory</button>
-      <button class="filter-btn" onclick="filterProducts('hardware')">Printing Hardware</button>
-      <button class="filter-btn" onclick="filterProducts('apparel')">Streetwear & Apparel</button>
-      <button class="filter-btn" onclick="filterProducts('accessories')">Luxury Timepieces</button>
-    </div>
-
-    <div class="grid-3" id="productsGrid">
-      
-      <!-- Hardware -->
-      <div class="product-card" data-category="hardware">
-        <div class="product-img">🖨️<span class="tag preorder">Pre-Order</span></div>
-        <div class="product-body">
-          <div class="product-category">Commercial Hardware</div>
-          <h4 class="product-title">UV DTF Sticker Printer</h4>
-          <div class="product-price">Custom Quote</div>
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Industrial grade UV direct-to-film printer. Perfect for custom merchandise. Factory direct sourcing.</p>
-          <button class="btn btn-outline product-btn" style="color: var(--primary); border-color: var(--primary);" onclick="openModal('loginModal')">Request Specs</button>
-        </div>
-      </div>
-
-      <div class="product-card" data-category="hardware">
-        <div class="product-img">👕<span class="tag preorder">Pre-Order</span></div>
-        <div class="product-body">
-          <div class="product-category">Commercial Hardware</div>
-          <h4 class="product-title">Direct-to-Garment (DTG) Press</h4>
-          <div class="product-price">Custom Quote</div>
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Automated hat/cap and flatbed heat press machines for high-volume textile printing operations.</p>
-          <button class="btn btn-outline product-btn" style="color: var(--primary); border-color: var(--primary);" onclick="openModal('loginModal')">Request Specs</button>
-        </div>
-      </div>
-
-      <!-- Accessories -->
-      <div class="product-card" data-category="accessories">
-        <div class="product-img">⌚<span class="tag available">In Stock</span></div>
-        <div class="product-body">
-          <div class="product-category">Luxury Timepieces</div>
-          <h4 class="product-title">VVS Moissanite Watch</h4>
-          <div class="product-price">₵4,200</div>
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Premium iced-out quartz movement timepiece. Passes standard diamond testers. Includes display box.</p>
-          <button class="btn btn-primary product-btn" onclick="openModal('loginModal')">Add to Cart</button>
-        </div>
-      </div>
-
-      <div class="product-card" data-category="accessories">
-        <div class="product-img">✨<span class="tag available">In Stock</span></div>
-        <div class="product-body">
-          <div class="product-category">Luxury Timepieces</div>
-          <h4 class="product-title">Quartz Watch & Bracelet Set</h4>
-          <div class="product-price">₵1,850</div>
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Executive multi-piece analog watch and matching metallic bracelet set. Professional wear.</p>
-          <button class="btn btn-primary product-btn" onclick="openModal('loginModal')">Add to Cart</button>
-        </div>
-      </div>
-
-      <!-- Apparel -->
-      <div class="product-card" data-category="apparel">
-        <div class="product-img">👖<span class="tag available">In Stock</span></div>
-        <div class="product-body">
-          <div class="product-category">Men's Streetwear</div>
-          <h4 class="product-title">Tech-Fleece Cargo Pants</h4>
-          <div class="product-price">₵450</div>
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">High-utility tactical cargo trousers. Multi-pocket design, adjustable cuffs. Sizes M - XXL.</p>
-          <button class="btn btn-primary product-btn" onclick="openModal('loginModal')">Add to Cart</button>
-        </div>
-      </div>
-
-      <div class="product-card" data-category="apparel">
-        <div class="product-img">🧥<span class="tag available">In Stock</span></div>
-        <div class="product-body">
-          <div class="product-category">Men's Streetwear</div>
-          <h4 class="product-title">Two-Piece Utility Short Set</h4>
-          <div class="product-price">₵550</div>
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Summer-weight matching top and short set. Breathable fabric tailored for the Ghanaian climate.</p>
-          <button class="btn btn-primary product-btn" onclick="openModal('loginModal')">Add to Cart</button>
-        </div>
-      </div>
-
-    </div>
-  </div>
 </section>
 
-<!-- CEO TRAVELS / SOURCING UPDATES -->
-<section id="travels">
-  <div class="container">
-    <div class="section-header">
-      <h2>Global Sourcing Network</h2>
-      <p>Exclusive supply chain updates and factory direct verification reports.</p>
-    </div>
-    
-    <div id="travelsContent" style="display:none;">
-      <div class="grid-3">
-        <div class="card" style="border-top: 4px solid var(--secondary);">
-          <h4 style="color: var(--primary); margin-bottom: 8px;">🇨🇳 Guangzhou Manufacturing Audit</h4>
-          <div style="font-size: 0.85rem; color: var(--secondary); font-weight: 600; margin-bottom: 12px;">July 25 - August 15, 2026</div>
-          <p style="font-size: 0.95rem; color: var(--text-muted);">Completed a 21-night sourcing expedition stationed at the Hanqun Hotel near Baiyun International Airport. Successfully secured new direct-to-garment (DTG) printing hardware lines and negotiated updated volume pricing for streetwear and moissanite timepiece inventories.</p>
+<!-- PAYSTACK PAYMENT PORTAL PAGE -->
+<section id="p-pay" class="page">
+    <div class="container">
+        <h2>💳 Paystack Mobile Money Portal</h2>
+        <p class="subtitle">Pay for shipping bills, freight fees, or custom orders directly to 0543155883</p>
+
+        <div class="form-box">
+            <div class="paystack-badge">
+                <span style="font-size:22px;">🔒</span>
+                <div>
+                    <strong>Secured by Paystack</strong><br>
+                    Merchant MoMo Account: <strong>0543155883</strong> (Richmond Wireko Brobbey)
+                </div>
+            </div>
+
+            <div class="momo-providers">
+                <span class="momo-tag" style="color:#B45309;background:#FEF3C7;">🟡 MTN MoMo</span>
+                <span class="momo-tag" style="color:#B91C1C;background:#FEE2E2;">🔴 Telecel Cash</span>
+                <span class="momo-tag" style="color:#1D4ED8;background:#DBEAFE;">🔵 AirtelTigo</span>
+            </div>
+
+            <form id="paystackPortalForm" onsubmit="triggerDirectPaystack(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="payName" placeholder="e.g. Kwame Mensah" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="payEmail" placeholder="e.g. kwame@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Mobile Money Phone Number</label>
+                    <input type="tel" id="payPhone" placeholder="e.g. 0543155883" value="0543155883" required>
+                </div>
+                <div class="form-group">
+                    <label>Shipping Mark / Tracking Reference Number</label>
+                    <input type="text" id="payRef" placeholder="e.g. GHOO1KKWAME0543155883" required>
+                </div>
+                <div class="form-group">
+                    <label>Amount (GHS ₵)</label>
+                    <input type="number" id="payAmount" step="0.01" min="1" placeholder="e.g. 500" required>
+                </div>
+                <button type="submit" class="btn btn-gold btn-block" style="font-size:16px;">📲 Proceed to MoMo Prompt</button>
+            </form>
         </div>
-        <div class="card" style="border-top: 4px solid var(--primary);">
-          <h4 style="color: var(--primary); margin-bottom: 8px;">🇿🇦 Cape Town Logistics Summit</h4>
-          <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600; margin-bottom: 12px;">December 2025</div>
-          <p style="font-size: 0.95rem; color: var(--text-muted);">Attended regional supply chain networking events to optimize southern freight routes and explore backup distribution centers for cross-border African forwarding.</p>
-        </div>
-        <div class="card" style="border-top: 4px solid var(--primary);">
-          <h4 style="color: var(--primary); margin-bottom: 8px;">🇶🇦 Doha Business Forum</h4>
-          <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600; margin-bottom: 12px;">April 2025</div>
-          <p style="font-size: 0.95rem; color: var(--text-muted);">Participated in international commerce discussions regarding digital payments and cross-border digital financial management solutions for import/export firms.</p>
-        </div>
-      </div>
     </div>
-    
-    <div id="travelsLocked" style="text-align: center; padding: 4rem 2rem; background: var(--bg-card); border-radius: var(--radius); border: 1px dashed #cbd5e1;">
-      <div style="font-size: 3rem; margin-bottom: 1rem;">🔒</div>
-      <h3 style="margin-bottom: 1rem; color: var(--primary);">Secure Corporate Network</h3>
-      <p style="color: var(--text-muted); margin-bottom: 2rem; max-width: 400px; margin-left: auto; margin-right: auto;">Authentication is required to view proprietary supply chain routes, supplier updates, and factory verification logs.</p>
-      <button class="btn btn-primary" onclick="openModal('loginModal')">Authenticate Access</button>
-    </div>
-  </div>
 </section>
 
-<!-- FOOTER -->
+<!-- CALCULATOR PAGE -->
+<section id="p-calc" class="page">
+    <div class="container">
+        <h2>📐 Shipping Cost Calculator</h2>
+        <p class="subtitle">Calculate estimated costs for Air Freight, Sea Freight, and Combined Total</p>
+        
+        <div class="form-box">
+            <div class="form-group">
+                <label>✈️ Air Freight Weight (kg) — Rate: $17/kg</label>
+                <input type="number" id="calcKg" oninput="runCalc()" placeholder="e.g. 10">
+            </div>
+            <div class="form-group">
+                <label>🚢 Sea Freight Volume (CBM / m³) — Rate: $260/m³</label>
+                <input type="number" id="calcCbm" step="0.01" oninput="runCalc()" placeholder="e.g. 0.5">
+            </div>
+
+            <div style="background:#F1F5F9;padding:16px;border-radius:12px;margin:20px 0;line-height:1.8;">
+                <p style="display:flex;justify-content:space-between;">
+                    <span>✈️ Air Freight Total:</span>
+                    <strong>$<span id="calcAirUsd">0.00</span> (₵<span id="calcAirGhs">0.00</span>)</strong>
+                </p>
+                <p style="display:flex;justify-content:space-between;">
+                    <span>🚢 Sea Freight Total:</span>
+                    <strong>$<span id="calcSeaUsd">0.00</span> (₵<span id="calcSeaGhs">0.00</span>)</strong>
+                </p>
+                <hr style="margin:10px 0;border:0;border-top:2px dashed #CBD5E1;">
+                <p style="display:flex;justify-content:space-between;font-size:18px;color:var(--navy);font-weight:900;">
+                    <span>💵 Total Shipping Cost:</span>
+                    <span>₵<span id="calcTotalGhs">0.00</span> ($<span id="calcTotalUsd">0.00</span>)</span>
+                </p>
+            </div>
+            <button class="btn btn-sky btn-block" onclick="go('pay')">Proceed to Pay via MoMo</button>
+        </div>
+    </div>
+</section>
+
+<!-- SHIPPING INFO PAGE -->
+<section id="p-address" class="page">
+    <div class="container">
+        <h2>📍 China Warehouse Addresses</h2>
+        <p class="subtitle">Send your supplier items directly to our Guangzhou Air or Foshan Sea warehouses</p>
+        
+        <div class="alert-notice" style="max-width:1000px;margin:0 auto 24px;">
+            📌 <strong>IMPORTANT SHIPPING MARK INSTRUCTION:</strong><br>
+            Your <strong>Shipping Mark</strong> must be identical to your generated <strong>Tracking Number / Reference Number</strong> (Format: <code>GHOO1K + FIRST NAME + PHONE</code>). Make sure your China supplier writes or prints this mark clearly on all package boxes!
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;max-width:1000px;margin:0 auto;">
+            <div style="background:#fff;padding:24px;border-radius:16px;box-shadow:var(--shadow);border-top:5px solid var(--sky);">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                    <h3 style="color:var(--navy);font-size:20px;">✈️ Air Freight Warehouse</h3>
+                    <span style="background:#E0F2FE;color:var(--sky);font-weight:800;padding:6px 12px;border-radius:20px;font-size:15px;">$17 / kg</span>
+                </div>
+                <div style="margin-bottom:20px;">
+                    <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇬🇧 English Address</strong>
+                    <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
+                        <strong>Recipient:</strong> EveriVault / [<span class="user-mark-display">Your Shipping Mark</span>]<br>
+                        <strong>Address:</strong> Room 510, Jiujiu Business Center, No. 99 Guangyuan West Road, Yuexiu District, Guangzhou City, Guangdong Province, China
+                    </div>
+                </div>
+                <div>
+                    <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇨🇳 Chinese Address (中文地址)</strong>
+                    <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
+                        <strong>收件人:</strong> EveriVault / [<span class="user-mark-display">您的唛头代码</span>]<br>
+                        <strong>地址:</strong> 广州市越秀区广园西路99号玖玖商汇510室
+                    </div>
+                </div>
+            </div>
+
+            <div style="background:#fff;padding:24px;border-radius:16px;box-shadow:var(--shadow);border-top:5px solid var(--gold);">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                    <h3 style="color:var(--navy);font-size:20px;">🚢 EVERIVAULT — SEA WAREHOUSE</h3>
+                    <span style="background:#FEF3C7;color:#B45309;font-weight:800;padding:6px 12px;border-radius:20px;font-size:15px;">$260 / m³</span>
+                </div>
+                <div style="margin-bottom:16px;">
+                    <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇬🇧 English Address</strong>
+                    <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
+                        <strong>Recipient:</strong> EveriVault / [<span class="user-mark-display">Your Shipping Mark</span>]<br>
+                        <strong>Address:</strong> Foshan City, Nanhai District, Shishan Town, Xinpu West Road No.88, Bohui Phase 5, Guangdong, China.
+                    </div>
+                </div>
+                <div style="margin-bottom:16px;">
+                    <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇨🇳 Chinese Address (中文地址)</strong>
+                    <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
+                        <strong>收件人:</strong> EveriVault / [<span class="user-mark-display">您的唛头代码</span>]<br>
+                        <strong>地址:</strong> 广东省佛山市南海区狮山镇新圃西路88号博汇5期
+                    </div>
+                </div>
+                <div style="background:#F1F5F9;padding:12px;border-radius:10px;font-size:13px;line-height:1.6;">
+                    🧭 <strong>Navigation:</strong> 佛山固菜仓储服务部（博汇5期） / Foshan Gucai Warehousing Service (Bohui Phase 5)<br>
+                    📞 <strong>China Contacts:</strong> Mr. Zhang +86 181 2571 7488 | Mr. Yue +86 180 2417 9599<br>
+                    📞 <strong>Ghana Contact:</strong> +233 543 155 883
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TRACKING PAGE -->
+<section id="p-track" class="page">
+    <div class="container">
+        <h2>🔍 Track Shipment</h2>
+        <div class="form-box">
+            <div class="form-group">
+                <label>Tracking Code / Reference Number / Shipping Mark</label>
+                <input type="text" id="trackInput" placeholder="e.g. GHOO1KKWAME0543155883">
+            </div>
+            <button class="btn btn-gold btn-block" onclick="performTracking()">Search Order Status</button>
+            <div id="trackResult" style="margin-top:20px;"></div>
+        </div>
+    </div>
+</section>
+
+<!-- AUTHENTICATION PAGE -->
+<section id="p-auth" class="page">
+    <div class="container">
+        <h2>🔐 Portal Account Access</h2>
+        <p class="subtitle">Sign in, register, or reset your password</p>
+        
+        <div class="form-box">
+            <div class="tabs">
+                <div class="tab active" id="tabLogin" onclick="switchAuthTab('login')">Sign In</div>
+                <div class="tab" id="tabReg" onclick="switchAuthTab('reg')">Register</div>
+                <div class="tab" id="tabReset" onclick="switchAuthTab('reset')">Reset Password</div>
+            </div>
+
+            <form id="fLogin" class="tab-content active" onsubmit="doLogin(event)">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="lem" placeholder="e.g. user@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="lpw" placeholder="Enter password" required>
+                </div>
+                <div id="lmsg" class="msg"></div>
+                <button type="submit" class="btn btn-gold btn-block">Log In</button>
+            </form>
+
+            <form id="fReg" class="tab-content" onsubmit="doReg(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="rn" placeholder="e.g. Kwame Mensah" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="rem" placeholder="e.g. kwame@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="rp" placeholder="e.g. 0543155883" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="rpw" placeholder="Create password" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" id="rpw2" placeholder="Confirm password" required>
+                </div>
+                <div id="rmsg" class="msg"></div>
+                <button type="submit" class="btn btn-gold btn-block">Create Account & Auto-Generate Tracking Code</button>
+            </form>
+
+            <form id="fReset" class="tab-content" onsubmit="doResetPassword(event)">
+                <div class="form-group">
+                    <label>Email Address OR Shipping Mark Reference</label>
+                    <input type="text" id="resetId" placeholder="e.g. kwame@gmail.com OR GHOO1KKWAME0543155883" required>
+                </div>
+                <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" id="resetPw1" placeholder="Enter new password" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm New Password</label>
+                    <input type="password" id="resetPw2" placeholder="Confirm new password" required>
+                </div>
+                <div id="resetMsg" class="msg"></div>
+                <button type="submit" class="btn btn-gold btn-block">Update Password</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- USER PROFILE & ORDERS PAGE -->
+<section id="p-orders" class="page">
+    <div class="container">
+        <h2>👤 Account Profile & Tracking Mark</h2>
+        <p class="subtitle" id="userWelcomeText">Here is your unique tracking reference code and order history</p>
+        
+        <div style="max-width:600px;margin:0 auto;">
+            <div class="tracking-banner">
+                <span>📦 Your Assigned Tracking & Shipping Mark Code</span>
+                <span class="code" id="userMarkCode">GHOO1K-PENDING</span>
+                <small style="opacity:.8;display:block;margin-top:6px;">Instruct China suppliers to mark this exact code on all outer boxes!</small>
+            </div>
+            <h3 style="color:var(--navy);margin-bottom:15px;">Transaction History</h3>
+            <div id="ordersList"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ADMIN DASHBOARD PAGE -->
+<section id="p-admin" class="page">
+    <div class="container">
+        <h2>🛡️ Administrator Dashboard</h2>
+        <p class="subtitle">Only administrators can publish products to the client storefront, edit inventory, and update statuses</p>
+
+        <div class="admin-stats">
+            <div class="stat-card">
+                <h4>Total Revenue</h4>
+                <div class="val" id="admRev">₵0.00</div>
+            </div>
+            <div class="stat-card">
+                <h4>Total Orders</h4>
+                <div class="val" id="admOrders">0</div>
+            </div>
+            <div class="stat-card">
+                <h4>Registered Users</h4>
+                <div class="val" id="admUsers">0</div>
+            </div>
+            <div class="stat-card">
+                <h4>Store Products</h4>
+                <div class="val" id="admProducts">0</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" id="atabOrders" onclick="switchAdminTab('orders')">📦 All Client Payments & Orders</div>
+            <div class="tab" id="atabProds" onclick="switchAdminTab('prods')">🛒 Add Product to Client Store</div>
+            <div class="tab" id="atabUsers" onclick="switchAdminTab('users')">👥 Registered Users & Marks</div>
+        </div>
+
+        <div id="acontentOrders" class="tab-content active">
+            <h3 style="color:var(--navy);margin-bottom:12px;">All Transaction Records</h3>
+            <div id="adminOrdersTable"></div>
+        </div>
+
+        <div id="acontentProds" class="tab-content">
+            <div style="display:grid;grid-template-columns:1fr 2fr;gap:20px;align-items:start;">
+                <div class="form-box" style="margin:0;">
+                    <h3 style="color:var(--navy);margin-bottom:15px;">➕ Add Product (Admin Only)</h3>
+                    <form onsubmit="adminAddProduct(event)">
+                        <div class="form-group">
+                            <label>Product Name</label>
+                            <input type="text" id="npName" placeholder="e.g. Glowing Vitamin C Serum" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Store Section / Category</label>
+                            <select id="npCategory" required>
+                                <option value="Skin Care">🧴 Skin Care Section</option>
+                                <option value="Bags">👜 Bags Section</option>
+                                <option value="Phones">📱 Phones Section</option>
+                                <option value="Cars">🚗 Car Accessories Section</option>
+                                <option value="Footwear">👟 Men & Ladies Footwear</option>
+                                <option value="Clothing">👗 Men & Ladies Clothes</option>
+                                <option value="Home Appliances">🍳 Home Appliances Section</option>
+                                <option value="General">📦 General Items</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Price (GHS ₵)</label>
+                            <input type="number" id="npPrice" step="0.01" placeholder="e.g. 150" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Image URL</label>
+                            <input type="url" id="npImageUrl" placeholder="https://images.unsplash.com/photo-..." required>
+                        </div>
+                        <div class="form-group">
+                            <label>Product Tag</label>
+                            <input type="text" id="npTag" placeholder="e.g. Hot Seller, Air Freight, New" value="New Arrival" required>
+                        </div>
+                        <button class="btn btn-green btn-block">Upload & Publish Product</button>
+                    </form>
+                </div>
+                <div>
+                    <h3 style="color:var(--navy);margin-bottom:15px;">Current Client Store Inventory</h3>
+                    <div id="adminProductsTable"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="acontentUsers" class="tab-content">
+            <h3 style="color:var(--navy);margin-bottom:12px;">Registered Platform Clients & Generated Marks</h3>
+            <div id="adminUsersTable"></div>
+        </div>
+    </div>
+</section>
+
+<!-- PRINTABLE WAYBILL & INVOICE MODAL -->
+<div id="invoiceModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;padding:16px;">
+    <div style="background:#fff;max-width:600px;width:100%;padding:24px;border-radius:16px;box-shadow:var(--shadow);max-height:90vh;overflow-y:auto;position:relative;">
+        <button onclick="closeInvoiceModal()" style="position:absolute;top:16px;right:16px;border:none;background:#CBD5E1;width:32px;height:32px;border-radius:50%;font-weight:bold;cursor:pointer;">✕</button>
+        <div id="printableArea"></div>
+        <div style="margin-top:20px;display:flex;gap:10px;justify-content:flex-end;">
+            <button class="btn btn-gold btn-sm" onclick="printInvoice()">🖨️ Print Waybill / Invoice</button>
+            <button class="btn btn-outline btn-sm" onclick="closeInvoiceModal()">Close</button>
+        </div>
+    </div>
+</div>
+
 <footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <div class="logo" style="margin-bottom: 1rem;">Everi<span>Vault</span></div>
-        <p style="font-size: 0.9rem; max-width: 250px;">Your dedicated logistics and procurement partner bridging Asian manufacturing with West African enterprise.</p>
-      </div>
-      <div>
-        <div class="footer-title">Platform</div>
-        <ul class="footer-links">
-          <li><a href="#shipping">Freight Estimator</a></li>
-          <li><a href="#store">Commercial Storefront</a></li>
-          <li><a href="#travels">Supply Chain Network</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-title">Headquarters</div>
-        <ul class="footer-links" style="font-size: 0.9rem;">
-          <li>Richmond Wireko Brobbey</li>
-          <li>KNUST Campus, Ayeduase New Site</li>
-          <li>Kumasi, Ashanti Region, Ghana</li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-title">Contact & Support</div>
-        <ul class="footer-links" style="font-size: 0.9rem;">
-          <li>GH Phone: +233 543 155 883</li>
-          <li>WhatsApp: +1 309 519 4647</li>
-          <li>Email: richmonwireko@gmail.com</li>
-          <li style="margin-top: 1rem; color: var(--accent);">Powered by Paystack Secure Payments</li>
-        </ul>
-      </div>
+    <div class="container">
+        <h3>EVERIVAULT ENTERPRISE</h3>
+        <p>MoMo Payment Portal: 0543155883 | 📧 richmonwireko@gmail.com</p>
+        <p style="margin-top:15px;font-size:13px;opacity:.6;">© 2026 EveriVault. All rights reserved.</p>
     </div>
-    <div class="footer-bottom">
-      &copy; 2026 EveriVault Enterprise. All rights reserved.
-    </div>
-  </div>
 </footer>
 
-<!-- MODALS -->
-<!-- Login Modal -->
-<div id="loginModal" class="modal">
-  <div class="modal-content">
-    <span class="modal-close" onclick="closeModal('loginModal')">&times;</span>
-    <h3 style="color: var(--primary); margin-bottom: 1.5rem; font-size: 1.5rem;">Client Authentication</h3>
-    <div class="form-group">
-      <input type="email" id="loginEmail" placeholder="Corporate Email">
-    </div>
-    <div class="form-group">
-      <input type="password" id="loginPass" placeholder="Password">
-    </div>
-    <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="handleLogin()">Sign In</button>
-    <p style="margin-top: 1.5rem; text-align: center; font-size: 0.85rem; color: var(--text-muted);">
-      New partner? <a href="#" onclick="closeModal('loginModal'); openModal('registerModal')" style="color: var(--secondary); text-decoration: none; font-weight: 600;">Request an account</a>
-    </p>
-  </div>
-</div>
-
-<!-- Register Modal -->
-<div id="registerModal" class="modal">
-  <div class="modal-content">
-    <span class="modal-close" onclick="closeModal('registerModal')">&times;</span>
-    <h3 style="color: var(--primary); margin-bottom: 1.5rem; font-size: 1.5rem;">Partner Registration</h3>
-    <div class="form-group"><input type="text" id="regName" placeholder="Full Legal Name"></div>
-    <div class="form-group"><input type="tel" id="regPhone" placeholder="Mobile / WhatsApp"></div>
-    <div class="form-group"><input type="email" id="regEmail" placeholder="Email Address"></div>
-    <div class="form-group"><input type="password" id="regPass" placeholder="Create Password"></div>
-    <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="handleRegister()">Register Account</button>
-  </div>
-</div>
-
-<!-- Payment Modal -->
-<div id="paymentModal" class="modal">
-  <div class="modal-content">
-    <span class="modal-close" onclick="closeModal('paymentModal')">&times;</span>
-    <h3 style="color: var(--primary); margin-bottom: 1rem;">Secure Checkout</h3>
-    <div id="paymentDetails" style="margin-bottom: 1.5rem; background: #f1f5f9; padding: 1rem; border-radius: 8px; font-size: 0.95rem;"></div>
-    <button class="btn" style="width: 100%; background: #09A5DB; color: white;" onclick="initiatePayment()">Pay Securely via Paystack</button>
-    <p style="margin-top: 1rem; font-size: 0.8rem; text-align: center; color: var(--text-muted);">Payments are processed securely via GTBank Gateway integration.</p>
-  </div>
-</div>
-
 <script>
-let currentUser = null;
-const USD_RATE = 13;
+// CONFIGURATION & CREDENTIAL DETECTORS
+const PAYSTACK_PUBLIC_KEY = 'pk_test_YOUR_PAYSTACK_PUBLIC_KEY';
+const MERCHANT_MOMO_NUMBER = '0543155883';
+const SMS_CONFIG = { apiKey: 'YOUR_ARKESEL_API_KEY', senderId: 'EveriVault' };
 
-function copyText(button, text) {
-  navigator.clipboard.writeText(text);
-  const original = button.innerText;
-  button.innerText = 'Copied!';
-  button.style.background = 'var(--success)';
-  button.style.color = 'white';
-  setTimeout(() => {
-    button.innerText = original;
-    button.style.background = 'white';
-    button.style.color = 'var(--text-main)';
-  }, 2000);
+const SUPABASE_URL = 'https://YOUR_SUPABASE_PROJECT_ID.supabase.co';
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+const isSupabaseConfigured = SUPABASE_URL.indexOf('YOUR_SUPABASE_PROJECT_ID') === -1;
+const db = (typeof supabase !== 'undefined' && isSupabaseConfigured) ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+let currentPage = 'home';
+let activeCategoryFilter = 'All';
+let user = JSON.parse(localStorage.getItem('evUser') || 'null');
+let cart = JSON.parse(localStorage.getItem('evCart') || '[]');
+
+function generateTrackingCode(fullName, phoneStr){
+    const firstName = fullName ? fullName.trim().split(' ')[0].toUpperCase() : 'USER';
+    const cleanPhone = phoneStr ? phoneStr.trim().replace(/[^0-9]/g, '') : '0000000000';
+    return `GHOO1K${firstName}${cleanPhone}`;
 }
 
-function calcCost() {
-  const l = parseFloat(document.getElementById('len').value) || 0;
-  const w = parseFloat(document.getElementById('wid').value) || 0;
-  const h = parseFloat(document.getElementById('hgt').value) || 0;
-  const wgt = parseFloat(document.getElementById('wgt').value) || 0;
-  const method = document.getElementById('method').value;
-  const mark = document.getElementById('mark').value || 'GH001K_';
-  
-  let cbm = (l * w * h) / 1000000;
-  let costUSD = 0;
-  let desc = '';
-  
-  if (method === 'sea') {
-    costUSD = cbm < 1 ? 260 : 255 * cbm;
-    desc = `Sea Freight — ${cbm.toFixed(3)} CBM`;
-  } else if (method === 'air') {
-    costUSD = 17 * wgt;
-    desc = `Air Freight — ${wgt} kg`;
-  } else {
-    costUSD = 500 / USD_RATE;
-    desc = 'Smart Devices — Flat Rate';
-  }
-  
-  const costGHS = costUSD * USD_RATE;
-  const tracking = mark + Date.now().toString().slice(-6);
-  
-  const resDiv = document.getElementById('result');
-  resDiv.style.display = 'block';
-  resDiv.innerHTML = `
-    <h4 style="color: var(--primary); margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">Logistics Quote Generated</h4>
-    <div style="display: grid; gap: 8px; font-size: 0.95rem;">
-      <div style="display:flex; justify-content:space-between;"><span>Tracking Ref:</span> <strong>${tracking}</strong></div>
-      <div style="display:flex; justify-content:space-between;"><span>Service:</span> <strong>${desc}</strong></div>
-      <div style="display:flex; justify-content:space-between; margin-top: 8px; font-size: 1.1rem; color: var(--secondary);">
-        <span>Total Due:</span> <strong>₵${costGHS.toFixed(2)}</strong>
-      </div>
-    </div>
-    <button class="btn btn-primary" style="width:100%; margin-top:1rem;" onclick="openPayment('${tracking}', ${costGHS})">Authorize Payment</button>
-  `;
-}
+const defaultProducts = [
+    { id: '1', name: "Hydrating Facial Vitamin C Serum", category: "Skin Care", priceGhs: 150, imageUrl: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80", tag: "Hot Seller" },
+    { id: '2', name: "Luxury Designer Leather Handbag", category: "Bags", priceGhs: 450, imageUrl: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80", tag: "Trending" },
+    { id: '3', name: "Flagship 5G Smartphone 256GB", category: "Phones", priceGhs: 2800, imageUrl: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80", tag: "Top Tech" },
+    { id: '4', name: "Car Dashboard Multi-Media System", category: "Cars", priceGhs: 850, imageUrl: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80", tag: "Automotive" },
+    { id: '5', name: "Unisex Cushioned Running Sneakers", category: "Footwear", priceGhs: 320, imageUrl: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80", tag: "Popular" },
+    { id: '6', name: "Designer Oversized Cotton Hoodie", category: "Clothing", priceGhs: 240, imageUrl: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=600&q=80", tag: "New Arrival" },
+    { id: '7', name: "Digital Touchscreen Air Fryer 5.5L", category: "Home Appliances", priceGhs: 750, imageUrl: "https://images.unsplash.com/photo-1585515320310-259814833e62?auto=format&fit=crop&w=600&q=80", tag: "Home Essential" }
+];
 
-function openPayment(ref, amountGHS) {
-  closeAllModals();
-  document.getElementById('paymentDetails').innerHTML = `
-    <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>Ref:</span> <strong>${ref}</strong></div>
-    <div style="display:flex; justify-content:space-between;"><span>Amount:</span> <strong>₵${amountGHS.toFixed(2)}</strong></div>
-  `;
-  window.paymentRef = ref;
-  window.paymentAmount = amountGHS * 100; // Paystack uses pesewas/kobo
-  openModal('paymentModal');
-}
-
-function initiatePayment() {
-  if (!currentUser) {
-    closeModal('paymentModal');
-    openModal('loginModal');
-    return;
-  }
-  const handler = PaystackPop.setup({
-    key: 'pk_test_your_public_key_here',
-    email: currentUser.email,
-    amount: window.paymentAmount,
-    ref: window.paymentRef,
-    callback: function(resp) {
-      alert('Transaction Authorized! Reference: ' + resp.reference);
-      closeModal('paymentModal');
-    },
-    onClose: function() {
-      alert('Transaction window closed.');
+async function fetchProductsFromStore(){
+    if(db){
+        try {
+            const { data, error } = await db.from('products').select('*').order('created_at', { ascending: false });
+            if(!error && data && data.length > 0) return data.map(p => ({ id: String(p.id), name: p.name, category: p.category, priceGhs: p.price_ghs, imageUrl: p.image_url, tag: p.tag }));
+        } catch(e){ console.warn('Supabase offline, using local storage.'); }
     }
-  });
-  handler.openIframe();
+    return JSON.parse(localStorage.getItem('evProducts')) || defaultProducts;
 }
 
-function handleRegister() {
-  const name = document.getElementById('regName').value;
-  const email = document.getElementById('regEmail').value;
-  const pass = document.getElementById('regPass').value;
-  if (!name || !email || !pass) { alert('Please complete all fields.'); return; }
-  localStorage.setItem('everivault_user', JSON.stringify({name, email, password: pass}));
-  alert('Account provisioned successfully.');
-  closeModal('registerModal');
-  openModal('loginModal');
+// SAFE SINGLE PAGE NAVIGATION
+function go(pageId){
+    if(pageId === 'admin' && (!user || !user.isAdmin)){
+        alert('⛔ Access Denied! Administrators only.');
+        return false;
+    }
+    
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+
+    const target = document.getElementById('p-' + pageId);
+    if(target){
+        target.classList.add('active');
+    }
+
+    document.querySelectorAll('.plink').forEach(l => l.classList.remove('active'));
+    document.querySelector(`[data-p="${pageId}"]`)?.classList.add('active');
+    document.getElementById('menu').classList.remove('active');
+
+    currentPage = pageId;
+    if(pageId === 'shop') renderProducts();
+    if(pageId === 'orders') renderOrders();
+    if(pageId === 'admin') renderAdmin();
+
+    window.scrollTo(0, 0);
+    return false;
 }
 
-function handleLogin() {
-  const email = document.getElementById('loginEmail').value;
-  const pass = document.getElementById('loginPass').value;
-  const saved = JSON.parse(localStorage.getItem('everivault_user') || '{}');
-  
-  if (saved.email === email && saved.password === pass) {
-    currentUser = saved;
-    closeModal('loginModal');
-    document.getElementById('travelsContent').style.display = 'block';
-    document.getElementById('travelsLocked').style.display = 'none';
-  } else {
-    alert('Authentication failed. Verify credentials.');
-  }
+function toggleMenu(){ document.getElementById('menu').classList.toggle('active'); }
+
+function filterCategory(cat, chipElement){
+    activeCategoryFilter = cat;
+    document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+    if(chipElement) chipElement.classList.add('active');
+    renderProducts();
 }
 
-function filterProducts(cat) {
-  const cards = document.querySelectorAll('.product-card');
-  cards.forEach(c => {
-    if (cat === 'all' || c.dataset.category === cat) {
-      c.style.display = 'flex';
+function switchAuthTab(type){
+    document.getElementById('tabLogin').classList.toggle('active', type==='login');
+    document.getElementById('tabReg').classList.toggle('active', type==='reg');
+    document.getElementById('tabReset').classList.toggle('active', type==='reset');
+    document.getElementById('fLogin').style.display = type==='login' ? 'block' : 'none';
+    document.getElementById('fReg').style.display = type==='reg' ? 'block' : 'none';
+    document.getElementById('fReset').style.display = type==='reset' ? 'block' : 'none';
+}
+
+async function sendWelcomeSMS(phone, trackingCode, name) {
+    if (SMS_CONFIG.apiKey.includes('YOUR_ARKESEL_API_KEY')) return;
+    const formattedPhone = phone.startsWith('0') ? '233' + phone.slice(1) : phone;
+    const message = `Hello ${name}, welcome to EveriVault! Your unique Shipping Mark & Reference Number is: ${trackingCode}.`;
+    try {
+        await fetch(`https://sms.arkesel.com/sms/api?action=send-sms&api_key=${SMS_CONFIG.apiKey}&to=${formattedPhone}&from=${SMS_CONFIG.senderId}&sms=${encodeURIComponent(message)}`);
+    } catch (e) { console.error('SMS Error:', e); }
+}
+
+function generateWhatsAppAlertUrl(phone, trackingCode, name) {
+    const formattedPhone = phone.startsWith('0') ? '233' + phone.slice(1) : phone;
+    const message = `*EveriVault Shipping Mark Confirmation*%0A%0AHello ${encodeURIComponent(name)}, your registration is complete!%0A%0A📦 *Your Shipping Mark / Tracking Code:* \`${trackingCode}\``;
+    return `https://wa.me/${formattedPhone}?text=${message}`;
+}
+
+async function doReg(e){
+    e.preventDefault();
+    const name = document.getElementById('rn').value.trim();
+    const email = document.getElementById('rem').value.trim().toLowerCase();
+    const phone = document.getElementById('rp').value.trim();
+    const pw = document.getElementById('rpw').value;
+    const pw2 = document.getElementById('rpw2').value;
+    const msg = document.getElementById('rmsg');
+
+    if(pw !== pw2){ msg.className = 'msg err'; msg.textContent = '❌ Passwords do not match!'; return; }
+    
+    const assignedCode = generateTrackingCode(name, phone);
+
+    if(db){
+        try { await db.from('users').insert([{ name, email, phone, password: pw, tracking_code: assignedCode, is_admin: false }]); }
+        catch(err) { console.warn('Registration fallback:', err); }
+    }
+
+    let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
+    users.push({ name, email, phone, password: pw, trackingCode: assignedCode, isAdmin: false });
+    localStorage.setItem('evUsers', JSON.stringify(users));
+
+    user = { name, email, phone, trackingCode: assignedCode, isAdmin: false };
+    localStorage.setItem('evUser', JSON.stringify(user));
+
+    sendWelcomeSMS(phone, assignedCode, name);
+    const waUrl = generateWhatsAppAlertUrl(phone, assignedCode, name);
+
+    msg.className = 'msg ok'; 
+    msg.innerHTML = `✅ Account created!<br>📦 <strong>Generated Reference Mark: ${assignedCode}</strong><br><br><a href="${waUrl}" target="_blank" class="btn btn-green btn-sm btn-block">📱 Push to WhatsApp</a>`;
+    updateAuthUI();
+    setTimeout(() => { go('orders'); }, 2500);
+}
+
+async function doLogin(e){
+    e.preventDefault();
+    const email = document.getElementById('lem').value.trim().toLowerCase();
+    const pw = document.getElementById('lpw').value;
+    const msg = document.getElementById('lmsg');
+
+    const adminPassword = localStorage.getItem('evAdminPassword') || 'admin123';
+    if(email === 'admin@everivault.com' && pw === adminPassword){
+        user = { name: 'Super Admin', email, phone: '0543155883', trackingCode: 'GHOO1KADMIN0543155883', isAdmin: true };
+        localStorage.setItem('evUser', JSON.stringify(user));
+        msg.className = 'msg ok'; msg.textContent = '✅ Administrator Logged In!';
+        updateAuthUI();
+        setTimeout(() => { go('admin'); }, 1000);
+        return;
+    }
+
+    let found = null;
+    if(db){
+        try {
+            const { data } = await db.from('users').select('*').eq('email', email).eq('password', pw);
+            if(data && data.length > 0) found = { name: data[0].name, email: data[0].email, phone: data[0].phone, trackingCode: data[0].tracking_code, isAdmin: data[0].is_admin };
+        } catch(err) { console.warn('Login fallback:', err); }
+    }
+    if(!found){
+        let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
+        found = users.find(u => u.email === email && u.password === pw);
+    }
+
+    if(found){
+        user = found;
+        localStorage.setItem('evUser', JSON.stringify(user));
+        msg.className = 'msg ok'; msg.textContent = `✅ Welcome back, ${found.name}!`;
+        updateAuthUI();
+        setTimeout(() => { go('home'); }, 1000);
     } else {
-      c.style.display = 'none';
+        msg.className = 'msg err'; msg.textContent = '❌ Invalid credentials!';
     }
-  });
-  
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
 }
 
-// Modal Logic
-function openModal(id) { document.getElementById(id).classList.add('active'); }
-function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-function closeAllModals() { document.querySelectorAll('.modal').forEach(m => m.classList.remove('active')); }
+async function doResetPassword(e){
+    e.preventDefault();
+    const identifier = document.getElementById('resetId').value.trim().toLowerCase();
+    const newPw1 = document.getElementById('resetPw1').value;
+    const newPw2 = document.getElementById('resetPw2').value;
+    const msg = document.getElementById('resetMsg');
 
-document.querySelectorAll('.modal').forEach(m => {
-  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('active'); });
+    if(newPw1 !== newPw2){ msg.className = 'msg err'; msg.textContent = '❌ Passwords do not match!'; return; }
+
+    if(identifier === 'admin@everivault.com' || identifier.includes('ghoo1kadmin')){
+        localStorage.setItem('evAdminPassword', newPw1);
+        msg.className = 'msg ok'; msg.textContent = '✅ Admin password updated!';
+        setTimeout(() => switchAuthTab('login'), 2000);
+        return;
+    }
+
+    let updated = false;
+    if(db){
+        try {
+            const { data } = await db.from('users').update({ password: newPw1 }).or(`email.eq.${identifier},tracking_code.ilike.${identifier}`).select();
+            if(data && data.length > 0) updated = true;
+        } catch(err) { console.warn('Reset fallback:', err); }
+    }
+    if(!updated){
+        let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
+        const idx = users.findIndex(u => u.email.toLowerCase() === identifier || (u.trackingCode && u.trackingCode.toLowerCase() === identifier));
+        if(idx !== -1){ users[idx].password = newPw1; localStorage.setItem('evUsers', JSON.stringify(users)); updated = true; }
+    }
+
+    if(updated){
+        msg.className = 'msg ok'; msg.textContent = '✅ Password updated successfully!';
+        setTimeout(() => switchAuthTab('login'), 2000);
+    } else {
+        msg.className = 'msg err'; msg.textContent = '❌ No record matched that identifier!';
+    }
+}
+
+function logout(){
+    localStorage.removeItem('evUser');
+    user = null;
+    updateAuthUI();
+    go('home');
+}
+
+function updateAuthUI(){
+    const isLoggedIn = !!user;
+    const isAdmin = user && user.isAdmin;
+    document.getElementById('authBtn').style.display = isLoggedIn ? 'none' : 'block';
+    document.getElementById('ordersNav').style.display = isLoggedIn ? 'block' : 'none';
+    document.getElementById('adminNav').style.display = isAdmin ? 'block' : 'none';
+    document.getElementById('userProfileNav').style.display = isLoggedIn ? 'block' : 'none';
+    
+    if(isLoggedIn){
+        document.getElementById('userWelcomeText').textContent = `Welcome back, ${user.name}! (${user.email})`;
+        document.getElementById('userMarkCode').textContent = user.trackingCode || 'GHOO1K-PENDING';
+        document.getElementById('payName').value = user.name || '';
+        document.getElementById('payEmail').value = user.email || '';
+        document.getElementById('payPhone').value = user.phone || '';
+        document.getElementById('payRef').value = user.trackingCode || '';
+        document.querySelectorAll('.user-mark-display').forEach(el => el.textContent = user.trackingCode || 'Your Shipping Mark');
+    } else {
+        document.querySelectorAll('.user-mark-display').forEach(el => el.textContent = 'Your Shipping Mark');
+    }
+}
+
+async function renderProducts(){
+    const grid = document.getElementById('productGrid');
+    const prods = await fetchProductsFromStore();
+    const filtered = activeCategoryFilter === 'All' ? prods : prods.filter(p => p.category === activeCategoryFilter);
+
+    if(filtered.length === 0){
+        grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:40px;color:#64748B;">No products found in this section.</p>';
+        return;
+    }
+
+    grid.innerHTML = filtered.map(p => `
+        <div class="product-card">
+            <div class="product-img-box">
+                <img src="${p.imageUrl}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?auto=format&fit=crop&w=600&q=80'">
+                <span class="product-tag">${p.tag || 'Popular'}</span>
+                <span class="product-cat-tag">${p.category || 'General'}</span>
+            </div>
+            <div class="product-info">
+                <div class="product-title">${p.name}</div>
+                <div class="product-price">₵${parseFloat(p.priceGhs).toFixed(2)}</div>
+                <button class="btn btn-gold btn-sm btn-block" onclick="addToCart('${p.id}')">🛒 Add to Cart</button>
+            </div>
+        </div>
+    `).join('');
+    updateCartUI();
+}
+
+async function addToCart(id){
+    const prods = await fetchProductsFromStore();
+    const prod = prods.find(p => String(p.id) === String(id));
+    if(!prod) return;
+    const existing = cart.find(item => String(item.id) === String(id));
+    if(existing){ existing.qty += 1; } else { cart.push({ ...prod, qty: 1 }); }
+    localStorage.setItem('evCart', JSON.stringify(cart));
+    updateCartUI();
+}
+
+function updateCartUI(){
+    const container = document.getElementById('cartItems');
+    const totalEl = document.getElementById('cartTotal');
+    const countEl = document.getElementById('cartCount');
+    const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+    const totalPrice = cart.reduce((sum, item) => sum + (item.priceGhs * item.qty), 0);
+    
+    countEl.textContent = `${totalQty} item${totalQty === 1 ? '' : 's'}`;
+    totalEl.textContent = totalPrice.toFixed(2);
+
+    if(cart.length === 0){
+        container.innerHTML = '<p style="text-align:center;color:#64748B;padding:20px 0;">Your cart is empty.</p>';
+        return;
+    }
+
+    container.innerHTML = cart.map(item => `
+        <div class="cart-item">
+            <div>
+                <strong style="color:var(--navy);">${item.name}</strong><br>
+                <small style="color:#64748B;">₵${item.priceGhs} x ${item.qty}</small>
+            </div>
+            <span>₵${(item.priceGhs * item.qty).toFixed(2)}</span>
+        </div>
+    `).join('');
+}
+
+function launchPaystackPopup(email, amountGhs, reference, customerPhone, onSuccessCallback) {
+    // Graceful Demo Fallback when API key is unconfigured
+    if (PAYSTACK_PUBLIC_KEY.includes('YOUR_PAYSTACK_PUBLIC_KEY') || typeof PaystackPop === 'undefined') {
+        alert('ℹ️ Demo Payment Mode Active\n\nPayment of ₵' + amountGhs.toFixed(2) + ' recorded successfully!');
+        if(onSuccessCallback) onSuccessCallback({ reference: 'EV-DEMO-' + Date.now() });
+        return;
+    }
+    const handler = PaystackPop.setup({
+        key: PAYSTACK_PUBLIC_KEY,
+        email: email,
+        amount: Math.round(amountGhs * 100),
+        currency: 'GHS',
+        channels: ['mobile_money'],
+        ref: 'EV-' + Math.floor((Math.random() * 10000000) + 1),
+        metadata: { custom_fields: [{ display_name: "Tracking Mark / Ref", variable_name: "payment_ref", value: reference }] },
+        callback: function(response) {
+            alert('✅ Payment Successful!\nTxRef: ' + response.reference);
+            if(onSuccessCallback) onSuccessCallback(response);
+        },
+        onClose: function() { alert('⚠️ Transaction canceled.'); }
+    });
+    handler.openIframe();
+}
+
+async function recordGlobalOrder(orderObj){
+    if(db){
+        try {
+            await db.from('orders').insert([{ ref: orderObj.ref, tracking_mark: orderObj.trackingMark, user_email: orderObj.userEmail, user_name: orderObj.userName, user_phone: orderObj.userPhone, total_ghs: orderObj.total, status: orderObj.status, items: orderObj.items }]);
+        } catch(e) { console.warn('Order write fallback:', e); }
+    }
+    let globalOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
+    globalOrders.unshift(orderObj);
+    localStorage.setItem('evAllOrders', JSON.stringify(globalOrders));
+
+    let userOrders = JSON.parse(localStorage.getItem('evOrders_' + orderObj.userEmail) || '[]');
+    userOrders.unshift(orderObj);
+    localStorage.setItem('evOrders_' + orderObj.userEmail, JSON.stringify(userOrders));
+}
+
+function triggerDirectPaystack(e){
+    e.preventDefault();
+    const name = document.getElementById('payName').value;
+    const email = document.getElementById('payEmail').value;
+    const phone = document.getElementById('payPhone').value;
+    const ref = document.getElementById('payRef').value;
+    const amount = parseFloat(document.getElementById('payAmount').value);
+
+    launchPaystackPopup(email, amount, ref + ' (' + name + ')', phone, function(resp){
+        recordGlobalOrder({ ref: resp.reference, trackingMark: ref, userEmail: email, userName: name, userPhone: phone, date: new Date().toLocaleDateString(), items: [{ name: 'MoMo Payment (' + ref + ')', qty: 1, priceGhs: amount }], total: amount, status: '✅ Paid' });
+        go('orders');
+    });
+}
+
+function checkoutWithPaystack(){
+    if(cart.length === 0){ alert('Cart is empty!'); return; }
+    const totalGhs = cart.reduce((sum, item) => sum + (item.priceGhs * item.qty), 0);
+    const email = user ? user.email : prompt('Enter your email address:');
+    if(!email) return;
+
+    const userMark = user ? user.trackingCode : 'GHOO1KGUEST';
+    launchPaystackPopup(email, totalGhs, 'Store Order - ' + userMark, MERCHANT_MOMO_NUMBER, function(resp){
+        recordGlobalOrder({ ref: resp.reference, trackingMark: userMark, userEmail: email, userName: user ? user.name : 'Guest', userPhone: user ? user.phone : MERCHANT_MOMO_NUMBER, date: new Date().toLocaleDateString(), items: [...cart], total: totalGhs, status: '✅ Paid' });
+        cart = [];
+        localStorage.removeItem('evCart');
+        updateCartUI();
+        go('orders');
+    });
+}
+
+function runCalc(){
+    const exchangeRate = 13;
+    const kg = parseFloat(document.getElementById('calcKg').value) || 0;
+    const cbm = parseFloat(document.getElementById('calcCbm').value) || 0;
+
+    const airUsd = kg * 17;
+    const airGhs = airUsd * exchangeRate;
+
+    const seaUsd = cbm * 260;
+    const seaGhs = seaUsd * exchangeRate;
+
+    const totalUsd = airUsd + seaUsd;
+    const totalGhs = totalUsd * exchangeRate;
+
+    document.getElementById('calcAirUsd').textContent = airUsd.toFixed(2);
+    document.getElementById('calcAirGhs').textContent = airGhs.toFixed(2);
+    document.getElementById('calcSeaUsd').textContent = seaUsd.toFixed(2);
+    document.getElementById('calcSeaGhs').textContent = seaGhs.toFixed(2);
+    document.getElementById('calcTotalUsd').textContent = totalUsd.toFixed(2);
+    document.getElementById('calcTotalGhs').textContent = totalGhs.toFixed(2);
+}
+
+function performTracking(){
+    const query = document.getElementById('trackInput').value.trim().toUpperCase();
+    const resultBox = document.getElementById('trackResult');
+    if(!query){ alert('Please enter a tracking code.'); return; }
+
+    const allOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
+    const matches = allOrders.filter(o => o.ref.toUpperCase().includes(query) || (o.trackingMark && o.trackingMark.toUpperCase().includes(query)));
+
+    if(matches.length > 0){
+        resultBox.innerHTML = matches.map(m => `
+            <div class="order-item-card">
+                <strong>Mark / Ref: ${m.trackingMark || m.ref}</strong>
+                <p>Tx ID: ${m.ref}</p>
+                <p>Status: <span style="font-weight:bold;color:var(--green);">${m.status}</span></p>
+                <strong>Total: ₵${m.total.toFixed(2)}</strong>
+                <br><button class="btn btn-sm btn-gold" style="margin-top:8px;" onclick="generatePrintableReceipt('${m.ref}')">📄 Print Waybill / Invoice</button>
+            </div>
+        `).join('');
+    } else {
+        resultBox.innerHTML = '<div style="background:#FEF2F2;color:#B91C1C;padding:12px;border-radius:10px;text-align:center;">❌ No shipment records found for this code.</div>';
+    }
+}
+
+function renderOrders(){
+    const list = document.getElementById('ordersList');
+    if(!user){ list.innerHTML = '<p style="text-align:center;padding:30px;">Please log in to view orders.</p>'; return; }
+    const userOrders = JSON.parse(localStorage.getItem('evOrders_' + user.email) || '[]');
+    if(userOrders.length === 0){ list.innerHTML = '<p style="text-align:center;padding:30px;">No completed orders found.</p>'; return; }
+    list.innerHTML = userOrders.map(o => `
+        <div class="order-item-card">
+            <strong>Shipping Mark: ${o.trackingMark || user.trackingCode}</strong>
+            <p>Tx Ref: ${o.ref}</p>
+            <p>Status: <span style="font-weight:bold;color:var(--navy);">${o.status}</span></p>
+            <strong>Total: ₵${o.total.toFixed(2)}</strong>
+            <br><button class="btn btn-sm btn-gold" style="margin-top:10px;" onclick="generatePrintableReceipt('${o.ref}')">📄 Print Waybill / Invoice</button>
+        </div>
+    `).join('');
+}
+
+function switchAdminTab(type){
+    document.getElementById('atabOrders').classList.toggle('active', type==='orders');
+    document.getElementById('atabProds').classList.toggle('active', type==='prods');
+    document.getElementById('atabUsers').classList.toggle('active', type==='users');
+    document.getElementById('acontentOrders').style.display = type==='orders' ? 'block' : 'none';
+    document.getElementById('acontentProds').style.display = type==='prods' ? 'block' : 'none';
+    document.getElementById('acontentUsers').style.display = type==='users' ? 'block' : 'none';
+}
+
+async function renderAdmin(){
+    const allOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
+    const allUsers = JSON.parse(localStorage.getItem('evUsers') || '[]');
+    const prods = await fetchProductsFromStore();
+
+    document.getElementById('admRev').textContent = '₵' + allOrders.reduce((s, o) => s + o.total, 0).toFixed(2);
+    document.getElementById('admOrders').textContent = allOrders.length;
+    document.getElementById('admUsers').textContent = allUsers.length;
+    document.getElementById('admProducts').textContent = prods.length;
+
+    document.getElementById('adminOrdersTable').innerHTML = `
+        <table class="data-table">
+            <thead><tr><th>Ref / Mark</th><th>Client</th><th>Contact</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>${allOrders.map(o => `
+                <tr>
+                    <td><strong>${o.trackingMark || 'N/A'}</strong><br><small>${o.ref}</small></td>
+                    <td>${o.userName}<br><small>${o.userEmail}</small></td>
+                    <td>${o.userPhone}</td>
+                    <td>₵${o.total.toFixed(2)}</td>
+                    <td><span style="color:var(--green);font-weight:bold;">${o.status}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-gold" onclick="updateOrderStatus('${o.ref}')">Status</button>
+                        <button class="btn btn-sm btn-sky" onclick="generatePrintableReceipt('${o.ref}')">🖨️ Label</button>
+                    </td>
+                </tr>
+            `).join('')}</tbody>
+        </table>`;
+
+    document.getElementById('adminProductsTable').innerHTML = `
+        <table class="data-table">
+            <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Action</th></tr></thead>
+            <tbody>${prods.map(p => `
+                <tr>
+                    <td><img src="${p.imageUrl}" class="tbl-thumb" onerror="this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?auto=format&fit=crop&w=600&q=80'"></td>
+                    <td><strong>${p.name}</strong></td>
+                    <td>${p.category}</td>
+                    <td>₵${parseFloat(p.priceGhs).toFixed(2)}</td>
+                    <td><button class="btn btn-sm btn-red" onclick="adminDeleteProduct('${p.id}')">🗑️ Delete</button></td>
+                </tr>
+            `).join('')}</tbody>
+        </table>`;
+
+    document.getElementById('adminUsersTable').innerHTML = `
+        <table class="data-table">
+            <thead><tr><th>Assigned Tracking Mark</th><th>Name</th><th>Email</th><th>Phone</th></tr></thead>
+            <tbody>${allUsers.map(u => `
+                <tr>
+                    <td><strong style="color:var(--navy);letter-spacing:1.5px;line-height:1.5;">${u.trackingCode || 'GHOO1K-NONE'}</strong></td>
+                    <td><strong>${u.name}</strong></td>
+                    <td>${u.email}</td>
+                    <td>${u.phone}</td>
+                </tr>
+            `).join('')}</tbody>
+        </table>`;
+}
+
+async function adminAddProduct(e){
+    e.preventDefault();
+    const name = document.getElementById('npName').value.trim();
+    const category = document.getElementById('npCategory').value;
+    const price = parseFloat(document.getElementById('npPrice').value);
+    const imageUrl = document.getElementById('npImageUrl').value.trim();
+    const tag = document.getElementById('npTag').value.trim();
+
+    const newProd = { id: String(Date.now()), name, category, priceGhs: price, imageUrl, tag };
+
+    if(db){
+        try { await db.from('products').insert([{ name, category, price_ghs: price, image_url: imageUrl, tag }]); }
+        catch(err) { console.warn('Product insert fallback:', err); }
+    }
+    let prods = JSON.parse(localStorage.getItem('evProducts') || '[]');
+    prods.push(newProd);
+    localStorage.setItem('evProducts', JSON.stringify(prods));
+
+    alert('✅ Product added to store by Admin!');
+    e.target.reset();
+    renderAdmin();
+    renderProducts();
+}
+
+async function adminDeleteProduct(id){
+    if(!confirm('Delete this product?')) return;
+    if(db){
+        try { await db.from('products').delete().eq('id', id); }
+        catch(err) { console.warn('Product delete fallback:', err); }
+    }
+    let prods = (JSON.parse(localStorage.getItem('evProducts')) || defaultProducts).filter(p => String(p.id) !== String(id));
+    localStorage.setItem('evProducts', JSON.stringify(prods));
+    renderAdmin();
+    renderProducts();
+}
+
+function updateOrderStatus(ref){
+    const newStatus = prompt('Enter new order status (e.g. Received at Guangzhou, In Transit, Arrived Ghana, Ready for Pickup):');
+    if(!newStatus) return;
+
+    let allOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
+    let found = allOrders.find(o => o.ref === ref);
+    if(found){
+        found.status = newStatus;
+        localStorage.setItem('evAllOrders', JSON.stringify(allOrders));
+
+        let userOrders = JSON.parse(localStorage.getItem('evOrders_' + found.userEmail) || '[]');
+        let uFound = userOrders.find(o => o.ref === ref);
+        if(uFound){
+            uFound.status = newStatus;
+            localStorage.setItem('evOrders_' + found.userEmail, JSON.stringify(userOrders));
+        }
+
+        renderAdmin();
+        alert('✅ Order status updated!');
+    }
+}
+
+// PRINTABLE WAYBILL & RECEIPT GENERATOR
+function generatePrintableReceipt(orderRef) {
+    const allOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
+    const order = allOrders.find(o => o.ref === orderRef);
+
+    if (!order) {
+        alert('Order record not found!');
+        return;
+    }
+
+    const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(order.trackingMark)}`;
+    const printableArea = document.getElementById('printableArea');
+
+    printableArea.innerHTML = `
+        <div style="border:2px solid #0A2463;padding:20px;border-radius:12px;font-family:sans-serif;">
+            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #D4AF37;padding-bottom:12px;margin-bottom:16px;">
+                <div>
+                    <h2 style="color:#0A2463;margin:0;font-size:22px;">EVERIVAULT LOGISTICS</h2>
+                    <p style="margin:2px 0;font-size:12px;color:#64748B;">China ↔ Ghana Shipping & Cargo Portal</p>
+                    <p style="margin:2px 0;font-size:12px;color:#64748B;">Contact: +233 543 155 883 | Kumasi, Ghana</p>
+                </div>
+                <img src="${qrCodeUrl}" alt="QR Mark" style="width:90px;height:90px;border:1px solid #CBD5E1;padding:4px;border-radius:6px;">
+            </div>
+
+            <div style="background:#0A2463;color:#fff;text-align:center;padding:12px;border-radius:8px;margin-bottom:16px;">
+                <span style="font-size:12px;text-transform:uppercase;letter-spacing:1.5px;line-height:1.5;display:block;opacity:.8;">
+                    Official Shipping Mark / Package Tag
+                </span>
+                <strong style="font-size:22px;color:#D4AF37;letter-spacing:1.5px;line-height:1.5;word-break:break-all;">
+                    ${order.trackingMark}
+                </strong>
+            </div>
+
+            <table style="width:100%;font-size:13px;margin-bottom:16px;border-collapse:collapse;">
+                <tr>
+                    <td style="padding:4px 0;"><strong>Customer Name:</strong> ${order.userName}</td>
+                    <td style="padding:4px 0;text-align:right;"><strong>Date:</strong> ${order.date}</td>
+                </tr>
+                <tr>
+                    <td style="padding:4px 0;"><strong>Phone Number:</strong> ${order.userPhone}</td>
+                    <td style="padding:4px 0;text-align:right;"><strong>Payment Ref:</strong> ${order.ref}</td>
+                </tr>
+                <tr>
+                    <td style="padding:4px 0;"><strong>Email Address:</strong> ${order.userEmail}</td>
+                    <td style="padding:4px 0;text-align:right;"><strong>Status:</strong> <span style="color:#22C55E;font-weight:bold;">${order.status}</span></td>
+                </tr>
+            </table>
+
+            <table style="width:100%;border-collapse:collapse;font-size:13px;margin-bottom:16px;">
+                <thead>
+                    <tr style="background:#F1F5F9;text-align:left;">
+                        <th style="padding:8px;border-bottom:1px solid #CBD5E1;">Item / Description</th>
+                        <th style="padding:8px;border-bottom:1px solid #CBD5E1;text-align:center;">Qty</th>
+                        <th style="padding:8px;border-bottom:1px solid #CBD5E1;text-align:right;">Price (GHS)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${order.items.map(item => `
+                        <tr>
+                            <td style="padding:8px;border-bottom:1px solid #E2E8F0;">${item.name}</td>
+                            <td style="padding:8px;border-bottom:1px solid #E2E8F0;text-align:center;">${item.qty || 1}</td>
+                            <td style="padding:8px;border-bottom:1px solid #E2E8F0;text-align:right;">₵${parseFloat(item.priceGhs || order.total).toFixed(2)}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;background:#F8FAFC;padding:12px;border-radius:8px;border:1px solid #E2E8F0;">
+                <span style="font-weight:bold;color:#0A2463;">Total Paid via Paystack MoMo:</span>
+                <strong style="font-size:18px;color:#22C55E;">₵${order.total.toFixed(2)}</strong>
+            </div>
+
+            <p style="font-size:11px;color:#64748B;margin-top:14px;text-align:center;">
+                ⚠️ <em>Attach a printed copy of this label to all cargo packages shipped to Guangzhou or Foshan warehouses.</em>
+            </p>
+        </div>
+    `;
+
+    document.getElementById('invoiceModal').style.display = 'flex';
+}
+
+function closeInvoiceModal() {
+    document.getElementById('invoiceModal').style.display = 'none';
+}
+
+function printInvoice() {
+    const content = document.getElementById('printableArea').innerHTML;
+    const printWindow = window.open('', '', 'height=700,width=800');
+    printWindow.document.write('<html><head><title>EveriVault Waybill Invoice</title></head><body style="padding:20px;">');
+    printWindow.document.write(content);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
+}
+
+// Initial Launch Setup
+document.addEventListener('DOMContentLoaded', () => {
+    updateAuthUI();
+    renderProducts();
 });
 </script>
 </body>
