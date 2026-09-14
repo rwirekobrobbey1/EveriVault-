@@ -34,7 +34,9 @@ body { background:#F1F5F9; color:#0F172A; line-height:1.6; }
 /* Navigation */
 nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-bottom:1px solid rgba(255,255,255,0.08); backdrop-filter:blur(12px); }
 .nav-wrap { display:flex; justify-content:space-between; align-items:center; height:72px; }
-.logo { font-size:20px; font-weight:800; color:#FFFFFF; text-decoration:none; cursor:pointer; letter-spacing:0.5px; display:flex; align-items:center; gap:10px; }
+.logo-area { display:flex; align-items:center; gap:12px; text-decoration:none; cursor:pointer; }
+.logo-img { width:42px; height:42px; border-radius:8px; object-fit:cover; background:#233554; border:1px solid rgba(255,255,255,0.2); }
+.logo { font-size:20px; font-weight:800; color:#FFFFFF; letter-spacing:0.5px; display:flex; align-items:center; gap:8px; }
 .logo span { color:var(--green); }
 .nav-links { display:flex; gap:4px; list-style:none; align-items:center; }
 .nav-links a { color:var(--slate-light); text-decoration:none; padding:8px 14px; border-radius:8px; font-weight:600; font-size:14px; cursor:pointer; transition:all 0.2s ease; display:flex; align-items:center; gap:6px; }
@@ -82,12 +84,19 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 .rate-card .big { font-size:26px; font-weight:800; color:var(--green); }
 .rate-card .sub { font-size:13px; color:#CBD5E1; margin-top:2px; }
 
+/* Why Choose Us Section */
+.why-section { background:#fff; padding:60px 0; border-bottom:1px solid var(--border-color); }
+.why-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:24px; margin-top:30px; }
+.why-card { background:var(--bg-light); border:1px solid var(--border-color); border-radius:16px; padding:24px; text-align:left; }
+.why-card h3 { color:var(--navy); font-size:18px; margin-bottom:8px; font-weight:800; display:flex; align-items:center; gap:8px; }
+.why-card p { color:var(--slate); font-size:14px; }
+
 /* Referral Banner */
 .referral-banner { background:linear-gradient(135deg, #059669 0%, #10B981 100%); color:#fff; border-radius:16px; padding:24px; margin:30px auto; max-width:940px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; box-shadow:0 10px 25px rgba(16,185,129,0.25); }
 .referral-banner h3 { font-size:20px; font-weight:800; margin-bottom:4px; }
 
 /* Public Preview Store Section on Home */
-.public-store-section { background:#fff; padding:60px 0; border-top:1px solid var(--border-color); border-bottom:1px solid var(--border-color); margin-top:40px; }
+.public-store-section { background:#F8FAFC; padding:60px 0; border-top:1px solid var(--border-color); border-bottom:1px solid var(--border-color); }
 
 /* Advertisement Form Section on Home */
 .ad-form-box { background:var(--navy); color:#fff; border-radius:20px; padding:40px; max-width:800px; margin:50px auto 0; box-shadow:var(--card-shadow); }
@@ -213,9 +222,9 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
 
 <nav>
   <div class="container nav-wrap">
-    <a class="logo" onclick="go('home')">
-      <svg class="icon" style="width:24px; height:24px;" viewBox="0 0 24 24"><path fill="var(--green)" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM12 6c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0 4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
-      EVERIVAULT <span>LOGISTICS</span>
+    <a class="logo-area" onclick="go('home')">
+      <img id="navBrandLogo" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=120&q=80" class="logo-img" alt="EveriVault Logo">
+      <div class="logo">EVERIVAULT <span>LOGISTICS</span></div>
     </a>
     <ul class="nav-links" id="menu">
       <!-- ALWAYS VISIBLE UNTIL LOGIN -->
@@ -244,7 +253,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   DM Management (+1 309 519 4647)
 </a>
 
-<!-- HOME PAGE (PUBLIC ACCESS + PUBLIC CATALOG PREVIEW WITH IMAGES & PRICES) -->
+<!-- HOME PAGE (PUBLIC ACCESS + WHY CHOOSE US + PUBLIC CATALOG PREVIEW) -->
 <section id="p-home" class="page active">
   <div class="hero">
     <div class="container">
@@ -280,7 +289,33 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     </div>
   </div>
 
-  <!-- PUBLIC STORE CATALOG PREVIEW (IMAGES & PRICES VISIBLE, BUT REQUIRE LOGIN TO CART/BUY) -->
+  <!-- WHY CHOOSE EVERIVAULT ENTERPRISE SECTION -->
+  <div class="why-section">
+    <div class="container">
+      <h2>Why Choose EveriVault Enterprise?</h2>
+      <p class="subtitle">Your trusted supply chain partner bridging factories in China directly to your doorstep in Ghana.</p>
+      <div class="why-grid">
+        <div class="why-card">
+          <h3>⚡ Direct Factory Sourcing</h3>
+          <p>We connect you directly with wholesale manufacturers in Foshan and Guangzhou, cutting out middlemen to secure unbeatable factory prices for your business.</p>
+        </div>
+        <div class="why-card">
+          <h3>🛡️ Secure Warehouse & Shipping Marks</h3>
+          <p>Every client receives a unique mandatory shipping mark (GH001K+Initials+Phone) ensuring flawless cargo identification and zero mix-ups across our warehouses.</p>
+        </div>
+        <div class="why-card">
+          <h3>📦 Flexible Sea & Air Freight</h3>
+          <p>Choose between cost-effective sea cargo ($255-$260/m³) and lightning-fast air express ($17/kg or flat electronics rates) tailored for commercial importers.</p>
+        </div>
+        <div class="why-card">
+          <h3>🤝 Dedicated Kumasi Hub Support</h3>
+          <p>Conveniently located at KNUST Ayeduase New Site, Kumasi, backed by responsive WhatsApp management and verified payment channels.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PUBLIC STORE CATALOG PREVIEW (IMAGES & PRICES VISIBLE, REQUIRE LOGIN TO CART/BUY) -->
   <div class="public-store-section">
     <div class="container">
       <h2>Online Store Catalog Preview</h2>
@@ -702,7 +737,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <button class="admin-nav-btn" data-admintab="payments" onclick="adminTab('payments')">Manage Payments Desk</button>
         <button class="admin-nav-btn" data-admintab="ads" onclick="adminTab('ads')">Promo / Ad Requests</button>
         <button class="admin-nav-btn" data-admintab="clients" onclick="adminTab('clients')">Registered Clients & Referrals</button>
-        <button class="admin-nav-btn" data-admintab="content" onclick="adminTab('content')">Edit Portal Content</button>
+        <button class="admin-nav-btn" data-admintab="content" onclick="adminTab('content')">Edit Portal & Brand Logo</button>
       </div>
 
       <!-- MAIN WORKSPACE -->
@@ -770,8 +805,20 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           <div id="adminClientsList"></div>
         </div>
 
-        <!-- CLIENT PORTAL CONTENT EDITOR -->
+        <!-- CLIENT PORTAL CONTENT & LOGO EDITOR -->
         <div id="adminContent" class="tab-content">
+          <div class="form-box" style="max-width:100%; margin-bottom:28px; border:2px solid var(--green);">
+            <h3>Upload Business Logo Image</h3>
+            <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">Upload your company logo photo/file to display live at the top navigation header.</p>
+            <form onsubmit="saveLogoFile(event)">
+              <div class="form-group">
+                <label>Logo Image File</label>
+                <input type="file" id="logoFileInput" accept="image/*" required onchange="handleLogoFileSelect(event)">
+              </div>
+              <button class="btn btn-green btn-block" type="submit">Update Business Logo Live</button>
+            </form>
+          </div>
+
           <div class="form-box" style="max-width:100%;">
             <h3>Live Client Portal Content Manager</h3>
             <p style="font-size:13px; color:var(--slate); margin-bottom:18px;">Update hero titles, freight rate announcements, and referral banners seen by clients live.</p>
@@ -861,7 +908,8 @@ const defaultSettings = {
   seaRate2: '$255 / m³',
   airRate1: '$17 / kg',
   airRate2: 'GHS 500 Flat Rate',
-  bannerMsg: 'Refer new commercial clients or business partners to EveriVault Logistics and receive a FREE GIFT on your next freight shipment arrival!'
+  bannerMsg: 'Refer new commercial clients or business partners to EveriVault Logistics and receive a FREE GIFT on your next freight shipment arrival!',
+  logoUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=120&q=80'
 };
 
 // Historical / Old Clients + New Clients Archive with referral tracking
@@ -885,7 +933,8 @@ const state = {
   uploadedProdBase64: '',
   paymentProofBase64: '',
   selectedPaymentSlot: 'momo',
-  paymentCategory: 'goods'
+  paymentCategory: 'goods',
+  tempLogoBase64: ''
 };
 
 const $ = id => document.getElementById(id);
@@ -1093,7 +1142,6 @@ async function doReg(e) {
   const refInput = $('regRefMark').value.trim();
   const generatedMark = generateShippingMark(name, phone);
 
-  // Validate if referrer exists in old or new clients
   let verifiedReferrer = 'None (Direct)';
   if (refInput) {
     const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
@@ -1372,6 +1420,26 @@ function handleImageFile(e) {
   reader.readAsDataURL(file);
 }
 
+function handleLogoFileSelect(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt) { state.tempLogoBase64 = evt.target.result; toast('Logo file loaded', 'ok'); };
+  reader.readAsDataURL(file);
+}
+
+function saveLogoFile(e) {
+  e.preventDefault();
+  if (!state.tempLogoBase64) {
+    toast('Please select an image file first', 'err');
+    return;
+  }
+  state.settings.logoUrl = state.tempLogoBase64;
+  localStorage.setItem('ev_portal_settings', JSON.stringify(state.settings));
+  applyPortalSettings();
+  toast('Business logo updated successfully live!', 'ok');
+}
+
 /* --- CATALOG & HOME SHOWCASE --- */
 function renderProducts() {
   const grid = $('prodGrid');
@@ -1400,7 +1468,6 @@ function renderProducts() {
       ? '<span class="badge-preorder">Pre-Order Item</span><span class="shipping-note">Without Shipping Fee</span>' 
       : '<span class="badge-available">Available In Stock</span><span class="shipping-note" style="color:var(--slate);">Local Warehouse Stock</span>';
     
-    // If not logged in, prompt registration/login on click
     const actionBtn = state.user 
       ? '<button class="btn btn-sm btn-green btn-block" onclick="addToCart(\'' + p.id + '\')">Add to Cart</button>'
       : '<button class="btn btn-sm btn-navy btn-block" onclick="go(\'auth\')">Login to Buy / Add to Cart</button>';
@@ -1417,7 +1484,7 @@ function renderProducts() {
   }
 
   if (homeGrid) {
-    const previewItems = state.products.slice(0, 8); // Display multiple items on home preview with image & price
+    const previewItems = state.products.slice(0, 8);
     homeGrid.innerHTML = previewItems.map(getCardHtml).join('');
   }
 }
@@ -1527,15 +1594,14 @@ function adminTab(tab) {
 
 function savePortalSettings(e) {
   e.preventDefault();
-  state.settings = {
-    heroTitle: $('cfgHeroTitle').value.trim(),
-    heroSub: $('cfgHeroSub').value.trim(),
-    seaRate1: $('cfgSeaRate1').value.trim(),
-    seaRate2: $('cfgSeaRate2').value.trim(),
-    airRate1: $('cfgAirRate1').value.trim(),
-    airRate2: $('cfgAirRate2').value.trim(),
-    bannerMsg: $('cfgBannerMsg').value.trim()
-  };
+  state.settings.heroTitle = $('cfgHeroTitle').value.trim();
+  state.settings.heroSub = $('cfgHeroSub').value.trim();
+  state.settings.seaRate1 = $('cfgSeaRate1').value.trim();
+  state.settings.seaRate2 = $('cfgSeaRate2').value.trim();
+  state.settings.airRate1 = $('cfgAirRate1').value.trim();
+  state.settings.airRate2 = $('cfgAirRate2').value.trim();
+  state.settings.bannerMsg = $('cfgBannerMsg').value.trim();
+  
   localStorage.setItem('ev_portal_settings', JSON.stringify(state.settings));
   applyPortalSettings();
   toast('Client Portal Content Updated Live!', 'ok');
@@ -1549,6 +1615,9 @@ function applyPortalSettings() {
   if ($('dynAirRate1')) $('dynAirRate1').textContent = state.settings.airRate1;
   if ($('dynAirRate2')) $('dynAirRate2').textContent = state.settings.airRate2;
   if ($('dynBannerMsg')) $('dynBannerMsg').textContent = state.settings.bannerMsg;
+  if ($('navBrandLogo') && state.settings.logoUrl) {
+    $('navBrandLogo').src = state.settings.logoUrl;
+  }
 }
 
 function openAdminPasswordModal(show = true) {
@@ -1590,7 +1659,6 @@ function applyUserState() {
 
   document.querySelectorAll('.admin-only').forEach(el => el.classList.toggle('show', isAdmin));
 
-  // Show referral banner on home with www.everivault.com + client shipping mark if logged in as client
   const refBox = $('referralBannerBox');
   if (refBox) {
     if (isLoggedIn && !isAdmin) {
@@ -1608,7 +1676,7 @@ function applyUserState() {
   }
 }
 
-Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, addToCart, updateCartQty, removeFromCart, clearCart, adminAddToCart, adminRemoveFromCart, goToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, doSubmitReview, copyText, adminTab, toggleOrderVerify, doLogin, doReg, doResetPassword, doSignOut, doAdmin, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts, exportClientData });
+Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, handleLogoFileSelect, saveLogoFile, addToCart, updateCartQty, removeFromCart, clearCart, adminAddToCart, adminRemoveFromCart, goToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, doSubmitReview, copyText, adminTab, toggleOrderVerify, doLogin, doReg, doResetPassword, doSignOut, doAdmin, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts, exportClientData });
 
 (function init() {
   applyPortalSettings();
