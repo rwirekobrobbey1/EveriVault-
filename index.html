@@ -887,7 +887,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <div id="adminContent" class="tab-content">
           <div class="form-box" style="max-width:100%; margin-bottom:28px; border:2px solid var(--green);">
             <h3>Upload Business Logo Image</h3>
-            <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">Upload your company logo photo/file to display live at the top navigation header instantly across all browser sessions.</p>
+            <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">Upload your company logo photo/file to display live at the top navigation header instantly across all browser sessions, devices, and platforms (Safari, Chrome, etc.).</p>
             <form onsubmit="saveLogoFile(event)">
               <div class="form-group">
                 <label>Logo Image File</label>
@@ -1024,6 +1024,11 @@ const generateShippingMark = (name, phone) => {
   const cleanPhone = (phone || '00000000').replace(/\D/g, '');
   return 'GH001K-' + initials + '-' + cleanPhone;
 };
+
+function saveProducts() {
+  localStorage.setItem('ev_local_products', JSON.stringify(state.products));
+  window.dispatchEvent(new Event('storage'));
+}
 
 function sendAdminGmailNotification(subject, body) {
   const emailLog = JSON.parse(localStorage.getItem('ev_admin_gmail_inbox') || '[]');
@@ -1923,7 +1928,7 @@ function saveLogoFile(e) {
   localStorage.setItem('ev_portal_settings', JSON.stringify(state.settings));
   window.dispatchEvent(new Event('storage'));
   applyPortalSettings();
-  toast('Business logo updated live across navigation header!', 'ok');
+  toast('Business logo updated live across navigation header and all browsers!', 'ok');
 }
 
 function handleImageFile(e) {
