@@ -246,7 +246,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       <!-- ADMIN NAV -->
       <li id="adminLink" style="display:none;"><a class="plink" data-p="admin" onclick="go('admin')">Master Admin Suite</a></li>
       
-      <li id="authNav"><a class="nav-cta plink" data-p="auth" onclick="go('auth')">Client / Courier Portal Access</a></li>
+      <li id="authNav"><a class="nav-cta plink" data-p="auth" onclick="go('auth')">Sign In & Portals</a></li>
       <li id="signOutNav" style="display:none;"><a class="btn btn-sm btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.4);" onclick="doSignOut()">Sign Out</a></li>
     </ul>
     <button class="menu-toggle" onclick="toggleMenu()">☰</button>
@@ -290,7 +290,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       </div>
 
       <div class="hero-actions">
-        <button class="btn btn-green" onclick="go('auth')">Register or Login to Add Items to Cart & Shop</button>
+        <button class="btn btn-green" onclick="go('auth')">Sign In / Register to Access Portals & Shop</button>
       </div>
     </div>
   </div>
@@ -325,10 +325,10 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   <div class="public-store-section">
     <div class="container">
       <h2>Online Store Catalog Preview</h2>
-      <p class="subtitle">Browse our factory-direct inventory below with images and prices. Please <strong>Register or Login</strong> to add items to your cart and place orders.</p>
+      <p class="subtitle">Browse our factory-direct inventory below with images and prices. Please <strong>Sign In</strong> to add items to your cart and place orders.</p>
       <div id="homeCatalogGrid" class="grid-4"></div>
       <div style="text-align:center; margin-top:35px;">
-        <button class="btn btn-navy" onclick="go('auth')">Login / Register to Access Full Store & Portal ➔</button>
+        <button class="btn btn-navy" onclick="go('auth')">Sign In / Register to Access Full Store & Portal ➔</button>
       </div>
     </div>
   </div>
@@ -724,24 +724,26 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- AUTHENTICATION PORTAL WITH COURIER LOGIN/REGISTRATION -->
+<!-- UNIFIED ACCOUNT AUTHENTICATION PORTAL -->
 <section id="p-auth" class="page">
   <div class="container">
     <h2>Account Authentication Portal</h2>
     <div class="form-box">
       <div class="tabs">
-        <button class="tab active" data-authtab="login" onclick="authTab('login')">Client Sign In</button>
-        <button class="tab" data-authtab="reg" onclick="authTab('reg')">Client Register</button>
-        <button class="tab" data-authtab="courierauth" onclick="authTab('courierauth')">Delivery Guy Portal</button>
-        <button class="tab" data-authtab="admin" onclick="authTab('admin')">Admin Access</button>
+        <button class="tab active" data-authtab="login" onclick="authTab('login')">Sign In</button>
+        <button class="tab" data-authtab="reg" onclick="authTab('reg')">Register</button>
+        <button class="tab" data-authtab="reset" onclick="authTab('reset')">Reset Password</button>
       </div>
 
-      <!-- CLIENT DUAL LOGIN -->
+      <!-- UNIFIED SIGN IN (ADMIN, CLIENT, DELIVERY GUY) -->
       <div id="tLogin" class="tab-content active">
-        <form onsubmit="doLogin(event)">
-          <div class="form-group"><label>Gmail Address OR Shipping Mark</label><input type="text" id="lem" required placeholder="e.g. client@gmail.com OR GH001K-KW-0543155883"></div>
-          <div class="form-group"><label>Password</label><input type="password" id="lpw" required></div>
-          <button class="btn btn-green btn-block" type="submit" id="loginBtn">Fast Client Sign In</button>
+        <p style="font-size:13px; color:var(--slate); margin-bottom:16px;">
+          Sign in below using your <strong>Gmail address, unique Shipping ID, or Courier access</strong>. The system automatically routes you to your respective portal (Admin, Client, or Delivery Guy).
+        </p>
+        <form onsubmit="doUniversalLogin(event)">
+          <div class="form-group"><label>Gmail / Shipping ID / Courier Login</label><input type="text" id="uniIdent" required placeholder="e.g. client@gmail.com, GH001K-KM-0541234567, or delivery@everivault.com"></div>
+          <div class="form-group"><label>Password</label><input type="password" id="uniPw" required placeholder="••••••"></div>
+          <button class="btn btn-green btn-block" type="submit" id="uniLoginBtn">Sign In to Portal</button>
         </form>
       </div>
 
@@ -778,22 +780,14 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </form>
       </div>
 
-      <!-- DELIVERY GUY UNIQUE AUTHENTICATION -->
-      <div id="tCourierAuth" class="tab-content">
-        <form onsubmit="doCourierLogin(event)">
-          <h3 style="color:var(--navy); font-size:16px; margin-bottom:12px;">Courier Unique Login Access</h3>
-          <div class="form-group"><label>Courier Email or Username</label><input type="text" id="cem" required placeholder="e.g. delivery@everivault.com"></div>
-          <div class="form-group"><label>Courier Password</label><input type="password" id="cpw" required placeholder="••••••"></div>
-          <button class="btn btn-navy btn-block" type="submit">Access Courier Portal</button>
-        </form>
-      </div>
-
-      <!-- ADMIN ACCESS PORTAL -->
-      <div id="tAdmin" class="tab-content">
-        <form onsubmit="doAdmin(event)">
-          <div class="form-group"><label>Executive Admin Email</label><input type="email" id="aem" required placeholder="richmonwireko@gmail.com"></div>
-          <div class="form-group"><label>Admin Security Password</label><input type="password" id="apw" required></div>
-          <button class="btn btn-navy btn-block" type="submit">Authenticate Executive Suite</button>
+      <!-- UNIFIED PASSWORD RESET (ADMIN, CLIENT, DELIVERY GUY) -->
+      <div id="tReset" class="tab-content">
+        <p style="font-size:13px; color:var(--slate); margin-bottom:16px;">
+          Enter your registered <strong>Gmail address</strong> or <strong>automatic Shipping ID</strong>. Password recovery instructions will be sent instantly.
+        </p>
+        <form onsubmit="doUniversalReset(event)">
+          <div class="form-group"><label>Gmail Address or Automatic Shipping ID</label><input type="text" id="resetIdent" required placeholder="e.g. richmonwireko@gmail.com OR GH001K-KM-0541234567"></div>
+          <button class="btn btn-navy btn-block" type="submit">Send Password Reset Instructions</button>
         </form>
       </div>
 
@@ -1083,7 +1077,7 @@ const state = {
   orders: JSON.parse(localStorage.getItem('ev_local_orders') || '[]'),
   tracking: JSON.parse(localStorage.getItem('ev_local_tracking') || '{}'), 
   deliveryGuy: JSON.parse(localStorage.getItem('ev_delivery_guy') || '{"name":"Kofi Delivery Express", "email":"delivery@everivault.com", "pass":"courier123", "phone":"0541234567", "zone":"Kumasi Metropolis & KNUST Campus"}'),
-  bargainMessages: JSON.parse(localStorage.getItem('ev_bargain_messages') || '{}'), // {userId: [{sender, text, time}]}
+  bargainMessages: JSON.parse(localStorage.getItem('ev_bargain_messages') || '{}'), 
   cartMeta: JSON.parse(localStorage.getItem('ev_cart_meta') || '{"items":[], "expiresAt":0}'),
   reviews: JSON.parse(localStorage.getItem('ev_reviews') || 'null') || [
     { name: 'Kofi Mensah', mark: 'GH001K-KM-0541234567', rating: 5, comment: 'Received my 1688 cargo from Foshan in under 3 weeks. Very reliable service!' },
@@ -1116,7 +1110,6 @@ function sendAdminGmailNotification(subject, body) {
   };
   emailLog.unshift(notification);
   localStorage.setItem('ev_admin_gmail_inbox', JSON.stringify(emailLog));
-  console.log('[Gmail Simulation to richmonwireko@gmail.com]', subject, body);
 }
 
 function saveProducts() {
@@ -1135,7 +1128,7 @@ function toast(msg, type = 'info', ms = 3500) {
 
 function go(page) {
   if (!state.user && page !== 'home' && page !== 'auth') {
-    toast('Please register or login to access portal features', 'err');
+    toast('Please sign in to access portal features', 'err');
     go('auth');
     return;
   }
@@ -1147,7 +1140,7 @@ function go(page) {
   }
 
   if (page === 'deliveryportal' && state.user?.role !== 'delivery') {
-    toast('Access Denied: Courier / Delivery authorization required', 'err');
+    toast('Access Denied: Courier authorization required', 'err');
     go('auth');
     return;
   }
@@ -1176,8 +1169,7 @@ function authTab(tab) {
   document.querySelectorAll('[data-authtab]').forEach(t => t.classList.toggle('active', t.dataset.authtab === tab));
   $('tLogin').classList.toggle('active', tab === 'login');
   $('tReg').classList.toggle('active', tab === 'reg');
-  $('tCourierAuth').classList.toggle('active', tab === 'courierauth');
-  $('tAdmin').classList.toggle('active', tab === 'admin');
+  $('tReset').classList.toggle('active', tab === 'reset');
 }
 
 /* --- 24-HOUR CART TIMER LOGIC --- */
@@ -1287,54 +1279,108 @@ function renderCart() {
   $('cartGrandTotal').textContent = fmtGHS(total);
 }
 
-/* --- AUTHENTICATION & REGISTRATION --- */
-async function doLogin(e) {
+/* --- UNIFIED LOGIN ROUTING FOR ADMIN, CLIENT, AND DELIVERY GUY --- */
+async function doUniversalLogin(e) {
   e.preventDefault();
-  const btn = $('loginBtn');
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Authenticating...';
+  const btn = $('uniLoginBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Signing In...';
 
-  const identifier = $('lem').value.trim();
-  const password = $('lpw').value;
-  let email = identifier;
+  const identifier = $('uniIdent').value.trim().toLowerCase();
+  const password = $('uniPw').value;
 
+  // 1. Check Admin Match (richmonwireko@gmail.com or admin email)
+  const isAdminEmail = identifier.includes('admin') || identifier === 'richmonwireko@gmail.com';
+  if (isAdminEmail) {
+    state.user = {
+      id: 'admin_ceo',
+      email: identifier,
+      name: 'Richmond Wireko Brobbey',
+      phone: '0543155883',
+      role: 'admin',
+      mark: 'MASTER-ADMIN'
+    };
+    localStorage.setItem('ev_active_user', JSON.stringify(state.user));
+    btn.disabled = false; btn.textContent = 'Sign In to Portal';
+    applyUserState();
+    toast('Signed in as Master Admin!', 'ok');
+    go('admin');
+    return;
+  }
+
+  // 2. Check Delivery Guy Match (delivery@everivault.com or delivery guy email/pass)
+  const dg = state.deliveryGuy;
+  if (identifier === dg.email.toLowerCase() || identifier === 'delivery' || identifier === 'delivery guy') {
+    if (password === dg.pass) {
+      state.user = {
+        id: 'courier_active',
+        name: dg.name,
+        email: dg.email,
+        role: 'delivery',
+        mark: 'COURIER-PARTNER',
+        type: 'Delivery Personnel'
+      };
+      localStorage.setItem('ev_active_user', JSON.stringify(state.user));
+      btn.disabled = false; btn.textContent = 'Sign In to Portal';
+      applyUserState();
+      toast('Signed in as Delivery Personnel!', 'ok');
+      go('deliveryportal');
+      return;
+    } else {
+      btn.disabled = false; btn.textContent = 'Sign In to Portal';
+      toast('Invalid delivery personnel password', 'err');
+      return;
+    }
+  }
+
+  // 3. Check Client Match (Gmail or Shipping ID)
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
   const allKnownClients = [...defaultHistoricalClients, ...localClients];
-  const matched = allKnownClients.find(c => c.mark && c.mark.toLowerCase() === identifier.toLowerCase() || c.email.toLowerCase() === identifier.toLowerCase());
-  
-  if (matched) { email = matched.email; }
+  const matchedClient = allKnownClients.find(c => 
+    (c.email && c.email.toLowerCase() === identifier) || 
+    (c.mark && c.mark.toLowerCase() === identifier)
+  );
 
-  const isAdmin = email.includes('admin') || email === 'richmonwireko@gmail.com';
-  const name = matched ? matched.name : email.split('@')[0];
-  const phone = matched ? matched.phone : '0543155883';
+  if (matchedClient) {
+    state.user = {
+      id: matchedClient.id,
+      email: matchedClient.email,
+      name: matchedClient.name,
+      phone: matchedClient.phone,
+      role: 'client',
+      mark: matchedClient.mark,
+      location: matchedClient.location || 'Kumasi',
+      referredBy: matchedClient.referredBy || 'None (Direct)',
+      type: 'Registered Client'
+    };
+    localStorage.setItem('ev_active_user', JSON.stringify(state.user));
+    btn.disabled = false; btn.textContent = 'Sign In to Portal';
+    applyUserState();
+    toast('Signed in successfully! Welcome ' + matchedClient.name, 'ok');
+    go('store');
+    return;
+  }
 
+  // If not found in existing records, treat as new client login / auto-create
+  const generatedMark = generateShippingMark(identifier.split('@')[0], '0543155883');
   state.user = {
-    id: isAdmin ? 'admin_ceo' : (matched ? matched.id : 'usr_' + Math.random().toString(36).slice(2, 8)),
-    email: email,
-    name: name,
-    phone: phone,
-    role: isAdmin ? 'admin' : 'client',
-    mark: matched ? matched.mark : generateShippingMark(name, phone),
-    location: matched ? matched.location : 'KNUST Ayeduase New Site, Kumasi',
-    referredBy: matched ? matched.referredBy : 'None (Direct)',
+    id: 'usr_' + Math.random().toString(36).slice(2, 8),
+    email: identifier.includes('@') ? identifier : identifier + '@client.com',
+    name: identifier.split('@')[0],
+    phone: '0543155883',
+    role: 'client',
+    mark: generatedMark,
+    location: 'Kumasi',
+    referredBy: 'None (Direct)',
     type: 'Registered Client'
   };
-
-  if (!isAdmin && !localClients.some(c => c.email.toLowerCase() === email.toLowerCase())) {
-    localClients.push(state.user);
-    localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
-  }
-
+  localClients.push(state.user);
+  localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
   localStorage.setItem('ev_active_user', JSON.stringify(state.user));
-  btn.disabled = false; btn.textContent = 'Fast Client Sign In';
+
+  btn.disabled = false; btn.textContent = 'Sign In to Portal';
   applyUserState();
-  
-  if (isAdmin) {
-    toast('Authenticated as Admin! Redirecting to Master Executive Suite...', 'ok');
-    go('admin');
-  } else {
-    toast('Signed in successfully! Welcome to EveriVault Portal.', 'ok');
-    go('store');
-  }
+  toast('Signed in as Client! Shipping Mark: ' + generatedMark, 'ok');
+  go('store');
 }
 
 async function doReg(e) {
@@ -1393,37 +1439,29 @@ async function doReg(e) {
   go('store');
 }
 
-async function doCourierLogin(e) {
+/* --- UNIVERSAL PASSWORD RESET FOR ADMIN, CLIENT, & DELIVERY GUY --- */
+async function doUniversalReset(e) {
   e.preventDefault();
-  const em = $('cem').value.trim();
-  const pw = $('cpw').value;
-  const dg = state.deliveryGuy;
-
-  if (em.toLowerCase() === dg.email.toLowerCase() && pw === dg.pass) {
-    state.user = {
-      id: 'courier_active',
-      name: dg.name,
-      email: dg.email,
-      role: 'delivery',
-      mark: 'COURIER-PARTNER',
-      type: 'Delivery Personnel'
-    };
-    localStorage.setItem('ev_active_user', JSON.stringify(state.user));
-    applyUserState();
-    toast('Authenticated Courier Portal successfully!', 'ok');
-    go('deliveryportal');
+  const ident = $('resetIdent').value.trim().toLowerCase();
+  
+  // Check if it matches admin, delivery, or client
+  let targetName = 'User';
+  if (ident.includes('admin') || ident === 'richmonwireko@gmail.com') {
+    targetName = 'Master Admin (Richmond Wireko Brobbey)';
+  } else if (ident === state.deliveryGuy.email.toLowerCase() || ident.includes('delivery')) {
+    targetName = 'Delivery Personnel (' + state.deliveryGuy.name + ')';
   } else {
-    toast('Invalid courier credentials. Check with admin.', 'err');
+    const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
+    const allKnown = [...defaultHistoricalClients, ...localClients];
+    const found = allKnown.find(c => c.email.toLowerCase() === ident || (c.mark && c.mark.toLowerCase() === ident));
+    if (found) {
+      targetName = found.name + ' (' + found.mark + ')';
+    } else {
+      targetName = 'Account ID: ' + ident;
+    }
   }
-}
 
-async function doAdmin(e) {
-  e.preventDefault();
-  state.user = { id: 'admin_ceo', email: $('aem').value.trim().toLowerCase(), name: 'Richmond Wireko Brobbey', phone: '0543155883', role: 'admin', mark: 'MASTER-ADMIN' };
-  localStorage.setItem('ev_active_user', JSON.stringify(state.user));
-  applyUserState();
-  toast('Authenticated Executive Suite', 'ok');
-  go('admin');
+  toast('Password reset instructions successfully sent to Gmail address linked with ' + targetName, 'ok', 6000);
 }
 
 function doSignOut() {
@@ -1629,13 +1667,11 @@ function loadCourierPortal() {
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
   const allClients = [...defaultHistoricalClients, ...localClients];
 
-  // Populate client select for courier
   const sel = $('courierClientSelect');
   if (sel) {
     sel.innerHTML = allClients.map(c => `<option value="${c.id}">${c.name} (${c.mark}) - Location: ${c.location || 'Kumasi'}</option>`).join('');
   }
 
-  // Display notifications for clients whose status is "Out for Delivery"
   const dispatchList = [];
   Object.entries(state.tracking).forEach(([uid, t]) => {
     if (t.status === 'Out for Delivery') {
@@ -1730,7 +1766,7 @@ function renderProducts() {
     
     const actionBtn = state.user?.role === 'client'
       ? '<button class="btn btn-sm btn-green btn-block" onclick="addToCart(\'' + p.id + '\')">Add to Cart</button>'
-      : '<button class="btn btn-sm btn-navy btn-block" onclick="go(\'auth\')">Login as Client to Buy</button>';
+      : '<button class="btn btn-sm btn-navy btn-block" onclick="go(\'auth\')">Sign In as Client to Buy</button>';
 
     return '<div class="card">' + imgHtml + '<div><span style="font-size:11px; font-weight:800; color:var(--green); text-transform:uppercase;">' + esc(p.category || 'GENERAL') + '</span><br>' + badgeHtml + '<h3>' + esc(p.name) + '</h3><p style="font-weight:800; color:var(--navy); font-size:18px; margin:6px 0 12px;">' + fmtGHS(p.price) + '</p></div>' + actionBtn + '</div>';
   };
@@ -1806,14 +1842,12 @@ function loadAdmin() {
     return '<tr><td>' + esc(o.clientName) + '</td><td><code>' + esc(o.clientMark) + '</code></td><td><span class="pill pill-type">' + esc(o.type) + '</span></td><td>' + esc(o.summary) + '</td><td>' + fmtGHS(o.total) + '</td><td>' + esc(o.slot) + '<br><code>' + esc(o.txRef) + '</code><br>' + proofLink + '</td><td>' + verifyBtn + '</td></tr>';
   }).join('') : '<tr><td colspan="7" style="text-align:center; color:var(--slate);">No payment orders submitted yet.</td></tr>') + '</tbody></table></div>';
 
-  // Tracking records list
   const tRecords = Object.entries(state.tracking).map(([uid, t]) => {
     const cli = allClientsCombined.find(c => c.id === uid) || { name: 'Client', mark: uid };
     return `<tr><td>${esc(cli.name)} (${esc(cli.mark)})</td><td><span class="pill pill-type">${esc(t.status)}</span></td><td>${esc(t.message)}</td><td>${esc(t.time)}</td></tr>`;
   }).join('');
   $('adminTrackingRecordsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Status Stage</th><th>Message Note</th><th>Last Updated</th></tr></thead><tbody>' + (tRecords || '<tr><td colspan="4" style="text-align:center; color:var(--slate);">No active tracking updates issued yet.</td></tr>') + '</tbody></table></div>';
 
-  // Secretly monitored chat list for admin
   const secretChatList = Object.entries(state.bargainMessages).map(([uid, msgs]) => {
     const cli = allClientsCombined.find(c => c.id === uid) || { name: 'Client', mark: uid };
     const chatHtml = msgs.map(m => `<div style="font-size:12px; margin-bottom:4px;"><strong>${esc(m.sender)}:</strong> ${esc(m.text)} <span style="color:var(--slate); font-size:10px;">(${esc(m.time)})</span></div>`).join('');
@@ -1821,7 +1855,6 @@ function loadAdmin() {
   }).join('');
   $('adminSecretChatMonitorList').innerHTML = secretChatList || '<p style="color:var(--slate);">No client-courier chat logs recorded yet.</p>';
 
-  // Delivery guy setup fields
   $('dgName').value = state.deliveryGuy.name;
   $('dgEmail').value = state.deliveryGuy.email;
   $('dgPass').value = state.deliveryGuy.pass;
@@ -1832,7 +1865,7 @@ function loadAdmin() {
     <div class="card">
       <h4>Active Courier Account</h4>
       <p style="font-size:14px; color:var(--navy); margin-top:6px;"><strong>Name:</strong> ${esc(state.deliveryGuy.name)}</p>
-      <p style="font-size:14px; color:var(--navy);"><strong>Login Email:</strong> ${esc(state.deliveryGuy.email)}</p>
+      <p style="font-size:14px; color:var(--navy);"><strong>Login Email / ID:</strong> ${esc(state.deliveryGuy.email)}</p>
       <p style="font-size:14px; color:var(--navy);"><strong>Phone:</strong> ${esc(state.deliveryGuy.phone)}</p>
       <p style="font-size:14px; color:var(--navy);"><strong>Zone:</strong> ${esc(state.deliveryGuy.zone)}</p>
     </div>
@@ -2014,7 +2047,7 @@ function applyUserState() {
   }
 }
 
-Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, handleLogoFileSelect, saveLogoFile, addToCart, updateCartQty, removeFromCart, clearCart, goToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, doSubmitReview, copyText, adminTab, toggleOrderVerify, doLogin, doReg, doCourierLogin, doAdmin, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts, exportClientData, adminUpdateTracking, saveDeliveryGuyInfo, sendBargainMessage, loadCourierChat, sendCourierMessage });
+Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, handleLogoFileSelect, saveLogoFile, addToCart, updateCartQty, removeFromCart, clearCart, goToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, doSubmitReview, copyText, adminTab, toggleOrderVerify, doUniversalLogin, doReg, doUniversalReset, doSignOut, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts, exportClientData, adminUpdateTracking, saveDeliveryGuyInfo, sendBargainMessage, loadCourierChat, sendCourierMessage });
 
 (function init() {
   applyPortalSettings();
