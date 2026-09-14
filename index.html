@@ -96,12 +96,7 @@ h2::after { content:''; display:block; width:48px; height:4px; background:var(--
 
 .card { background:#fff; padding:20px; border-radius:16px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); transition:all 0.25s ease; display:flex; flex-direction:column; }
 .card:hover { transform:translateY(-4px); box-shadow:0 20px 35px -10px rgba(10,25,47,0.12); }
-.card-img { width:100%; height:160px; object-fit:cover; border-radius:10px; background:#E2E8F0; margin-bottom:12px; }
 .card h3 { color:var(--navy); margin-bottom:6px; font-size:16px; font-weight:700; }
-
-.tag { display:inline-block; padding:4px 10px; border-radius:30px; font-size:11px; font-weight:700; margin-bottom:8px; width:max-content; }
-.tag-pre { background:#EFF6FF; color:#1D4ED8; border:1px solid #BFDBFE; }
-.tag-stock { background:var(--green-light); color:#047857; border:1px solid #A7F3D0; }
 
 /* Tabs & Forms */
 .tabs { display:flex; gap:6px; margin-bottom:24px; border-bottom:2px solid var(--border-color); padding-bottom:2px; }
@@ -118,9 +113,12 @@ input, select, textarea { width:100%; padding:12px 16px; border:1.5px solid #CBD
 input:focus, select:focus, textarea:focus { outline:none; border-color:var(--green); background:#fff; box-shadow:0 0 0 4px var(--green-light); }
 input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 
-.msg { padding:12px; border-radius:10px; margin:12px 0; display:none; font-weight:600; font-size:14px; }
-.msg.ok { background:#ECFDF5; color:#065F45; display:block; border:1px solid #A7F3D0; }
-.msg.err { background:#FEF2F2; color:#991B1B; display:block; border:1px solid #FECACA; }
+/* Payment Slot Component Styling */
+.payment-slot-card { background:#F0FDF4; border:2px solid var(--green); border-radius:16px; padding:20px; margin:20px 0; }
+.pay-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:10px; margin-top:10px; }
+.pay-btn { background:#fff; border:1.5px solid #CBD5E1; border-radius:10px; padding:10px; text-align:center; cursor:pointer; font-size:13px; font-weight:700; color:var(--navy); transition:0.2s; }
+.pay-btn.active { border-color:var(--green); background:var(--green-light); color:var(--green-hover); }
+.pay-details-box { background:#fff; border:1px solid #A7F3D0; border-radius:12px; padding:16px; margin-top:12px; }
 
 /* Chinese Address Component */
 .addr-section { background:#fff; border-radius:20px; padding:28px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); margin-bottom:24px; }
@@ -358,7 +356,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- AUTH PAGE WITH EMAIL OR SHIPPING MARK DUAL LOGIN & PASSWORD RESET -->
+<!-- AUTH PAGE WITH BACKEND INTEGRATION (NO DEMO PREFILLS) -->
 <section id="p-auth" class="page">
   <div class="container">
     <h2>Account Authentication Portal</h2>
@@ -370,16 +368,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <button class="tab" data-authtab="admin" onclick="authTab('admin')">Admin Access</button>
       </div>
 
-      <!-- EASY DEMO LOGIN SELECTOR -->
-      <div style="background:var(--bg-light); border:1px solid var(--border-color); padding:10px; border-radius:10px; margin-bottom:16px; text-align:center;">
-        <span style="font-size:12px; font-weight:700; color:var(--navy);">EASY DEMO PREFILL:</span>
-        <div style="display:flex; gap:8px; justify-content:center; margin-top:6px;">
-          <button class="btn btn-sm btn-outline" onclick="prefillLogin('client')">Demo Client (Gmail)</button>
-          <button class="btn btn-sm btn-outline" onclick="prefillLogin('mark')">Demo Client (Shipping Mark)</button>
-          <button class="btn btn-sm btn-outline" onclick="prefillLogin('admin')">Master Admin</button>
-        </div>
-      </div>
-
       <!-- CLIENT DUAL LOGIN -->
       <div id="tLogin" class="tab-content active">
         <form onsubmit="doLogin(event)">
@@ -388,14 +376,14 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
             <input type="text" id="lem" placeholder="e.g. client@gmail.com OR GH001K-CLI-A1B2C3" required>
           </div>
           <div class="form-group"><label>Password</label><input type="password" id="lpw" required></div>
-          <button class="btn btn-green btn-block" type="submit" id="loginBtn">Sign In Easy</button>
+          <button class="btn btn-green btn-block" type="submit" id="loginBtn">Sign In</button>
         </form>
       </div>
 
       <!-- CLIENT REGISTRATION WITH AUTO-GENERATED MARK -->
       <div id="tReg" class="tab-content">
         <form onsubmit="doReg(event)">
-          <div class="form-group"><label>Full Name</label><input type="text" id="rn" required placeholder="e.g. Richmond Wireko"></div>
+          <div class="form-group"><label>Full Legal Name</label><input type="text" id="rn" required placeholder="e.g. Richmond Wireko"></div>
           <div class="form-group"><label>Gmail / Email Address</label><input type="email" id="rem" required placeholder="e.g. richmond@gmail.com"></div>
           <div class="form-group"><label>Phone Number</label><input type="tel" id="rp" required placeholder="e.g. +233 54 315 5883"></div>
           <div class="form-group"><label>Location / City</label><input type="text" id="rl" required placeholder="e.g. Kumasi, Ghana"></div>
@@ -412,14 +400,14 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
             <label>Enter Registered Gmail or Shipping Mark</label>
             <input type="text" id="resetIdent" placeholder="e.g. client@gmail.com OR GH001K-CLI-A1B2C3" required>
           </div>
-          <button class="btn btn-navy btn-block" type="submit">Send Reset Password Instructions</button>
+          <button class="btn btn-navy btn-block" type="submit">Send Reset Password Link</button>
         </form>
       </div>
 
       <!-- ADMIN ACCESS PORTAL -->
       <div id="tAdmin" class="tab-content">
         <form onsubmit="doAdmin(event)">
-          <div class="form-group"><label>Executive Admin Identifier / Gmail</label><input type="email" id="aem" required></div>
+          <div class="form-group"><label>Executive Admin Identifier / Email</label><input type="email" id="aem" required placeholder="admin@everivault.com"></div>
           <div class="form-group"><label>Admin Security Password</label><input type="password" id="apw" required></div>
           <button class="btn btn-navy btn-block" type="submit" id="adminBtn">Authenticate Executive Suite</button>
         </form>
@@ -428,22 +416,43 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- ORDER SUBMISSION & PROOF OF PAYMENT -->
+<!-- ORDER SUBMISSION & DEDICATED PAYMENT SLOT -->
 <section id="p-order" class="page auth-only">
   <div class="container">
-    <h2>Order Checkout & Payment Proof</h2>
-    <div class="form-box" style="max-width:600px;">
+    <h2>Order Checkout & Settlement</h2>
+    <div class="form-box" style="max-width:640px;">
       <form onsubmit="submitOrder(event)">
-        <div class="form-group"><label>Selected Items</label><input type="text" id="oItem" required readonly></div>
-        <div class="form-group"><label>Total Payable (GHS)</label><input type="number" id="oTotal" step="0.01" required readonly style="font-size:18px; font-weight:800; color:var(--navy);"></div>
+        <div class="form-group"><label>Selected Items Summary</label><input type="text" id="oItem" required readonly></div>
+        <div class="form-group"><label>Total Payable (GHS)</label><input type="number" id="oTotal" step="0.01" required readonly style="font-size:20px; font-weight:800; color:var(--navy);"></div>
         
-        <div class="form-group">
-          <label>Upload Proof of Payment (Screenshot / Receipt File)</label>
-          <input type="file" id="payProofFile" accept="image/*" onchange="handleProofFile(event)">
-          <input type="text" id="payTxRef" placeholder="Or Enter MoMo / Bank Transaction ID" style="margin-top:8px;">
+        <!-- DEDICATED PAYMENT SLOT -->
+        <div class="payment-slot-card">
+          <label style="color:var(--navy); font-size:14px; font-weight:800;">Select Instant Payment Slot</label>
+          <div class="pay-grid">
+            <div class="pay-btn active" id="pbtn-momo" onclick="selectPaymentSlot('momo')">MTN MoMo</div>
+            <div class="pay-btn" id="pbtn-telecel" onclick="selectPaymentSlot('telecel')">Telecel Cash</div>
+            <div class="pay-btn" id="pbtn-at" onclick="selectPaymentSlot('at')">AT Money</div>
+            <div class="pay-btn" id="pbtn-bank" onclick="selectPaymentSlot('bank')">GTBank Direct</div>
+          </div>
+
+          <div class="pay-details-box" id="paySlotInfo">
+            <p style="font-size:13px; font-weight:700; color:var(--navy);">MTN Mobile Money Slot</p>
+            <p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p>
+            <p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>
+          </div>
         </div>
 
-        <button class="btn btn-green btn-block" type="submit" id="orderBtn">Submit Order & Proof for Verification</button>
+        <div class="form-group">
+          <label>Payment Reference Code or Transaction ID</label>
+          <input type="text" id="payTxRef" placeholder="e.g. Transaction ID / Reference Code" required>
+        </div>
+
+        <div class="form-group">
+          <label>Upload Payment Proof (Receipt / Screenshot)</label>
+          <input type="file" id="payProofFile" accept="image/*" onchange="handleProofFile(event)">
+        </div>
+
+        <button class="btn btn-green btn-block" type="submit" id="orderBtn" style="padding:16px; font-size:16px;">Submit Order & Payment Proof</button>
       </form>
     </div>
   </div>
@@ -473,18 +482,18 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- UNIQUE EXECUTIVE MASTER ADMIN PORTAL WITH PASSWORD CHANGE TOOL -->
+<!-- RESTRICTED MASTER ADMIN PORTAL (ADMIN ONLY ACCESS) -->
 <section id="p-admin" class="page admin-only">
   <div class="container">
     <div style="background:var(--navy); color:#fff; padding:24px; border-radius:16px; margin-bottom:28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
       <div>
         <h2 style="color:var(--green); text-align:left; margin-bottom:4px;">Master Executive Suite — CEO Control Center</h2>
-        <p style="color:var(--slate-light);">Authorized Director Management Portal: Richmond Wireko Brobbey</p>
+        <p style="color:var(--slate-light);">Authorized Management Portal: Richmond Wireko Brobbey</p>
       </div>
       <button class="btn btn-sm btn-outline" style="color:#fff; border-color:#fff;" onclick="openAdminPasswordModal()">🔑 Change Admin Password</button>
     </div>
 
-    <!-- ADMIN CHANGE PASSWORD FORM / MODAL CONTAINER -->
+    <!-- ADMIN CHANGE PASSWORD MODAL -->
     <div id="adminPwBox" class="form-box" style="display:none; max-width:600px; margin-bottom:28px; border:2px solid var(--green);">
       <h3>Update Master Admin Password</h3>
       <form onsubmit="doAdminChangePassword(event)">
@@ -565,7 +574,8 @@ const state = {
   clients: [],
   cart: JSON.parse(localStorage.getItem('ev_cart') || '[]'),
   paymentProofBase64: '',
-  uploadedProdBase64: ''
+  uploadedProdBase64: '',
+  selectedPaymentSlot: 'momo'
 };
 
 const $ = id => document.getElementById(id);
@@ -584,6 +594,13 @@ function toast(msg, type = 'info', ms = 3000) {
 }
 
 function go(page) {
+  // STRICT ADMIN ROUTE PROTECTION
+  if (page === 'admin' && state.user?.role !== 'admin') {
+    toast('Access Denied: Admin authorization required', 'err');
+    go('auth');
+    return;
+  }
+
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const t = $('p-' + page);
   if (t) t.classList.add('active');
@@ -608,25 +625,26 @@ function authTab(tab) {
   $('tAdmin').classList.toggle('active', tab === 'admin');
 }
 
-/* --- EASY DEMO LOGIN PREFILL --- */
-function prefillLogin(role) {
-  if (role === 'client') {
-    authTab('login');
-    $('lem').value = 'client@gmail.com';
-    $('lpw').value = 'client123';
-  } else if (role === 'mark') {
-    authTab('login');
-    $('lem').value = 'GH001K-CLI-A1B2C3';
-    $('lpw').value = 'client123';
-  } else {
-    authTab('admin');
-    $('aem').value = 'richmonwireko@gmail.com';
-    $('apw').value = 'admin123';
+/* --- DEDICATED PAYMENT SLOT SELECTION --- */
+function selectPaymentSlot(slot) {
+  state.selectedPaymentSlot = slot;
+  document.querySelectorAll('.pay-btn').forEach(b => b.classList.remove('active'));
+  const btn = $('pbtn-' + slot);
+  if (btn) btn.classList.add('active');
+
+  const slotBox = $('paySlotInfo');
+  if (slot === 'momo') {
+    slotBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">MTN Mobile Money Slot</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p><p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>';
+  } else if (slot === 'telecel') {
+    slotBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">Telecel Cash Slot</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p><p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>';
+  } else if (slot === 'at') {
+    slotBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">AT Money Slot</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p><p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>';
+  } else if (slot === 'bank') {
+    slotBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">GTBank Direct Settlement Slot</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Account Number: 1304001024705</p><p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey (Guaranty Trust Bank)</p>';
   }
-  toast('Credentials prefilled for quick login', 'ok');
 }
 
-/* --- DUAL LOGIN LOGIC (GMAIL OR AUTO-GENERATED SHIPPING MARK) --- */
+/* --- CLIENT LOGIN (GMAIL OR SHIPPING MARK) --- */
 async function doLogin(e) {
   e.preventDefault();
   if (!sb) return;
@@ -634,11 +652,10 @@ async function doLogin(e) {
   const password = $('lpw').value;
   let email = identifier;
 
-  // Check if identifier is a Shipping Mark (doesn't contain '@' or matches GH001K format)
   if (!identifier.includes('@')) {
     const { data, error } = await sb.from('profiles').select('email').eq('mark', identifier.toUpperCase()).maybeSingle();
     if (error || !data) {
-      toast('Shipping Mark not found in registry', 'err');
+      toast('Shipping Mark reference not registered', 'err');
       return;
     }
     email = data.email;
@@ -646,10 +663,10 @@ async function doLogin(e) {
 
   const { error } = await sb.auth.signInWithPassword({ email, password });
   if (error) { toast(error.message, 'err'); return; }
-  await loadProfile(); applyUserState(); toast('Logged in successfully', 'ok'); go('home');
+  await loadProfile(); applyUserState(); toast('Signed in successfully', 'ok'); go('home');
 }
 
-/* --- REGISTRATION WITH AUTOMATIC SHIPPING MARK GENERATION --- */
+/* --- CLIENT REGISTRATION --- */
 async function doReg(e) {
   e.preventDefault();
   if (!sb) return;
@@ -666,12 +683,12 @@ async function doReg(e) {
 
   if (error) { toast(error.message, 'err'); return; }
   
-  toast('Account registered! Your Shipping Mark: ' + generatedMark, 'ok', 6000);
+  toast('Registration successful! Shipping Mark: ' + generatedMark, 'ok', 6000);
   if (data.session) { await loadProfile(); applyUserState(); setTimeout(() => go('home'), 600); }
   else { authTab('login'); }
 }
 
-/* --- PASSWORD RESET LOGIC --- */
+/* --- PASSWORD RESET --- */
 async function doResetPassword(e) {
   e.preventDefault();
   if (!sb) return;
@@ -685,7 +702,7 @@ async function doResetPassword(e) {
 
   const { error } = await sb.auth.resetPasswordForEmail(email);
   if (error) { toast(error.message, 'err'); }
-  else { toast('Password reset link dispatched to your registered email!', 'ok'); }
+  else { toast('Password reset link sent to registered email', 'ok'); }
 }
 
 /* --- ADMIN PASSWORD MANAGEMENT --- */
@@ -706,7 +723,7 @@ async function doAdminChangePassword(e) {
   }
 }
 
-/* --- PROOF OF PAYMENT HANDLER --- */
+/* --- FILE PROOF & IMAGE HANDLERS --- */
 function handleProofFile(e) {
   const file = e.target.files[0];
   if (!file) return;
@@ -766,13 +783,13 @@ function clearCart() { state.cart = []; updateCartBadge(); renderCart(); }
 
 function proceedToCheckout() {
   if (!state.cart.length) return;
-  if (!state.user) { toast('Please log in first', 'err'); go('auth'); return; }
+  if (!state.user) { toast('Please log in to proceed', 'err'); go('auth'); return; }
   $('oItem').value = state.cart.map(i => i.name + ' (x' + i.qty + ')').join(', ');
   $('oTotal').value = state.cart.reduce((s, i) => s + (i.price * i.qty), 0).toFixed(2);
   go('order');
 }
 
-/* --- PRODUCTS & SHOWCASE --- */
+/* --- PRODUCTS & CATALOG --- */
 async function loadProducts() {
   if (!sb) return;
   const { data } = await sb.from('products').select('*').order('created_at', { ascending: false });
@@ -801,24 +818,25 @@ async function doAddProduct(e) {
   loadProducts();
 }
 
-/* --- SUBMIT ORDER WITH PAYMENT PROOF --- */
+/* --- ORDER SUBMISSION WITH PAYMENT SLOT & PROOF --- */
 async function submitOrder(e) {
   e.preventDefault();
   const btn = $('orderBtn');
   if (!state.user || !sb) return;
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Submitting Proof...';
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Submitting Order...';
   
   const order = {
     user_id: state.user.id, user_email: state.user.email, user_name: state.user.name,
     item: $('oItem').value, qty: 1, total: parseFloat($('oTotal').value),
     mark: state.user.mark || randomMark(state.user.name),
+    payment_slot: state.selectedPaymentSlot,
     status: 'Pending Verification', 
     proof_data: state.paymentProofBase64 || $('payTxRef').value.trim(),
     verified: false
   };
 
   const { error } = await sb.from('orders').insert(order);
-  btn.disabled = false; btn.textContent = 'Submit Order & Proof for Verification';
+  btn.disabled = false; btn.textContent = 'Submit Order & Payment Proof';
   if (error) { toast(error.message, 'err'); return; }
   
   clearCart(); state.paymentProofBase64 = '';
@@ -826,9 +844,13 @@ async function submitOrder(e) {
   go('orders');
 }
 
-/* --- ADMIN DASHBOARD & VERIFICATION --- */
+/* --- ADMIN DASHBOARD AND ACCESS CONTROL --- */
 async function loadAdmin() {
-  if (!state.user || state.user.role !== 'admin' || !sb) return;
+  if (!state.user || state.user.role !== 'admin' || !sb) {
+    toast('Access Denied', 'err');
+    go('home');
+    return;
+  }
   
   const { data: clients } = await sb.from('profiles').select('*').order('created_at', { ascending: false });
   state.clients = clients || [];
@@ -838,7 +860,7 @@ async function loadAdmin() {
   state.orders = orders || [];
   $('adminOrdersList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Items</th><th>Total</th><th>Proof</th><th>Status</th><th>Action</th></tr></thead><tbody>' + state.orders.map(o => {
     const proofView = o.proof_data && o.proof_data.startsWith('data:image') 
-      ? '<a href="' + o.proof_data + '" target="_blank" style="color:var(--green); font-weight:700;">View Receipt Screenshot</a>' 
+      ? '<a href="' + o.proof_data + '" target="_blank" style="color:var(--green); font-weight:700;">View Receipt Image</a>' 
       : (o.proof_data ? '<code>' + esc(o.proof_data) + '</code>' : 'No Proof');
     return '<tr><td>' + esc(o.user_name) + '</td><td>' + esc(o.item) + '</td><td>' + fmtGHS(o.total) + '</td><td>' + proofView + '</td><td><span class="pill ' + (o.verified ? 'pill-verified' : 'pill-pending') + '">' + (o.verified ? 'Verified' : 'Pending') + '</span></td><td><button class="btn btn-sm btn-green" onclick="toggleVerifyOrder(\'' + o.id + '\', ' + !o.verified + ')">' + (o.verified ? 'Unverify' : 'Verify Payment') + '</button></td></tr>';
   }).join('') + '</tbody></table></div>';
@@ -863,7 +885,16 @@ async function doAdmin(e) {
   if (!sb) return;
   const { error } = await sb.auth.signInWithPassword({ email: $('aem').value.trim().toLowerCase(), password: $('apw').value });
   if (error) { toast(error.message, 'err'); return; }
-  await loadProfile(); applyUserState(); go('admin');
+  await loadProfile(); 
+  if (state.user?.role !== 'admin') {
+    toast('Access restricted to administrators', 'err');
+    await sb.auth.signOut();
+    state.user = null;
+    applyUserState();
+    return;
+  }
+  applyUserState(); 
+  go('admin');
 }
 
 async function loadProfile() {
@@ -888,7 +919,7 @@ function copyText(text) {
   if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => toast('Copied to clipboard', 'ok'));
 }
 
-Object.assign(window, { go, toggleMenu, authTab, prefillLogin, handleProofFile, handleImageFile, addToCart, removeFromCart, clearCart, proceedToCheckout, submitOrder, copyText, adminTab, toggleVerifyOrder, doLogin, doReg, doResetPassword, doAdmin, openAdminPasswordModal, doAdminChangePassword, doAddProduct });
+Object.assign(window, { go, toggleMenu, authTab, selectPaymentSlot, handleProofFile, handleImageFile, addToCart, removeFromCart, clearCart, proceedToCheckout, submitOrder, copyText, adminTab, toggleVerifyOrder, doLogin, doReg, doResetPassword, doAdmin, openAdminPasswordModal, doAdminChangePassword, doAddProduct });
 
 (async function init() {
   if (sb) { try { await loadProfile(); } catch(e){} }
