@@ -193,6 +193,8 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 .client-only.show { display:flex !important; }
 .admin-only { display:none !important; }
 .admin-only.show { display:block !important; }
+.delivery-only { display:none !important; }
+.delivery-only.show { display:block !important; }
 
 /* Toast Notifications */
 .toast-wrap { position:fixed; top:84px; right:20px; z-index:10001; display:flex; flex-direction:column; gap:10px; pointer-events:none; }
@@ -229,6 +231,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     <ul class="nav-links" id="menu">
       <li><a class="plink active" data-p="home" onclick="go('home')">Home</a></li>
       
+      <!-- CLIENT NAV -->
       <li class="client-only"><a class="plink" data-p="store" onclick="go('store')">Store Catalog</a></li>
       <li class="client-only"><a class="plink" data-p="cart" onclick="go('cart')">Cart <span class="cart-badge" id="cartBadgeCount">0</span></a></li>
       <li class="client-only"><a class="plink" data-p="tracking" onclick="go('tracking')">Tracking & Messages</a></li>
@@ -237,9 +240,13 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       <li class="client-only"><a class="plink" data-p="reviews" onclick="go('reviews')">Reviews</a></li>
       <li class="client-only"><a class="plink" data-p="payment" onclick="go('payment')">Payment Portal</a></li>
       
+      <!-- DELIVERY GUY NAV -->
+      <li class="delivery-only"><a class="plink" data-p="deliveryportal" onclick="go('deliveryportal')">Delivery Guy Portal</a></li>
+
+      <!-- ADMIN NAV -->
       <li id="adminLink" style="display:none;"><a class="plink" data-p="admin" onclick="go('admin')">Master Admin Suite</a></li>
       
-      <li id="authNav"><a class="nav-cta plink" data-p="auth" onclick="go('auth')">Client Portal Access</a></li>
+      <li id="authNav"><a class="nav-cta plink" data-p="auth" onclick="go('auth')">Client / Courier Portal Access</a></li>
       <li id="signOutNav" style="display:none;"><a class="btn btn-sm btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.4);" onclick="doSignOut()">Sign Out</a></li>
     </ul>
     <button class="menu-toggle" onclick="toggleMenu()">☰</button>
@@ -416,7 +423,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
 <section id="p-tracking" class="page">
   <div class="container">
     <h2>Shipment Tracking & Delivery Bargaining Portal</h2>
-    <p class="subtitle">Track your logistics status live and negotiate delivery rates directly with our delivery personnel.</p>
+    <p class="subtitle">Track your logistics status live and negotiate delivery rates directly. <strong>Note: Delivery payment must be made to admin payment address, NEVER send money directly to delivery personnel.</strong></p>
 
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:24px; max-width:1000px; margin:0 auto;">
       
@@ -426,17 +433,65 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <div id="clientTrackingDetails"></div>
       </div>
 
-      <!-- DELIVERY BARGAINING CHAT -->
+      <!-- DELIVERY BARGAINING CHAT (MONITORED SECRETLY BY ADMIN) -->
       <div class="form-box" style="margin:0; border:2px solid var(--green);">
         <h3 style="color:var(--green-hover); font-size:18px; margin-bottom:6px;">Delivery Guy Bargaining Desk</h3>
-        <p style="font-size:13px; color:var(--slate); margin-bottom:14px;" id="deliveryGuyInfoCard">Loading delivery guy contact...</p>
+        <p style="font-size:13px; color:var(--slate); margin-bottom:14px;" id="deliveryGuyInfoCard">Loading delivery personnel...</p>
         
-        <div id="bargainChatBox" style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:12px; padding:14px; height:220px; overflow-y:auto; margin-bottom:14px; display:flex; flex-direction:column; gap:8px;"></div>
+        <div style="background:#FFFBEB; border:1px solid #FCD34D; border-radius:8px; padding:10px; font-size:12px; color:#92400E; margin-bottom:12px;">
+          ⚠️ <strong>Important Notice:</strong> Payment for delivery must be made exclusively to admin payment address (GTBank / MoMo), <strong>do not send money directly to delivery guy</strong>.
+        </div>
+
+        <div id="bargainChatBox" style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:12px; padding:14px; height:200px; overflow-y:auto; margin-bottom:14px; display:flex; flex-direction:column; gap:8px;"></div>
         
         <form onsubmit="sendBargainMessage(event)">
           <div style="display:flex; gap:8px;">
-            <input type="text" id="bargainInput" required placeholder="Offer price or ask delivery question..." style="font-size:14px;">
+            <input type="text" id="bargainInput" required placeholder="Offer price or ask delivery duration..." style="font-size:14px;">
             <button class="btn btn-green" type="submit" style="padding:10px 16px;">Send</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERY GUY PORTAL -->
+<section id="p-deliveryportal" class="page delivery-only">
+  <div class="container">
+    <h2>Courier / Delivery Personnel Portal</h2>
+    <p class="subtitle">Review assigned delivery notifications, client locations, estimated durations, and bargain delivery prices with clients.</p>
+
+    <div style="max-width:900px; margin:0 auto;">
+      
+      <!-- TERMS & CONDITIONS BOX (5% MAINTENANCE FEE) -->
+      <div class="terms-box" style="max-height:none; margin-bottom:24px; border:2px solid #F59E0B;">
+        <h4 style="font-size:14px; color:#B45309;">Courier Terms & Conditions (5% Website Maintenance Fee)</h4>
+        <p style="margin-top:6px; font-size:13px;">
+          As an authorized EveriVault delivery partner, you agree that <strong>5% of any delivery price bargained and settled</strong> will be retained toward website maintenance and logistics dispatch coordination. All delivery payments must be channeled through admin settlement addresses.
+        </p>
+      </div>
+
+      <!-- ASSIGNED DELIVERIES NOTIFICATIONS -->
+      <div class="card" style="margin-bottom:24px;">
+        <h3 style="color:var(--navy); margin-bottom:14px;">📦 Assigned Delivery Notifications & Client Locations</h3>
+        <div id="courierDeliveriesList"></div>
+      </div>
+
+      <!-- COURIER BARGAINING DISPATCH DESK -->
+      <div class="card">
+        <h3 style="color:var(--navy); margin-bottom:14px;">💬 Client Bargaining & Duration Dispatch Desk</h3>
+        <div class="form-group">
+          <label>Select Client to Communicate With</label>
+          <select id="courierClientSelect" onchange="loadCourierChat()" style="margin-bottom:12px;"></select>
+        </div>
+        
+        <div id="courierChatBox" style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:12px; padding:14px; height:220px; overflow-y:auto; margin-bottom:14px; display:flex; flex-direction:column; gap:8px;"></div>
+
+        <form onsubmit="sendCourierMessage(event)">
+          <div style="display:flex; gap:8px;">
+            <input type="text" id="courierInputMsg" required placeholder="State delivery duration (e.g. 45 mins) or reply to price offer..." style="font-size:14px;">
+            <button class="btn btn-green" type="submit" style="padding:10px 16px;">Send to Client</button>
           </div>
         </form>
       </div>
@@ -669,7 +724,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- AUTHENTICATION PORTAL WITH MANDATORY TERMS & CONDITIONS -->
+<!-- AUTHENTICATION PORTAL WITH COURIER LOGIN/REGISTRATION -->
 <section id="p-auth" class="page">
   <div class="container">
     <h2>Account Authentication Portal</h2>
@@ -677,7 +732,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       <div class="tabs">
         <button class="tab active" data-authtab="login" onclick="authTab('login')">Client Sign In</button>
         <button class="tab" data-authtab="reg" onclick="authTab('reg')">Client Register</button>
-        <button class="tab" data-authtab="reset" onclick="authTab('reset')">Reset Password</button>
+        <button class="tab" data-authtab="courierauth" onclick="authTab('courierauth')">Delivery Guy Portal</button>
         <button class="tab" data-authtab="admin" onclick="authTab('admin')">Admin Access</button>
       </div>
 
@@ -696,6 +751,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           <div class="form-group"><label>Full Legal Name</label><input type="text" id="rn" required placeholder="e.g. Richmond Wireko"></div>
           <div class="form-group"><label>Gmail / Email Address</label><input type="email" id="rem" required placeholder="e.g. richmond@gmail.com"></div>
           <div class="form-group"><label>Phone Number (Used in Shipping Mark ID)</label><input type="tel" id="rp" required placeholder="e.g. 0543155883"></div>
+          <div class="form-group"><label>Delivery / Location Address in Ghana</label><input type="text" id="rloc" required placeholder="e.g. KNUST Ayeduase New Site, Kumasi"></div>
           <div class="form-group"><label>Password</label><input type="password" id="rpw" required minlength="6"></div>
           <div class="form-group">
             <label>Referral Shipping Mark (Optional)</label>
@@ -722,11 +778,13 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </form>
       </div>
 
-      <!-- PASSWORD RESET -->
-      <div id="tReset" class="tab-content">
-        <form onsubmit="doResetPassword(event)">
-          <div class="form-group"><label>Enter Registered Gmail or Shipping Mark</label><input type="text" id="resetIdent" placeholder="e.g. client@gmail.com OR GH001K-KW-0543155883" required></div>
-          <button class="btn btn-navy btn-block" type="submit">Send Reset Password Link</button>
+      <!-- DELIVERY GUY UNIQUE AUTHENTICATION -->
+      <div id="tCourierAuth" class="tab-content">
+        <form onsubmit="doCourierLogin(event)">
+          <h3 style="color:var(--navy); font-size:16px; margin-bottom:12px;">Courier Unique Login Access</h3>
+          <div class="form-group"><label>Courier Email or Username</label><input type="text" id="cem" required placeholder="e.g. delivery@everivault.com"></div>
+          <div class="form-group"><label>Courier Password</label><input type="password" id="cpw" required placeholder="••••••"></div>
+          <button class="btn btn-navy btn-block" type="submit">Access Courier Portal</button>
         </form>
       </div>
 
@@ -776,8 +834,9 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       <div class="admin-sidebar">
         <button class="admin-nav-btn active" data-admintab="products" onclick="adminTab('products')">Manage Catalog & Unlimited Uploads</button>
         <button class="admin-nav-btn" data-admintab="payments" onclick="adminTab('payments')">Manage Payments Desk</button>
-        <button class="admin-nav-btn" data-admintab="tracking" onclick="adminTab('tracking')">Shipping Tracking & Messages</button>
-        <button class="admin-nav-btn" data-admintab="delivery" onclick="adminTab('delivery')">Delivery Guy & Bargaining</button>
+        <button class="admin-nav-btn" data-admintab="tracking" onclick="adminTab('tracking')">Shipping Tracking & Notifications</button>
+        <button class="admin-nav-btn" data-admintab="monitoredchat" onclick="adminTab('monitoredchat')">Secretly Monitor Client-Courier Chats</button>
+        <button class="admin-nav-btn" data-admintab="delivery" onclick="adminTab('delivery')">Delivery Guy Account Setup</button>
         <button class="admin-nav-btn" data-admintab="ads" onclick="adminTab('ads')">Promo / Ad Requests</button>
         <button class="admin-nav-btn" data-admintab="clients" onclick="adminTab('clients')">Registered Clients & Referrals</button>
         <button class="admin-nav-btn" data-admintab="content" onclick="adminTab('content')">Edit Portal & Brand Logo</button>
@@ -833,11 +892,11 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           <div id="adminPaymentsList"></div>
         </div>
 
-        <!-- SHIPPING TRACKING & MESSAGES TAB -->
+        <!-- SHIPPING TRACKING & NOTIFICATIONS TAB -->
         <div id="adminTracking" class="tab-content">
           <div class="form-box" style="max-width:100%; margin-bottom:28px;">
-            <h3>Update Client Shipping Status & Message Record</h3>
-            <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">Select client and update whether goods are received, reached Tema Harbor, at Kumasi warehouse, or out for delivery.</p>
+            <h3>Update Client Shipping Status & Notify Delivery Guy</h3>
+            <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">Updating status to <strong>"Out for Delivery"</strong> automatically triggers a dispatch notification to the delivery personnel portal.</p>
             <form onsubmit="adminUpdateTracking(event)">
               <div class="form-group">
                 <label>Select Client / Shipping Mark</label>
@@ -849,7 +908,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
                   <option value="Goods Received at China Warehouse">Goods Received at China Warehouse</option>
                   <option value="Reached Tema Harbor">Reached Tema Harbor</option>
                   <option value="At Kumasi Warehouse (KNUST Ayeduase)">At Kumasi Warehouse (KNUST Ayeduase)</option>
-                  <option value="Out for Delivery">Out for Delivery</option>
+                  <option value="Out for Delivery">Out for Delivery (Notifies Delivery Guy)</option>
                   <option value="Delivered Successfully">Delivered Successfully</option>
                 </select>
               </div>
@@ -857,27 +916,36 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
                 <label>Custom Status Message / Note to Client</label>
                 <textarea id="admTrackMsg" rows="3" required placeholder="e.g. Your container has arrived at Tema Port and is clearing customs..."></textarea>
               </div>
-              <button class="btn btn-green btn-block" type="submit">Update Client Tracking & Send Message</button>
+              <button class="btn btn-green btn-block" type="submit">Update Client Tracking & Dispatch</button>
             </form>
           </div>
           <h3 style="margin-bottom:16px; color:var(--navy);">All Client Tracking Records</h3>
           <div id="adminTrackingRecordsList"></div>
         </div>
 
-        <!-- DELIVERY GUY & BARGAINING MANAGEMENT TAB -->
+        <!-- SECRETLY MONITOR CHATS TAB -->
+        <div id="adminMonitoredChat" class="tab-content">
+          <h3 style="margin-bottom:8px; color:var(--navy);">Secretly Monitored Client-Courier Communications</h3>
+          <p style="font-size:13px; color:var(--slate); margin-bottom:16px;">Admin can view all messages exchanged between clients and the delivery guy without either party noticing monitoring.</p>
+          <div id="adminSecretChatMonitorList"></div>
+        </div>
+
+        <!-- DELIVERY GUY ACCOUNT SETUP -->
         <div id="adminDelivery" class="tab-content">
           <div class="form-box" style="max-width:100%; margin-bottom:28px;">
-            <h3>Configure Delivery Guy Contact & Info</h3>
-            <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">Set the active delivery personnel details so clients can call and bargain on delivery prices.</p>
+            <h3>Configure Delivery Guy Unique Login & Info</h3>
+            <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">Set login credentials and contact details for the delivery personnel.</p>
             <form onsubmit="saveDeliveryGuyInfo(event)">
               <div class="form-group"><label>Delivery Personnel Name</label><input type="text" id="dgName" required placeholder="e.g. Kofi Delivery Express"></div>
+              <div class="form-group"><label>Login Email Address</label><input type="email" id="dgEmail" required placeholder="e.g. delivery@everivault.com"></div>
+              <div class="form-group"><label>Login Password</label><input type="password" id="dgPass" required placeholder="••••••"></div>
               <div class="form-group"><label>Contact Phone Number</label><input type="tel" id="dgPhone" required placeholder="e.g. 0541234567"></div>
               <div class="form-group"><label>Delivery Zone / Base Note</label><input type="text" id="dgZone" required placeholder="e.g. Kumasi Metropolis & KNUST Campus"></div>
-              <button class="btn btn-green btn-block" type="submit">Save Delivery Guy Info Live</button>
+              <button class="btn btn-green btn-block" type="submit">Save Courier Credentials Live</button>
             </form>
           </div>
-          <h3 style="margin-bottom:16px; color:var(--navy);">Client Delivery Bargaining Conversations</h3>
-          <div id="adminBargainList"></div>
+          <h3 style="margin-bottom:16px; color:var(--navy);">Courier Active Status & Info</h3>
+          <div id="adminCourierSummaryCard"></div>
         </div>
 
         <!-- ADVERTISEMENTS & PROMO REQUESTS TAB -->
@@ -1002,9 +1070,9 @@ const defaultSettings = {
 };
 
 const defaultHistoricalClients = [
-  { id: 'old_1', name: 'Kofi Mensah', email: 'kofi.mensah@gmail.com', phone: '0541234567', mark: 'GH001K-KM-0541234567', referredBy: 'None (Direct)', type: 'Historical Client (Old)' },
-  { id: 'old_2', name: 'Abena Osei', email: 'abena.osei@gmail.com', phone: '0249876543', mark: 'GH001K-AO-0249876543', referredBy: 'GH001K-KM-0541234567', type: 'Historical Client (Old)' },
-  { id: 'old_3', name: 'Yaw Boateng', email: 'yaw.boateng@yahoo.com', phone: '0201112233', mark: 'GH001K-YB-0201112233', referredBy: 'None (Direct)', type: 'Historical Client (Old)' }
+  { id: 'old_1', name: 'Kofi Mensah', email: 'kofi.mensah@gmail.com', phone: '0541234567', location: 'Ayeduase New Site, Kumasi', mark: 'GH001K-KM-0541234567', referredBy: 'None (Direct)', type: 'Historical Client (Old)' },
+  { id: 'old_2', name: 'Abena Osei', email: 'abena.osei@gmail.com', phone: '0249876543', location: 'Asafo Market, Kumasi', mark: 'GH001K-AO-0249876543', referredBy: 'GH001K-KM-0541234567', type: 'Historical Client (Old)' },
+  { id: 'old_3', name: 'Yaw Boateng', email: 'yaw.boateng@yahoo.com', phone: '0201112233', location: 'Tech Junction, Kumasi', mark: 'GH001K-YB-0201112233', referredBy: 'None (Direct)', type: 'Historical Client (Old)' }
 ];
 
 const state = { 
@@ -1013,8 +1081,8 @@ const state = {
   settings: JSON.parse(localStorage.getItem('ev_portal_settings') || 'null') || defaultSettings,
   ads: JSON.parse(localStorage.getItem('ev_local_ads') || '[]'),
   orders: JSON.parse(localStorage.getItem('ev_local_orders') || '[]'),
-  tracking: JSON.parse(localStorage.getItem('ev_local_tracking') || '{}'), // {userId: {status, message, timestamp}}
-  deliveryGuy: JSON.parse(localStorage.getItem('ev_delivery_guy') || '{"name":"Kofi Delivery Express", "phone":"0541234567", "zone":"Kumasi Metropolis & KNUST Campus"}'),
+  tracking: JSON.parse(localStorage.getItem('ev_local_tracking') || '{}'), 
+  deliveryGuy: JSON.parse(localStorage.getItem('ev_delivery_guy') || '{"name":"Kofi Delivery Express", "email":"delivery@everivault.com", "pass":"courier123", "phone":"0541234567", "zone":"Kumasi Metropolis & KNUST Campus"}'),
   bargainMessages: JSON.parse(localStorage.getItem('ev_bargain_messages') || '{}'), // {userId: [{sender, text, time}]}
   cartMeta: JSON.parse(localStorage.getItem('ev_cart_meta') || '{"items":[], "expiresAt":0}'),
   reviews: JSON.parse(localStorage.getItem('ev_reviews') || 'null') || [
@@ -1038,7 +1106,6 @@ const generateShippingMark = (name, phone) => {
   return 'GH001K-' + initials + '-' + cleanPhone;
 };
 
-// SIMULATED GMAIL NOTIFICATION SENDER TO richmonwireko@gmail.com
 function sendAdminGmailNotification(subject, body) {
   const emailLog = JSON.parse(localStorage.getItem('ev_admin_gmail_inbox') || '[]');
   const notification = {
@@ -1068,13 +1135,19 @@ function toast(msg, type = 'info', ms = 3500) {
 
 function go(page) {
   if (!state.user && page !== 'home' && page !== 'auth') {
-    toast('Please register or login to access the store cart and portal features', 'err');
+    toast('Please register or login to access portal features', 'err');
     go('auth');
     return;
   }
 
   if (page === 'admin' && state.user?.role !== 'admin') {
     toast('Access Denied: Master Admin authorization required', 'err');
+    go('auth');
+    return;
+  }
+
+  if (page === 'deliveryportal' && state.user?.role !== 'delivery') {
+    toast('Access Denied: Courier / Delivery authorization required', 'err');
     go('auth');
     return;
   }
@@ -1090,6 +1163,7 @@ function go(page) {
   if (page === 'store' || page === 'home') renderProducts();
   if (page === 'cart') renderCart();
   if (page === 'tracking') loadClientTrackingAndBargain();
+  if (page === 'deliveryportal') loadCourierPortal();
   if (page === 'payment') loadPaymentPortal();
   if (page === 'reviews') loadReviews();
   if (page === 'admin') loadAdmin();
@@ -1102,7 +1176,7 @@ function authTab(tab) {
   document.querySelectorAll('[data-authtab]').forEach(t => t.classList.toggle('active', t.dataset.authtab === tab));
   $('tLogin').classList.toggle('active', tab === 'login');
   $('tReg').classList.toggle('active', tab === 'reg');
-  $('tReset').classList.toggle('active', tab === 'reset');
+  $('tCourierAuth').classList.toggle('active', tab === 'courierauth');
   $('tAdmin').classList.toggle('active', tab === 'admin');
 }
 
@@ -1131,7 +1205,6 @@ function getCartItems() {
 
 function saveCartItems(items) {
   const now = Date.now();
-  // Set 24 hours expiration (24 * 60 * 60 * 1000 ms)
   const expiresAt = now + (24 * 60 * 60 * 1000);
   state.cartMeta = { items, expiresAt };
   localStorage.setItem('ev_cart_meta', JSON.stringify(state.cartMeta));
@@ -1139,8 +1212,8 @@ function saveCartItems(items) {
 }
 
 function addToCart(prodId) {
-  if (!state.user) {
-    toast('Please register or login first to add items to your cart', 'err');
+  if (!state.user || state.user.role !== 'client') {
+    toast('Please sign in as a client to add items to your cart', 'err');
     go('auth');
     return;
   }
@@ -1152,7 +1225,6 @@ function addToCart(prodId) {
   else { items.push({ id: p.id, name: p.name, price: p.price, type: p.type || 'preorder', image: p.image || '', qty: 1 }); }
   saveCartItems(items);
   toast('Added ' + p.name + ' to cart (24h timer active)', 'ok');
-  if (state.user?.role === 'admin') loadAdmin();
 }
 
 function updateCartQty(prodId, delta) {
@@ -1166,7 +1238,6 @@ function updateCartQty(prodId, delta) {
   }
   saveCartItems(updated);
   renderCart();
-  if (state.user?.role === 'admin') loadAdmin();
 }
 
 function removeFromCart(id) {
@@ -1174,14 +1245,12 @@ function removeFromCart(id) {
   saveCartItems(items);
   renderCart();
   toast('Item removed from cart', 'ok');
-  if (state.user?.role === 'admin') loadAdmin();
 }
 
 function clearCart() { 
   saveCartItems([]);
   renderCart(); 
   toast('Cart cleared', 'ok');
-  if (state.user?.role === 'admin') loadAdmin();
 }
 
 function renderCart() {
@@ -1190,7 +1259,6 @@ function renderCart() {
   if (!container) return;
   const items = getCartItems();
 
-  // Timer countdown calculation
   const now = Date.now();
   const diff = state.cartMeta.expiresAt - now;
   if (diff > 0 && items.length > 0) {
@@ -1246,6 +1314,7 @@ async function doLogin(e) {
     phone: phone,
     role: isAdmin ? 'admin' : 'client',
     mark: matched ? matched.mark : generateShippingMark(name, phone),
+    location: matched ? matched.location : 'KNUST Ayeduase New Site, Kumasi',
     referredBy: matched ? matched.referredBy : 'None (Direct)',
     type: 'Registered Client'
   };
@@ -1279,6 +1348,7 @@ async function doReg(e) {
   const name = $('rn').value.trim();
   const email = $('rem').value.trim().toLowerCase();
   const phone = $('rp').value.trim();
+  const location = $('rloc').value.trim();
   const refInput = $('regRefMark').value.trim();
   const generatedMark = generateShippingMark(name, phone);
 
@@ -1296,7 +1366,7 @@ async function doReg(e) {
 
   state.user = {
     id: 'usr_' + Math.random().toString(36).slice(2, 8),
-    name, email, phone,
+    name, email, phone, location,
     role: 'client',
     mark: generatedMark,
     referredBy: verifiedReferrer,
@@ -1313,23 +1383,38 @@ async function doReg(e) {
   
   localStorage.setItem('ev_active_user', JSON.stringify(state.user));
 
-  // Send automatic email notification to richmonwireko@gmail.com on new registration
   sendAdminGmailNotification(
     'New Client Registration: ' + name + ' (' + generatedMark + ')',
-    `A new client has successfully registered on EveriVault Logistics.\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nShipping Mark: ${generatedMark}\nReferred By: ${verifiedReferrer}\nDate: ${state.user.dateRegistered}`
+    `A new client has successfully registered on EveriVault Logistics.\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nLocation: ${location}\nShipping Mark: ${generatedMark}\nReferred By: ${verifiedReferrer}\nDate: ${state.user.dateRegistered}`
   );
-
-  if (sb) { try { await sb.from('profiles').insert(state.user); } catch(err) {} }
 
   applyUserState();
   toast('Account Created Successfully! Shipping Mark: ' + generatedMark, 'ok', 6000);
   go('store');
 }
 
-async function doResetPassword(e) {
+async function doCourierLogin(e) {
   e.preventDefault();
-  const ident = $('resetIdent').value.trim();
-  toast('Password reset verification link dispatched to ' + ident, 'ok', 4000);
+  const em = $('cem').value.trim();
+  const pw = $('cpw').value;
+  const dg = state.deliveryGuy;
+
+  if (em.toLowerCase() === dg.email.toLowerCase() && pw === dg.pass) {
+    state.user = {
+      id: 'courier_active',
+      name: dg.name,
+      email: dg.email,
+      role: 'delivery',
+      mark: 'COURIER-PARTNER',
+      type: 'Delivery Personnel'
+    };
+    localStorage.setItem('ev_active_user', JSON.stringify(state.user));
+    applyUserState();
+    toast('Authenticated Courier Portal successfully!', 'ok');
+    go('deliveryportal');
+  } else {
+    toast('Invalid courier credentials. Check with admin.', 'err');
+  }
 }
 
 async function doAdmin(e) {
@@ -1450,7 +1535,6 @@ function submitPayment(e) {
   state.orders.unshift(orderObj);
   localStorage.setItem('ev_local_orders', JSON.stringify(state.orders));
   
-  // Send automatic email notification to richmonwireko@gmail.com on new product/order submission
   sendAdminGmailNotification(
     'New Order Placed / Payment Submitted: ' + orderObj.clientName + ' (' + orderObj.clientMark + ')',
     `A client has submitted an order and payment settlement.\n\nClient: ${orderObj.clientName} (${orderObj.clientMark})\nType: ${orderObj.type}\nSummary: ${orderObj.summary}\nTotal Amount: GHS ${orderObj.total.toFixed(2)}\nPayment Slot: ${orderObj.slot}\nTxRef: ${orderObj.txRef}\nDate: ${orderObj.date}`
@@ -1465,7 +1549,7 @@ function submitPayment(e) {
 }
 
 function loadPaymentPortal() {
-  if (!state.user) return;
+  if (!state.user || state.user.role !== 'client') return;
   const myOrders = state.orders.filter(o => o.userId === state.user.id);
   const container = $('myPaymentsList');
   if (!container) return;
@@ -1482,12 +1566,11 @@ function loadPaymentPortal() {
   }).join('');
 }
 
-/* --- TRACKING & BARGAINING PORTAL --- */
+/* --- TRACKING & BARGAINING PORTAL (CLIENT & COURIER) --- */
 function loadClientTrackingAndBargain() {
-  if (!state.user) return;
+  if (!state.user || state.user.role !== 'client') return;
   const userId = state.user.id;
 
-  // Render tracking status
   const trackContainer = $('clientTrackingDetails');
   const tData = state.tracking[userId] || { status: 'Goods Received at China Warehouse', message: 'Your items have been checked into our Foshan/Guangzhou warehouse and are ready for consolidation.', time: 'Initial Record' };
   
@@ -1497,24 +1580,14 @@ function loadClientTrackingAndBargain() {
       <p style="font-size:14px; color:var(--navy); font-weight:600; margin-top:4px;">${esc(tData.message)}</p>
       <p style="font-size:11px; color:var(--slate); margin-top:6px;">Last Updated: ${esc(tData.time)}</p>
     </div>
-    <div style="font-size:13px; color:var(--slate); line-height:1.5;">
-      <strong>Stages Guide:</strong>
-      <ul style="padding-left:16px; margin-top:4px;">
-        <li>Goods Received at China Warehouse</li>
-        <li>Reached Tema Harbor</li>
-        <li>At Kumasi Warehouse (KNUST Ayeduase)</li>
-        <li>Out for Delivery / Delivered Successfully</li>
-      </ul>
-    </div>
   `;
 
-  // Render delivery guy info & bargaining chat
   const dg = state.deliveryGuy;
-  $('deliveryGuyInfoCard').innerHTML = `Assigned Delivery Guy: <strong>${esc(dg.name)}</strong> — Call/WhatsApp: <a href="tel:${esc(dg.phone)}" style="color:var(--green); font-weight:800;">${esc(dg.phone)}</a> (${esc(dg.zone)})`;
+  $('deliveryGuyInfoCard').innerHTML = `Assigned Courier: <strong>${esc(dg.name)}</strong> — Phone: ${esc(dg.phone)} (${esc(dg.zone)})`;
 
   const chatContainer = $('bargainChatBox');
   const msgs = state.bargainMessages[userId] || [
-    { sender: 'Delivery Guy', text: `Hello! I am ${dg.name}. Your delivery fee for Kumasi/KNUST is GHS 50. Let me know your offer so we can agree.`, time: 'System' }
+    { sender: 'Delivery Guy', text: `Hello! I am ${dg.name}. Your delivery is ready. Let's agree on price and duration.`, time: 'System' }
   ];
 
   chatContainer.innerHTML = msgs.map(m => {
@@ -1543,50 +1616,88 @@ function sendBargainMessage(e) {
     time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
   });
 
-  // Simulated automated delivery guy response for bargaining agreement
-  setTimeout(() => {
-    state.bargainMessages[userId].push({
-      sender: 'Delivery Guy',
-      text: 'Thanks for your offer! Let us agree on that price. I will dispatch your package accordingly.',
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    });
-    localStorage.setItem('ev_bargain_messages', JSON.stringify(state.bargainMessages));
-    loadClientTrackingAndBargain();
-  }, 1000);
-
   localStorage.setItem('ev_bargain_messages', JSON.stringify(state.bargainMessages));
   $('bargainInput').value = '';
   loadClientTrackingAndBargain();
-  toast('Bargain message sent to delivery personnel', 'ok');
+  toast('Message sent', 'ok');
 }
 
-/* --- FILE PROOF --- */
-function handleImageFile(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(evt) { state.uploadedProdBase64 = evt.target.result; };
-  reader.readAsDataURL(file);
-}
+/* --- COURIER PORTAL --- */
+function loadCourierPortal() {
+  if (!state.user || state.user.role !== 'delivery') return;
 
-function handleLogoFileSelect(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(evt) { state.tempLogoBase64 = evt.target.result; toast('Logo file loaded', 'ok'); };
-  reader.readAsDataURL(file);
-}
+  const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
+  const allClients = [...defaultHistoricalClients, ...localClients];
 
-function saveLogoFile(e) {
-  e.preventDefault();
-  if (!state.tempLogoBase64) {
-    toast('Please select an image file first', 'err');
-    return;
+  // Populate client select for courier
+  const sel = $('courierClientSelect');
+  if (sel) {
+    sel.innerHTML = allClients.map(c => `<option value="${c.id}">${c.name} (${c.mark}) - Location: ${c.location || 'Kumasi'}</option>`).join('');
   }
-  state.settings.logoUrl = state.tempLogoBase64;
-  localStorage.setItem('ev_portal_settings', JSON.stringify(state.settings));
-  applyPortalSettings();
-  toast('Business logo updated successfully live!', 'ok');
+
+  // Display notifications for clients whose status is "Out for Delivery"
+  const dispatchList = [];
+  Object.entries(state.tracking).forEach(([uid, t]) => {
+    if (t.status === 'Out for Delivery') {
+      const cli = allClients.find(c => c.id === uid) || { name: 'Client', mark: uid, location: 'Kumasi', phone: '0540000000' };
+      dispatchList.push(`
+        <div style="background:#ECFDF5; border:1px solid #A7F3D0; border-radius:12px; padding:14px; margin-bottom:10px;">
+          <strong>🔔 Dispatch Notification:</strong> Deliver goods to <strong>${esc(cli.name)}</strong> (${esc(cli.mark)})<br>
+          📍 <strong>Client Location:</strong> ${esc(cli.location || 'Kumasi')}<br>
+          📞 <strong>Phone:</strong> ${esc(cli.phone)}<br>
+          💬 <em>Note: Communicate via message portal below. State delivery duration and bargain price (Remember 5% maintenance fee applies).</em>
+        </div>
+      `);
+    }
+  });
+
+  $('courierDeliveriesList').innerHTML = dispatchList.join('') || '<p style="color:var(--slate);">No active delivery dispatches at the moment. Admin updates status to "Out for Delivery" to trigger notifications here.</p>';
+
+  loadCourierChat();
+}
+
+function loadCourierChat() {
+  const sel = $('courierClientSelect');
+  if (!sel) return;
+  const clientId = sel.value;
+  if (!clientId) return;
+
+  const chatBox = $('courierChatBox');
+  const msgs = state.bargainMessages[clientId] || [
+    { sender: 'System', text: 'Start conversation with client regarding price and delivery duration.', time: 'System' }
+  ];
+
+  chatBox.innerHTML = msgs.map(m => {
+    const isMe = m.sender === 'Delivery Guy';
+    const bg = isMe ? '#D1FAE5' : '#FEF3C7';
+    const align = isMe ? 'margin-left:auto;' : 'margin-right:auto;';
+    const color = isMe ? '#065F46' : '#92400E';
+    return `<div style="background:${bg}; color:${color}; padding:10px 14px; border-radius:10px; max-width:85%; ${align} font-size:13px; margin-bottom:6px;"><strong>${esc(m.sender)}:</strong> ${esc(m.text)} <div style="font-size:9px; color:var(--slate); text-align:right; margin-top:2px;">${esc(m.time)}</div></div>`;
+  }).join('');
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function sendCourierMessage(e) {
+  e.preventDefault();
+  const text = $('courierInputMsg').value.trim();
+  const sel = $('courierClientSelect');
+  if (!text || !sel) return;
+  const clientId = sel.value;
+
+  if (!state.bargainMessages[clientId]) {
+    state.bargainMessages[clientId] = [];
+  }
+
+  state.bargainMessages[clientId].push({
+    sender: 'Delivery Guy',
+    text: text,
+    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  });
+
+  localStorage.setItem('ev_bargain_messages', JSON.stringify(state.bargainMessages));
+  $('courierInputMsg').value = '';
+  loadCourierChat();
+  toast('Message sent to client', 'ok');
 }
 
 /* --- CATALOG & HOME SHOWCASE --- */
@@ -1617,9 +1728,9 @@ function renderProducts() {
       ? '<span class="badge-preorder">Pre-Order Item</span><span class="shipping-note">Without Shipping Fee</span>' 
       : '<span class="badge-available">Available In Stock</span><span class="shipping-note" style="color:var(--slate);">Local Warehouse Stock</span>';
     
-    const actionBtn = state.user 
+    const actionBtn = state.user?.role === 'client'
       ? '<button class="btn btn-sm btn-green btn-block" onclick="addToCart(\'' + p.id + '\')">Add to Cart</button>'
-      : '<button class="btn btn-sm btn-navy btn-block" onclick="go(\'auth\')">Login to Buy / Add to Cart</button>';
+      : '<button class="btn btn-sm btn-navy btn-block" onclick="go(\'auth\')">Login as Client to Buy</button>';
 
     return '<div class="card">' + imgHtml + '<div><span style="font-size:11px; font-weight:800; color:var(--green); text-transform:uppercase;">' + esc(p.category || 'GENERAL') + '</span><br>' + badgeHtml + '<h3>' + esc(p.name) + '</h3><p style="font-weight:800; color:var(--navy); font-size:18px; margin:6px 0 12px;">' + fmtGHS(p.price) + '</p></div>' + actionBtn + '</div>';
   };
@@ -1678,13 +1789,12 @@ function loadAdmin() {
   $('statOrdersCount').textContent = state.orders.filter(o => o.status === 'Pending Verification').length;
   $('statProdCount').textContent = state.products.length;
 
-  // Populate client select for tracking updates
   const trackSel = $('admTrackClientSelect');
   if (trackSel) {
-    trackSel.innerHTML = allClientsCombined.map(c => `<option value="${c.id}">${c.name} (${c.mark})</option>`).join('');
+    trackSel.innerHTML = allClientsCombined.map(c => `<option value="${c.id}">${c.name} (${c.mark}) - Loc: ${c.location || 'Kumasi'}</option>`).join('');
   }
 
-  $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Email / Phone</th><th>Shipping Mark ID</th><th>Referred By</th><th>Client Type</th></tr></thead><tbody>' + (allClientsCombined.length ? allClientsCombined.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.email) + ' / ' + esc(c.phone) + '</td><td><code>' + esc(c.mark) + '</code></td><td><code style="color:var(--green-hover);">' + esc(c.referredBy || 'None (Direct)') + '</code></td><td><span class="pill ' + (c.type?.includes('Old') ? 'pill-type' : 'pill-verified') + '">' + esc(c.type || 'Registered Client') + '</span></td></tr>').join('') : '<tr><td colspan="5" style="text-align:center; color:var(--slate);">No clients recorded.</td></tr>') + '</tbody></table></div>';
+  $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Email / Phone</th><th>Location</th><th>Shipping Mark ID</th><th>Referred By</th><th>Type</th></tr></thead><tbody>' + (allClientsCombined.length ? allClientsCombined.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.email) + ' / ' + esc(c.phone) + '</td><td>' + esc(c.location || 'Kumasi') + '</td><td><code>' + esc(c.mark) + '</code></td><td><code style="color:var(--green-hover);">' + esc(c.referredBy || 'None (Direct)') + '</code></td><td><span class="pill ' + (c.type?.includes('Old') ? 'pill-type' : 'pill-verified') + '">' + esc(c.type || 'Registered Client') + '</span></td></tr>').join('') : '<tr><td colspan="6" style="text-align:center; color:var(--slate);">No clients recorded.</td></tr>') + '</tbody></table></div>';
 
   $('adminAdsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Business / Client</th><th>Contact</th><th>Promo / Ad Details</th><th>Date Submitted</th></tr></thead><tbody>' + (state.ads.length ? state.ads.map(a => '<tr><td>' + esc(a.name) + '</td><td>' + esc(a.contact) + '</td><td>' + esc(a.details) + '</td><td>' + esc(a.date) + '</td></tr>').join('') : '<tr><td colspan="4" style="text-align:center; color:var(--slate);">No advertisement requests submitted yet.</td></tr>') + '</tbody></table></div>';
 
@@ -1703,18 +1813,30 @@ function loadAdmin() {
   }).join('');
   $('adminTrackingRecordsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Status Stage</th><th>Message Note</th><th>Last Updated</th></tr></thead><tbody>' + (tRecords || '<tr><td colspan="4" style="text-align:center; color:var(--slate);">No active tracking updates issued yet.</td></tr>') + '</tbody></table></div>';
 
-  // Delivery guy info fields
+  // Secretly monitored chat list for admin
+  const secretChatList = Object.entries(state.bargainMessages).map(([uid, msgs]) => {
+    const cli = allClientsCombined.find(c => c.id === uid) || { name: 'Client', mark: uid };
+    const chatHtml = msgs.map(m => `<div style="font-size:12px; margin-bottom:4px;"><strong>${esc(m.sender)}:</strong> ${esc(m.text)} <span style="color:var(--slate); font-size:10px;">(${esc(m.time)})</span></div>`).join('');
+    return `<div class="card" style="margin-bottom:14px;"><h4 style="color:var(--navy); font-size:14px; margin-bottom:8px;">Chat with Client: ${esc(cli.name)} (${esc(cli.mark)})</h4><div style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:8px; padding:10px; max-height:160px; overflow-y:auto;">${chatHtml}</div></div>`;
+  }).join('');
+  $('adminSecretChatMonitorList').innerHTML = secretChatList || '<p style="color:var(--slate);">No client-courier chat logs recorded yet.</p>';
+
+  // Delivery guy setup fields
   $('dgName').value = state.deliveryGuy.name;
+  $('dgEmail').value = state.deliveryGuy.email;
+  $('dgPass').value = state.deliveryGuy.pass;
   $('dgPhone').value = state.deliveryGuy.phone;
   $('dgZone').value = state.deliveryGuy.zone;
 
-  // Bargaining conversations summary for admin
-  const bList = Object.entries(state.bargainMessages).map(([uid, msgs]) => {
-    const cli = allClientsCombined.find(c => c.id === uid) || { name: 'Client', mark: uid };
-    const lastMsg = msgs[msgs.length - 1] || { text: 'No messages' };
-    return `<div class="card" style="margin-bottom:10px;"><strong>Client: ${esc(cli.name)} (${esc(cli.mark)})</strong><p style="font-size:13px; color:var(--slate); margin-top:4px;">Latest: "${esc(lastMsg.text)}" (${esc(lastMsg.sender)})</p></div>`;
-  }).join('');
-  $('adminBargainList').innerHTML = bList || '<p style="color:var(--slate);">No delivery bargaining conversations yet.</p>';
+  $('adminCourierSummaryCard').innerHTML = `
+    <div class="card">
+      <h4>Active Courier Account</h4>
+      <p style="font-size:14px; color:var(--navy); margin-top:6px;"><strong>Name:</strong> ${esc(state.deliveryGuy.name)}</p>
+      <p style="font-size:14px; color:var(--navy);"><strong>Login Email:</strong> ${esc(state.deliveryGuy.email)}</p>
+      <p style="font-size:14px; color:var(--navy);"><strong>Phone:</strong> ${esc(state.deliveryGuy.phone)}</p>
+      <p style="font-size:14px; color:var(--navy);"><strong>Zone:</strong> ${esc(state.deliveryGuy.zone)}</p>
+    </div>
+  `;
 
   $('adminProductsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Product</th><th>Category</th><th>Type</th><th>Price</th><th>Cart Action</th><th>Catalog Action</th></tr></thead><tbody>' + state.products.map(p => {
     const items = getCartItems();
@@ -1747,7 +1869,7 @@ function adminUpdateTracking(e) {
   };
   localStorage.setItem('ev_local_tracking', JSON.stringify(state.tracking));
 
-  toast('Client tracking update and message saved successfully!', 'ok');
+  toast('Client tracking update saved and delivery guy notified if out for delivery!', 'ok');
   loadAdmin();
 }
 
@@ -1755,19 +1877,22 @@ function saveDeliveryGuyInfo(e) {
   e.preventDefault();
   state.deliveryGuy = {
     name: $('dgName').value.trim(),
+    email: $('dgEmail').value.trim(),
+    pass: $('dgPass').value.trim(),
     phone: $('dgPhone').value.trim(),
     zone: $('dgZone').value.trim()
   };
   localStorage.setItem('ev_delivery_guy', JSON.stringify(state.deliveryGuy));
-  toast('Delivery guy info updated live successfully!', 'ok');
+  toast('Delivery guy unique login credentials and info updated live!', 'ok');
+  loadAdmin();
 }
 
 function exportClientData() {
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
   const allClients = [...defaultHistoricalClients, ...localClients];
-  let csv = 'Name,Email,Phone,ShippingMark,ReferredBy,Type\n';
+  let csv = 'Name,Email,Phone,Location,ShippingMark,ReferredBy,Type\n';
   allClients.forEach(c => {
-    csv += `"${c.name}","${c.email}","${c.phone}","${c.mark}","${c.referredBy || 'None'}","${c.type || 'New'}"\n`;
+    csv += `"${c.name}","${c.email}","${c.phone}","${c.location || 'Kumasi'}","${c.mark}","${c.referredBy || 'None'}","${c.type || 'New'}"\n`;
   });
   const blob = new Blob([csv], { type: 'text/csv' });
   const url = window.URL.createObjectURL(blob);
@@ -1792,6 +1917,7 @@ function adminTab(tab) {
   $('adminProducts').classList.toggle('active', tab === 'products');
   $('adminPayments').classList.toggle('active', tab === 'payments');
   $('adminTracking').classList.toggle('active', tab === 'tracking');
+  $('adminMonitoredChat').classList.toggle('active', tab === 'monitoredchat');
   $('adminDelivery').classList.toggle('active', tab === 'delivery');
   $('adminAds').classList.toggle('active', tab === 'ads');
   $('adminClients').classList.toggle('active', tab === 'clients');
@@ -1857,8 +1983,12 @@ function copyText(text) {
 function applyUserState() {
   const isLoggedIn = !!state.user;
   const isAdmin = state.user?.role === 'admin';
+  const isDelivery = state.user?.role === 'delivery';
+  const isClient = state.user?.role === 'client';
 
-  document.querySelectorAll('.client-only').forEach(el => el.classList.toggle('show', isLoggedIn && !isAdmin));
+  document.querySelectorAll('.client-only').forEach(el => el.classList.toggle('show', isClient));
+  document.querySelectorAll('.delivery-only').forEach(el => el.classList.toggle('show', isDelivery));
+  
   $('adminLink').style.display = isAdmin ? 'block' : 'none';
   $('signOutNav').style.display = isLoggedIn ? 'block' : 'none';
   $('authNav').style.display = isLoggedIn ? 'none' : 'block';
@@ -1867,7 +1997,7 @@ function applyUserState() {
 
   const refBox = $('referralBannerBox');
   if (refBox) {
-    if (isLoggedIn && !isAdmin) {
+    if (isClient) {
       refBox.style.display = 'block';
       $('userReferralLinkDisplay').textContent = 'www.everivault.com/' + state.user.mark;
     } else {
@@ -1877,12 +2007,14 @@ function applyUserState() {
 
   if (isAdmin && !document.getElementById('p-admin').classList.contains('active')) {
     go('admin');
-  } else if (!isAdmin && document.getElementById('p-admin').classList.contains('active')) {
+  } else if (isDelivery && !document.getElementById('p-deliveryportal').classList.contains('active')) {
+    go('deliveryportal');
+  } else if (isClient && document.getElementById('p-admin').classList.contains('active')) {
     go('home');
   }
 }
 
-Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, handleLogoFileSelect, saveLogoFile, addToCart, updateCartQty, removeFromCart, clearCart, adminAddToCart, adminRemoveFromCart, goToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, doSubmitReview, copyText, adminTab, toggleOrderVerify, doLogin, doReg, doResetPassword, doSignOut, doAdmin, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts, exportClientData, adminUpdateTracking, saveDeliveryGuyInfo, sendBargainMessage });
+Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, handleLogoFileSelect, saveLogoFile, addToCart, updateCartQty, removeFromCart, clearCart, goToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, doSubmitReview, copyText, adminTab, toggleOrderVerify, doLogin, doReg, doCourierLogin, doAdmin, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts, exportClientData, adminUpdateTracking, saveDeliveryGuyInfo, sendBargainMessage, loadCourierChat, sendCourierMessage });
 
 (function init() {
   applyPortalSettings();
