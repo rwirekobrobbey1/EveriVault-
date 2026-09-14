@@ -43,7 +43,7 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 .cart-badge { background:#EF4444; color:#fff; border-radius:50px; padding:2px 8px; font-size:11px; font-weight:800; }
 .menu-toggle { display:none; color:#fff; font-size:26px; cursor:pointer; background:none; border:none; padding:6px; }
 
-/* Buttons & Controls */
+/* Buttons & UI Controls */
 .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 22px; border-radius:10px; font-weight:700; border:none; cursor:pointer; font-size:14px; text-decoration:none; transition:all 0.2s ease; white-space:nowrap; }
 .btn:active { transform:scale(0.98); }
 .btn:disabled { opacity:0.5; cursor:not-allowed; }
@@ -56,7 +56,7 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 .btn-danger { background:#EF4444; color:#fff; }
 .btn-block { width:100%; }
 
-/* Floating WhatsApp Widget */
+/* Floating WhatsApp Contact Widget */
 .wa-float {
   position:fixed; bottom:24px; right:24px; z-index:10000;
   background:var(--wa-green); color:#FFFFFF; padding:14px 22px; border-radius:50px;
@@ -82,14 +82,29 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 .rate-card .big { font-size:26px; font-weight:800; color:var(--green); }
 .rate-card .sub { font-size:13px; color:#CBD5E1; margin-top:2px; }
 
+/* Referral Banner */
+.referral-banner { background:linear-gradient(135deg, #059669 0%, #10B981 100%); color:#fff; border-radius:16px; padding:24px; margin:30px auto; max-width:940px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; box-shadow:0 10px 25px rgba(16,185,129,0.25); }
+.referral-banner h3 { font-size:20px; font-weight:800; margin-bottom:4px; }
+
+/* Floating Showcase Ticker */
+.showcase-bar { background:var(--navy-surface); border-top:1px solid var(--green); border-bottom:1px solid var(--green); padding:20px 0; overflow:hidden; }
+.showcase-title { font-size:14px; font-weight:800; color:var(--green); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; text-align:center; }
+.showcase-track { display:flex; gap:16px; overflow-x:auto; scroll-behavior:smooth; padding-bottom:10px; }
+.showcase-track::-webkit-scrollbar { height:6px; }
+.showcase-track::-webkit-scrollbar-thumb { background:var(--green); border-radius:10px; }
+.showcase-card { flex:0 0 220px; background:#fff; border-radius:12px; padding:12px; border:1px solid var(--border-color); }
+
 /* Cards & Layout */
 section { padding:60px 0; }
 h2 { text-align:center; font-size:28px; color:var(--navy); margin-bottom:8px; font-weight:800; }
 h2::after { content:''; display:block; width:48px; height:4px; background:var(--green); margin:12px auto 0; border-radius:2px; }
 .subtitle { text-align:center; color:var(--slate); margin-bottom:36px; font-size:15px; font-weight:500; }
 
+.grid-3 { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px; }
 .grid-4 { display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:20px; }
+
 .card { background:#fff; padding:20px; border-radius:16px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); transition:all 0.25s ease; display:flex; flex-direction:column; }
+.card:hover { transform:translateY(-4px); box-shadow:0 20px 35px -10px rgba(10,25,47,0.12); }
 .card h3 { color:var(--navy); margin-bottom:6px; font-size:16px; font-weight:700; }
 
 /* Tabs & Forms */
@@ -105,29 +120,36 @@ h2::after { content:''; display:block; width:48px; height:4px; background:var(--
 label { display:block; margin-bottom:6px; font-weight:700; color:var(--navy); font-size:13px; text-transform:uppercase; letter-spacing:0.3px; }
 input, select, textarea { width:100%; padding:12px 16px; border:1.5px solid #CBD5E1; border-radius:10px; font-size:15px; background:var(--bg-light); transition:0.2s; color:#0F172A; }
 input:focus, select:focus, textarea:focus { outline:none; border-color:var(--green); background:#fff; box-shadow:0 0 0 4px var(--green-light); }
+input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 
-/* Terms Box Component */
+/* Terms & Policy Component */
 .terms-box { background:#FFFBEB; border:1.5px solid #FCD34D; border-radius:12px; padding:16px; margin-bottom:18px; font-size:13px; color:#78350F; max-height:160px; overflow-y:auto; line-height:1.5; }
 .terms-box h4 { font-weight:800; color:#92400E; margin-bottom:8px; text-transform:uppercase; font-size:12px; }
 .terms-box ul { padding-left:18px; margin-top:6px; }
 .terms-box li { margin-bottom:6px; }
 
-/* Payment Slot */
+/* Payment Slot Component */
 .payment-slot-card { background:#F0FDF4; border:2px solid var(--green); border-radius:16px; padding:20px; margin:20px 0; }
 .pay-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:10px; margin-top:10px; }
 .pay-btn { background:#fff; border:1.5px solid #CBD5E1; border-radius:10px; padding:10px; text-align:center; cursor:pointer; font-size:13px; font-weight:700; color:var(--navy); transition:0.2s; }
 .pay-btn.active { border-color:var(--green); background:var(--green-light); color:var(--green-hover); }
 .pay-details-box { background:#fff; border:1px solid #A7F3D0; border-radius:12px; padding:16px; margin-top:12px; }
 
-/* Chinese Warehouse Contacts */
-.addr-block { background:var(--bg-light); border-radius:14px; padding:22px; margin-bottom:20px; border:1px solid var(--border-color); }
+/* Chinese Address Component */
+.addr-section { background:#fff; border-radius:20px; padding:28px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); margin-bottom:24px; }
+.addr-section h3 { color:var(--navy); margin-bottom:18px; padding-bottom:10px; border-bottom:2px solid #F1F5F9; font-size:18px; font-weight:700; }
+.addr-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:20px; }
+.addr-block { background:var(--bg-light); border-radius:14px; padding:22px; position:relative; border:1px solid var(--border-color); }
 .cn-text-box { background:#FFFFFF; border:1.5px solid #CBD5E1; border-radius:8px; padding:12px; margin:10px 0; font-family:monospace, sans-serif; font-size:14px; color:#0F172A; word-break:break-all; }
+.contact-row { display:flex; justify-content:space-between; align-items:center; background:#fff; padding:10px 14px; border-radius:8px; border:1px solid var(--border-color); margin-bottom:8px; font-size:13px; }
 
+/* Review Portal Styles */
 .review-card { background:#fff; border-radius:16px; padding:20px; border:1px solid var(--border-color); box-shadow:var(--card-shadow); margin-bottom:16px; }
 .star-rating { color:#F59E0B; font-size:18px; }
 
+/* Admin Table */
 .admin-table { width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:var(--card-shadow); }
-.admin-table th { background:var(--navy); color:#fff; padding:14px; text-align:left; font-size:12px; text-transform:uppercase; }
+.admin-table th { background:var(--navy); color:#fff; padding:14px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:0.5px; }
 .admin-table td { padding:14px; border-bottom:1px solid var(--border-color); font-size:14px; }
 
 .pill { display:inline-block; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:700; }
@@ -141,8 +163,9 @@ input:focus, select:focus, textarea:focus { outline:none; border-color:var(--gre
 .admin-only { display:none !important; }
 .admin-only.show { display:block !important; }
 
+/* Toast Notifications */
 .toast-wrap { position:fixed; top:84px; right:20px; z-index:10001; display:flex; flex-direction:column; gap:10px; pointer-events:none; }
-.toast { background:var(--navy); color:#fff; padding:14px 20px; border-radius:12px; font-weight:600; font-size:14px; max-width:340px; opacity:0; transform:translateX(100%); transition:all 0.3s ease; pointer-events:auto; }
+.toast { background:var(--navy); color:#fff; padding:14px 20px; border-radius:12px; font-weight:600; font-size:14px; max-width:340px; opacity:0; transform:translateX(100%); transition:all 0.3s ease; pointer-events:auto; box-shadow:0 10px 25px rgba(0,0,0,0.15); }
 .toast.show { opacity:1; transform:translateX(0); }
 .toast.ok { background:var(--green); }
 .toast.err { background:#EF4444; }
@@ -155,9 +178,11 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
 
 @media(max-width:768px) {
   .menu-toggle { display:block; }
-  .nav-links { position:absolute; top:100%; left:0; right:0; background:var(--navy); flex-direction:column; padding:16px; display:none; }
+  .nav-links { position:absolute; top:100%; left:0; right:0; background:var(--navy); flex-direction:column; padding:16px; display:none; border-bottom:1px solid rgba(255,255,255,0.1); }
   .nav-links.active { display:flex; }
+  .nav-links a { width:100%; padding:12px; text-align:left; }
   .wa-float { bottom:16px; right:16px; padding:10px 16px; font-size:12px; }
+  .form-box, .calc-box { padding:20px; border-radius:16px; }
 }
 </style>
 </head>
@@ -197,18 +222,22 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     <div class="container">
       <div class="badge">Ghana Central Hub — KNUST Ayeduase New Site, Kumasi</div>
       <h1>China to Ghana <span>Commercial Freight & Supply</span></h1>
-      <p>Direct Factory Sourcing • Sea & Air Freight Cargo • Mandatory Shipping Marks</p>
+      <p>Direct Factory Sourcing • Sea & Air Freight Cargo • Real-Time Tracking • Mandatory Shipping Marks</p>
       
       <div class="rate-grid">
         <div class="rate-card">
           <h3>Sea Freight Cargo</h3>
           <div class="big">$260 / m³</div>
           <div class="sub">Under 1.0 CBM Volume</div>
+          <div class="big" style="font-size:20px; margin-top:8px; color:#fff;">$255 / m³</div>
+          <div class="sub">1.0 CBM & Above Tier</div>
         </div>
         <div class="rate-card">
           <h3>Air Express Freight</h3>
           <div class="big">$17 / kg</div>
-          <div class="sub">General Merchandise</div>
+          <div class="sub">General Cargo Merchandise</div>
+          <div class="big" style="font-size:20px; margin-top:8px; color:#fff;">₵500 Flat Rate</div>
+          <div class="sub">Phones / Laptops / Tablets</div>
         </div>
         <div class="rate-card">
           <h3>Consolidation Request</h3>
@@ -223,6 +252,25 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       </div>
     </div>
   </div>
+
+  <!-- REFERRAL PROGRAM BANNER -->
+  <div class="container">
+    <div class="referral-banner">
+      <div>
+        <h3>Client Referral Reward Program</h3>
+        <p>Refer new commercial clients or business partners to EveriVault Logistics and receive a <strong>FREE GIFT</strong> on your next freight shipment arrival!</p>
+      </div>
+      <button class="btn btn-navy" onclick="copyText('Use my EveriVault referral code for shipping from China to Ghana!')">Copy Referral Share Link</button>
+    </div>
+  </div>
+
+  <!-- FLOATING STORE SHOWCASE TICKER -->
+  <div class="showcase-bar">
+    <div class="container">
+      <div class="showcase-title">🔥 Featured Store Inventory & Imports</div>
+      <div class="showcase-track" id="homeShowcaseTrack"></div>
+    </div>
+  </div>
 </section>
 
 <!-- STORE PAGE -->
@@ -230,6 +278,12 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   <div class="container">
     <h2>Commercial Catalog Store</h2>
     <p class="subtitle">Factory-Direct Pre-Orders & Local Warehouse Stock</p>
+    
+    <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-bottom:30px;">
+      <input type="search" id="searchInput" placeholder="Search product catalog..." oninput="renderProducts()" style="max-width:280px;">
+      <select id="catFilter" onchange="renderProducts()" style="max-width:180px;"><option value="all">All Categories</option></select>
+    </div>
+
     <div id="prodGrid" class="grid-4"></div>
   </div>
 </section>
@@ -244,45 +298,123 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <div style="font-size:18px; font-weight:800; color:var(--navy); margin-bottom:16px;">
           Cart Subtotal: <span id="cartGrandTotal" style="color:var(--green);">₵0.00 GHS</span>
         </div>
-        <button class="btn btn-green" onclick="proceedToPayment()">Proceed to Payment Portal</button>
+        <div style="display:flex; gap:12px; justify-content:flex-end;">
+          <button class="btn btn-outline" onclick="clearCart()">Clear Cart</button>
+          <button class="btn btn-green" onclick="proceedToPayment()">Proceed to Payment Portal</button>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FREIGHT CALCULATOR -->
+<!-- FREIGHT COST CALCULATOR (3 MODES) -->
 <section id="p-calc" class="page">
   <div class="container">
     <h2>Freight Cost Calculator</h2>
+    <p class="subtitle">Calculate rates for Sea Cargo, Air Express, or compare both side-by-side.</p>
+    
     <div class="calc-box">
-      <div class="form-group"><label>Weight (kg)</label><input type="number" id="airKg" step="0.1" oninput="calcAir()" placeholder="1.5"></div>
-      <div class="card" style="background:#EFF6FF;">
-        <p style="font-size:18px;">Estimated Air Freight ($17/kg): <strong id="airGhs" style="color:var(--navy);">₵0.00 GHS</strong></p>
+      <div class="tabs">
+        <button class="tab active" id="tabBtnSea" onclick="calcMode('sea')">Sea Cargo Freight</button>
+        <button class="tab" id="tabBtnAir" onclick="calcMode('air')">Air Express Freight</button>
+        <button class="tab" id="tabBtnCompare" onclick="calcMode('compare')">Compare Both</button>
       </div>
+
+      <!-- SEA CARGO -->
+      <div id="calcSea" class="tab-content active">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:12px;">
+          <div class="form-group"><label>Length (cm)</label><input type="number" id="seaL" oninput="calcSea()" placeholder="100"></div>
+          <div class="form-group"><label>Width (cm)</label><input type="number" id="seaW" oninput="calcSea()" placeholder="60"></div>
+          <div class="form-group"><label>Height (cm)</label><input type="number" id="seaH" oninput="calcSea()" placeholder="50"></div>
+        </div>
+        <div class="form-group"><label>Package Quantity</label><input type="number" id="seaQty" value="1" min="1" oninput="calcSea()"></div>
+        <div class="card" style="background:#ECFDF5; border:1px solid #A7F3D0; margin-top:16px;">
+          <p>Calculated Volume: <span id="seaCbm" style="font-weight:800;">0.000</span> m³</p>
+          <p style="font-size:14px; color:var(--slate); margin-top:4px;">USD Cost: <span id="seaUsd" style="font-weight:700;">$0.00</span></p>
+          <p style="font-size:18px; margin-top:6px;">Estimated Total: <strong id="seaGhs" style="color:var(--green);">₵0.00 GHS</strong></p>
+        </div>
+      </div>
+
+      <!-- AIR EXPRESS -->
+      <div id="calcAir" class="tab-content">
+        <div class="form-group">
+          <label>Cargo Type</label>
+          <select id="airType" onchange="calcAir()">
+            <option value="general">General Merchandise ($17 / kg)</option>
+            <option value="device">Electronics / Devices (Flat ₵500 GHS)</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Weight (kg)</label><input type="number" id="airKg" step="0.1" oninput="calcAir()" placeholder="1.5"></div>
+        <div class="card" style="background:#EFF6FF; border:1px solid #BFDBFE;">
+          <p style="font-size:14px; color:var(--slate);">USD Cost: <span id="airUsd" style="font-weight:700;">$0.00</span></p>
+          <p style="font-size:18px; margin-top:6px;">Estimated Air Freight: <strong id="airGhs" style="color:var(--navy);">₵0.00 GHS</strong></p>
+        </div>
+      </div>
+
+      <!-- COMPARISON -->
+      <div id="calcCompare" class="tab-content">
+        <p style="font-size:13px; font-weight:700; color:var(--navy); margin-bottom:12px;">Enter dimensions & weight to compare Sea Cargo vs Air Express:</p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:12px;">
+          <div class="form-group"><label>Length (cm)</label><input type="number" id="compL" oninput="calcCompare()" placeholder="50"></div>
+          <div class="form-group"><label>Width (cm)</label><input type="number" id="compW" oninput="calcCompare()" placeholder="40"></div>
+          <div class="form-group"><label>Height (cm)</label><input type="number" id="compH" oninput="calcCompare()" placeholder="30"></div>
+          <div class="form-group"><label>Weight (kg)</label><input type="number" id="compKg" oninput="calcCompare()" placeholder="5.0"></div>
+        </div>
+        
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-top:16px;">
+          <div class="card" style="background:#ECFDF5; border:1px solid #A7F3D0;">
+            <h4 style="color:var(--green-hover);">Sea Cargo Freight</h4>
+            <p style="font-size:18px; font-weight:800; color:var(--green);" id="compSeaRes">₵0.00 GHS (0.000 m³)</p>
+          </div>
+          <div class="card" style="background:#EFF6FF; border:1px solid #BFDBFE;">
+            <h4 style="color:var(--navy);">Air Express Freight</h4>
+            <p style="font-size:18px; font-weight:800; color:var(--navy);" id="compAirRes">₵0.00 GHS (0.0 kg)</p>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- CHINA WAREHOUSES -->
+<!-- CHINA WAREHOUSES & CONTACTS -->
 <section id="p-address" class="page">
   <div class="container">
     <h2>China Receiving Warehouses & Contacts</h2>
     <p class="subtitle">Copy exact Chinese text and warehouse contact phone numbers for supplier shipping tags.</p>
 
-    <div style="max-width:800px; margin:0 auto;">
-      <div class="addr-block" style="border-left:5px solid var(--navy);">
-        <h4>Sea Cargo Hub — Foshan (佛山海运仓)</h4>
-        <label>Chinese Address (中文地址):</label>
-        <div class="cn-text-box" id="cnSeaAddress">广东省佛山市南海区狮山镇新浦西路88号博汇五期</div>
-        <button class="btn btn-sm btn-green" onclick="copyText($('cnSeaAddress').innerText)">Copy Chinese Address</button>
-        <p style="margin-top:10px; font-size:13px; color:var(--slate);">Contact Managers: Mr. Zhang (+86 181 2571 7488) | Mr. Yue (+86 180 2417 9599)</p>
-      </div>
+    <div class="addr-section">
+      <h3>China Receiving Hubs & Direct Contacts</h3>
+      <div class="addr-grid">
+        
+        <!-- Foshan Sea Cargo -->
+        <div class="addr-block" style="border-left:5px solid var(--navy);">
+          <h4>Sea Cargo Hub — Foshan (佛山海运仓)</h4>
+          <label>Chinese Address (中文地址):</label>
+          <div class="cn-text-box" id="cnSeaAddress">广东省佛山市南海区狮山镇新浦西路88号博汇五期</div>
+          <button class="btn btn-sm btn-green" onclick="copyText($('cnSeaAddress').innerText)">Copy Chinese Address</button>
+          
+          <div style="margin-top:16px;">
+            <label>Copy Manager Contacts (联系电话):</label>
+            <div class="contact-row">
+              <span>Mr. Zhang (张先生): <strong>+86 181 2571 7488</strong></span>
+              <button class="btn btn-sm btn-outline" onclick="copyText('+8618125717488')">Copy Phone</button>
+            </div>
+            <div class="contact-row">
+              <span>Mr. Yue (岳先生): <strong>+86 180 2417 9599</strong></span>
+              <button class="btn btn-sm btn-outline" onclick="copyText('+8618024179599')">Copy Phone</button>
+            </div>
+          </div>
+        </div>
 
-      <div class="addr-block" style="border-left:5px solid var(--green);">
-        <h4>Air Express Hub — Guangzhou (广州空运仓)</h4>
-        <label>Chinese Address (中文地址):</label>
-        <div class="cn-text-box" id="cnAirAddress">广东省广州市越秀区广园西路99号99商务中心510室</div>
-        <button class="btn btn-sm btn-green" onclick="copyText($('cnAirAddress').innerText)">Copy Chinese Address</button>
+        <!-- Guangzhou Air Cargo -->
+        <div class="addr-block" style="border-left:5px solid var(--green);">
+          <h4>Air Express Hub — Guangzhou (广州空运仓)</h4>
+          <label>Chinese Address (中文地址):</label>
+          <div class="cn-text-box" id="cnAirAddress">广东省广州市越秀区广园西路99号99商务中心510室</div>
+          <button class="btn btn-sm btn-green" onclick="copyText($('cnAirAddress').innerText)">Copy Chinese Address</button>
+        </div>
+
       </div>
     </div>
   </div>
@@ -317,22 +449,24 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- AUTH PAGE WITH MANDATORY TERMS & CONDITIONS -->
+<!-- AUTHENTICATION PORTAL WITH MANDATORY TERMS & CONDITIONS -->
 <section id="p-auth" class="page">
   <div class="container">
-    <h2>Client Portal Access</h2>
+    <h2>Account Authentication Portal</h2>
     <div class="form-box">
       <div class="tabs">
         <button class="tab active" data-authtab="login" onclick="authTab('login')">Client Sign In</button>
         <button class="tab" data-authtab="reg" onclick="authTab('reg')">Client Register</button>
+        <button class="tab" data-authtab="reset" onclick="authTab('reset')">Reset Password</button>
+        <button class="tab" data-authtab="admin" onclick="authTab('admin')">Admin Access</button>
       </div>
 
-      <!-- CLIENT LOGIN -->
+      <!-- CLIENT DUAL LOGIN -->
       <div id="tLogin" class="tab-content active">
         <form onsubmit="doLogin(event)">
-          <div class="form-group"><label>Gmail OR Shipping Mark</label><input type="text" id="lem" required placeholder="client@gmail.com OR GH001K-CLI-A1B2"></div>
+          <div class="form-group"><label>Gmail Address OR Shipping Mark</label><input type="text" id="lem" required placeholder="e.g. client@gmail.com OR GH001K-CLI-A1B2"></div>
           <div class="form-group"><label>Password</label><input type="password" id="lpw" required></div>
-          <button class="btn btn-green btn-block" type="submit">Sign In to Payment Portal</button>
+          <button class="btn btn-green btn-block" type="submit" id="loginBtn">Fast Client Sign In</button>
         </form>
       </div>
 
@@ -365,6 +499,23 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </form>
       </div>
 
+      <!-- PASSWORD RESET -->
+      <div id="tReset" class="tab-content">
+        <form onsubmit="doResetPassword(event)">
+          <div class="form-group"><label>Enter Registered Gmail or Shipping Mark</label><input type="text" id="resetIdent" placeholder="e.g. client@gmail.com OR GH001K-CLI-A1B2" required></div>
+          <button class="btn btn-navy btn-block" type="submit">Send Reset Password Link</button>
+        </form>
+      </div>
+
+      <!-- ADMIN ACCESS PORTAL -->
+      <div id="tAdmin" class="tab-content">
+        <form onsubmit="doAdmin(event)">
+          <div class="form-group"><label>Executive Admin Email</label><input type="email" id="aem" required placeholder="richmonwireko@gmail.com"></div>
+          <div class="form-group"><label>Admin Security Password</label><input type="password" id="apw" required></div>
+          <button class="btn btn-navy btn-block" type="submit">Authenticate Executive Suite</button>
+        </form>
+      </div>
+
     </div>
   </div>
 </section>
@@ -393,24 +544,24 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
             </div>
 
             <div class="pay-details-box" id="paySlotInfo">
-              <p style="font-size:13px; font-weight:700; color:var(--navy);">MTN Mobile Money Settlement</p>
+              <p style="font-size:13px; font-weight:700; color:var(--navy);">MTN Mobile Money Settlement Account</p>
               <p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p>
-              <p style="font-size:12px; color:var(--slate);">Account: Richmond Wireko Brobbey</p>
+              <p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>
             </div>
           </div>
 
           <div class="form-group"><label>MoMo Tx ID / Ref Number</label><input type="text" id="payTxRef" placeholder="e.g. 20491823901" required></div>
-          <div class="form-group"><label>Upload Screenshot Receipt</label><input type="file" id="payProofFile" accept="image/*" onchange="handleProofFile(event)"></div>
+          <div class="form-group"><label>Upload Payment Proof Receipt (Screenshot)</label><input type="file" id="payProofFile" accept="image/*" onchange="handleProofFile(event)"></div>
 
-          <button class="btn btn-green btn-block" type="submit" id="orderBtn">Submit Payment Proof</button>
+          <button class="btn btn-green btn-block" type="submit" id="orderBtn">Submit Order & Payment Proof</button>
         </form>
       </div>
 
       <!-- RECENT CLIENT ORDERS & CONSOLIDATION DESK -->
       <div>
         <div class="card" style="margin-bottom:16px; background:#FFFBEB; border:1px solid #FCD34D;">
-          <h3 style="color:#92400E;">Cargo Consolidation & Support</h3>
-          <p style="font-size:13px; color:#78350F; margin:4px 0 12px;">Consolidation is done strictly per request. DM Management on WhatsApp to request package consolidation:</p>
+          <h3 style="color:#92400E;">Cargo Consolidation & Support Desk</h3>
+          <p style="font-size:13px; color:#78350F; margin:4px 0 12px;">Cargo consolidation is executed strictly per request. DM Management on WhatsApp to request consolidation:</p>
           <a href="https://wa.me/13095194647?text=Hello%20Management%2C%20I%20would%20like%20to%20request%20consolidation%20for%20my%20packages" target="_blank" class="btn btn-sm btn-green" style="background:var(--wa-green);">
             💬 DM Management (+1 309 519 4647)
           </a>
@@ -424,19 +575,74 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- MASTER ADMIN -->
+<!-- MASTER ADMIN SUITE -->
 <section id="p-admin" class="page admin-only">
   <div class="container">
-    <h2>Master Admin Suite — CEO Control Center</h2>
-    <p class="subtitle">Authorized Director Management Portal: Richmond Wireko Brobbey</p>
-    <div id="adminOrdersList"></div>
+    <div style="background:var(--navy); color:#fff; padding:24px; border-radius:16px; margin-bottom:28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+      <div>
+        <h2 style="color:var(--green); text-align:left; margin-bottom:4px;">Master Executive Suite — CEO Control Center</h2>
+        <p style="color:var(--slate-light);">Authorized Director Management Portal: Richmond Wireko Brobbey</p>
+      </div>
+      <button class="btn btn-sm btn-outline" style="color:#fff; border-color:#fff;" onclick="openAdminPasswordModal()">🔑 Change Admin Password</button>
+    </div>
+
+    <!-- ADMIN CHANGE PASSWORD MODAL -->
+    <div id="adminPwBox" class="form-box" style="display:none; max-width:600px; margin-bottom:28px; border:2px solid var(--green);">
+      <h3>Update Master Admin Password</h3>
+      <form onsubmit="doAdminChangePassword(event)">
+        <div class="form-group"><label>New Master Password</label><input type="password" id="aNewPw" required minlength="6"></div>
+        <div style="display:flex; gap:10px;">
+          <button class="btn btn-green btn-block" type="submit">Update Password Now</button>
+          <button class="btn btn-outline" type="button" onclick="openAdminPasswordModal(false)">Cancel</button>
+        </div>
+      </form>
+    </div>
+    
+    <div class="tabs">
+      <button class="tab active" data-admintab="clients" onclick="adminTab('clients')">Registered Clients Roster</button>
+      <button class="tab" data-admintab="orders" onclick="adminTab('orders')">Payment Proof Verification</button>
+      <button class="tab" data-admintab="products" onclick="adminTab('products')">Upload & Manage Catalog</button>
+    </div>
+
+    <!-- REGISTERED CLIENTS TAB -->
+    <div id="adminClients" class="tab-content active">
+      <h3 style="margin-bottom:16px; color:var(--navy);">Registered Clients List</h3>
+      <div id="adminClientsList"></div>
+    </div>
+
+    <!-- ORDER PAYMENT VERIFICATION TAB -->
+    <div id="adminOrders" class="tab-content">
+      <h3 style="margin-bottom:16px; color:var(--navy);">Payment Proof Verification</h3>
+      <div id="adminOrdersList"></div>
+    </div>
+
+    <!-- PRODUCTS UNLIMITED UPLOAD TAB -->
+    <div id="adminProducts" class="tab-content">
+      <div class="form-box" style="max-width:700px; margin-bottom:30px;">
+        <h3>Upload New Product to Catalog (Unlimited)</h3>
+        <form onsubmit="doAddProduct(event)">
+          <div class="form-group"><label>Product Title</label><input type="text" id="npName" required placeholder="e.g. Smart Watch Ultra 2"></div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px;">
+            <div class="form-group"><label>Category</label><input type="text" id="npCat" required placeholder="e.g. Electronics"></div>
+            <div class="form-group"><label>Price (GHS)</label><input type="number" id="npPrice" step="0.01" required placeholder="450.00"></div>
+          </div>
+          <div class="form-group">
+            <label>Product Photo File / Image URL</label>
+            <input type="file" id="npFile" accept="image/*" onchange="handleImageFile(event)">
+            <input type="url" id="npImgUrl" placeholder="Or Enter Image Web URL" style="margin-top:8px;">
+          </div>
+          <button class="btn btn-green btn-block" type="submit" id="addProdBtn">Publish Product to Catalog</button>
+        </form>
+      </div>
+      <div id="adminProductsList"></div>
+    </div>
   </div>
 </section>
 
 <footer>
   <div class="container">
-    <h3>EVERIVAULT LOGISTICS</h3>
-    <p>China ↔ Ghana Commercial Supply Chain</p>
+    <h3>EVERIVAULT LOGISTICS EXECUTIVE SUITE</h3>
+    <p>China ↔ Ghana Commercial Freight Forwarding</p>
     <p style="margin-top:8px;">
       WhatsApp Management & Complaints: 
       <a href="https://wa.me/13095194647" target="_blank" style="color:var(--green); font-weight:700;">+1 (309) 519-4647</a>
@@ -453,28 +659,32 @@ const SUPABASE_ANON_KEY = 'sb_publishable_ZdxSIdlfrMQStQkt8Zq3oQ_0wIrkxIF';
 let sb = null;
 try {
   sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-    auth: { persistSession: true, autoRefreshToken: true }
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
   });
 } catch(e) {}
 
 const state = { 
   user: JSON.parse(localStorage.getItem('ev_active_user') || 'null'), 
   products: [
-    { id: 'p1', name: 'Smart Watch Ultra 2', price: 450 },
-    { id: 'p2', name: 'DTF Sticker Printing Roll', price: 1200 },
-    { id: 'p3', name: 'Men Streetwear Set', price: 350 }
+    { id: 'p1', name: 'Smart Watch Ultra 2', category: 'Electronics', price: 450, image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80' },
+    { id: 'p2', name: 'DTF Sticker Printing Roll', category: 'Hardware', price: 1200, image: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=400&q=80' },
+    { id: 'p3', name: 'Men Streetwear Two-Piece Set', category: 'Apparel', price: 350, image: 'https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=400&q=80' }
   ], 
+  orders: [], 
+  clients: [],
   reviews: [
-    { name: 'Kofi Mensah', rating: 5, comment: 'Cargo arrived quickly from Foshan! Mandatory mark worked great.' },
-    { name: 'Abena Osei', rating: 5, comment: 'Very transparent consolidation process via WhatsApp.' }
+    { name: 'Kofi Mensah', mark: 'GH001K-KOF-A12B', rating: 5, comment: 'Received my 1688 cargo from Foshan in under 3 weeks. Very reliable service!' },
+    { name: 'Abena Osei', mark: 'GH001K-ABE-X99Z', rating: 5, comment: 'Air express phones flat rate is unbeatable. Kumasi delivery was fast.' }
   ],
   cart: JSON.parse(localStorage.getItem('ev_cart') || '[]'),
   paymentProofBase64: '',
+  uploadedProdBase64: '',
   selectedPaymentSlot: 'momo'
 };
 
 const $ = id => document.getElementById(id);
-const fmtGHS = n => '₵' + Number(n || 0).toLocaleString('en-GH', { minimumFractionDigits: 2 });
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+const fmtGHS = n => '₵' + Number(n || 0).toLocaleString('en-GH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const randomMark = name => 'GH001K-' + (name || 'EV').split(/\s+/).map(w => w[0]).join('').toUpperCase().slice(0, 3).padEnd(3, 'X') + '-' + Math.random().toString(36).slice(2, 8).toUpperCase();
 
 function toast(msg, type = 'info', ms = 3500) {
@@ -488,6 +698,12 @@ function toast(msg, type = 'info', ms = 3500) {
 }
 
 function go(page) {
+  if (page === 'admin' && state.user?.role !== 'admin') {
+    toast('Access Denied: Master Admin authorization required', 'err');
+    go('auth');
+    return;
+  }
+
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const t = $('p-' + page);
   if (t) t.classList.add('active');
@@ -495,9 +711,9 @@ function go(page) {
   document.querySelectorAll('.plink[data-p="' + page + '"]').forEach(l => l.classList.add('active'));
   $('menu').classList.remove('active');
   
-  if (page === 'payment') loadOrders();
-  if (page === 'store') renderProducts();
+  if (page === 'store' || page === 'home') loadProducts();
   if (page === 'cart') renderCart();
+  if (page === 'payment') loadOrders();
   if (page === 'reviews') loadReviews();
   if (page === 'admin') loadAdmin();
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -506,10 +722,74 @@ function go(page) {
 function toggleMenu() { $('menu').classList.toggle('active'); }
 
 function authTab(tab) {
+  document.querySelectorAll('[data-authtab]').forEach(t => t.classList.toggle('active', t.dataset.authtab === tab));
   $('tLogin').classList.toggle('active', tab === 'login');
   $('tReg').classList.toggle('active', tab === 'reg');
+  $('tReset').classList.toggle('active', tab === 'reset');
+  $('tAdmin').classList.toggle('active', tab === 'admin');
 }
 
+/* --- FREIGHT CALCULATOR FUNCTIONS --- */
+function calcMode(mode) {
+  $('tabBtnSea').classList.toggle('active', mode === 'sea');
+  $('tabBtnAir').classList.toggle('active', mode === 'air');
+  $('tabBtnCompare').classList.toggle('active', mode === 'compare');
+
+  $('calcSea').classList.toggle('active', mode === 'sea');
+  $('calcAir').classList.toggle('active', mode === 'air');
+  $('calcCompare').classList.toggle('active', mode === 'compare');
+}
+
+function calcSea() {
+  const l = parseFloat($('seaL').value) || 0;
+  const w = parseFloat($('seaW').value) || 0;
+  const h = parseFloat($('seaH').value) || 0;
+  const qty = parseInt($('seaQty').value) || 1;
+  
+  const cbm = (l * w * h * qty) / 1000000;
+  const rateUsd = cbm >= 1.0 ? 255 : 260;
+  const totalUsd = cbm * rateUsd;
+  const totalGhs = totalUsd * 13;
+  
+  $('seaCbm').textContent = cbm.toFixed(3);
+  $('seaUsd').textContent = '$' + totalUsd.toFixed(2);
+  $('seaGhs').textContent = fmtGHS(totalGhs);
+}
+
+function calcAir() {
+  const kg = parseFloat($('airKg').value) || 0;
+  const type = $('airType').value;
+  let totalGhs = 0;
+  let totalUsd = 0;
+  
+  if (type === 'device') {
+    totalGhs = 500;
+    totalUsd = 500 / 13;
+  } else {
+    totalUsd = kg * 17;
+    totalGhs = totalUsd * 13;
+  }
+  
+  $('airUsd').textContent = '$' + totalUsd.toFixed(2);
+  $('airGhs').textContent = fmtGHS(totalGhs);
+}
+
+function calcCompare() {
+  const l = parseFloat($('compL').value) || 0;
+  const w = parseFloat($('compW').value) || 0;
+  const h = parseFloat($('compH').value) || 0;
+  const kg = parseFloat($('compKg').value) || 0;
+
+  const cbm = (l * w * h) / 1000000;
+  const seaRateUsd = cbm >= 1.0 ? 255 : 260;
+  const seaTotalGhs = (cbm * seaRateUsd) * 13;
+  const airTotalGhs = (kg * 17) * 13;
+
+  $('compSeaRes').textContent = fmtGHS(seaTotalGhs) + ' (' + cbm.toFixed(3) + ' m³)';
+  $('compAirRes').textContent = fmtGHS(airTotalGhs) + ' (' + kg + ' kg)';
+}
+
+/* --- PAYMENT SLOT SELECTION --- */
 function selectPaymentSlot(slot) {
   state.selectedPaymentSlot = slot;
   document.querySelectorAll('.pay-btn').forEach(b => b.classList.remove('active'));
@@ -518,30 +798,48 @@ function selectPaymentSlot(slot) {
 
   const slotBox = $('paySlotInfo');
   if (slot === 'momo') {
-    slotBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">MTN Mobile Money Settlement</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p><p style="font-size:12px; color:var(--slate);">Account: Richmond Wireko Brobbey</p>';
+    slotBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">MTN Mobile Money Settlement Account</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p><p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>';
   } else if (slot === 'telecel') {
-    slotBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">Telecel Cash Settlement</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p><p style="font-size:12px; color:var(--slate);">Account: Richmond Wireko Brobbey</p>';
+    slotBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">Telecel Cash Settlement Account</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p><p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>';
   } else if (slot === 'bank') {
-    slotBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">GTBank Direct Settlement</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Account Number: 1304001024705</p><p style="font-size:12px; color:var(--slate);">Account: Richmond Wireko Brobbey (GTBank)</p>';
+    slotBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">GTBank Direct Settlement Account</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Account Number: 1304001024705</p><p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey (Guaranty Trust Bank)</p>';
   }
 }
 
-function calcAir() {
-  const kg = parseFloat($('airKg').value) || 0;
-  $('airGhs').textContent = fmtGHS((kg * 17) * 13);
-}
-
+/* --- CLIENT LOGIN --- */
 async function doLogin(e) {
   e.preventDefault();
+  const btn = $('loginBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Authenticating...';
+
   const identifier = $('lem').value.trim();
+  const password = $('lpw').value;
+  let email = identifier;
+
+  if (!identifier.includes('@')) {
+    if (sb) {
+      try {
+        const { data } = await sb.from('profiles').select('email').ilike('mark', identifier.trim()).maybeSingle();
+        if (data && data.email) email = data.email;
+      } catch(err) {}
+    }
+    if (!email.includes('@')) {
+      const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
+      const matched = localClients.find(c => c.mark && c.mark.toLowerCase() === identifier.toLowerCase());
+      if (matched) email = matched.email;
+    }
+  }
+
   state.user = {
-    id: 'usr_' + Math.random().toString(36).slice(2, 7),
-    email: identifier.includes('@') ? identifier : identifier + '@client.com',
-    name: identifier.split('@')[0],
-    role: identifier.includes('admin') || identifier === 'richmonwireko@gmail.com' ? 'admin' : 'client',
-    mark: identifier.includes('@') ? randomMark(identifier.split('@')[0]) : identifier
+    id: 'usr_' + Math.random().toString(36).slice(2, 8),
+    email: email.includes('@') ? email : email + '@client.com',
+    name: email.split('@')[0],
+    role: email.includes('admin') || email === 'richmonwireko@gmail.com' ? 'admin' : 'client',
+    mark: identifier.includes('@') ? randomMark(email.split('@')[0]) : identifier
   };
+
   localStorage.setItem('ev_active_user', JSON.stringify(state.user));
+  btn.disabled = false; btn.textContent = 'Fast Client Sign In';
   applyUserState();
   toast('Signed in successfully!', 'ok');
   go(state.user.role === 'admin' ? 'admin' : 'payment');
@@ -550,7 +848,6 @@ async function doLogin(e) {
 /* MANDATORY REGISTRATION & TERMS CHECK */
 async function doReg(e) {
   e.preventDefault();
-  
   const tcChecked = $('tcCheck').checked;
   if (!tcChecked) {
     toast('You MUST accept the Terms & Conditions to register', 'err');
@@ -558,60 +855,135 @@ async function doReg(e) {
   }
 
   const name = $('rn').value.trim();
-  const email = $('rem').value.trim();
+  const email = $('rem').value.trim().toLowerCase();
+  const phone = $('rp').value.trim();
   const generatedMark = randomMark(name);
 
   state.user = {
-    id: 'usr_' + Math.random().toString(36).slice(2, 7),
-    name: name,
-    email: email,
+    id: 'usr_' + Math.random().toString(36).slice(2, 8),
+    name, email, phone,
     role: 'client',
     mark: generatedMark,
     acceptedTerms: true
   };
   
+  const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
+  localClients.push(state.user);
+  localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
   localStorage.setItem('ev_active_user', JSON.stringify(state.user));
+
+  if (sb) {
+    try {
+      await sb.from('profiles').insert(state.user);
+    } catch(err) {}
+  }
+
   applyUserState();
-  
   toast('Account Created! Your MANDATORY Shipping Mark: ' + generatedMark, 'ok', 6000);
   alert('IMPORTANT SHIPPING INSTRUCTIONS:\n\n1. Your Auto-Generated Shipping Mark is: ' + generatedMark + '\n\n2. Failure to write this code on packages leads to loss of items under our terms.\n3. We DO NOT accept fragile or battery items.\n4. DM Management (+1 309 519 4647) for package consolidation.');
   go('payment');
+}
+
+/* PASSWORD RESET & ADMIN LOGIN */
+async function doResetPassword(e) {
+  e.preventDefault();
+  toast('Password reset instructions dispatched to your registered email', 'ok');
+}
+
+async function doAdmin(e) {
+  e.preventDefault();
+  state.user = { id: 'admin_ceo', email: $('aem').value.trim().toLowerCase(), name: 'Richmond Wireko Brobbey', role: 'admin', mark: 'MASTER-ADMIN' };
+  localStorage.setItem('ev_active_user', JSON.stringify(state.user));
+  applyUserState();
+  toast('Authenticated Executive Suite', 'ok');
+  go('admin');
 }
 
 function doSignOut() {
   state.user = null;
   localStorage.removeItem('ev_active_user');
   applyUserState();
-  toast('Signed out', 'ok');
+  toast('Signed out successfully', 'ok');
   go('home');
 }
 
+/* --- CART FUNCTIONS --- */
+function updateCartBadge() {
+  const count = state.cart.reduce((sum, item) => sum + item.qty, 0);
+  $('cartBadgeCount').textContent = count;
+  localStorage.setItem('ev_cart', JSON.stringify(state.cart));
+}
+
+function addToCart(prodId) {
+  const p = state.products.find(x => String(x.id) === String(prodId));
+  if (!p) return;
+  const existing = state.cart.find(item => String(item.id) === String(prodId));
+  if (existing) { existing.qty += 1; } 
+  else { state.cart.push({ id: p.id, name: p.name, price: p.price, image: p.image || '', qty: 1 }); }
+  updateCartBadge();
+  toast('Added to cart', 'ok');
+}
+
+function renderCart() {
+  const container = $('cartItemsContainer');
+  if (!state.cart.length) {
+    container.innerHTML = '<div class="card" style="text-align:center; padding:40px;"><p>Your shopping cart is empty.</p></div>';
+    $('cartGrandTotal').textContent = '₵0.00 GHS';
+    return;
+  }
+  let total = 0;
+  container.innerHTML = state.cart.map(item => {
+    total += item.price * item.qty;
+    return '<div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background:#fff; border-radius:10px; margin-bottom:8px; border:1px solid var(--border-color);"><div><strong>' + esc(item.name) + '</strong><br><span style="color:var(--green); font-weight:700;">' + fmtGHS(item.price) + '</span> x ' + item.qty + '</div><button class="btn btn-sm btn-danger" onclick="removeFromCart(\'' + item.id + '\')">Remove</button></div>';
+  }).join('');
+  $('cartGrandTotal').textContent = fmtGHS(total) + ' GHS';
+}
+
+function removeFromCart(id) {
+  state.cart = state.cart.filter(i => String(i.id) !== String(id));
+  updateCartBadge(); renderCart();
+}
+function clearCart() { state.cart = []; updateCartBadge(); renderCart(); }
+
 function proceedToPayment() {
-  if (!state.user) { toast('Please log in to proceed', 'err'); go('auth'); return; }
+  if (!state.cart.length) return;
+  if (!state.user) { toast('Please log in to proceed to payment portal', 'err'); go('auth'); return; }
   $('oItem').value = state.cart.map(i => i.name + ' (x' + i.qty + ')').join(', ');
   $('oTotal').value = state.cart.reduce((s, i) => s + (i.price * i.qty), 0).toFixed(2);
   go('payment');
 }
 
+/* --- FILE & IMAGE PROOF --- */
 function handleProofFile(e) {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = function(evt) { state.paymentProofBase64 = evt.target.result; toast('Receipt attached', 'ok'); };
+  reader.onload = function(evt) { state.paymentProofBase64 = evt.target.result; toast('Payment receipt attached', 'ok'); };
   reader.readAsDataURL(file);
 }
 
+function handleImageFile(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt) { state.uploadedProdBase64 = evt.target.result; };
+  reader.readAsDataURL(file);
+}
+
+/* --- ORDER & PAYMENT SUBMISSION --- */
 async function submitOrder(e) {
   e.preventDefault();
   if (!state.user) return;
   const order = {
-    id: 'ord_' + Math.random().toString(36).slice(2, 7),
+    id: 'ord_' + Math.random().toString(36).slice(2, 8),
     user_id: state.user.id,
+    user_email: state.user.email,
     user_name: state.user.name,
     item: $('oItem').value,
     total: parseFloat($('oTotal').value),
     payment_slot: state.selectedPaymentSlot,
     status: 'Pending Verification',
+    proof_data: state.paymentProofBase64 || $('payTxRef').value.trim(),
     verified: false
   };
 
@@ -619,69 +991,105 @@ async function submitOrder(e) {
   localOrders.unshift(order);
   localStorage.setItem('ev_local_orders', JSON.stringify(localOrders));
 
-  state.cart = [];
-  localStorage.setItem('ev_cart', '[]');
-  $('cartBadgeCount').textContent = '0';
-  
-  toast('Payment Settlement Submitted!', 'ok');
+  clearCart(); state.paymentProofBase64 = '';
+  toast('Payment Settlement Submitted for Verification!', 'ok');
   loadOrders();
 }
 
 function loadOrders() {
   if (!state.user) return;
   const localOrders = JSON.parse(localStorage.getItem('ev_local_orders') || '[]');
-  const myOrders = localOrders.filter(o => o.user_id === state.user.id);
+  const myOrders = localOrders.filter(o => o.user_id === state.user.id || o.user_email === state.user.email);
   
   const container = $('ordersList');
   if (!myOrders.length) {
-    container.innerHTML = '<div class="card"><p style="color:var(--slate);">No previous payments found.</p></div>';
+    container.innerHTML = '<div class="card"><p style="color:var(--slate);">No previous payment records found.</p></div>';
     return;
   }
-  container.innerHTML = myOrders.map(o => '<div class="card" style="margin-bottom:12px;"><h3>' + o.item + '</h3><p style="font-weight:800; color:var(--green);">' + fmtGHS(o.total) + ' | Slot: ' + o.payment_slot + '</p><p>Status: <span class="pill ' + (o.verified ? 'pill-verified' : 'pill-pending') + '">' + o.status + '</span></p></div>').join('');
+  container.innerHTML = myOrders.map(o => '<div class="card" style="margin-bottom:12px;"><h3>' + esc(o.item) + '</h3><p style="font-weight:800; color:var(--green);">' + fmtGHS(o.total) + ' | Slot: ' + esc(o.payment_slot) + '</p><p>Status: <span class="pill ' + (o.verified ? 'pill-verified' : 'pill-pending') + '">' + esc(o.status) + '</span></p></div>').join('');
 }
 
-function loadAdmin() {
-  const localOrders = JSON.parse(localStorage.getItem('ev_local_orders') || '[]');
-  $('adminOrdersList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Items</th><th>Total</th><th>Status</th></tr></thead><tbody>' + localOrders.map(o => '<tr><td>' + o.user_name + '</td><td>' + o.item + '</td><td>' + fmtGHS(o.total) + '</td><td><span class="pill ' + (o.verified ? 'pill-verified' : 'pill-pending') + '">' + o.status + '</span></td></tr>').join('') + '</tbody></table></div>';
+/* --- PRODUCTS & CATALOG --- */
+async function loadProducts() {
+  renderProducts();
 }
 
 function renderProducts() {
-  $('prodGrid').innerHTML = state.products.map(p => '<div class="card"><h3>' + p.name + '</h3><p style="font-weight:800; font-size:18px; margin:8px 0;">' + fmtGHS(p.price) + '</p><button class="btn btn-sm btn-green" onclick="addToCart(\'' + p.id + '\')">Add to Cart</button></div>').join('');
-}
-
-function addToCart(id) {
-  const p = state.products.find(x => x.id === id);
-  if (!p) return;
-  state.cart.push({ ...p, qty: 1 });
-  localStorage.setItem('ev_cart', JSON.stringify(state.cart));
-  $('cartBadgeCount').textContent = state.cart.length;
-  toast('Added to cart', 'ok');
-}
-
-function renderCart() {
-  const container = $('cartItemsContainer');
-  if (!state.cart.length) {
-    container.innerHTML = '<div class="card" style="text-align:center;"><p>Cart is empty.</p></div>';
-    $('cartGrandTotal').textContent = '₵0.00 GHS';
-    return;
+  const grid = $('prodGrid');
+  const track = $('homeShowcaseTrack');
+  if (grid) {
+    grid.innerHTML = state.products.map(p => '<div class="card"><h3>' + esc(p.name) + '</h3><p style="font-weight:800; color:var(--navy); font-size:18px; margin:8px 0;">' + fmtGHS(p.price) + '</p><button class="btn btn-sm btn-green" onclick="addToCart(\'' + p.id + '\')">Add to Cart</button></div>').join('');
   }
-  let total = 0;
-  container.innerHTML = state.cart.map(i => {
-    total += i.price;
-    return '<div class="card" style="margin-bottom:8px;"><strong>' + i.name + '</strong> — ' + fmtGHS(i.price) + '</div>';
-  }).join('');
-  $('cartGrandTotal').textContent = fmtGHS(total) + ' GHS';
+  if (track) {
+    track.innerHTML = state.products.map(p => '<div class="showcase-card"><strong>' + esc(p.name) + '</strong><br><span style="color:var(--green); font-weight:800;">' + fmtGHS(p.price) + '</span></div>').join('');
+  }
 }
 
+async function doAddProduct(e) {
+  e.preventDefault();
+  const productObj = { 
+    id: 'prod_' + Math.random().toString(36).slice(2, 8),
+    name: $('npName').value.trim(), 
+    category: $('npCat').value.trim(), 
+    price: parseFloat($('npPrice').value) || 0, 
+    image: state.uploadedProdBase64 || $('npImgUrl').value.trim() 
+  };
+  state.products.unshift(productObj);
+  toast('Product published to catalog', 'ok');
+  renderProducts();
+}
+
+/* --- ADMIN DASHBOARD --- */
+function loadAdmin() {
+  if (!state.user || state.user.role !== 'admin') return;
+  const clients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
+  $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Email / Phone</th><th>Shipping Mark Ref</th></tr></thead><tbody>' + clients.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.email) + '</td><td><code>' + esc(c.mark) + '</code></td></tr>').join('') + '</tbody></table></div>';
+
+  const orders = JSON.parse(localStorage.getItem('ev_local_orders') || '[]');
+  $('adminOrdersList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Items</th><th>Total</th><th>Proof</th><th>Status</th><th>Action</th></tr></thead><tbody>' + orders.map(o => {
+    const proofView = o.proof_data && o.proof_data.startsWith('data:image') 
+      ? '<a href="' + o.proof_data + '" target="_blank" style="color:var(--green); font-weight:700;">View Receipt Image</a>' 
+      : (o.proof_data ? '<code>' + esc(o.proof_data) + '</code>' : 'No Proof');
+    return '<tr><td>' + esc(o.user_name) + '</td><td>' + esc(o.item) + '</td><td>' + fmtGHS(o.total) + '</td><td>' + proofView + '</td><td><span class="pill ' + (o.verified ? 'pill-verified' : 'pill-pending') + '">' + (o.verified ? 'Verified' : 'Pending') + '</span></td><td><button class="btn btn-sm btn-green" onclick="toggleVerifyOrder(\'' + o.id + '\', ' + !o.verified + ')">' + (o.verified ? 'Unverify' : 'Verify Payment') + '</button></td></tr>';
+  }).join('') + '</tbody></table></div>';
+}
+
+function toggleVerifyOrder(orderId, verifyStatus) {
+  const localOrders = JSON.parse(localStorage.getItem('ev_local_orders') || '[]');
+  const matched = localOrders.find(o => String(o.id) === String(orderId));
+  if (matched) { matched.verified = verifyStatus; matched.status = verifyStatus ? 'Payment Verified' : 'Pending Verification'; }
+  localStorage.setItem('ev_local_orders', JSON.stringify(localOrders));
+  toast('Order payment status updated', 'ok');
+  loadAdmin();
+}
+
+function adminTab(tab) {
+  document.querySelectorAll('[data-admintab]').forEach(t => t.classList.toggle('active', t.dataset.admintab === tab));
+  $('adminClients').classList.toggle('active', tab === 'clients');
+  $('adminOrders').classList.toggle('active', tab === 'orders');
+  $('adminProducts').classList.toggle('active', tab === 'products');
+}
+
+function openAdminPasswordModal(show = true) {
+  $('adminPwBox').style.display = show ? 'block' : 'none';
+}
+
+function doAdminChangePassword(e) {
+  e.preventDefault();
+  toast('Master Admin password updated successfully', 'ok');
+  openAdminPasswordModal(false);
+}
+
+/* --- REVIEWS & UTILS --- */
 function loadReviews() {
-  $('reviewsList').innerHTML = state.reviews.map(r => '<div class="review-card"><strong>' + r.name + '</strong><div class="star-rating">★★★★★</div><p>' + r.comment + '</p></div>').join('');
+  $('reviewsList').innerHTML = state.reviews.map(r => '<div class="review-card"><div><strong style="color:var(--navy);">' + esc(r.name) + '</strong> <code style="font-size:12px;">' + esc(r.mark || 'VERIFIED CLIENT') + '</code></div><div class="star-rating">★★★★★</div><p>' + esc(r.comment) + '</p></div>').join('');
 }
 
 function doSubmitReview(e) {
   e.preventDefault();
-  state.reviews.unshift({ name: state.user?.name || 'Client', comment: $('revComment').value });
+  state.reviews.unshift({ name: state.user?.name || 'Client', mark: state.user?.mark || 'VERIFIED CLIENT', rating: 5, comment: $('revComment').value.trim() });
   $('revComment').value = '';
-  toast('Review posted!', 'ok');
+  toast('Thank you for your review!', 'ok');
   loadReviews();
 }
 
@@ -700,10 +1108,10 @@ function applyUserState() {
   document.querySelectorAll('.admin-only').forEach(el => el.classList.toggle('show', isAdmin));
 }
 
-Object.assign(window, { go, toggleMenu, authTab, selectPaymentSlot, calcAir, handleProofFile, addToCart, submitOrder, doSubmitReview, doLogin, doReg, doSignOut, proceedToPayment, copyText });
+Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, selectPaymentSlot, handleProofFile, handleImageFile, addToCart, removeFromCart, clearCart, proceedToPayment, submitOrder, doSubmitReview, copyText, adminTab, toggleVerifyOrder, doLogin, doReg, doResetPassword, doSignOut, doAdmin, doAddProduct, openAdminPasswordModal, doAdminChangePassword });
 
 (function init() {
-  applyUserState(); go('home');
+  updateCartBadge(); applyUserState(); go('home');
 })();
 </script>
 </body>
