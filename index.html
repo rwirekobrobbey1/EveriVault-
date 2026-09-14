@@ -42,7 +42,7 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 .cart-badge { background:#EF4444; color:#fff; border-radius:50px; padding:2px 8px; font-size:11px; font-weight:800; }
 .menu-toggle { display:none; color:#fff; font-size:26px; cursor:pointer; background:none; border:none; padding:6px; }
 
-/* Buttons & UI Controls */
+/* Buttons & Controls */
 .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 22px; border-radius:10px; font-weight:700; border:none; cursor:pointer; font-size:14px; text-decoration:none; transition:all 0.2s ease; white-space:nowrap; }
 .btn:active { transform:scale(0.98); }
 .btn:disabled { opacity:0.5; cursor:not-allowed; }
@@ -55,9 +55,9 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 .btn-danger { background:#EF4444; color:#fff; }
 .btn-block { width:100%; }
 
-/* Hero Section with Visual Graphics */
+/* Hero Section */
 .hero { 
-  background: linear-gradient(180deg, rgba(10,25,47,0.85) 0%, rgba(6,16,30,0.95) 100%), 
+  background: linear-gradient(180deg, rgba(10,25,47,0.88) 0%, rgba(6,16,30,0.95) 100%), 
               url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat; 
   color:#fff; padding:80px 0 90px; text-align:center; position:relative; overflow:hidden; 
 }
@@ -68,24 +68,24 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 
 .rate-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:16px; max-width:940px; margin:0 auto 32px; }
 .rate-card { background:rgba(255, 255, 255, 0.05); border:1px solid rgba(255, 255, 255, 0.12); backdrop-filter:blur(10px); border-radius:16px; padding:20px; text-align:left; transition:0.2s; }
-.rate-card:hover { border-color:var(--green); }
 .rate-card h3 { font-size:13px; color:var(--slate-light); font-weight:600; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px; }
 .rate-card .big { font-size:26px; font-weight:800; color:var(--green); }
 .rate-card .sub { font-size:13px; color:#CBD5E1; margin-top:2px; }
 
-.alert { background:rgba(239, 68, 68, 0.12); border:1px solid rgba(239, 68, 68, 0.3); border-radius:12px; padding:12px 18px; max-width:640px; margin:0 auto 28px; color:#FCA5A5; font-size:13px; font-weight:600; }
-.hero-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+/* Referral Banner */
+.referral-banner { background:linear-gradient(135deg, #059669 0%, #10B981 100%); color:#fff; border-radius:16px; padding:24px; margin:30px auto; max-width:940px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; box-shadow:0 10px 25px rgba(16,185,129,0.25); }
+.referral-banner h3 { font-size:20px; font-weight:800; margin-bottom:4px; }
 
-/* Floating Store Advertisement Ticker / Showcase */
+/* Floating Showcase Ticker */
 .showcase-bar { background:var(--navy-surface); border-top:1px solid var(--green); border-bottom:1px solid var(--green); padding:20px 0; overflow:hidden; }
 .showcase-title { font-size:14px; font-weight:800; color:var(--green); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; text-align:center; }
 .showcase-track { display:flex; gap:16px; overflow-x:auto; scroll-behavior:smooth; padding-bottom:10px; }
 .showcase-track::-webkit-scrollbar { height:6px; }
 .showcase-track::-webkit-scrollbar-thumb { background:var(--green); border-radius:10px; }
-.showcase-card { flex:0 0 220px; background:#fff; border-radius:12px; padding:12px; border:1px solid var(--border-color); position:relative; }
+.showcase-card { flex:0 0 220px; background:#fff; border-radius:12px; padding:12px; border:1px solid var(--border-color); }
 .showcase-img { width:100%; height:120px; object-fit:cover; border-radius:8px; background:#F1F5F9; }
 
-/* Product Cards & Media */
+/* Cards & Layout */
 section { padding:60px 0; }
 h2 { text-align:center; font-size:28px; color:var(--navy); margin-bottom:8px; font-weight:800; }
 h2::after { content:''; display:block; width:48px; height:4px; background:var(--green); margin:12px auto 0; border-radius:2px; }
@@ -117,29 +117,27 @@ label { display:block; margin-bottom:6px; font-weight:700; color:var(--navy); fo
 input, select, textarea { width:100%; padding:12px 16px; border:1.5px solid #CBD5E1; border-radius:10px; font-size:15px; background:var(--bg-light); transition:0.2s; color:#0F172A; }
 input:focus, select:focus, textarea:focus { outline:none; border-color:var(--green); background:#fff; box-shadow:0 0 0 4px var(--green-light); }
 input[readonly] { background:#E2E8F0; cursor:not-allowed; }
-.form-row { display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:12px; }
 
 .msg { padding:12px; border-radius:10px; margin:12px 0; display:none; font-weight:600; font-size:14px; }
 .msg.ok { background:#ECFDF5; color:#065F45; display:block; border:1px solid #A7F3D0; }
 .msg.err { background:#FEF2F2; color:#991B1B; display:block; border:1px solid #FECACA; }
 
-/* Cart Styling */
-.cart-item { display:flex; align-items:center; justify-content:space-between; padding:16px; background:#fff; border-radius:12px; border:1px solid var(--border-color); margin-bottom:12px; gap:16px; }
-.cart-item img { width:64px; height:64px; border-radius:8px; object-fit:cover; background:#E2E8F0; }
-.cart-controls { display:flex; align-items:center; gap:8px; }
-.qty-btn { width:28px; height:28px; border-radius:6px; border:1px solid #CBD5E1; background:#fff; font-weight:800; cursor:pointer; }
-
-/* Chinese Warehouse Components */
+/* Chinese Address Component */
 .addr-section { background:#fff; border-radius:20px; padding:28px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); margin-bottom:24px; }
 .addr-section h3 { color:var(--navy); margin-bottom:18px; padding-bottom:10px; border-bottom:2px solid #F1F5F9; font-size:18px; font-weight:700; }
 .addr-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:20px; }
 .addr-block { background:var(--bg-light); border-radius:14px; padding:22px; position:relative; border:1px solid var(--border-color); }
-.cn-text-box { background:#FFFFFF; border:1.5px solid #CBD5E1; border-radius:8px; padding:12px; margin:12px 0; font-family:monospace, sans-serif; font-size:14px; color:#0F172A; word-break:break-all; }
+.cn-text-box { background:#FFFFFF; border:1.5px solid #CBD5E1; border-radius:8px; padding:12px; margin:10px 0; font-family:monospace, sans-serif; font-size:14px; color:#0F172A; word-break:break-all; }
+.contact-row { display:flex; justify-content:space-between; align-items:center; background:#fff; padding:10px 14px; border-radius:8px; border:1px solid var(--border-color); margin-bottom:8px; font-size:13px; }
 
-/* Admin Dashboard Tables & Forms */
+/* Admin Table */
 .admin-table { width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:var(--card-shadow); }
 .admin-table th { background:var(--navy); color:#fff; padding:14px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:0.5px; }
 .admin-table td { padding:14px; border-bottom:1px solid var(--border-color); font-size:14px; }
+
+.pill { display:inline-block; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:700; }
+.pill-pending { background:#FEF3C7; color:#92400E; }
+.pill-verified { background:#D1FAE5; color:#166534; }
 
 .page { display:none; }
 .page.active { display:block; }
@@ -157,7 +155,6 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 
 footer { background:var(--navy); color:var(--slate-light); padding:40px 0 24px; margin-top:60px; text-align:center; border-top:1px solid rgba(255,255,255,0.08); }
 footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; }
-footer p { margin-bottom:6px; font-size:14px; }
 
 .spinner { display:inline-block; width:16px; height:16px; border:2.5px solid rgba(255,255,255,0.3); border-top-color:#fff; border-radius:50%; animation:spin .8s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
@@ -195,13 +192,13 @@ footer p { margin-bottom:6px; font-size:14px; }
   </div>
 </nav>
 
-<!-- HOME PAGE WITH HERO IMAGE & FLOATING STORE SHOWCASE -->
+<!-- HOME PAGE -->
 <section id="p-home" class="page active">
   <div class="hero">
     <div class="container">
       <div class="badge">Ghana Central Hub — KNUST Ayeduase New Site, Kumasi</div>
       <h1>China to Ghana <span>Commercial Freight & Supply</span></h1>
-      <p>Direct Factory Sourcing • Sea & Air Freight Cargo • Real-Time Order Tracking • Unlimited Product Inventory</p>
+      <p>Direct Factory Sourcing • Sea & Air Freight Cargo • Real-Time Order Tracking • Guaranteed Verification</p>
       
       <div class="rate-grid">
         <div class="rate-card">
@@ -210,15 +207,13 @@ footer p { margin-bottom:6px; font-size:14px; }
           <div class="sub">Under 1.0 CBM Volume</div>
           <div class="big" style="font-size:20px; margin-top:8px; color:#fff;">$255 / m³</div>
           <div class="sub">1.0 CBM & Above Tier</div>
-          <div class="sub" style="margin-top:8px; color:var(--green);">Transit Standard: 45–60 Days</div>
         </div>
         <div class="rate-card">
           <h3>Air Express Freight</h3>
           <div class="big">$17 / kg</div>
           <div class="sub">General Cargo Merchandise</div>
           <div class="big" style="font-size:20px; margin-top:8px; color:#fff;">₵500 Flat Rate</div>
-          <div class="sub">Smartphones / Laptops / Tablets</div>
-          <div class="sub" style="margin-top:8px; color:var(--green);">Express Transit: 3–7 Days</div>
+          <div class="sub">Phones / Laptops / Tablets</div>
         </div>
         <div class="rate-card">
           <h3>Current FX Benchmark</h3>
@@ -227,8 +222,6 @@ footer p { margin-bottom:6px; font-size:14px; }
         </div>
       </div>
 
-      <div class="alert">Notice: Standalone battery units, uncontained liquids, and hazardous materials are strictly prohibited via Sea Cargo.</div>
-
       <div class="hero-actions">
         <a class="btn btn-green" onclick="go('store')">Explore Catalog Store</a>
         <a class="btn btn-navy" onclick="go('calc')">Calculate Freight Cost</a>
@@ -236,33 +229,22 @@ footer p { margin-bottom:6px; font-size:14px; }
     </div>
   </div>
 
-  <!-- FLOATING FEATURED PRODUCTS ADVERTISEMENT SHOWCASE -->
-  <div class="showcase-bar">
-    <div class="container">
-      <div class="showcase-title">🔥 Featured Store Inventory & Imports</div>
-      <div class="showcase-track" id="homeShowcaseTrack">
-        <!-- Dynamically Populated Showcase Cards -->
+  <!-- REFERRAL PROGRAM BANNER -->
+  <div class="container">
+    <div class="referral-banner">
+      <div>
+        <h3>Client Referral Reward Program</h3>
+        <p>Refer new commercial clients or business partners to EveriVault Logistics and receive a <strong>FREE GIFT</strong> on your next freight shipment arrival!</p>
       </div>
+      <button class="btn btn-navy" onclick="copyText('Use my EveriVault referral code for shipping from China to Ghana!')">Copy Referral Share Link</button>
     </div>
   </div>
 
-  <div class="container" style="margin-top:50px;">
-    <h2>Enterprise Logistics Services</h2>
-    <p class="subtitle">Structured procurement, freight forwarding, and local distribution built for commercial scale.</p>
-    
-    <div class="grid-3">
-      <div class="card">
-        <h3>Direct Factory Procurement</h3>
-        <p>Source pre-verified manufacturing items directly in Ghana Cedi without foreign exchange complications.</p>
-      </div>
-      <div class="card">
-        <h3>Transparent Shipping Rates</h3>
-        <p>Fixed rate schedules with zero unverified customs surcharges or unexpected arrival fees.</p>
-      </div>
-      <div class="card">
-        <h3>Dedicated Reference Tracking</h3>
-        <p>Unique shipping reference identifiers assigned to every package for precise status monitoring.</p>
-      </div>
+  <!-- FLOATING STORE ADVERTISEMENT SHOWCASE -->
+  <div class="showcase-bar">
+    <div class="container">
+      <div class="showcase-title">🔥 Featured Store Inventory & Imports</div>
+      <div class="showcase-track" id="homeShowcaseTrack"></div>
     </div>
   </div>
 </section>
@@ -276,26 +258,18 @@ footer p { margin-bottom:6px; font-size:14px; }
     <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-bottom:30px;">
       <input type="search" id="searchInput" placeholder="Search product catalog..." oninput="renderProducts()" style="max-width:280px;">
       <select id="catFilter" onchange="renderProducts()" style="max-width:180px;"><option value="all">All Categories</option></select>
-      <select id="stockFilter" onchange="renderProducts()" style="max-width:180px;">
-        <option value="">All Inventory</option>
-        <option value="false">In Stock</option>
-        <option value="true">Pre-Order</option>
-      </select>
     </div>
 
     <div id="prodGrid" class="grid-4"></div>
   </div>
 </section>
 
-<!-- CART PAGE (CLIENT ADD / REMOVE / CHECKOUT) -->
+<!-- CART PAGE -->
 <section id="p-cart" class="page">
   <div class="container">
     <h2>Shopping Cart</h2>
-    <p class="subtitle">Review your selected items and proceed to checkout.</p>
-    
     <div style="max-width:800px; margin:0 auto;">
       <div id="cartItemsContainer"></div>
-
       <div class="card" style="margin-top:20px; text-align:right;">
         <div style="font-size:18px; font-weight:800; color:var(--navy); margin-bottom:16px;">
           Cart Subtotal: <span id="cartGrandTotal" style="color:var(--green);">₵0.00 GHS</span>
@@ -313,8 +287,6 @@ footer p { margin-bottom:6px; font-size:14px; }
 <section id="p-calc" class="page">
   <div class="container">
     <h2>Freight Cost Calculator</h2>
-    <p class="subtitle">Estimate total shipping cost prior to dispatching goods to our China warehouses.</p>
-    
     <div class="calc-box">
       <div class="tabs">
         <button class="tab active" onclick="calcMode('sea')">Sea Cargo Freight</button>
@@ -322,119 +294,101 @@ footer p { margin-bottom:6px; font-size:14px; }
       </div>
 
       <div id="calcSea" class="tab-content active">
-        <p style="margin-bottom:16px; font-weight:700; color:var(--navy); font-size:13px;">CALCULATION RULE: CBM Volume = Length(m) × Width(m) × Height(m) × Quantity</p>
-        <div class="form-row">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:12px;">
           <div class="form-group"><label>Length (cm)</label><input type="number" id="seaL" oninput="calcSea()" placeholder="100"></div>
           <div class="form-group"><label>Width (cm)</label><input type="number" id="seaW" oninput="calcSea()" placeholder="60"></div>
           <div class="form-group"><label>Height (cm)</label><input type="number" id="seaH" oninput="calcSea()" placeholder="50"></div>
         </div>
         <div class="form-group"><label>Package Quantity</label><input type="number" id="seaQty" value="1" min="1" oninput="calcSea()"></div>
-        
-        <div class="result">
-          <strong>Calculated Cargo Volume:</strong> <span id="seaCbm">0.000</span> m³<br><br>
-          <small>• Tier 1 (&lt; 1 CBM): $260 / m³ | Tier 2 (≥ 1 CBM): $255 / m³<br>• FX Benchmark: $1 = ₵13 GHS</small>
-          <div class="total">$<span id="seaUsd">0.00</span> ≈ ₵<span id="seaGhs">0.00</span> GHS</div>
-          <small style="color:var(--slate);">Estimated Transit Duration: 45–60 Days</small>
+        <div class="card" style="background:#ECFDF5; border:1px solid #A7F3D0; margin-top:16px;">
+          Calculated Volume: <span id="seaCbm" style="font-weight:800;">0.000</span> m³ | Estimated Total: <strong id="seaGhs" style="color:var(--green);">₵0.00 GHS</strong>
         </div>
       </div>
 
       <div id="calcAir" class="tab-content">
-        <div class="form-group">
-          <label>Cargo Classification</label>
-          <select id="airType" onchange="calcAir()">
-            <option value="std">Standard Merchandise — $17 / kg</option>
-            <option value="phone">Mobile Phone Unit — ₵500 Flat Rate</option>
-            <option value="laptop">Laptop Computer Unit — ₵500 Flat Rate</option>
-            <option value="tab">Tablet Device Unit — ₵500 Flat Rate</option>
-          </select>
-        </div>
-        <div class="form-group" id="airKgRow"><label>Weight (kg)</label><input type="number" id="airKg" step="0.1" oninput="calcAir()" placeholder="1.5"></div>
-        
-        <div class="result air">
-          <strong>Calculated Air Freight Fee:</strong>
-          <div class="total">$<span id="airUsd">0.00</span> ≈ ₵<span id="airGhs">0.00</span> GHS</div>
-          <small style="color:var(--slate);">Express Transit Duration: 3–7 Days</small>
+        <div class="form-group"><label>Weight (kg)</label><input type="number" id="airKg" step="0.1" oninput="calcAir()" placeholder="1.5"></div>
+        <div class="card" style="background:#EFF6FF; border:1px solid #BFDBFE;">
+          Estimated Air Freight: <strong id="airGhs" style="color:var(--navy);">₵0.00 GHS</strong>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ADDRESS PAGE -->
+<!-- WAREHOUSES & COPYABLE CHINESE CONTACTS -->
 <section id="p-address" class="page">
   <div class="container">
-    <h2>Warehouse Addresses & Procurement Details</h2>
-    <p class="subtitle">Copy exact English and Chinese address formats for 1688, Taobao, or supplier invoices.</p>
+    <h2>China Receiving Warehouses & Contacts</h2>
+    <p class="subtitle">Copy exact Chinese text and warehouse contact phone numbers for 1688 / supplier dispatches.</p>
 
     <div class="addr-section">
-      <h3>Ghana Distribution Hub</h3>
-      <div class="addr-block">
-        <p><strong>EveriVault Logistics Hub</strong><br>KNUST Campus, Ayeduase New Site<br>Kumasi, Ashanti Region, Ghana<br><br>Contact: +233 543 155 883<br>Email: richmonwireko@gmail.com</p>
-        <button class="btn btn-sm btn-navy copy-btn" style="position:absolute; top:18px; right:18px;" onclick="copyText('KNUST Campus, Ayeduase New Site, Kumasi, Ghana')">Copy Address</button>
-      </div>
-    </div>
-
-    <div class="addr-section">
-      <h3>China Receiving Warehouses</h3>
+      <h3>China Receiving Hubs & Direct Contacts</h3>
       <div class="addr-grid">
+        
+        <!-- Foshan Sea Cargo -->
         <div class="addr-block" style="border-left:5px solid var(--navy);">
           <h4>Sea Cargo Hub — Foshan (佛山海运仓)</h4>
-          <p><strong>English Address:</strong><br>Bohui Phase 5, No.88 Xinpu West Road, Shishan Town, Nanhai District, Foshan, Guangdong, China</p>
-          <label style="margin-top:10px;">Chinese Address for Suppliers (中文地址):</label>
+          <label>Chinese Address (中文地址):</label>
           <div class="cn-text-box" id="cnSeaAddress">广东省佛山市南海区狮山镇新浦西路88号博汇五期</div>
           <button class="btn btn-sm btn-green" onclick="copyText($('cnSeaAddress').innerText)">Copy Chinese Address</button>
+          
+          <div style="margin-top:16px;">
+            <label>Copy Manager Contacts (联系电话):</label>
+            <div class="contact-row">
+              <span>Mr. Zhang (张先生): <strong>+86 181 2571 7488</strong></span>
+              <button class="btn btn-sm btn-outline" onclick="copyText('+8618125717488')">Copy Phone</button>
+            </div>
+            <div class="contact-row">
+              <span>Mr. Yue (岳先生): <strong>+86 180 2417 9599</strong></span>
+              <button class="btn btn-sm btn-outline" onclick="copyText('+8618024179599')">Copy Phone</button>
+            </div>
+          </div>
         </div>
 
+        <!-- Guangzhou Air Cargo -->
         <div class="addr-block" style="border-left:5px solid var(--green);">
           <h4>Air Express Hub — Guangzhou (广州空运仓)</h4>
-          <p><strong>English Address:</strong><br>Room 510, 99 Business Center, No.99 West Guangyuan Road, Yuexiu District, Guangzhou, Guangdong, China</p>
-          <label style="margin-top:10px;">Chinese Address for Suppliers (中文地址):</label>
+          <label>Chinese Address (中文地址):</label>
           <div class="cn-text-box" id="cnAirAddress">广东省广州市越秀区广园西路99号99商务中心510室</div>
           <button class="btn btn-sm btn-green" onclick="copyText($('cnAirAddress').innerText)">Copy Chinese Address</button>
         </div>
+
       </div>
     </div>
   </div>
 </section>
 
-<!-- AUTH PAGE -->
+<!-- AUTH PAGE WITH EASY LOGIN -->
 <section id="p-auth" class="page">
   <div class="container">
-    <h2>Client Authentication</h2>
+    <h2>Client & Admin Portal</h2>
     <div class="form-box">
       <div class="tabs">
-        <button class="tab active" data-authtab="client" onclick="authTab('client')">Client Portal</button>
-        <button class="tab" data-authtab="admin" onclick="authTab('admin')">Management</button>
+        <button class="tab active" data-authtab="client" onclick="authTab('client')">Client Login</button>
+        <button class="tab" data-authtab="admin" onclick="authTab('admin')">Admin Login</button>
+      </div>
+
+      <!-- EASY LOGIN DEMO BUTTONS -->
+      <div style="background:var(--bg-light); border:1px solid var(--border-color); padding:12px; border-radius:10px; margin-bottom:16px; text-align:center;">
+        <span style="font-size:12px; font-weight:700; color:var(--navy);">EASY LOGIN PREFILL:</span>
+        <div style="display:flex; gap:8px; justify-content:center; margin-top:6px;">
+          <button class="btn btn-sm btn-outline" onclick="prefillLogin('client')">Demo Client</button>
+          <button class="btn btn-sm btn-outline" onclick="prefillLogin('admin')">Demo Admin</button>
+        </div>
       </div>
 
       <div id="tClient" class="tab-content active">
-        <div class="tabs" style="border-bottom:none; margin-bottom:16px;">
-          <button class="tab active" data-authsub="login" onclick="authSub('login')">Sign In</button>
-          <button class="tab" data-authsub="reg" onclick="authSub('reg')">Register Account</button>
-        </div>
-
-        <form id="fLogin" class="tab-content active" onsubmit="doLogin(event)">
+        <form id="fLogin" onsubmit="doLogin(event)">
           <div class="form-group"><label>Email Address</label><input type="email" id="lem" required></div>
           <div class="form-group"><label>Password</label><input type="password" id="lpw" required></div>
           <div id="lmsg" class="msg"></div>
-          <button class="btn btn-green btn-block" type="submit" id="loginBtn">Sign In</button>
-        </form>
-
-        <form id="fReg" class="tab-content" onsubmit="doReg(event)">
-          <div class="form-group"><label>Full Legal Name</label><input type="text" id="rn" required></div>
-          <div class="form-group"><label>Email Address</label><input type="email" id="rem" required></div>
-          <div class="form-group"><label>Phone Number</label><input type="tel" id="rp" required></div>
-          <div class="form-group"><label>City / Location</label><input type="text" id="rl" placeholder="e.g. Kumasi, Accra" required></div>
-          <div class="form-group"><label>Password</label><input type="password" id="rpw" required minlength="6"></div>
-          <div class="form-group"><label>Confirm Password</label><input type="password" id="rpw2" required minlength="6"></div>
-          <div id="rmsg" class="msg"></div>
-          <button class="btn btn-green btn-block" type="submit" id="regBtn">Register Account</button>
+          <button class="btn btn-green btn-block" type="submit" id="loginBtn">Sign In Easy</button>
         </form>
       </div>
 
       <div id="tAdmin" class="tab-content">
         <form onsubmit="doAdmin(event)">
-          <div class="form-group"><label>Administrator Email</label><input type="email" id="aem" required></div>
+          <div class="form-group"><label>Admin Email</label><input type="email" id="aem" required></div>
           <div class="form-group"><label>Security Password</label><input type="password" id="apw" required></div>
           <div id="amsg" class="msg"></div>
           <button class="btn btn-navy btn-block" type="submit" id="adminBtn">Authenticate Admin</button>
@@ -444,31 +398,23 @@ footer p { margin-bottom:6px; font-size:14px; }
   </div>
 </section>
 
-<!-- ORDER SUBMISSION PAGE -->
+<!-- ORDER SUBMISSION & PROOF OF PAYMENT -->
 <section id="p-order" class="page auth-only">
   <div class="container">
-    <h2>Order Submission & Checkout</h2>
+    <h2>Order Checkout & Payment Proof</h2>
     <div class="form-box" style="max-width:600px;">
       <form onsubmit="submitOrder(event)">
-        <div class="form-group"><label>Order Items Summary</label><input type="text" id="oItem" required readonly></div>
+        <div class="form-group"><label>Selected Items</label><input type="text" id="oItem" required readonly></div>
         <div class="form-group"><label>Total Payable (GHS)</label><input type="number" id="oTotal" step="0.01" required readonly style="font-size:18px; font-weight:800; color:var(--navy);"></div>
+        
         <div class="form-group">
-          <label>Shipping Mode</label>
-          <select id="oMode">
-            <option value="sea">Sea Freight (45–60 Days Standard)</option>
-            <option value="air">Air Express (3–7 Days Priority)</option>
-          </select>
+          <label>Upload Proof of Payment (Screenshot / Receipt File)</label>
+          <input type="file" id="payProofFile" accept="image/*" onchange="handleProofFile(event)">
+          <input type="text" id="payTxRef" placeholder="Or Enter MoMo / Bank Transaction ID" style="margin-top:8px;">
         </div>
-        <div class="form-group">
-          <label>Payment Channel</label>
-          <select id="oPay">
-            <option>Mobile Money Settlement (MTN / Telecel / AT)</option>
-            <option>Direct GTBank Deposit</option>
-          </select>
-        </div>
-        <div class="form-group"><label>Special Delivery Notes</label><textarea id="oNote" rows="2"></textarea></div>
+
         <div id="oMsg" class="msg"></div>
-        <button class="btn btn-green btn-block" type="submit" id="orderBtn">Confirm Order & Place Request</button>
+        <button class="btn btn-green btn-block" type="submit" id="orderBtn">Submit Order & Proof for Verification</button>
       </form>
     </div>
   </div>
@@ -477,8 +423,7 @@ footer p { margin-bottom:6px; font-size:14px; }
 <!-- CLIENT ORDERS PAGE -->
 <section id="p-orders" class="page auth-only">
   <div class="container">
-    <h2>Client Orders</h2>
-    <div style="text-align:center; margin-bottom:20px;"><button class="btn btn-sm btn-outline" onclick="loadOrders()">Refresh Records</button></div>
+    <h2>My Orders & Verification Status</h2>
     <div id="ordersList" style="max-width:800px; margin:0 auto;"></div>
   </div>
 </section>
@@ -493,52 +438,40 @@ footer p { margin-bottom:6px; font-size:14px; }
       <div id="tResult" style="display:none;" class="result">
         <h3 id="tP" style="color:var(--navy); margin-bottom:12px;"></h3>
         <p><strong>Tracking Reference:</strong> <span id="tM"></span></p>
-        <p><strong>Total Value:</strong> ₵<span id="tA"></span> GHS</p>
         <p><strong>Status:</strong> <span id="tS" class="pill pill-pending"></span></p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ADMIN DASHBOARD: UNLIMITED PRODUCT UPLOAD PORTAL -->
+<!-- ADMIN DASHBOARD: CLIENTS & PROOF VERIFICATION -->
 <section id="p-admin" class="page admin-only">
   <div class="container">
-    <h2>Management Portal</h2>
+    <h2>Management Dashboard</h2>
     
-    <div class="form-box" style="max-width:700px; margin-bottom:40px;">
-      <h3>Upload New Catalog Product (Unlimited)</h3>
-      <form onsubmit="doAddProduct(event)">
-        <div class="form-group"><label>Product Title</label><input type="text" id="npName" required placeholder="e.g. Smart Watch Ultra 2"></div>
-        <div class="form-row">
-          <div class="form-group"><label>Category</label><input type="text" id="npCat" required placeholder="e.g. Electronics, Apparel"></div>
-          <div class="form-group"><label>Price (GHS)</label><input type="number" id="npPrice" step="0.01" required placeholder="450.00"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Inventory Type</label>
-            <select id="npPreorder">
-              <option value="false">In Stock Item</option>
-              <option value="true">Pre-Order Item</option>
-            </select>
-          </div>
-          <div class="form-group"><label>Stock Quantity</label><input type="number" id="npStock" value="100" min="1"></div>
-        </div>
-        <div class="form-group">
-          <label>Product Photo / File Image (Upload or URL)</label>
-          <input type="file" id="npFile" accept="image/*" onchange="handleImageFile(event)">
-          <input type="url" id="npImgUrl" placeholder="Or enter Image Web URL" style="margin-top:8px;">
-        </div>
-        <div id="npMsg" class="msg"></div>
-        <button class="btn btn-green btn-block" type="submit" id="addProdBtn">Publish Product to Catalog</button>
-      </form>
+    <div class="tabs">
+      <button class="tab active" data-admintab="clients" onclick="adminTab('clients')">Registered Clients</button>
+      <button class="tab" data-admintab="orders" onclick="adminTab('orders')">Order Payment Verification</button>
+      <button class="tab" data-admintab="products" onclick="adminTab('products')">Product Inventory</button>
     </div>
 
-    <div class="tabs">
-      <button class="tab active" data-admintab="products" onclick="adminTab('products')">All Products</button>
-      <button class="tab" data-admintab="orders" onclick="adminTab('orders')">Client Orders</button>
+    <!-- REGISTERED CLIENTS TAB -->
+    <div id="adminClients" class="tab-content active">
+      <h3 style="margin-bottom:16px; color:var(--navy);">Registered Clients List</h3>
+      <div id="adminClientsList"></div>
     </div>
-    <div id="adminProducts" class="tab-content active"></div>
-    <div id="adminOrders" class="tab-content"></div>
+
+    <!-- ORDER PAYMENT VERIFICATION TAB -->
+    <div id="adminOrders" class="tab-content">
+      <h3 style="margin-bottom:16px; color:var(--navy);">Payment Proof Verification</h3>
+      <div id="adminOrdersList"></div>
+    </div>
+
+    <!-- PRODUCTS TAB -->
+    <div id="adminProducts" class="tab-content">
+      <h3 style="margin-bottom:16px; color:var(--navy);">Catalog Items</h3>
+      <div id="adminProductsList"></div>
+    </div>
   </div>
 </section>
 
@@ -546,9 +479,7 @@ footer p { margin-bottom:6px; font-size:14px; }
   <div class="container">
     <h3>EVERIVAULT LOGISTICS</h3>
     <p>China ↔ Ghana Commercial Freight Forwarding</p>
-    <p>Ayeduase New Site, KNUST Campus, Kumasi</p>
     <p>Contact: +233 543 155 883 | Email: richmonwireko@gmail.com</p>
-    <p style="margin-top:16px; opacity:0.6; font-size:12px;">© 2026 EveriVault Logistics. All rights reserved.</p>
   </div>
 </footer>
 
@@ -569,8 +500,9 @@ const state = {
   user: null, 
   products: [], 
   orders: [], 
+  clients: [],
   cart: JSON.parse(localStorage.getItem('ev_cart') || '[]'),
-  uploadedBase64: ''
+  paymentProofBase64: ''
 };
 
 const $ = id => document.getElementById(id);
@@ -609,13 +541,34 @@ function authTab(tab) {
   $('tClient').classList.toggle('active', tab === 'client');
   $('tAdmin').classList.toggle('active', tab === 'admin');
 }
-function authSub(sub) {
-  document.querySelectorAll('[data-authsub]').forEach(t => t.classList.toggle('active', t.dataset.authsub === sub));
-  $('fLogin').classList.toggle('active', sub === 'login');
-  $('fReg').classList.toggle('active', sub === 'reg');
+
+/* --- EASY LOGIN HELPER --- */
+function prefillLogin(role) {
+  if (role === 'client') {
+    authTab('client');
+    $('lem').value = 'client@everivault.com';
+    $('lpw').value = 'client123';
+  } else {
+    authTab('admin');
+    $('aem').value = 'richmonwireko@gmail.com';
+    $('apw').value = 'admin123';
+  }
+  toast('Demo credentials prefilled for easy login', 'ok');
 }
 
-/* --- CART SYSTEM LOGIC --- */
+/* --- PROOF OF PAYMENT FILE HANDLER --- */
+function handleProofFile(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    state.paymentProofBase64 = evt.target.result;
+    toast('Proof of payment image attached', 'ok');
+  };
+  reader.readAsDataURL(file);
+}
+
+/* --- CART FUNCTIONS --- */
 function updateCartBadge() {
   const count = state.cart.reduce((sum, item) => sum + item.qty, 0);
   $('cartBadgeCount').textContent = count;
@@ -626,226 +579,138 @@ function addToCart(prodId) {
   const p = state.products.find(x => String(x.id) === String(prodId));
   if (!p) return;
   const existing = state.cart.find(item => String(item.id) === String(prodId));
-  if (existing) {
-    existing.qty += 1;
-  } else {
-    state.cart.push({ id: p.id, name: p.name, price: p.price, image: p.image || p.image_url || '', qty: 1 });
-  }
+  if (existing) { existing.qty += 1; } 
+  else { state.cart.push({ id: p.id, name: p.name, price: p.price, image: p.image || '', qty: 1 }); }
   updateCartBadge();
-  toast('Item added to cart', 'ok');
-}
-
-function removeFromCart(prodId) {
-  state.cart = state.cart.filter(item => String(item.id) !== String(prodId));
-  updateCartBadge();
-  renderCart();
-  toast('Item removed', 'info');
-}
-
-function updateCartQty(prodId, delta) {
-  const item = state.cart.find(x => String(x.id) === String(prodId));
-  if (!item) return;
-  item.qty += delta;
-  if (item.qty <= 0) {
-    removeFromCart(prodId);
-  } else {
-    updateCartBadge();
-    renderCart();
-  }
-}
-
-function clearCart() {
-  state.cart = [];
-  updateCartBadge();
-  renderCart();
+  toast('Added to cart', 'ok');
 }
 
 function renderCart() {
   const container = $('cartItemsContainer');
   if (!state.cart.length) {
-    container.innerHTML = '<div class="card" style="text-align:center; padding:40px;"><p style="color:#888;">Your shopping cart is empty.</p><button class="btn btn-green" style="margin-top:16px;" onclick="go(\'store\')">Browse Store</button></div>';
+    container.innerHTML = '<div class="card" style="text-align:center; padding:40px;"><p>Your shopping cart is empty.</p></div>';
     $('cartGrandTotal').textContent = '₵0.00 GHS';
     return;
   }
-  
   let total = 0;
   container.innerHTML = state.cart.map(item => {
-    const itemTotal = item.price * item.qty;
-    total += itemTotal;
-    const imgUrl = item.image || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=200&q=80';
-    return '<div class="cart-item"><img src="' + esc(imgUrl) + '" alt="' + esc(item.name) + '"><div><h4 style="font-size:15px; color:var(--navy);">' + esc(item.name) + '</h4><p style="font-weight:700; color:var(--green);">' + fmtGHS(item.price) + '</p></div><div class="cart-controls"><button class="qty-btn" onclick="updateCartQty(\'' + item.id + '\', -1)">-</button><span style="font-weight:700;">' + item.qty + '</span><button class="qty-btn" onclick="updateCartQty(\'' + item.id + '\', 1)">+</button></div><button class="btn btn-sm btn-danger" onclick="removeFromCart(\'' + item.id + '\')">Remove</button></div>';
+    total += item.price * item.qty;
+    return '<div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background:#fff; border-radius:10px; margin-bottom:8px; border:1px solid var(--border-color);"><div><strong>' + esc(item.name) + '</strong><br><span style="color:var(--green); font-weight:700;">' + fmtGHS(item.price) + '</span> x ' + item.qty + '</div><button class="btn btn-sm btn-danger" onclick="removeFromCart(\'' + item.id + '\')">Remove</button></div>';
   }).join('');
-
   $('cartGrandTotal').textContent = fmtGHS(total) + ' GHS';
 }
 
+function removeFromCart(id) {
+  state.cart = state.cart.filter(i => String(i.id) !== String(id));
+  updateCartBadge(); renderCart();
+}
+function clearCart() { state.cart = []; updateCartBadge(); renderCart(); }
+
 function proceedToCheckout() {
-  if (!state.cart.length) { toast('Cart is empty', 'err'); return; }
-  if (!state.user) { toast('Please log in to proceed to checkout', 'err'); go('auth'); return; }
-  
-  const itemSummary = state.cart.map(i => i.name + ' (x' + i.qty + ')').join(', ');
-  const totalAmount = state.cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-  
-  $('oItem').value = itemSummary;
-  $('oTotal').value = totalAmount.toFixed(2);
+  if (!state.cart.length) return;
+  if (!state.user) { toast('Please log in first', 'err'); go('auth'); return; }
+  $('oItem').value = state.cart.map(i => i.name + ' (x' + i.qty + ')').join(', ');
+  $('oTotal').value = state.cart.reduce((s, i) => s + (i.price * i.qty), 0).toFixed(2);
   go('order');
 }
 
-/* --- PRODUCT RENDERING & SHOWCASE --- */
+/* --- PRODUCTS & SHOWCASE --- */
 async function loadProducts() {
   if (!sb) return;
   const { data } = await sb.from('products').select('*').order('created_at', { ascending: false });
   state.products = data || [];
-  populateCategoryFilter();
   renderProducts();
-  renderHomeShowcase();
-}
-
-function populateCategoryFilter() {
-  const sel = $('catFilter'), cur = sel.value;
-  const cats = [...new Set(state.products.map(p => p.category))].sort();
-  sel.innerHTML = '<option value="all">All Categories</option>' + cats.map(c => '<option>' + esc(c) + '</option>').join('');
-  if ([...sel.options].some(o => o.value === cur)) sel.value = cur;
 }
 
 function renderProducts() {
   const grid = $('prodGrid');
-  const cat = $('catFilter').value, stock = $('stockFilter').value, search = ($('searchInput').value || '').toLowerCase();
-  let list = [...state.products];
-  if (cat !== 'all') list = list.filter(p => p.category === cat);
-  if (stock === 'false') list = list.filter(p => !p.preorder);
-  if (stock === 'true') list = list.filter(p => p.preorder);
-  if (search) list = list.filter(p => p.name.toLowerCase().includes(search) || p.category.toLowerCase().includes(search));
-  
-  if (!list.length) { grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#888; padding:40px;">No products match your criteria.</p>'; return; }
-  
-  grid.innerHTML = list.map(p => {
-    const img = p.image || p.image_url || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=400&q=80';
-    return '<div class="card"><img src="' + esc(img) + '" class="card-img" alt="Product"><span class="tag ' + (p.preorder ? 'tag-pre' : 'tag-stock') + '">' + (p.preorder ? 'Pre-Order Cargo' : 'In Stock') + '</span><h3>' + esc(p.name) + '</h3><p style="font-weight:800; color:var(--navy); font-size:18px; margin:8px 0;">' + fmtGHS(p.price) + '</p><div style="display:flex; gap:8px; margin-top:auto;"><button class="btn btn-sm btn-green btn-block" onclick="addToCart(\'' + p.id + '\')">Add to Cart</button></div></div>';
-  }).join('');
+  if (!grid) return;
+  grid.innerHTML = state.products.map(p => '<div class="card"><h3>' + esc(p.name) + '</h3><p style="font-weight:800; color:var(--navy); font-size:18px; margin:8px 0;">' + fmtGHS(p.price) + '</p><button class="btn btn-sm btn-green" onclick="addToCart(\'' + p.id + '\')">Add to Cart</button></div>').join('');
 }
 
-function renderHomeShowcase() {
-  const track = $('homeShowcaseTrack');
-  if (!state.products.length) {
-    track.innerHTML = '<p style="color:#CBD5E1; text-align:center; width:100%;">Loading featured catalog items...</p>';
-    return;
-  }
-  track.innerHTML = state.products.slice(0, 10).map(p => {
-    const img = p.image || p.image_url || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=300&q=80';
-    return '<div class="showcase-card"><img src="' + esc(img) + '" class="showcase-img"><h4 style="font-size:13px; margin:8px 0 4px; color:var(--navy); font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + esc(p.name) + '</h4><p style="font-weight:800; color:var(--green); font-size:14px;">' + fmtGHS(p.price) + '</p><button class="btn btn-sm btn-navy btn-block" style="margin-top:6px;" onclick="addToCart(\'' + p.id + '\')">Add to Cart</button></div>';
-  }).join('');
-}
-
-/* --- ADMIN UNLIMITED PRODUCT UPLOAD --- */
-function handleImageFile(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(evt) {
-    state.uploadedBase64 = evt.target.result;
+/* --- SUBMIT ORDER WITH PAYMENT PROOF --- */
+async function submitOrder(e) {
+  e.preventDefault();
+  const btn = $('orderBtn');
+  if (!state.user || !sb) return;
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Submitting Proof...';
+  
+  const order = {
+    user_id: state.user.id, user_email: state.user.email, user_name: state.user.name,
+    item: $('oItem').value, qty: 1, total: parseFloat($('oTotal').value),
+    mark: state.user.mark || randomMark(state.user.name),
+    status: 'Pending Verification', 
+    proof_data: state.paymentProofBase64 || $('payTxRef').value.trim(),
+    verified: false
   };
-  reader.readAsDataURL(file);
+
+  const { error } = await sb.from('orders').insert(order);
+  btn.disabled = false; btn.textContent = 'Submit Order & Proof for Verification';
+  if (error) { toast(error.message, 'err'); return; }
+  
+  clearCart();
+  state.paymentProofBase64 = '';
+  toast('Order & Payment Proof Submitted!', 'ok');
+  go('orders');
 }
 
-async function doAddProduct(e) {
-  e.preventDefault();
-  const msg = $('npMsg'), btn = $('addProdBtn');
+/* --- ADMIN DASHBOARD & VERIFICATION --- */
+async function loadAdmin() {
+  if (!state.user || state.user.role !== 'admin' || !sb) return;
+  
+  // Load Registered Clients
+  const { data: clients } = await sb.from('profiles').select('*').order('created_at', { ascending: false });
+  state.clients = clients || [];
+  $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Phone</th><th>Location</th><th>Ref Code</th></tr></thead><tbody>' + state.clients.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.phone) + '</td><td>' + esc(c.location) + '</td><td><code>' + esc(c.mark) + '</code></td></tr>').join('') + '</tbody></table></div>';
+
+  // Load Payment Proof Verification
+  const { data: orders } = await sb.from('orders').select('*').order('created_at', { ascending: false });
+  state.orders = orders || [];
+  $('adminOrdersList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Items</th><th>Total</th><th>Proof</th><th>Status</th><th>Action</th></tr></thead><tbody>' + state.orders.map(o => {
+    const proofView = o.proof_data && o.proof_data.startsWith('data:image') 
+      ? '<a href="' + o.proof_data + '" target="_blank" style="color:var(--green); font-weight:700;">View Screenshot</a>' 
+      : (o.proof_data ? '<code>' + esc(o.proof_data) + '</code>' : 'No Proof Uploaded');
+    return '<tr><td>' + esc(o.user_name) + '</td><td>' + esc(o.item) + '</td><td>' + fmtGHS(o.total) + '</td><td>' + proofView + '</td><td><span class="pill ' + (o.verified ? 'pill-verified' : 'pill-pending') + '">' + (o.verified ? 'Verified' : 'Pending') + '</span></td><td><button class="btn btn-sm btn-green" onclick="toggleVerifyOrder(\'' + o.id + '\', ' + !o.verified + ')">' + (o.verified ? 'Unverify' : 'Verify Payment') + '</button></td></tr>';
+  }).join('') + '</tbody></table></div>';
+}
+
+async function toggleVerifyOrder(orderId, verifyStatus) {
   if (!sb) return;
-  
-  const name = $('npName').value.trim(), cat = $('npCat').value.trim();
-  const price = parseFloat($('npPrice').value) || 0;
-  const preorder = $('npPreorder').value === 'true';
-  const stock = parseInt($('npStock').value) || 100;
-  const imgUrl = state.uploadedBase64 || $('npImgUrl').value.trim();
-
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Publishing...';
-
-  const productObj = { name, category: cat, price, preorder, stock, image: imgUrl };
-  const { error } = await sb.from('products').insert(productObj);
-  
-  btn.disabled = false; btn.textContent = 'Publish Product to Catalog';
-
-  if (error) {
-    msg.className = 'msg err'; msg.textContent = error.message;
-    return;
-  }
-  
-  msg.className = 'msg ok'; msg.textContent = 'Product published to catalog successfully!';
-  toast('Product uploaded', 'ok');
-  $('npName').value = ''; $('npCat').value = ''; $('npPrice').value = ''; $('npImgUrl').value = ''; $('npFile').value = '';
-  state.uploadedBase64 = '';
-  loadProducts();
+  await sb.from('orders').update({ verified: verifyStatus, status: verifyStatus ? 'Payment Verified' : 'Pending Verification' }).eq('id', orderId);
+  toast('Order payment status updated', 'ok');
+  loadAdmin();
 }
 
-/* --- AUTH & ORDERS LOGIC --- */
-async function doReg(e) {
-  e.preventDefault();
-  const msg = $('rmsg'), btn = $('regBtn');
-  if (!sb) return;
-  const name = $('rn').value.trim(), email = $('rem').value.trim().toLowerCase(), phone = $('rp').value.trim(), location = $('rl').value.trim();
-  const pw = $('rpw').value, pw2 = $('rpw2').value;
-  if (pw !== pw2) { msg.className = 'msg err'; msg.textContent = 'Passwords do not match.'; return; }
-  
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Registering...';
-  const { data, error } = await sb.auth.signUp({ email, password: pw, options: { data: { name, phone, location } } });
-  btn.disabled = false; btn.textContent = 'Register Account';
-  if (error) { msg.className = 'msg err'; msg.textContent = error.message; return; }
-  toast('Account created!', 'ok');
-  if (data.session) { await loadProfile(); applyUserState(); setTimeout(() => go('home'), 600); }
-  else { authSub('login'); }
+function adminTab(tab) {
+  document.querySelectorAll('[data-admintab]').forEach(t => t.classList.toggle('active', t.dataset.admintab === tab));
+  $('adminClients').classList.toggle('active', tab === 'clients');
+  $('adminOrders').classList.toggle('active', tab === 'orders');
+  $('adminProducts').classList.toggle('active', tab === 'products');
 }
 
+/* --- AUTH & INIT --- */
 async function doLogin(e) {
   e.preventDefault();
-  const msg = $('lmsg'), btn = $('loginBtn');
   if (!sb) return;
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Signing in...';
   const { error } = await sb.auth.signInWithPassword({ email: $('lem').value.trim().toLowerCase(), password: $('lpw').value });
-  btn.disabled = false; btn.textContent = 'Sign In';
-  if (error) { msg.className = 'msg err'; msg.textContent = error.message; return; }
-  await loadProfile();
-  applyUserState();
-  toast('Welcome back!', 'ok');
-  setTimeout(() => go(state.user?.role === 'admin' ? 'admin' : 'home'), 400);
+  if (error) { toast(error.message, 'err'); return; }
+  await loadProfile(); applyUserState(); toast('Logged in successfully', 'ok'); go('home');
 }
 
 async function doAdmin(e) {
   e.preventDefault();
-  const msg = $('amsg'), btn = $('adminBtn');
   if (!sb) return;
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Authenticating...';
   const { error } = await sb.auth.signInWithPassword({ email: $('aem').value.trim().toLowerCase(), password: $('apw').value });
-  btn.disabled = false; btn.textContent = 'Authenticate Admin';
-  if (error) { msg.className = 'msg err'; msg.textContent = error.message; return; }
-  await loadProfile();
-  if (state.user?.role !== 'admin') {
-    msg.className = 'msg err'; msg.textContent = 'Access restricted.';
-    await sb.auth.signOut(); state.user = null; applyUserState(); return;
-  }
-  applyUserState();
-  toast('Admin Panel Access Granted', 'ok');
-  setTimeout(() => go('admin'), 400);
-}
-
-async function logout() {
-  if (sb) await sb.auth.signOut();
-  state.user = null; applyUserState(); go('home');
-  toast('Signed out', 'info');
+  if (error) { toast(error.message, 'err'); return; }
+  await loadProfile(); applyUserState(); go('admin');
 }
 
 async function loadProfile() {
   if (!sb) return null;
   const { data: { user } } = await sb.auth.getUser();
-  if (!user) { state.user = null; return null; }
+  if (!user) return null;
   let { data: profile } = await sb.from('profiles').select('*').eq('id', user.id).maybeSingle();
-  if (!profile) {
-    const meta = user.user_metadata || {};
-    const insert = { id: user.id, name: meta.name || user.email.split('@')[0], phone: meta.phone || '', location: meta.location || '', mark: randomMark(meta.name || 'User') };
-    const { data: created } = await sb.from('profiles').insert(insert).select().single();
-    profile = created;
-  }
-  if (profile) state.user = { id: user.id, email: user.email, name: profile.name, phone: profile.phone, location: profile.location, role: profile.role, mark: profile.mark };
+  if (profile) state.user = { id: user.id, email: user.email, name: profile.name, role: profile.role, mark: profile.mark };
   return state.user;
 }
 
@@ -856,109 +721,17 @@ function applyUserState() {
   $('adminLink').style.display = isAdmin ? 'block' : 'none';
   document.querySelectorAll('.auth-only').forEach(el => el.classList.toggle('show', isLoggedIn));
   document.querySelectorAll('.admin-only').forEach(el => el.classList.toggle('show', isAdmin));
-  const authNav = $('authNav');
-  if (isLoggedIn) authNav.innerHTML = '<a class="nav-cta plink" onclick="logout()">Logout (' + esc(state.user.name.split(' ')[0]) + ')</a>';
-  else authNav.innerHTML = '<a class="nav-cta plink" data-p="auth" onclick="go(\'auth\')">Client Login</a>';
-}
-
-async function submitOrder(e) {
-  e.preventDefault();
-  const msg = $('oMsg'), btn = $('orderBtn');
-  if (!state.user || !sb) return;
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Processing Order...';
-  
-  const order = {
-    user_id: state.user.id, user_email: state.user.email, user_name: state.user.name,
-    item: $('oItem').value, qty: 1, total: parseFloat($('oTotal').value),
-    mode: $('oMode').value, pay: $('oPay').value,
-    mark: state.user.mark || randomMark(state.user.name),
-    status: 'Pending Settlement', verified: true, note: $('oNote').value
-  };
-
-  const { error } = await sb.from('orders').insert(order);
-  btn.disabled = false; btn.textContent = 'Confirm Order & Place Request';
-  if (error) { msg.className = 'msg err'; msg.textContent = error.message; return; }
-  
-  clearCart();
-  toast('Order Placed Successfully!', 'ok');
-  go('orders');
-}
-
-async function loadOrders() {
-  const list = $('ordersList');
-  if (!state.user || !sb) return;
-  list.innerHTML = '<p style="text-align:center;">Loading orders...</p>';
-  const { data } = await sb.from('orders').select('*').eq('user_id', state.user.id).order('created_at', { ascending: false });
-  if (!data?.length) { list.innerHTML = '<p style="text-align:center; color:#888;">No orders recorded.</p>'; return; }
-  list.innerHTML = data.map(o => '<div class="card" style="margin-bottom:12px;"><div style="display:flex; justify-content:space-between; align-items:center;"><div><h3>' + esc(o.item) + '</h3><p style="font-size:12px; color:var(--slate);">Ref Code: ' + esc(o.mark) + '</p></div><div style="text-align:right;"><p style="font-weight:800; color:var(--navy);">' + fmtGHS(o.total) + '</p><span class="pill pill-pending">' + esc(o.status) + '</span></div></div></div>').join('');
-}
-
-async function doTrack() {
-  const code = $('tCode').value.trim().toUpperCase();
-  const r = $('tResult'), btn = $('trackBtn');
-  if (!code || !sb) return;
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Searching...';
-  const { data } = await sb.from('orders').select('*').eq('mark', code).maybeSingle();
-  btn.disabled = false; btn.textContent = 'Locate Shipment';
-  if (data) {
-    $('tP').textContent = data.item;
-    $('tM').textContent = data.mark;
-    $('tA').textContent = Number(data.total).toLocaleString();
-    $('tS').textContent = data.status;
-  } else {
-    $('tP').textContent = 'Shipment Not Found';
-    $('tM').textContent = code; $('tA').textContent = '—'; $('tS').textContent = 'Unrecognized Ref';
-  }
-  r.style.display = 'block';
-}
-
-function calcMode(mode) {
-  document.querySelectorAll('#p-calc .tab').forEach(t => t.classList.remove('active'));
-  document.querySelector('#p-calc .tab[onclick*="' + mode + '"]')?.classList.add('active');
-  $('calcSea').classList.toggle('active', mode === 'sea');
-  $('calcAir').classList.toggle('active', mode === 'air');
-}
-function calcSea() {
-  const L = parseFloat($('seaL').value) || 0, W = parseFloat($('seaW').value) || 0, H = parseFloat($('seaH').value) || 0, qty = parseInt($('seaQty').value) || 1;
-  const cbm = (L / 100) * (W / 100) * (H / 100) * qty, usd = cbm * (cbm >= 1 ? 255 : 260);
-  $('seaCbm').textContent = cbm.toFixed(3); $('seaUsd').textContent = usd.toFixed(2); $('seaGhs').textContent = (usd * 13).toFixed(2);
-}
-function calcAir() {
-  const type = $('airType').value;
-  let usd = 0, ghs = 0;
-  if (type === 'std') { $('airKgRow').style.display = 'block'; usd = (parseFloat($('airKg').value) || 0) * 17; ghs = usd * 13; }
-  else { $('airKgRow').style.display = 'none'; ghs = 500; usd = ghs / 13; }
-  $('airUsd').textContent = usd.toFixed(2); $('airGhs').textContent = ghs.toFixed(2);
 }
 
 function copyText(text) {
   if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => toast('Copied to clipboard', 'ok'));
 }
 
-async function loadAdmin() {
-  if (!state.user || state.user.role !== 'admin' || !sb) return;
-  const { data: prods } = await sb.from('products').select('*').order('created_at', { ascending: false });
-  $('adminProducts').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th></tr></thead><tbody>' + (prods || []).map(p => '<tr><td>' + esc(p.name) + '</td><td>' + esc(p.category) + '</td><td>' + fmtGHS(p.price) + '</td><td>' + p.stock + '</td></tr>').join('') + '</tbody></table></div>';
-}
-
-function adminTab(tab) {
-  document.querySelectorAll('[data-admintab]').forEach(t => t.classList.toggle('active', t.dataset.admintab === tab));
-  $('adminProducts').classList.toggle('active', tab === 'products');
-  $('adminOrders').classList.toggle('active', tab === 'orders');
-}
-
-Object.assign(window, { go, toggleMenu, authTab, authSub, doLogin, doReg, doAdmin, logout, loadProducts, addToCart, removeFromCart, updateCartQty, clearCart, proceedToCheckout, submitOrder, loadOrders, doTrack, calcMode, calcSea, calcAir, copyText, renderProducts, handleImageFile, doAddProduct, adminTab });
+Object.assign(window, { go, toggleMenu, authTab, prefillLogin, handleProofFile, addToCart, removeFromCart, clearCart, proceedToCheckout, submitOrder, copyText, adminTab, toggleVerifyOrder, doLogin, doAdmin });
 
 (async function init() {
-  if (sb) {
-    try {
-      const { data: { session } } = await sb.auth.getSession();
-      if (session) await loadProfile();
-    } catch(e){}
-  }
-  updateCartBadge();
-  applyUserState();
-  go('home');
+  if (sb) { try { await loadProfile(); } catch(e){} }
+  updateCartBadge(); applyUserState(); go('home');
 })();
 </script>
 </body>
