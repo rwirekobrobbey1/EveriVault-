@@ -109,7 +109,7 @@ h2::after { content:''; display:block; width:48px; height:4px; background:var(--
 .prod-img { width:100%; height:160px; object-fit:cover; border-radius:10px; margin-bottom:12px; background:#E2E8F0; }
 
 /* Tabs & Forms */
-.tabs { display:flex; gap:6px; margin-bottom:24px; border-bottom:2px solid var(--border-color); padding-bottom:2px; }
+.tabs { display:flex; gap:6px; margin-bottom:24px; border-bottom:2px solid var(--border-color); padding-bottom:2px; flex-wrap:wrap; }
 .tab { padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:700; color:var(--slate); border:none; background:none; font-size:14px; transition:0.2s; }
 .tab.active { color:var(--navy); background:#E2E8F0; }
 .tab-content { display:none; }
@@ -152,7 +152,17 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 /* Review Portal Styles */
 .review-card { background:#fff; border-radius:16px; padding:20px; border:1px solid var(--border-color); box-shadow:var(--card-shadow); margin-bottom:16px; }
 
-/* Admin Table */
+/* Admin Dashboard Dashboard Elements */
+.admin-stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:24px; }
+.stat-card { background:#fff; padding:20px; border-radius:14px; border:1px solid var(--border-color); box-shadow:var(--card-shadow); }
+.stat-card h4 { font-size:12px; color:var(--slate); text-transform:uppercase; margin-bottom:6px; font-weight:700; }
+.stat-card .val { font-size:24px; font-weight:800; color:var(--navy); }
+
+.admin-layout { display:grid; grid-template-columns:240px 1fr; gap:24px; }
+.admin-sidebar { background:#fff; border-radius:16px; border:1px solid var(--border-color); padding:16px; box-shadow:var(--card-shadow); height:fit-content; }
+.admin-nav-btn { width:100%; text-align:left; padding:12px 16px; border-radius:10px; border:none; background:transparent; font-weight:700; color:var(--slate); cursor:pointer; font-size:14px; transition:0.2s; margin-bottom:4px; display:block; }
+.admin-nav-btn.active, .admin-nav-btn:hover { background:var(--navy); color:#fff; }
+
 .admin-table { width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:var(--card-shadow); }
 .admin-table th { background:var(--navy); color:#fff; padding:14px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:0.5px; }
 .admin-table td { padding:14px; border-bottom:1px solid var(--border-color); font-size:14px; }
@@ -182,7 +192,8 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
 .spinner { display:inline-block; width:16px; height:16px; border:2.5px solid rgba(255,255,255,0.3); border-top-color:#fff; border-radius:50%; animation:spin .8s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
 
-@media(max-width:768px) {
+@media(max-width:850px) {
+  .admin-layout { grid-template-columns:1fr; }
   .menu-toggle { display:block; }
   .nav-links { position:absolute; top:100%; left:0; right:0; background:var(--navy); flex-direction:column; padding:16px; display:none; border-bottom:1px solid rgba(255,255,255,0.1); }
   .nav-links.active { display:flex; }
@@ -201,14 +212,18 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       EVERIVAULT <span>LOGISTICS</span>
     </a>
     <ul class="nav-links" id="menu">
-      <li><a class="plink active" data-p="home" onclick="go('home')">Home</a></li>
-      <li><a class="plink" data-p="store" onclick="go('store')">Store Catalog</a></li>
-      <li><a class="plink" data-p="cart" onclick="go('cart')">Cart <span class="cart-badge" id="cartBadgeCount">0</span></a></li>
-      <li><a class="plink" data-p="calc" onclick="go('calc')">Freight Calculator</a></li>
-      <li><a class="plink" data-p="address" onclick="go('address')">Warehouses</a></li>
-      <li><a class="plink" data-p="reviews" onclick="go('reviews')">Reviews</a></li>
-      <li id="clientLink" style="display:none;"><a class="plink" data-p="payment" onclick="redirectToPayment('goods')">Payment Portal</a></li>
+      <!-- CLIENT ONLY MENU -->
+      <li class="nav-client-item"><a class="plink active" data-p="home" onclick="go('home')">Home</a></li>
+      <li class="nav-client-item"><a class="plink" data-p="store" onclick="go('store')">Store Catalog</a></li>
+      <li class="nav-client-item"><a class="plink" data-p="cart" onclick="go('cart')">Cart <span class="cart-badge" id="cartBadgeCount">0</span></a></li>
+      <li class="nav-client-item"><a class="plink" data-p="calc" onclick="go('calc')">Freight Calculator</a></li>
+      <li class="nav-client-item"><a class="plink" data-p="address" onclick="go('address')">Warehouses</a></li>
+      <li class="nav-client-item"><a class="plink" data-p="reviews" onclick="go('reviews')">Reviews</a></li>
+      <li id="clientLink" style="display:none;" class="nav-client-item"><a class="plink" data-p="payment" onclick="redirectToPayment('goods')">Payment Portal</a></li>
+      
+      <!-- ADMIN ONLY MENU -->
       <li id="adminLink" style="display:none;"><a class="plink" data-p="admin" onclick="go('admin')">Master Admin Suite</a></li>
+      
       <li id="authNav"><a class="nav-cta plink" data-p="auth" onclick="go('auth')">Client Portal</a></li>
       <li id="signOutNav" style="display:none;"><a class="btn btn-sm btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.4);" onclick="doSignOut()">Sign Out</a></li>
     </ul>
@@ -227,22 +242,22 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   <div class="hero">
     <div class="container">
       <div class="badge">Ghana Central Hub — KNUST Ayeduase New Site, Kumasi</div>
-      <h1>China to Ghana <span>Commercial Freight & Supply</span></h1>
-      <p>Direct Factory Sourcing • Sea & Air Freight Cargo • Real-Time Tracking • Mandatory Shipping Marks</p>
+      <h1 id="dynHeroTitle">China to Ghana <span>Commercial Freight & Supply</span></h1>
+      <p id="dynHeroSub">Direct Factory Sourcing • Sea & Air Freight Cargo • Real-Time Tracking • Mandatory Shipping Marks</p>
       
       <div class="rate-grid">
         <div class="rate-card">
           <h3>Sea Freight Cargo</h3>
-          <div class="big">$260 / m³</div>
+          <div class="big" id="dynSeaRate1">$260 / m³</div>
           <div class="sub">Under 1.0 CBM Volume</div>
-          <div class="big" style="font-size:20px; margin-top:8px; color:#fff;">$255 / m³</div>
+          <div class="big" id="dynSeaRate2" style="font-size:20px; margin-top:8px; color:#fff;">$255 / m³</div>
           <div class="sub">1.0 CBM & Above Tier</div>
         </div>
         <div class="rate-card">
           <h3>Air Express Freight</h3>
-          <div class="big">$17 / kg</div>
+          <div class="big" id="dynAirRate1">$17 / kg</div>
           <div class="sub">General Cargo Merchandise</div>
-          <div class="big" style="font-size:20px; margin-top:8px; color:#fff;">GHS 500 Flat Rate</div>
+          <div class="big" id="dynAirRate2" style="font-size:20px; margin-top:8px; color:#fff;">GHS 500 Flat Rate</div>
           <div class="sub">Phones / Laptops / Tablets</div>
         </div>
         <div class="rate-card">
@@ -264,7 +279,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     <div class="referral-banner">
       <div>
         <h3>Client Referral Reward Program</h3>
-        <p>Refer new commercial clients or business partners to EveriVault Logistics and receive a FREE GIFT on your next freight shipment arrival!</p>
+        <p id="dynBannerMsg">Refer new commercial clients or business partners to EveriVault Logistics and receive a FREE GIFT on your next freight shipment arrival!</p>
       </div>
       <button class="btn btn-navy" onclick="copyText('Use my EveriVault referral code for shipping from China to Ghana!')">Copy Referral Share Link</button>
     </div>
@@ -630,62 +645,134 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   <div class="container">
     <div style="background:var(--navy); color:#fff; padding:24px; border-radius:16px; margin-bottom:28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
       <div>
-        <h2 style="color:var(--green); text-align:left; margin-bottom:4px;">Master Executive Suite — CEO Control Center</h2>
+        <h2 style="color:var(--green); text-align:left; margin-bottom:4px;">Master Executive Suite — Control Center</h2>
         <p style="color:var(--slate-light);">Authorized Director Management Portal: Richmond Wireko Brobbey</p>
       </div>
       <button class="btn btn-sm btn-outline" style="color:#fff; border-color:#fff;" onclick="openAdminPasswordModal()">Change Admin Password</button>
     </div>
 
-    <!-- ADMIN CHANGE PASSWORD MODAL -->
-    <div id="adminPwBox" class="form-box" style="display:none; max-width:600px; margin-bottom:28px; border:2px solid var(--green);">
-      <h3>Update Master Admin Password</h3>
-      <form onsubmit="doAdminChangePassword(event)">
-        <div class="form-group"><label>New Master Password</label><input type="password" id="aNewPw" required minlength="6"></div>
-        <div style="display:flex; gap:10px;">
-          <button class="btn btn-green btn-block" type="submit">Update Password Now</button>
-          <button class="btn btn-outline" type="button" onclick="openAdminPasswordModal(false)">Cancel</button>
-        </div>
-      </form>
-    </div>
-    
-    <div class="tabs">
-      <button class="tab active" data-admintab="clients" onclick="adminTab('clients')">Registered Clients Roster</button>
-      <button class="tab" data-admintab="orders" onclick="adminTab('orders')">Payment Verification Desk</button>
-      <button class="tab" data-admintab="products" onclick="adminTab('products')">Upload & Manage Catalog</button>
-    </div>
-
-    <!-- REGISTERED CLIENTS TAB -->
-    <div id="adminClients" class="tab-content active">
-      <h3 style="margin-bottom:16px; color:var(--navy);">Registered Clients List</h3>
-      <div id="adminClientsList"></div>
-    </div>
-
-    <!-- ORDER & SHIPPING PAYMENT VERIFICATION TAB -->
-    <div id="adminOrders" class="tab-content">
-      <h3 style="margin-bottom:16px; color:var(--navy);">Payment Proof Verification (Goods & Shipping)</h3>
-      <div id="adminOrdersList"></div>
-    </div>
-
-    <!-- PRODUCTS UNLIMITED UPLOAD TAB -->
-    <div id="adminProducts" class="tab-content">
-      <div class="form-box" style="max-width:700px; margin-bottom:30px;">
-        <h3>Upload New Product to Catalog (Unlimited)</h3>
-        <form onsubmit="doAddProduct(event)">
-          <div class="form-group"><label>Product Title</label><input type="text" id="npName" required placeholder="e.g. Smart Watch Ultra 2"></div>
-          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px;">
-            <div class="form-group"><label>Category</label><input type="text" id="npCat" required placeholder="e.g. Electronics"></div>
-            <div class="form-group"><label>Price (GHS)</label><input type="number" id="npPrice" step="0.01" required placeholder="450.00"></div>
-          </div>
-          <div class="form-group">
-            <label>Product Photo File / Image URL</label>
-            <input type="file" id="npFile" accept="image/*" onchange="handleImageFile(event)">
-            <input type="url" id="npImgUrl" placeholder="Or Enter Image Web URL" style="margin-top:8px;">
-          </div>
-          <button class="btn btn-green btn-block" type="submit" id="addProdBtn">Publish Product to Catalog</button>
-        </form>
+    <!-- QUICK STATS OVERVIEW -->
+    <div class="admin-stats-grid">
+      <div class="stat-card">
+        <h4>Total Registered Clients</h4>
+        <div class="val" id="statClientCount">0</div>
       </div>
-      <h3 style="margin-bottom:16px; color:var(--navy);">Catalog Products Management</h3>
-      <div id="adminProductsList"></div>
+      <div class="stat-card">
+        <h4>Pending Verification</h4>
+        <div class="val" id="statPendingCount" style="color:#D97706;">0</div>
+      </div>
+      <div class="stat-card">
+        <h4>Verified Payments</h4>
+        <div class="val" id="statVerifiedCount" style="color:var(--green);">0</div>
+      </div>
+      <div class="stat-card">
+        <h4>Store Catalog Items</h4>
+        <div class="val" id="statProdCount">0</div>
+      </div>
+    </div>
+
+    <!-- ADMIN WORKSPACE LAYOUT WITH SIDEBAR -->
+    <div class="admin-layout">
+      <!-- SIDEBAR -->
+      <div class="admin-sidebar">
+        <button class="admin-nav-btn active" data-admintab="orders" onclick="adminTab('orders')">Payment Verification</button>
+        <button class="admin-nav-btn" data-admintab="clients" onclick="adminTab('clients')">Registered Clients</button>
+        <button class="admin-nav-btn" data-admintab="products" onclick="adminTab('products')">Manage Catalog</button>
+        <button class="admin-nav-btn" data-admintab="content" onclick="adminTab('content')">Edit Portal Content</button>
+      </div>
+
+      <!-- MAIN WORKSPACE -->
+      <div>
+        <!-- ADMIN CHANGE PASSWORD MODAL -->
+        <div id="adminPwBox" class="form-box" style="display:none; max-width:100%; margin-bottom:28px; border:2px solid var(--green);">
+          <h3>Update Master Admin Password</h3>
+          <form onsubmit="doAdminChangePassword(event)">
+            <div class="form-group"><label>New Master Password</label><input type="password" id="aNewPw" required minlength="6"></div>
+            <div style="display:flex; gap:10px;">
+              <button class="btn btn-green btn-block" type="submit">Update Password Now</button>
+              <button class="btn btn-outline" type="button" onclick="openAdminPasswordModal(false)">Cancel</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- PAYMENT VERIFICATION DESK -->
+        <div id="adminOrders" class="tab-content active">
+          <h3 style="margin-bottom:16px; color:var(--navy);">Payment Proof Verification (Goods & Shipping)</h3>
+          <div id="adminOrdersList"></div>
+        </div>
+
+        <!-- REGISTERED CLIENTS TAB -->
+        <div id="adminClients" class="tab-content">
+          <h3 style="margin-bottom:16px; color:var(--navy);">Registered Clients List</h3>
+          <div id="adminClientsList"></div>
+        </div>
+
+        <!-- PRODUCTS UNLIMITED UPLOAD TAB -->
+        <div id="adminProducts" class="tab-content">
+          <div class="form-box" style="max-width:100%; margin-bottom:30px;">
+            <h3>Upload New Product to Catalog (Unlimited)</h3>
+            <form onsubmit="doAddProduct(event)">
+              <div class="form-group"><label>Product Title</label><input type="text" id="npName" required placeholder="e.g. Smart Watch Ultra 2"></div>
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px;">
+                <div class="form-group"><label>Category</label><input type="text" id="npCat" required placeholder="e.g. Electronics"></div>
+                <div class="form-group"><label>Price (GHS)</label><input type="number" id="npPrice" step="0.01" required placeholder="450.00"></div>
+              </div>
+              <div class="form-group">
+                <label>Product Photo File / Image URL</label>
+                <input type="file" id="npFile" accept="image/*" onchange="handleImageFile(event)">
+                <input type="url" id="npImgUrl" placeholder="Or Enter Image Web URL" style="margin-top:8px;">
+              </div>
+              <button class="btn btn-green btn-block" type="submit" id="addProdBtn">Publish Product to Catalog</button>
+            </form>
+          </div>
+          <h3 style="margin-bottom:16px; color:var(--navy);">Catalog Products Management</h3>
+          <div id="adminProductsList"></div>
+        </div>
+
+        <!-- CLIENT PORTAL CONTENT EDITOR -->
+        <div id="adminContent" class="tab-content">
+          <div class="form-box" style="max-width:100%;">
+            <h3>Live Client Portal Content Manager</h3>
+            <p style="font-size:13px; color:var(--slate); margin-bottom:18px;">Update hero titles, freight rate announcements, and referral banners seen by clients live.</p>
+            <form onsubmit="savePortalSettings(event)">
+              <div class="form-group">
+                <label>Home Hero Heading</label>
+                <input type="text" id="cfgHeroTitle" required>
+              </div>
+              <div class="form-group">
+                <label>Home Hero Subheading</label>
+                <input type="text" id="cfgHeroSub" required>
+              </div>
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px;">
+                <div class="form-group">
+                  <label>Sea Rate Tier 1</label>
+                  <input type="text" id="cfgSeaRate1" required>
+                </div>
+                <div class="form-group">
+                  <label>Sea Rate Tier 2</label>
+                  <input type="text" id="cfgSeaRate2" required>
+                </div>
+              </div>
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px;">
+                <div class="form-group">
+                  <label>Air Rate Tier 1</label>
+                  <input type="text" id="cfgAirRate1" required>
+                </div>
+                <div class="form-group">
+                  <label>Air Rate Tier 2</label>
+                  <input type="text" id="cfgAirRate2" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Referral Program Banner Text</label>
+                <textarea id="cfgBannerMsg" rows="2" required></textarea>
+              </div>
+              <button class="btn btn-green btn-block" type="submit">Save Changes to Client Portal</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </section>
@@ -720,9 +807,20 @@ const defaultProducts = [
   { id: 'p3', name: 'Men Streetwear Two-Piece Set', category: 'Apparel', price: 350, image: 'https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=400&q=80' }
 ];
 
+const defaultSettings = {
+  heroTitle: 'China to Ghana Commercial Freight & Supply',
+  heroSub: 'Direct Factory Sourcing • Sea & Air Freight Cargo • Real-Time Tracking • Mandatory Shipping Marks',
+  seaRate1: '$260 / m³',
+  seaRate2: '$255 / m³',
+  airRate1: '$17 / kg',
+  airRate2: 'GHS 500 Flat Rate',
+  bannerMsg: 'Refer new commercial clients or business partners to EveriVault Logistics and receive a FREE GIFT on your next freight shipment arrival!'
+};
+
 const state = { 
   user: JSON.parse(localStorage.getItem('ev_active_user') || 'null'), 
   products: JSON.parse(localStorage.getItem('ev_local_products') || 'null') || defaultProducts, 
+  settings: JSON.parse(localStorage.getItem('ev_portal_settings') || 'null') || defaultSettings,
   orders: [], 
   clients: [],
   reviews: JSON.parse(localStorage.getItem('ev_reviews') || 'null') || [
@@ -733,7 +831,7 @@ const state = {
   paymentProofBase64: '',
   uploadedProdBase64: '',
   selectedPaymentSlot: 'momo',
-  paymentCategory: 'goods' // 'goods' or 'shipping'
+  paymentCategory: 'goods'
 };
 
 const $ = id => document.getElementById(id);
@@ -934,19 +1032,27 @@ async function doLogin(e) {
     if (matched) email = matched.email;
   }
 
+  const isAdmin = email.includes('admin') || email === 'richmonwireko@gmail.com';
+
   state.user = {
-    id: 'usr_' + Math.random().toString(36).slice(2, 8),
+    id: isAdmin ? 'admin_ceo' : 'usr_' + Math.random().toString(36).slice(2, 8),
     email: email.includes('@') ? email : email + '@client.com',
     name: email.split('@')[0],
-    role: email.includes('admin') || email === 'richmonwireko@gmail.com' ? 'admin' : 'client',
+    role: isAdmin ? 'admin' : 'client',
     mark: identifier.includes('@') ? randomMark(email.split('@')[0]) : identifier
   };
 
   localStorage.setItem('ev_active_user', JSON.stringify(state.user));
   btn.disabled = false; btn.textContent = 'Fast Client Sign In';
   applyUserState();
-  toast('Signed in! Redirecting to Payment Portal...', 'ok');
-  redirectToPayment('goods');
+  
+  if (isAdmin) {
+    toast('Authenticated as Admin! Redirecting to Master Executive Suite...', 'ok');
+    go('admin');
+  } else {
+    toast('Signed in! Redirecting to Payment Portal...', 'ok');
+    redirectToPayment('goods');
+  }
 }
 
 async function doReg(e) {
@@ -1194,18 +1300,38 @@ function deleteCatalogProduct(prodId) {
 /* --- ADMIN DASHBOARD --- */
 function loadAdmin() {
   if (!state.user || state.user.role !== 'admin') return;
-  const clients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
-  $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Email / Phone</th><th>Shipping Mark Ref</th></tr></thead><tbody>' + clients.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.email) + '</td><td><code>' + esc(c.mark) + '</code></td></tr>').join('') + '</tbody></table></div>';
 
+  const clients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
   const orders = JSON.parse(localStorage.getItem('ev_local_orders') || '[]');
-  $('adminOrdersList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Type</th><th>Details</th><th>Total</th><th>Proof</th><th>Status</th><th>Action</th></tr></thead><tbody>' + orders.map(o => {
+  
+  // Calculate Dashboard Quick Stats
+  $('statClientCount').textContent = clients.length;
+  $('statPendingCount').textContent = orders.filter(o => !o.verified).length;
+  $('statVerifiedCount').textContent = orders.filter(o => o.verified).length;
+  $('statProdCount').textContent = state.products.length;
+
+  // Clients Roster Table
+  $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Email / Phone</th><th>Shipping Mark Ref</th></tr></thead><tbody>' + (clients.length ? clients.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.email) + '</td><td><code>' + esc(c.mark) + '</code></td></tr>').join('') : '<tr><td colspan="3" style="text-align:center; color:var(--slate);">No clients registered yet.</td></tr>') + '</tbody></table></div>';
+
+  // Orders Verification Desk Table
+  $('adminOrdersList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Type</th><th>Details</th><th>Total</th><th>Proof</th><th>Status</th><th>Action</th></tr></thead><tbody>' + (orders.length ? orders.map(o => {
     const proofView = o.proof_data && o.proof_data.startsWith('data:image') 
       ? '<a href="' + o.proof_data + '" target="_blank" style="color:var(--green); font-weight:700;">View Receipt Image</a>' 
       : (o.proof_data ? '<code>' + esc(o.proof_data) + '</code>' : 'No Proof');
     return '<tr><td>' + esc(o.user_name) + '</td><td><span class="pill pill-type">' + esc(o.type || 'Goods') + '</span></td><td>' + esc(o.item) + '</td><td>' + fmtGHS(o.total) + '</td><td>' + proofView + '</td><td><span class="pill ' + (o.verified ? 'pill-verified' : 'pill-pending') + '">' + (o.verified ? 'Verified' : 'Pending') + '</span></td><td><button class="btn btn-sm btn-green" onclick="toggleVerifyOrder(\'' + o.id + '\', ' + !o.verified + ')">' + (o.verified ? 'Unverify' : 'Verify Payment') + '</button></td></tr>';
-  }).join('') + '</tbody></table></div>';
+  }).join('') : '<tr><td colspan="7" style="text-align:center; color:var(--slate);">No payment records submitted yet.</td></tr>') + '</tbody></table></div>';
 
+  // Products Table
   $('adminProductsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Action</th></tr></thead><tbody>' + state.products.map(p => '<tr><td>' + esc(p.name) + '</td><td>' + esc(p.category) + '</td><td>' + fmtGHS(p.price) + '</td><td><button class="btn btn-sm btn-danger" onclick="deleteCatalogProduct(\'' + p.id + '\')">Remove Item</button></td></tr>').join('') + '</tbody></table></div>';
+
+  // Load Content Editor Form Values
+  $('cfgHeroTitle').value = state.settings.heroTitle;
+  $('cfgHeroSub').value = state.settings.heroSub;
+  $('cfgSeaRate1').value = state.settings.seaRate1;
+  $('cfgSeaRate2').value = state.settings.seaRate2;
+  $('cfgAirRate1').value = state.settings.airRate1;
+  $('cfgAirRate2').value = state.settings.airRate2;
+  $('cfgBannerMsg').value = state.settings.bannerMsg;
 }
 
 function toggleVerifyOrder(orderId, verifyStatus) {
@@ -1218,10 +1344,37 @@ function toggleVerifyOrder(orderId, verifyStatus) {
 }
 
 function adminTab(tab) {
-  document.querySelectorAll('[data-admintab]').forEach(t => t.classList.toggle('active', t.dataset.admintab === tab));
+  document.querySelectorAll('.admin-nav-btn').forEach(t => t.classList.toggle('active', t.dataset.admintab === tab));
   $('adminClients').classList.toggle('active', tab === 'clients');
   $('adminOrders').classList.toggle('active', tab === 'orders');
   $('adminProducts').classList.toggle('active', tab === 'products');
+  $('adminContent').classList.toggle('active', tab === 'content');
+}
+
+function savePortalSettings(e) {
+  e.preventDefault();
+  state.settings = {
+    heroTitle: $('cfgHeroTitle').value.trim(),
+    heroSub: $('cfgHeroSub').value.trim(),
+    seaRate1: $('cfgSeaRate1').value.trim(),
+    seaRate2: $('cfgSeaRate2').value.trim(),
+    airRate1: $('cfgAirRate1').value.trim(),
+    airRate2: $('cfgAirRate2').value.trim(),
+    bannerMsg: $('cfgBannerMsg').value.trim()
+  };
+  localStorage.setItem('ev_portal_settings', JSON.stringify(state.settings));
+  applyPortalSettings();
+  toast('Client Portal Content Updated Live!', 'ok');
+}
+
+function applyPortalSettings() {
+  if ($('dynHeroTitle')) $('dynHeroTitle').innerHTML = esc(state.settings.heroTitle);
+  if ($('dynHeroSub')) $('dynHeroSub').textContent = state.settings.heroSub;
+  if ($('dynSeaRate1')) $('dynSeaRate1').textContent = state.settings.seaRate1;
+  if ($('dynSeaRate2')) $('dynSeaRate2').textContent = state.settings.seaRate2;
+  if ($('dynAirRate1')) $('dynAirRate1').textContent = state.settings.airRate1;
+  if ($('dynAirRate2')) $('dynAirRate2').textContent = state.settings.airRate2;
+  if ($('dynBannerMsg')) $('dynBannerMsg').textContent = state.settings.bannerMsg;
 }
 
 function openAdminPasswordModal(show = true) {
@@ -1255,18 +1408,31 @@ function copyText(text) {
 function applyUserState() {
   const isLoggedIn = !!state.user;
   const isAdmin = state.user?.role === 'admin';
-  $('clientLink').style.display = isLoggedIn ? 'block' : 'none';
+
+  // Toggle navigation links based on user role
+  document.querySelectorAll('.nav-client-item').forEach(el => el.style.display = isAdmin ? 'none' : 'block');
+  $('clientLink').style.display = (isLoggedIn && !isAdmin) ? 'block' : 'none';
   $('adminLink').style.display = isAdmin ? 'block' : 'none';
   $('signOutNav').style.display = isLoggedIn ? 'block' : 'none';
   $('authNav').style.display = isLoggedIn ? 'none' : 'block';
+
   document.querySelectorAll('.auth-only').forEach(el => el.classList.toggle('show', isLoggedIn));
   document.querySelectorAll('.admin-only').forEach(el => el.classList.toggle('show', isAdmin));
+
+  // Auto-route to appropriate portal if on restricted view
+  if (isAdmin && !document.getElementById('p-admin').classList.contains('active')) {
+    go('admin');
+  } else if (!isAdmin && document.getElementById('p-admin').classList.contains('active')) {
+    go('home');
+  }
 }
 
-Object.assign(window, { go, toggleMenu, authTab, redirectToPayment, setPaymentType, calcMode, calcSea, calcAir, calcCompare, selectPaymentSlot, handleProofFile, handleImageFile, addToCart, updateCartQty, removeFromCart, clearCart, submitOrder, doSubmitReview, copyText, adminTab, toggleVerifyOrder, doLogin, doReg, doResetPassword, doSignOut, doAdmin, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, renderProducts });
+Object.assign(window, { go, toggleMenu, authTab, redirectToPayment, setPaymentType, calcMode, calcSea, calcAir, calcCompare, selectPaymentSlot, handleProofFile, handleImageFile, addToCart, updateCartQty, removeFromCart, clearCart, submitOrder, doSubmitReview, copyText, adminTab, toggleVerifyOrder, doLogin, doReg, doResetPassword, doSignOut, doAdmin, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, renderProducts });
 
 (function init() {
-  updateCartBadge(); applyUserState(); go('home');
+  applyPortalSettings();
+  updateCartBadge();
+  applyUserState();
 })();
 </script>
 </body>
