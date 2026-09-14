@@ -284,7 +284,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   <div class="public-store-section">
     <div class="container">
       <h2>Online Store Catalog Preview</h2>
-      <p class="subtitle">Browse our factory-direct inventory below. Please <strong>Register or Login</strong> to add items to your cart and place orders.</p>
+      <p class="subtitle">Browse our factory-direct inventory below with images and prices. Please <strong>Register or Login</strong> to add items to your cart and place orders.</p>
       <div id="homeCatalogGrid" class="grid-4"></div>
       <div style="text-align:center; margin-top:35px;">
         <button class="btn btn-navy" onclick="go('auth')">Login / Register to Access Full Store & Portal ➔</button>
@@ -292,14 +292,15 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     </div>
   </div>
 
-  <!-- REFERRAL PROGRAM BANNER -->
-  <div class="container">
+  <!-- REFERRAL PROGRAM BANNER WITH www.everivault.com+shippingMark -->
+  <div class="container auth-only" style="display:none;" id="referralBannerBox">
     <div class="referral-banner">
       <div>
-        <h3>Client Referral Reward Program</h3>
-        <p id="dynBannerMsg">Refer new commercial clients or business partners to EveriVault Logistics and receive a FREE GIFT on your next freight shipment arrival!</p>
+        <h3>Your Personal Referral Link</h3>
+        <p>Share your unique EveriVault referral link with friends and business partners:</p>
+        <code id="userReferralLinkDisplay" style="background:#fff; color:var(--navy); padding:6px 12px; border-radius:8px; font-weight:800; display:inline-block; margin-top:6px;">www.everivault.com/GH001K-XXX-00000000</code>
       </div>
-      <button class="btn btn-navy" onclick="copyText('Use my EveriVault referral code for shipping from China to Ghana!')">Copy Referral Share Link</button>
+      <button class="btn btn-navy" onclick="copyText(document.getElementById('userReferralLinkDisplay').innerText)">Copy Referral Link</button>
     </div>
   </div>
 
@@ -612,13 +613,17 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </form>
       </div>
 
-      <!-- MANDATORY REGISTRATION & TERMS OF SERVICE -->
+      <!-- MANDATORY REGISTRATION & TERMS OF SERVICE WITH REFERRAL CODE TRACKING -->
       <div id="tReg" class="tab-content">
         <form onsubmit="doReg(event)">
           <div class="form-group"><label>Full Legal Name</label><input type="text" id="rn" required placeholder="e.g. Richmond Wireko"></div>
           <div class="form-group"><label>Gmail / Email Address</label><input type="email" id="rem" required placeholder="e.g. richmond@gmail.com"></div>
           <div class="form-group"><label>Phone Number (Used in Shipping Mark ID)</label><input type="tel" id="rp" required placeholder="e.g. 0543155883"></div>
           <div class="form-group"><label>Password</label><input type="password" id="rpw" required minlength="6"></div>
+          <div class="form-group">
+            <label>Referral Shipping Mark (Optional)</label>
+            <input type="text" id="regRefMark" placeholder="e.g. GH001K-KM-0541234567 (If referred by an existing client)">
+          </div>
 
           <!-- TERMS AND CONDITIONS SUMMARY BOX -->
           <div class="terms-box">
@@ -696,7 +701,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <button class="admin-nav-btn active" data-admintab="products" onclick="adminTab('products')">Manage Catalog & Unlimited Uploads</button>
         <button class="admin-nav-btn" data-admintab="payments" onclick="adminTab('payments')">Manage Payments Desk</button>
         <button class="admin-nav-btn" data-admintab="ads" onclick="adminTab('ads')">Promo / Ad Requests</button>
-        <button class="admin-nav-btn" data-admintab="clients" onclick="adminTab('clients')">Registered Clients (New & Old)</button>
+        <button class="admin-nav-btn" data-admintab="clients" onclick="adminTab('clients')">Registered Clients & Referrals</button>
         <button class="admin-nav-btn" data-admintab="content" onclick="adminTab('content')">Edit Portal Content</button>
       </div>
 
@@ -756,10 +761,10 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           <div id="adminAdsList"></div>
         </div>
 
-        <!-- REGISTERED CLIENTS TAB (NEW & OLD CLIENTS) -->
+        <!-- REGISTERED CLIENTS TAB (NEW, OLD & REFERRED CLIENTS) -->
         <div id="adminClients" class="tab-content">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-            <h3 style="color:var(--navy); margin:0;">All Registered Clients (New & Historical Archive)</h3>
+            <h3 style="color:var(--navy); margin:0;">All Registered Clients & Referral Tracking</h3>
             <button class="btn btn-sm btn-green" onclick="exportClientData()">Export Client List (CSV)</button>
           </div>
           <div id="adminClientsList"></div>
@@ -837,12 +842,16 @@ try {
   });
 } catch(e) {}
 
-// Expanded default products for store catalog preview
+// Expanded default products for store catalog preview with images and prices
 const defaultProducts = [
   { id: 'p1', name: 'Smart Watch Ultra 2', category: 'Electronics', price: 450, type: 'preorder', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80' },
   { id: 'p2', name: 'DTF Sticker Printing Roll', category: 'Hardware', price: 1200, type: 'preorder', image: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=400&q=80' },
   { id: 'p3', name: 'Men Streetwear Two-Piece Set', category: 'Apparel', price: 350, type: 'available', image: 'https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=400&q=80' },
-  { id: 'p4', name: 'UV DTF Hat & Cap Heat Press Machine', category: 'Hardware', price: 3800, type: 'preorder', image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80' }
+  { id: 'p4', name: 'UV DTF Hat & Cap Heat Press Machine', category: 'Hardware', price: 3800, type: 'preorder', image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80' },
+  { id: 'p5', name: 'Moissanite Luxury Quartz Watch Set', category: 'Accessories', price: 1500, type: 'available', image: 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=400&q=80' },
+  { id: 'p6', name: 'Cargo Pants & Joggers Bundle (10pcs)', category: 'Apparel', price: 2100, type: 'preorder', image: 'https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=400&q=80' },
+  { id: 'p7', name: 'Direct-to-Film (DTF) Textile Printer', category: 'Hardware', price: 18500, type: 'preorder', image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=400&q=80' },
+  { id: 'p8', name: 'Formal Business Suit Set (Men)', category: 'Apparel', price: 850, type: 'available', image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=400&q=80' }
 ];
 
 const defaultSettings = {
@@ -855,11 +864,11 @@ const defaultSettings = {
   bannerMsg: 'Refer new commercial clients or business partners to EveriVault Logistics and receive a FREE GIFT on your next freight shipment arrival!'
 };
 
-// Historical / Old Clients + New Clients Archive
+// Historical / Old Clients + New Clients Archive with referral tracking
 const defaultHistoricalClients = [
-  { id: 'old_1', name: 'Kofi Mensah', email: 'kofi.mensah@gmail.com', phone: '0541234567', mark: 'GH001K-KM-0541234567', type: 'Historical Client (Old)' },
-  { id: 'old_2', name: 'Abena Osei', email: 'abena.osei@gmail.com', phone: '0249876543', mark: 'GH001K-AO-0249876543', type: 'Historical Client (Old)' },
-  { id: 'old_3', name: 'Yaw Boateng', email: 'yaw.boateng@yahoo.com', phone: '0201112233', mark: 'GH001K-YB-0201112233', type: 'Historical Client (Old)' }
+  { id: 'old_1', name: 'Kofi Mensah', email: 'kofi.mensah@gmail.com', phone: '0541234567', mark: 'GH001K-KM-0541234567', referredBy: 'None (Direct)', type: 'Historical Client (Old)' },
+  { id: 'old_2', name: 'Abena Osei', email: 'abena.osei@gmail.com', phone: '0249876543', mark: 'GH001K-AO-0249876543', referredBy: 'GH001K-KM-0541234567', type: 'Historical Client (Old)' },
+  { id: 'old_3', name: 'Yaw Boateng', email: 'yaw.boateng@yahoo.com', phone: '0201112233', mark: 'GH001K-YB-0201112233', referredBy: 'None (Direct)', type: 'Historical Client (Old)' }
 ];
 
 const state = { 
@@ -904,9 +913,8 @@ function toast(msg, type = 'info', ms = 3500) {
 }
 
 function go(page) {
-  // If client is not logged in and tries to access restricted pages, force redirect to auth portal
   if (!state.user && page !== 'home' && page !== 'auth') {
-    toast('Please register, login, or reset password to access the store cart and portal features', 'err');
+    toast('Please register or login to access the store cart and portal features', 'err');
     go('auth');
     return;
   }
@@ -1049,7 +1057,8 @@ async function doLogin(e) {
     phone: phone,
     role: isAdmin ? 'admin' : 'client',
     mark: matched ? matched.mark : generateShippingMark(name, phone),
-    type: 'Newly Registered Client'
+    referredBy: matched ? matched.referredBy : 'None (Direct)',
+    type: 'Registered Client'
   };
 
   if (!isAdmin && !localClients.some(c => c.email.toLowerCase() === email.toLowerCase())) {
@@ -1081,13 +1090,28 @@ async function doReg(e) {
   const name = $('rn').value.trim();
   const email = $('rem').value.trim().toLowerCase();
   const phone = $('rp').value.trim();
+  const refInput = $('regRefMark').value.trim();
   const generatedMark = generateShippingMark(name, phone);
+
+  // Validate if referrer exists in old or new clients
+  let verifiedReferrer = 'None (Direct)';
+  if (refInput) {
+    const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
+    const allKnown = [...defaultHistoricalClients, ...localClients];
+    const refFound = allKnown.find(c => c.mark.toLowerCase() === refInput.toLowerCase());
+    if (refFound) {
+      verifiedReferrer = refFound.mark + ' (' + refFound.name + ')';
+    } else {
+      verifiedReferrer = refInput + ' (Unverified)';
+    }
+  }
 
   state.user = {
     id: 'usr_' + Math.random().toString(36).slice(2, 8),
     name, email, phone,
     role: 'client',
     mark: generatedMark,
+    referredBy: verifiedReferrer,
     type: 'Newly Registered Client',
     acceptedTerms: true,
     dateRegistered: new Date().toLocaleDateString()
@@ -1438,7 +1462,7 @@ function loadAdmin() {
   $('statOrdersCount').textContent = state.orders.filter(o => o.status === 'Pending Verification').length;
   $('statProdCount').textContent = state.products.length;
 
-  $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Email / Phone</th><th>Shipping Mark ID</th><th>Client Type</th></tr></thead><tbody>' + (allClientsCombined.length ? allClientsCombined.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.email) + ' / ' + esc(c.phone) + '</td><td><code>' + esc(c.mark) + '</code></td><td><span class="pill ' + (c.type?.includes('Old') ? 'pill-type' : 'pill-verified') + '">' + esc(c.type || 'Newly Registered Client') + '</span></td></tr>').join('') : '<tr><td colspan="4" style="text-align:center; color:var(--slate);">No clients recorded.</td></tr>') + '</tbody></table></div>';
+  $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Email / Phone</th><th>Shipping Mark ID</th><th>Referred By</th><th>Client Type</th></tr></thead><tbody>' + (allClientsCombined.length ? allClientsCombined.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.email) + ' / ' + esc(c.phone) + '</td><td><code>' + esc(c.mark) + '</code></td><td><code style="color:var(--green-hover);">' + esc(c.referredBy || 'None (Direct)') + '</code></td><td><span class="pill ' + (c.type?.includes('Old') ? 'pill-type' : 'pill-verified') + '">' + esc(c.type || 'Registered Client') + '</span></td></tr>').join('') : '<tr><td colspan="5" style="text-align:center; color:var(--slate);">No clients recorded.</td></tr>') + '</tbody></table></div>';
 
   $('adminAdsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Business / Client</th><th>Contact</th><th>Promo / Ad Details</th><th>Date Submitted</th></tr></thead><tbody>' + (state.ads.length ? state.ads.map(a => '<tr><td>' + esc(a.name) + '</td><td>' + esc(a.contact) + '</td><td>' + esc(a.details) + '</td><td>' + esc(a.date) + '</td></tr>').join('') : '<tr><td colspan="4" style="text-align:center; color:var(--slate);">No advertisement requests submitted yet.</td></tr>') + '</tbody></table></div>';
 
@@ -1470,17 +1494,17 @@ function loadAdmin() {
 function exportClientData() {
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
   const allClients = [...defaultHistoricalClients, ...localClients];
-  let csv = 'Name,Email,Phone,ShippingMark,Type\n';
+  let csv = 'Name,Email,Phone,ShippingMark,ReferredBy,Type\n';
   allClients.forEach(c => {
-    csv += `"${c.name}","${c.email}","${c.phone}","${c.mark}","${c.type || 'New'}"\n`;
+    csv += `"${c.name}","${c.email}","${c.phone}","${c.mark}","${c.referredBy || 'None'}","${c.type || 'New'}"\n`;
   });
   const blob = new Blob([csv], { type: 'text/csv' });
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.setAttribute('href', url);
-  a.setAttribute('download', 'everivault_clients_archive.csv');
+  a.setAttribute('download', 'everivault_clients_and_referrals.csv');
   a.click();
-  toast('Client archive exported to CSV successfully', 'ok');
+  toast('Client and referral archive exported to CSV successfully', 'ok');
 }
 
 function toggleOrderVerify(id) {
@@ -1559,13 +1583,23 @@ function applyUserState() {
   const isLoggedIn = !!state.user;
   const isAdmin = state.user?.role === 'admin';
 
-  // Toggle visibility of features unlocked ONLY after registration/login
   document.querySelectorAll('.client-only').forEach(el => el.classList.toggle('show', isLoggedIn && !isAdmin));
   $('adminLink').style.display = isAdmin ? 'block' : 'none';
   $('signOutNav').style.display = isLoggedIn ? 'block' : 'none';
   $('authNav').style.display = isLoggedIn ? 'none' : 'block';
 
   document.querySelectorAll('.admin-only').forEach(el => el.classList.toggle('show', isAdmin));
+
+  // Show referral banner on home with www.everivault.com + client shipping mark if logged in as client
+  const refBox = $('referralBannerBox');
+  if (refBox) {
+    if (isLoggedIn && !isAdmin) {
+      refBox.style.display = 'block';
+      $('userReferralLinkDisplay').textContent = 'www.everivault.com/' + state.user.mark;
+    } else {
+      refBox.style.display = 'none';
+    }
+  }
 
   if (isAdmin && !document.getElementById('p-admin').classList.contains('active')) {
     go('admin');
