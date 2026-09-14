@@ -225,8 +225,8 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       <li><a class="plink" data-p="address" onclick="go('address')">Warehouses</a></li>
       <li><a class="plink" data-p="reviews" onclick="go('reviews')">Reviews</a></li>
       
-      <!-- PAYMENT PORTAL NAV LINK FOR LOGGED IN CLIENTS -->
-      <li class="auth-only" style="display:none;"><a class="plink" data-p="payment" onclick="go('payment')">Payment Portal</a></li>
+      <!-- PAYMENT PORTAL LINK AVAILABLE TO ALL USERS -->
+      <li><a class="plink" data-p="payment" onclick="go('payment')">Payment Portal</a></li>
       
       <li id="adminLink" style="display:none;"><a class="plink" data-p="admin" onclick="go('admin')">Master Admin Suite</a></li>
       
@@ -379,8 +379,8 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- PAYMENT PORTAL PAGE (DEDICATED PAYMENT PORTAL FOR CLIENTS) -->
-<section id="p-payment" class="page auth-only">
+<!-- PAYMENT PORTAL PAGE (SINGLE GLOBAL PAYMENT PORTAL ACCESSIBLE BEFORE/WITHOUT LOGIN) -->
+<section id="p-payment" class="page">
   <div class="container">
     <h2>EveriVault Secure Payment Portal</h2>
     <p class="subtitle">Settle store purchases or shipping costs securely below.</p>
@@ -400,10 +400,15 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <form onsubmit="submitPayment(event)">
           <h3 id="payFormHeading" style="color:var(--navy); font-size:18px; margin-bottom:16px;">Store Goods Settlement</h3>
 
+          <div class="form-group">
+            <label>Your Name / Contact Info</label>
+            <input type="text" id="payClientName" required placeholder="e.g. Kofi Mensah / 0540000000">
+          </div>
+
           <div id="goodsPayFields">
             <div class="form-group">
               <label>Cart Items Summary</label>
-              <input type="text" id="payItemSummary" readonly>
+              <input type="text" id="payItemSummary" readonly placeholder="No items selected from cart">
             </div>
           </div>
 
@@ -441,9 +446,9 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </form>
       </div>
 
-      <!-- MY PAYMENTS & ORDERS HISTORY -->
+      <!-- RECENT PAYMENTS & ORDERS STATUS -->
       <div>
-        <h3 style="margin-bottom:14px; color:var(--navy);">My Payment Settlements & History</h3>
+        <h3 style="margin-bottom:14px; color:var(--navy);">Recent Payment Settlements</h3>
         <div id="myPaymentsList"></div>
       </div>
 
@@ -1184,13 +1189,11 @@ function renderCart() {
 }
 
 function goToPaymentPortal(type = 'goods') {
-  if (!state.user) {
-    toast('Please sign in or register to access the payment portal', 'err');
-    go('auth');
-    return;
-  }
-
   setPaymentType(type);
+
+  if (state.user) {
+    $('payClientName').value = state.user.name + ' (' + state.user.phone + ')';
+  }
 
   if (type === 'goods') {
     if (!state.cart.length) {
@@ -1261,17 +1264,16 @@ function handleProofFile(e) {
 
 function submitPayment(e) {
   e.preventDefault();
-  if (!state.user) return;
-
+  const cName = $('payClientName').value.trim();
   const isShipping = state.paymentCategory === 'shipping';
   const detailStr = isShipping ? $('payShipDesc').value.trim() : $('payItemSummary').value.trim();
 
   const orderObj = {
     id: 'ord_' + Math.random().toString(36).slice(2, 8),
-    userId: state.user.id,
-    clientName: state.user.name,
-    clientEmail: state.user.email,
-    clientMark: state.user.mark,
+    userId: state.user ? state.user.id : 'guest_' + Math.random().toString(36).slice(2, 6),
+    clientName: cName,
+    clientEmail: state.user ? state.user.email : 'guest@client.com',
+    clientMark: state.user ? state.user.mark : 'GUEST-USER',
     type: isShipping ? 'Shipping Cost' : 'Cart Goods',
     summary: detailStr,
     total: parseFloat($('payTotalAmount').value) || 0,
@@ -1294,20 +1296,18 @@ function submitPayment(e) {
 }
 
 function loadPaymentPortal() {
-  if (!state.user) return;
-  const myOrders = state.orders.filter(o => o.userId === state.user.id);
   const container = $('myPaymentsList');
   if (!container) return;
 
-  if (!myOrders.length) {
+  if (!state.orders.length) {
     container.innerHTML = '<div class="card"><p style="color:var(--slate);">No payment records submitted yet.</p></div>';
     return;
   }
 
-  container.innerHTML = myOrders.map(o => {
+  container.innerHTML = state.orders.slice(0, 5).map(o => {
     const proofLink = o.proof ? '<a href="' + o.proof + '" target="_blank" style="color:var(--green); font-weight:700;">View Receipt</a>' : 'No Receipt';
     const statusClass = o.status === 'Verified' ? 'pill-verified' : 'pill-pending';
-    return '<div class="card" style="margin-bottom:12px;"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;"><span class="pill pill-type">' + esc(o.type) + '</span><span class="pill ' + statusClass + '">' + esc(o.status) + '</span></div><h3 style="font-size:15px;">' + esc(o.summary) + '</h3><p style="font-weight:800; color:var(--green); margin-top:4px;">' + fmtGHS(o.total) + ' | Slot: ' + esc(o.slot) + '</p><div style="font-size:12px; color:var(--slate); margin-top:6px;">TxRef: <code>' + esc(o.txRef) + '</code> | ' + proofLink + '</div></div>';
+    return '<div class="card" style="margin-bottom:12px;"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;"><span class="pill pill-type">' + esc(o.type) + '</span><span class="pill ' + statusClass + '">' + esc(o.status) + '</span></div><h3 style="font-size:15px;">' + esc(o.summary) + '</h3><p style="font-size:13px; color:var(--slate); margin-top:2px;">Client: ' + esc(o.clientName) + '</p><p style="font-weight:800; color:var(--green); margin-top:4px;">' + fmtGHS(o.total) + ' | Slot: ' + esc(o.slot) + '</p><div style="font-size:12px; color:var(--slate); margin-top:6px;">TxRef: <code>' + esc(o.txRef) + '</code> | ' + proofLink + '</div></div>';
   }).join('');
 }
 
