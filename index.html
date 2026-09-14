@@ -38,7 +38,7 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 .logo-img { width:42px; height:42px; border-radius:8px; object-fit:cover; background:#233554; border:1px solid rgba(255,255,255,0.2); }
 .logo { font-size:20px; font-weight:800; color:#FFFFFF; letter-spacing:0.5px; display:flex; align-items:center; gap:8px; }
 .logo span { color:var(--green); }
-.nav-links { display:flex; gap:4px; list-style:none; align-items:center; }
+.nav-links { display:flex; gap:4px; list-style:none; align-items:center; flex-wrap:wrap; }
 .nav-links a { color:var(--slate-light); text-decoration:none; padding:8px 14px; border-radius:8px; font-weight:600; font-size:14px; cursor:pointer; transition:all 0.2s ease; display:flex; align-items:center; gap:6px; }
 .nav-links a:hover, .nav-links a.active { color:#FFFFFF; background:rgba(255,255,255,0.08); }
 .nav-cta { background:var(--green) !important; color:#FFFFFF !important; font-weight:700 !important; }
@@ -227,12 +227,11 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       <div class="logo">EVERIVAULT <span>LOGISTICS</span></div>
     </a>
     <ul class="nav-links" id="menu">
-      <!-- ALWAYS VISIBLE UNTIL LOGIN -->
       <li><a class="plink active" data-p="home" onclick="go('home')">Home</a></li>
       
-      <!-- HIDDEN UNTIL LOGGED IN / REGISTERED -->
       <li class="client-only"><a class="plink" data-p="store" onclick="go('store')">Store Catalog</a></li>
       <li class="client-only"><a class="plink" data-p="cart" onclick="go('cart')">Cart <span class="cart-badge" id="cartBadgeCount">0</span></a></li>
+      <li class="client-only"><a class="plink" data-p="tracking" onclick="go('tracking')">Tracking & Messages</a></li>
       <li class="client-only"><a class="plink" data-p="calc" onclick="go('calc')">Freight Calculator</a></li>
       <li class="client-only"><a class="plink" data-p="address" onclick="go('address')">Warehouses</a></li>
       <li class="client-only"><a class="plink" data-p="reviews" onclick="go('reviews')">Reviews</a></li>
@@ -253,7 +252,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   DM Management (+1 309 519 4647)
 </a>
 
-<!-- HOME PAGE (PUBLIC ACCESS + WHY CHOOSE US + PUBLIC CATALOG PREVIEW) -->
+<!-- HOME PAGE -->
 <section id="p-home" class="page active">
   <div class="hero">
     <div class="container">
@@ -289,7 +288,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     </div>
   </div>
 
-  <!-- WHY CHOOSE EVERIVAULT ENTERPRISE SECTION -->
+  <!-- WHY CHOOSE EVERIVAULT ENTERPRISE -->
   <div class="why-section">
     <div class="container">
       <h2>Why Choose EveriVault Enterprise?</h2>
@@ -315,7 +314,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     </div>
   </div>
 
-  <!-- PUBLIC STORE CATALOG PREVIEW (IMAGES & PRICES VISIBLE, REQUIRE LOGIN TO CART/BUY) -->
+  <!-- PUBLIC STORE CATALOG PREVIEW -->
   <div class="public-store-section">
     <div class="container">
       <h2>Online Store Catalog Preview</h2>
@@ -327,7 +326,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     </div>
   </div>
 
-  <!-- REFERRAL PROGRAM BANNER WITH www.everivault.com+shippingMark -->
+  <!-- REFERRAL BANNER -->
   <div class="container auth-only" style="display:none;" id="referralBannerBox">
     <div class="referral-banner">
       <div>
@@ -339,7 +338,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     </div>
   </div>
 
-  <!-- ADVERTISEMENT / PROMOTIONAL SUBMISSION FORM ON HOME -->
+  <!-- ADVERTISEMENT FORM -->
   <div class="container">
     <div class="ad-form-box">
       <h3>Submit Advertisement or Promo Request</h3>
@@ -383,13 +382,23 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- CART PAGE (CLIENT ONLY) -->
+<!-- CART PAGE (CLIENT ONLY WITH 24-HOUR TIMER) -->
 <section id="p-cart" class="page">
   <div class="container">
-    <h2>Shopping Cart</h2>
-    <p class="subtitle">Review your selected items. Pre-ordered goods carry <strong>No Shipping Fee</strong>.</p>
+    <h2>Shopping Cart & 24-Hour Settlement Timer</h2>
+    <p class="subtitle">Review your selected items. <strong>Cart items expire automatically after 24 hours if unpaid</strong>, requiring re-adding.</p>
+    
     <div style="max-width:800px; margin:0 auto;">
+      <div id="cartTimerAlert" class="card" style="background:#FFFBEB; border:1.5px solid #FCD34D; margin-bottom:16px; padding:16px; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <strong style="color:#92400E; font-size:14px;">⏳ Cart Expiration Timer:</strong>
+          <span id="cartCountdownDisplay" style="font-weight:800; color:#D97706; margin-left:6px;">24h 00m 00s</span>
+        </div>
+        <span style="font-size:12px; color:#B45309;">Items auto-remove if unpaid</span>
+      </div>
+
       <div id="cartItemsContainer"></div>
+      
       <div class="card" style="margin-top:20px; text-align:right;">
         <div style="font-size:18px; font-weight:800; color:var(--navy); margin-bottom:16px;">
           Cart Subtotal: <span id="cartGrandTotal" style="color:var(--green);">GHS 0.00</span>
@@ -399,6 +408,39 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           <button class="btn btn-green" onclick="goToPaymentPortal('goods')">Proceed to Payment Portal</button>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRACKING & MESSAGING PORTAL (CLIENT ONLY) -->
+<section id="p-tracking" class="page">
+  <div class="container">
+    <h2>Shipment Tracking & Delivery Bargaining Portal</h2>
+    <p class="subtitle">Track your logistics status live and negotiate delivery rates directly with our delivery personnel.</p>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:24px; max-width:1000px; margin:0 auto;">
+      
+      <!-- SHIPMENT STATUS TRACKER -->
+      <div class="form-box" style="margin:0;">
+        <h3 style="color:var(--navy); font-size:18px; margin-bottom:14px;">Live Shipment Status</h3>
+        <div id="clientTrackingDetails"></div>
+      </div>
+
+      <!-- DELIVERY BARGAINING CHAT -->
+      <div class="form-box" style="margin:0; border:2px solid var(--green);">
+        <h3 style="color:var(--green-hover); font-size:18px; margin-bottom:6px;">Delivery Guy Bargaining Desk</h3>
+        <p style="font-size:13px; color:var(--slate); margin-bottom:14px;" id="deliveryGuyInfoCard">Loading delivery guy contact...</p>
+        
+        <div id="bargainChatBox" style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:12px; padding:14px; height:220px; overflow-y:auto; margin-bottom:14px; display:flex; flex-direction:column; gap:8px;"></div>
+        
+        <form onsubmit="sendBargainMessage(event)">
+          <div style="display:flex; gap:8px;">
+            <input type="text" id="bargainInput" required placeholder="Offer price or ask delivery question..." style="font-size:14px;">
+            <button class="btn btn-green" type="submit" style="padding:10px 16px;">Send</button>
+          </div>
+        </form>
+      </div>
+
     </div>
   </div>
 </section>
@@ -648,7 +690,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </form>
       </div>
 
-      <!-- MANDATORY REGISTRATION & TERMS OF SERVICE WITH REFERRAL CODE TRACKING -->
+      <!-- MANDATORY REGISTRATION & TERMS OF SERVICE -->
       <div id="tReg" class="tab-content">
         <form onsubmit="doReg(event)">
           <div class="form-group"><label>Full Legal Name</label><input type="text" id="rn" required placeholder="e.g. Richmond Wireko"></div>
@@ -660,7 +702,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
             <input type="text" id="regRefMark" placeholder="e.g. GH001K-KM-0541234567 (If referred by an existing client)">
           </div>
 
-          <!-- TERMS AND CONDITIONS SUMMARY BOX -->
           <div class="terms-box">
             <h4>Terms & Shipping Policy (Mandatory Compliance)</h4>
             <ul>
@@ -708,7 +749,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     <div style="background:var(--navy); color:#fff; padding:24px; border-radius:16px; margin-bottom:28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
       <div>
         <h2 style="color:var(--green); text-align:left; margin-bottom:4px;">Master Executive Suite — Control Center</h2>
-        <p style="color:var(--slate-light);">Authorized Director Management Portal: Richmond Wireko Brobbey</p>
+        <p style="color:var(--slate-light);">Authorized Director Management Portal: Richmond Wireko Brobbey (richmonwireko@gmail.com)</p>
       </div>
       <button class="btn btn-sm btn-outline" style="color:#fff; border-color:#fff;" onclick="openAdminPasswordModal()">Change Admin Password</button>
     </div>
@@ -735,6 +776,8 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       <div class="admin-sidebar">
         <button class="admin-nav-btn active" data-admintab="products" onclick="adminTab('products')">Manage Catalog & Unlimited Uploads</button>
         <button class="admin-nav-btn" data-admintab="payments" onclick="adminTab('payments')">Manage Payments Desk</button>
+        <button class="admin-nav-btn" data-admintab="tracking" onclick="adminTab('tracking')">Shipping Tracking & Messages</button>
+        <button class="admin-nav-btn" data-admintab="delivery" onclick="adminTab('delivery')">Delivery Guy & Bargaining</button>
         <button class="admin-nav-btn" data-admintab="ads" onclick="adminTab('ads')">Promo / Ad Requests</button>
         <button class="admin-nav-btn" data-admintab="clients" onclick="adminTab('clients')">Registered Clients & Referrals</button>
         <button class="admin-nav-btn" data-admintab="content" onclick="adminTab('content')">Edit Portal & Brand Logo</button>
@@ -790,13 +833,60 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           <div id="adminPaymentsList"></div>
         </div>
 
+        <!-- SHIPPING TRACKING & MESSAGES TAB -->
+        <div id="adminTracking" class="tab-content">
+          <div class="form-box" style="max-width:100%; margin-bottom:28px;">
+            <h3>Update Client Shipping Status & Message Record</h3>
+            <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">Select client and update whether goods are received, reached Tema Harbor, at Kumasi warehouse, or out for delivery.</p>
+            <form onsubmit="adminUpdateTracking(event)">
+              <div class="form-group">
+                <label>Select Client / Shipping Mark</label>
+                <select id="admTrackClientSelect" required></select>
+              </div>
+              <div class="form-group">
+                <label>Shipping Status Stage</label>
+                <select id="admTrackStatusSelect" required>
+                  <option value="Goods Received at China Warehouse">Goods Received at China Warehouse</option>
+                  <option value="Reached Tema Harbor">Reached Tema Harbor</option>
+                  <option value="At Kumasi Warehouse (KNUST Ayeduase)">At Kumasi Warehouse (KNUST Ayeduase)</option>
+                  <option value="Out for Delivery">Out for Delivery</option>
+                  <option value="Delivered Successfully">Delivered Successfully</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Custom Status Message / Note to Client</label>
+                <textarea id="admTrackMsg" rows="3" required placeholder="e.g. Your container has arrived at Tema Port and is clearing customs..."></textarea>
+              </div>
+              <button class="btn btn-green btn-block" type="submit">Update Client Tracking & Send Message</button>
+            </form>
+          </div>
+          <h3 style="margin-bottom:16px; color:var(--navy);">All Client Tracking Records</h3>
+          <div id="adminTrackingRecordsList"></div>
+        </div>
+
+        <!-- DELIVERY GUY & BARGAINING MANAGEMENT TAB -->
+        <div id="adminDelivery" class="tab-content">
+          <div class="form-box" style="max-width:100%; margin-bottom:28px;">
+            <h3>Configure Delivery Guy Contact & Info</h3>
+            <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">Set the active delivery personnel details so clients can call and bargain on delivery prices.</p>
+            <form onsubmit="saveDeliveryGuyInfo(event)">
+              <div class="form-group"><label>Delivery Personnel Name</label><input type="text" id="dgName" required placeholder="e.g. Kofi Delivery Express"></div>
+              <div class="form-group"><label>Contact Phone Number</label><input type="tel" id="dgPhone" required placeholder="e.g. 0541234567"></div>
+              <div class="form-group"><label>Delivery Zone / Base Note</label><input type="text" id="dgZone" required placeholder="e.g. Kumasi Metropolis & KNUST Campus"></div>
+              <button class="btn btn-green btn-block" type="submit">Save Delivery Guy Info Live</button>
+            </form>
+          </div>
+          <h3 style="margin-bottom:16px; color:var(--navy);">Client Delivery Bargaining Conversations</h3>
+          <div id="adminBargainList"></div>
+        </div>
+
         <!-- ADVERTISEMENTS & PROMO REQUESTS TAB -->
         <div id="adminAds" class="tab-content">
           <h3 style="margin-bottom:16px; color:var(--navy);">Submitted Advertisement & Promo Requests</h3>
           <div id="adminAdsList"></div>
         </div>
 
-        <!-- REGISTERED CLIENTS TAB (NEW, OLD & REFERRED CLIENTS) -->
+        <!-- REGISTERED CLIENTS TAB -->
         <div id="adminClients" class="tab-content">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
             <h3 style="color:var(--navy); margin:0;">All Registered Clients & Referral Tracking</h3>
@@ -870,8 +960,8 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     <h3>EVERIVAULT LOGISTICS EXECUTIVE SUITE</h3>
     <p>China to Ghana Commercial Freight Forwarding</p>
     <p style="margin-top:8px;">
-      WhatsApp Management & Complaints: 
-      <a href="https://wa.me/13095194647" target="_blank" style="color:var(--green); font-weight:700;">+1 (309) 519-4647</a>
+      Admin Email Inbox: <strong style="color:var(--green);">richmonwireko@gmail.com</strong> | 
+      WhatsApp Management: <a href="https://wa.me/13095194647" target="_blank" style="color:var(--green); font-weight:700;">+1 (309) 519-4647</a>
     </p>
   </div>
 </footer>
@@ -889,7 +979,6 @@ try {
   });
 } catch(e) {}
 
-// Expanded default products for store catalog preview with images and prices
 const defaultProducts = [
   { id: 'p1', name: 'Smart Watch Ultra 2', category: 'Electronics', price: 450, type: 'preorder', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80' },
   { id: 'p2', name: 'DTF Sticker Printing Roll', category: 'Hardware', price: 1200, type: 'preorder', image: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=400&q=80' },
@@ -912,7 +1001,6 @@ const defaultSettings = {
   logoUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=120&q=80'
 };
 
-// Historical / Old Clients + New Clients Archive with referral tracking
 const defaultHistoricalClients = [
   { id: 'old_1', name: 'Kofi Mensah', email: 'kofi.mensah@gmail.com', phone: '0541234567', mark: 'GH001K-KM-0541234567', referredBy: 'None (Direct)', type: 'Historical Client (Old)' },
   { id: 'old_2', name: 'Abena Osei', email: 'abena.osei@gmail.com', phone: '0249876543', mark: 'GH001K-AO-0249876543', referredBy: 'GH001K-KM-0541234567', type: 'Historical Client (Old)' },
@@ -925,11 +1013,14 @@ const state = {
   settings: JSON.parse(localStorage.getItem('ev_portal_settings') || 'null') || defaultSettings,
   ads: JSON.parse(localStorage.getItem('ev_local_ads') || '[]'),
   orders: JSON.parse(localStorage.getItem('ev_local_orders') || '[]'),
+  tracking: JSON.parse(localStorage.getItem('ev_local_tracking') || '{}'), // {userId: {status, message, timestamp}}
+  deliveryGuy: JSON.parse(localStorage.getItem('ev_delivery_guy') || '{"name":"Kofi Delivery Express", "phone":"0541234567", "zone":"Kumasi Metropolis & KNUST Campus"}'),
+  bargainMessages: JSON.parse(localStorage.getItem('ev_bargain_messages') || '{}'), // {userId: [{sender, text, time}]}
+  cartMeta: JSON.parse(localStorage.getItem('ev_cart_meta') || '{"items":[], "expiresAt":0}'),
   reviews: JSON.parse(localStorage.getItem('ev_reviews') || 'null') || [
     { name: 'Kofi Mensah', mark: 'GH001K-KM-0541234567', rating: 5, comment: 'Received my 1688 cargo from Foshan in under 3 weeks. Very reliable service!' },
     { name: 'Abena Osei', mark: 'GH001K-AO-0249876543', rating: 5, comment: 'Air express phones flat rate is unbeatable. Kumasi delivery was fast.' }
   ],
-  cart: JSON.parse(localStorage.getItem('ev_cart') || '[]'),
   uploadedProdBase64: '',
   paymentProofBase64: '',
   selectedPaymentSlot: 'momo',
@@ -946,6 +1037,20 @@ const generateShippingMark = (name, phone) => {
   const cleanPhone = (phone || '00000000').replace(/\D/g, '');
   return 'GH001K-' + initials + '-' + cleanPhone;
 };
+
+// SIMULATED GMAIL NOTIFICATION SENDER TO richmonwireko@gmail.com
+function sendAdminGmailNotification(subject, body) {
+  const emailLog = JSON.parse(localStorage.getItem('ev_admin_gmail_inbox') || '[]');
+  const notification = {
+    to: 'richmonwireko@gmail.com',
+    subject: subject,
+    body: body,
+    time: new Date().toLocaleString()
+  };
+  emailLog.unshift(notification);
+  localStorage.setItem('ev_admin_gmail_inbox', JSON.stringify(emailLog));
+  console.log('[Gmail Simulation to richmonwireko@gmail.com]', subject, body);
+}
 
 function saveProducts() {
   localStorage.setItem('ev_local_products', JSON.stringify(state.products));
@@ -981,8 +1086,10 @@ function go(page) {
   document.querySelectorAll('.plink[data-p="' + page + '"]').forEach(l => l.classList.add('active'));
   $('menu').classList.remove('active');
   
+  checkCartExpiration();
   if (page === 'store' || page === 'home') renderProducts();
   if (page === 'cart') renderCart();
+  if (page === 'tracking') loadClientTrackingAndBargain();
   if (page === 'payment') loadPaymentPortal();
   if (page === 'reviews') loadReviews();
   if (page === 'admin') loadAdmin();
@@ -999,82 +1106,117 @@ function authTab(tab) {
   $('tAdmin').classList.toggle('active', tab === 'admin');
 }
 
-/* --- ADVERTISEMENT SUBMISSION FORM --- */
-function submitAdvertisement(e) {
-  e.preventDefault();
-  const adObj = {
-    id: 'ad_' + Math.random().toString(36).slice(2, 8),
-    name: $('adName').value.trim(),
-    contact: $('adContact').value.trim(),
-    details: $('adDetails').value.trim(),
-    date: new Date().toLocaleDateString()
-  };
-  state.ads.unshift(adObj);
-  localStorage.setItem('ev_local_ads', JSON.stringify(state.ads));
-  $('adName').value = '';
-  $('adContact').value = '';
-  $('adDetails').value = '';
-  toast('Advertisement request submitted successfully!', 'ok');
-}
-
-/* --- FREIGHT CALCULATOR FUNCTIONS --- */
-function calcMode(mode) {
-  $('tabBtnSea').classList.toggle('active', mode === 'sea');
-  $('tabBtnAir').classList.toggle('active', mode === 'air');
-  $('tabBtnCompare').classList.toggle('active', mode === 'compare');
-
-  $('calcSea').classList.toggle('active', mode === 'sea');
-  $('calcAir').classList.toggle('active', mode === 'air');
-  $('calcCompare').classList.toggle('active', mode === 'compare');
-}
-
-function calcSea() {
-  const l = parseFloat($('seaL').value) || 0;
-  const w = parseFloat($('seaW').value) || 0;
-  const h = parseFloat($('seaH').value) || 0;
-  const qty = parseInt($('seaQty').value) || 1;
-  
-  const cbm = (l * w * h * qty) / 1000000;
-  const rateUsd = cbm >= 1.0 ? 255 : 260;
-  const totalUsd = cbm * rateUsd;
-  const totalGhs = totalUsd * 13;
-  
-  $('seaCbm').textContent = cbm.toFixed(3);
-  $('seaUsd').textContent = '$' + totalUsd.toFixed(2);
-  $('seaGhs').textContent = fmtGHS(totalGhs);
-}
-
-function calcAir() {
-  const kg = parseFloat($('airKg').value) || 0;
-  const type = $('airType').value;
-  let totalGhs = 0;
-  let totalUsd = 0;
-  
-  if (type === 'device') {
-    totalGhs = 500;
-    totalUsd = 500 / 13;
-  } else {
-    totalUsd = kg * 17;
-    totalGhs = totalUsd * 13;
+/* --- 24-HOUR CART TIMER LOGIC --- */
+function checkCartExpiration() {
+  if (!state.cartMeta.items || !state.cartMeta.items.length) return;
+  const now = Date.now();
+  if (now > state.cartMeta.expiresAt) {
+    state.cartMeta = { items: [], expiresAt: 0 };
+    localStorage.setItem('ev_cart_meta', JSON.stringify(state.cartMeta));
+    toast('Your shopping cart expired after 24 hours of inactivity. Please re-add items.', 'err', 6000);
   }
-  
-  $('airUsd').textContent = '$' + totalUsd.toFixed(2);
-  $('airGhs').textContent = fmtGHS(totalGhs);
 }
 
-function calcCompare() {
-  const l = parseFloat($('compL').value) || 0;
-  const w = parseFloat($('compW').value) || 0;
-  const h = parseFloat($('compH').value) || 0;
-  const kg = parseFloat($('compKg').value) || 0;
+function updateCartBadge() {
+  checkCartExpiration();
+  const items = state.cartMeta.items || [];
+  const count = items.reduce((sum, item) => sum + item.qty, 0);
+  $('cartBadgeCount').textContent = count;
+}
 
-  const cbm = (l * w * h) / 1000000;
-  const seaRateUsd = cbm >= 1.0 ? 255 : 260;
-  const seaTotalGhs = (cbm * seaRateUsd) * 13;
-  const airTotalGhs = (kg * 17) * 13;
+function getCartItems() {
+  checkCartExpiration();
+  return state.cartMeta.items || [];
+}
 
-  $('compSeaRes').textContent = fmtGHS(seaTotalGhs) + ' (' + cbm.toFixed(3) + ' m³)';
-  $('compAirRes').textContent = fmtGHS(airTotalGhs) + ' (' + kg + ' kg)';
+function saveCartItems(items) {
+  const now = Date.now();
+  // Set 24 hours expiration (24 * 60 * 60 * 1000 ms)
+  const expiresAt = now + (24 * 60 * 60 * 1000);
+  state.cartMeta = { items, expiresAt };
+  localStorage.setItem('ev_cart_meta', JSON.stringify(state.cartMeta));
+  updateCartBadge();
+}
+
+function addToCart(prodId) {
+  if (!state.user) {
+    toast('Please register or login first to add items to your cart', 'err');
+    go('auth');
+    return;
+  }
+  const p = state.products.find(x => String(x.id) === String(prodId));
+  if (!p) return;
+  const items = getCartItems();
+  const existing = items.find(item => String(item.id) === String(prodId));
+  if (existing) { existing.qty += 1; } 
+  else { items.push({ id: p.id, name: p.name, price: p.price, type: p.type || 'preorder', image: p.image || '', qty: 1 }); }
+  saveCartItems(items);
+  toast('Added ' + p.name + ' to cart (24h timer active)', 'ok');
+  if (state.user?.role === 'admin') loadAdmin();
+}
+
+function updateCartQty(prodId, delta) {
+  const items = getCartItems();
+  const item = items.find(x => String(x.id) === String(prodId));
+  if (!item) return;
+  item.qty += delta;
+  let updated = items;
+  if (item.qty <= 0) {
+    updated = items.filter(x => String(x.id) !== String(prodId));
+  }
+  saveCartItems(updated);
+  renderCart();
+  if (state.user?.role === 'admin') loadAdmin();
+}
+
+function removeFromCart(id) {
+  const items = getCartItems().filter(i => String(i.id) !== String(id));
+  saveCartItems(items);
+  renderCart();
+  toast('Item removed from cart', 'ok');
+  if (state.user?.role === 'admin') loadAdmin();
+}
+
+function clearCart() { 
+  saveCartItems([]);
+  renderCart(); 
+  toast('Cart cleared', 'ok');
+  if (state.user?.role === 'admin') loadAdmin();
+}
+
+function renderCart() {
+  checkCartExpiration();
+  const container = $('cartItemsContainer');
+  if (!container) return;
+  const items = getCartItems();
+
+  // Timer countdown calculation
+  const now = Date.now();
+  const diff = state.cartMeta.expiresAt - now;
+  if (diff > 0 && items.length > 0) {
+    const hrs = Math.floor(diff / (1000 * 60 * 60));
+    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const secs = Math.floor((diff % (1000 * 60)) / 1000);
+    $('cartCountdownDisplay').textContent = `${hrs}h ${mins}m ${secs}s`;
+    $('cartTimerAlert').style.display = 'flex';
+  } else {
+    $('cartTimerAlert').style.display = 'none';
+  }
+
+  if (!items.length) {
+    container.innerHTML = '<div class="card" style="text-align:center; padding:40px;"><p style="color:var(--slate);">Your shopping cart is currently empty or expired.</p></div>';
+    $('cartGrandTotal').textContent = 'GHS 0.00';
+    return;
+  }
+  let total = 0;
+  container.innerHTML = items.map(item => {
+    const itemTotal = item.price * item.qty;
+    total += itemTotal;
+    const imgHtml = item.image ? '<img src="' + esc(item.image) + '" style="width:50px; height:50px; object-fit:cover; border-radius:8px;">' : '';
+    const shippingBadge = item.type === 'preorder' ? '<br><span style="color:var(--green); font-size:12px; font-weight:750;">✓ Pre-Order: Without Shipping Fee</span>' : '<br><span style="color:var(--slate); font-size:12px;">Available in Local Stock</span>';
+    return '<div class="cart-item-row"><div style="display:flex; align-items:center; gap:12px;">' + imgHtml + '<div><strong style="color:var(--navy); font-size:15px;">' + esc(item.name) + '</strong><br><span style="color:var(--green); font-weight:700;">' + fmtGHS(item.price) + '</span> each' + shippingBadge + '</div></div><div style="display:flex; align-items:center; gap:10px;"><button class="qty-btn" onclick="updateCartQty(\'' + item.id + '\', -1)">-</button><span style="font-weight:800; min-width:20px; text-align:center;">' + item.qty + '</span><button class="qty-btn" onclick="updateCartQty(\'' + item.id + '\', 1)">+</button></div><div style="text-align:right;"><span style="font-weight:800; color:var(--navy);">' + fmtGHS(itemTotal) + '</span><br><button class="btn btn-sm btn-danger" style="margin-top:4px; padding:4px 8px; font-size:11px;" onclick="removeFromCart(\'' + item.id + '\')">Remove</button></div></div>';
+  }).join('');
+  $('cartGrandTotal').textContent = fmtGHS(total);
 }
 
 /* --- AUTHENTICATION & REGISTRATION --- */
@@ -1091,9 +1233,7 @@ async function doLogin(e) {
   const allKnownClients = [...defaultHistoricalClients, ...localClients];
   const matched = allKnownClients.find(c => c.mark && c.mark.toLowerCase() === identifier.toLowerCase() || c.email.toLowerCase() === identifier.toLowerCase());
   
-  if (matched) {
-    email = matched.email;
-  }
+  if (matched) { email = matched.email; }
 
   const isAdmin = email.includes('admin') || email === 'richmonwireko@gmail.com';
   const name = matched ? matched.name : email.split('@')[0];
@@ -1173,6 +1313,12 @@ async function doReg(e) {
   
   localStorage.setItem('ev_active_user', JSON.stringify(state.user));
 
+  // Send automatic email notification to richmonwireko@gmail.com on new registration
+  sendAdminGmailNotification(
+    'New Client Registration: ' + name + ' (' + generatedMark + ')',
+    `A new client has successfully registered on EveriVault Logistics.\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nShipping Mark: ${generatedMark}\nReferred By: ${verifiedReferrer}\nDate: ${state.user.dateRegistered}`
+  );
+
   if (sb) { try { await sb.from('profiles').insert(state.user); } catch(err) {} }
 
   applyUserState();
@@ -1203,90 +1349,7 @@ function doSignOut() {
   go('home');
 }
 
-/* --- CART & PAYMENT PORTAL FLOW --- */
-function updateCartBadge() {
-  const count = state.cart.reduce((sum, item) => sum + item.qty, 0);
-  $('cartBadgeCount').textContent = count;
-  localStorage.setItem('ev_cart', JSON.stringify(state.cart));
-}
-
-function addToCart(prodId) {
-  if (!state.user) {
-    toast('Please register or login first to add items to your cart', 'err');
-    go('auth');
-    return;
-  }
-  const p = state.products.find(x => String(x.id) === String(prodId));
-  if (!p) return;
-  const existing = state.cart.find(item => String(item.id) === String(prodId));
-  if (existing) { existing.qty += 1; } 
-  else { state.cart.push({ id: p.id, name: p.name, price: p.price, type: p.type || 'preorder', image: p.image || '', qty: 1 }); }
-  updateCartBadge();
-  toast('Added ' + p.name + ' to cart', 'ok');
-  if (state.user?.role === 'admin') loadAdmin();
-}
-
-function updateCartQty(prodId, delta) {
-  const item = state.cart.find(x => String(x.id) === String(prodId));
-  if (!item) return;
-  item.qty += delta;
-  if (item.qty <= 0) {
-    state.cart = state.cart.filter(x => String(x.id) !== String(prodId));
-  }
-  updateCartBadge();
-  renderCart();
-  if (state.user?.role === 'admin') loadAdmin();
-}
-
-function removeFromCart(id) {
-  state.cart = state.cart.filter(i => String(i.id) !== String(id));
-  updateCartBadge();
-  renderCart();
-  toast('Item removed from cart', 'ok');
-  if (state.user?.role === 'admin') loadAdmin();
-}
-
-function clearCart() { 
-  state.cart = []; 
-  updateCartBadge(); 
-  renderCart(); 
-  toast('Cart cleared', 'ok');
-  if (state.user?.role === 'admin') loadAdmin();
-}
-
-function adminAddToCart(prodId) {
-  addToCart(prodId);
-  loadAdmin();
-  toast('Admin added item to cart', 'ok');
-}
-
-function adminRemoveFromCart(prodId) {
-  state.cart = state.cart.filter(i => String(i.id) !== String(prodId));
-  updateCartBadge();
-  renderCart();
-  loadAdmin();
-  toast('Admin removed item from cart', 'ok');
-}
-
-function renderCart() {
-  const container = $('cartItemsContainer');
-  if (!container) return;
-  if (!state.cart.length) {
-    container.innerHTML = '<div class="card" style="text-align:center; padding:40px;"><p style="color:var(--slate);">Your shopping cart is currently empty.</p></div>';
-    $('cartGrandTotal').textContent = 'GHS 0.00';
-    return;
-  }
-  let total = 0;
-  container.innerHTML = state.cart.map(item => {
-    const itemTotal = item.price * item.qty;
-    total += itemTotal;
-    const imgHtml = item.image ? '<img src="' + esc(item.image) + '" style="width:50px; height:50px; object-fit:cover; border-radius:8px;">' : '';
-    const shippingBadge = item.type === 'preorder' ? '<br><span style="color:var(--green); font-size:12px; font-weight:750;">✓ Pre-Order: Without Shipping Fee</span>' : '<br><span style="color:var(--slate); font-size:12px;">Available in Local Stock</span>';
-    return '<div class="cart-item-row"><div style="display:flex; align-items:center; gap:12px;">' + imgHtml + '<div><strong style="color:var(--navy); font-size:15px;">' + esc(item.name) + '</strong><br><span style="color:var(--green); font-weight:700;">' + fmtGHS(item.price) + '</span> each' + shippingBadge + '</div></div><div style="display:flex; align-items:center; gap:10px;"><button class="qty-btn" onclick="updateCartQty(\'' + item.id + '\', -1)">-</button><span style="font-weight:800; min-width:20px; text-align:center;">' + item.qty + '</span><button class="qty-btn" onclick="updateCartQty(\'' + item.id + '\', 1)">+</button></div><div style="text-align:right;"><span style="font-weight:800; color:var(--navy);">' + fmtGHS(itemTotal) + '</span><br><button class="btn btn-sm btn-danger" style="margin-top:4px; padding:4px 8px; font-size:11px;" onclick="removeFromCart(\'' + item.id + '\')">Remove</button></div></div>';
-  }).join('');
-  $('cartGrandTotal').textContent = fmtGHS(total);
-}
-
+/* --- PAYMENT & ORDER SUBMISSION --- */
 function goToPaymentPortal(type = 'goods') {
   setPaymentType(type);
 
@@ -1295,12 +1358,13 @@ function goToPaymentPortal(type = 'goods') {
   }
 
   if (type === 'goods') {
-    if (!state.cart.length) {
+    const items = getCartItems();
+    if (!items.length) {
       toast('Your cart is empty', 'err');
       return;
     }
-    const summary = state.cart.map(i => i.name + ' (x' + i.qty + ')').join(', ');
-    const total = state.cart.reduce((s, i) => s + (i.price * i.qty), 0);
+    const summary = items.map(i => i.name + ' (x' + i.qty + ')').join(', ');
+    const total = items.reduce((s, i) => s + (i.price * i.qty), 0);
     $('payItemSummary').value = summary;
     $('payTotalAmount').value = total.toFixed(2);
   } else if (type === 'shipping') {
@@ -1365,6 +1429,7 @@ function submitPayment(e) {
   e.preventDefault();
   const isShipping = state.paymentCategory === 'shipping';
   const detailStr = isShipping ? $('payShipDesc').value.trim() : $('payItemSummary').value.trim();
+  const totalAmount = parseFloat($('payTotalAmount').value) || 0;
 
   const orderObj = {
     id: 'ord_' + Math.random().toString(36).slice(2, 8),
@@ -1374,7 +1439,7 @@ function submitPayment(e) {
     clientMark: state.user ? state.user.mark : 'GH001K-CLI-0540000000',
     type: isShipping ? 'Shipping Cost' : 'Cart Goods',
     summary: detailStr,
-    total: parseFloat($('payTotalAmount').value) || 0,
+    total: totalAmount,
     slot: state.selectedPaymentSlot,
     txRef: $('payTxRef').value.trim(),
     proof: state.paymentProofBase64,
@@ -1385,11 +1450,17 @@ function submitPayment(e) {
   state.orders.unshift(orderObj);
   localStorage.setItem('ev_local_orders', JSON.stringify(state.orders));
   
+  // Send automatic email notification to richmonwireko@gmail.com on new product/order submission
+  sendAdminGmailNotification(
+    'New Order Placed / Payment Submitted: ' + orderObj.clientName + ' (' + orderObj.clientMark + ')',
+    `A client has submitted an order and payment settlement.\n\nClient: ${orderObj.clientName} (${orderObj.clientMark})\nType: ${orderObj.type}\nSummary: ${orderObj.summary}\nTotal Amount: GHS ${orderObj.total.toFixed(2)}\nPayment Slot: ${orderObj.slot}\nTxRef: ${orderObj.txRef}\nDate: ${orderObj.date}`
+  );
+
   state.paymentProofBase64 = '';
   $('payTxRef').value = '';
-  if (!isShipping) clearCart();
+  if (!isShipping) saveCartItems([]);
 
-  toast('Payment submitted successfully for admin verification!', 'ok');
+  toast('Order submitted successfully! Notification sent to admin.', 'ok');
   loadPaymentPortal();
 }
 
@@ -1409,6 +1480,84 @@ function loadPaymentPortal() {
     const statusClass = o.status === 'Verified' ? 'pill-verified' : 'pill-pending';
     return '<div class="card" style="margin-bottom:12px;"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;"><span class="pill pill-type">' + esc(o.type) + '</span><span class="pill ' + statusClass + '">' + esc(o.status) + '</span></div><h3 style="font-size:15px;">' + esc(o.summary) + '</h3><p style="font-weight:800; color:var(--green); margin-top:4px;">' + fmtGHS(o.total) + ' | Slot: ' + esc(o.slot) + '</p><div style="font-size:12px; color:var(--slate); margin-top:6px;">TxRef: <code>' + esc(o.txRef) + '</code> | ' + proofLink + '</div></div>';
   }).join('');
+}
+
+/* --- TRACKING & BARGAINING PORTAL --- */
+function loadClientTrackingAndBargain() {
+  if (!state.user) return;
+  const userId = state.user.id;
+
+  // Render tracking status
+  const trackContainer = $('clientTrackingDetails');
+  const tData = state.tracking[userId] || { status: 'Goods Received at China Warehouse', message: 'Your items have been checked into our Foshan/Guangzhou warehouse and are ready for consolidation.', time: 'Initial Record' };
+  
+  trackContainer.innerHTML = `
+    <div style="background:var(--bg-light); border-radius:12px; padding:16px; border:1px solid var(--border-color); margin-bottom:16px;">
+      <span class="pill pill-verified" style="font-size:13px; margin-bottom:8px; display:inline-block;">Current Stage: ${esc(tData.status)}</span>
+      <p style="font-size:14px; color:var(--navy); font-weight:600; margin-top:4px;">${esc(tData.message)}</p>
+      <p style="font-size:11px; color:var(--slate); margin-top:6px;">Last Updated: ${esc(tData.time)}</p>
+    </div>
+    <div style="font-size:13px; color:var(--slate); line-height:1.5;">
+      <strong>Stages Guide:</strong>
+      <ul style="padding-left:16px; margin-top:4px;">
+        <li>Goods Received at China Warehouse</li>
+        <li>Reached Tema Harbor</li>
+        <li>At Kumasi Warehouse (KNUST Ayeduase)</li>
+        <li>Out for Delivery / Delivered Successfully</li>
+      </ul>
+    </div>
+  `;
+
+  // Render delivery guy info & bargaining chat
+  const dg = state.deliveryGuy;
+  $('deliveryGuyInfoCard').innerHTML = `Assigned Delivery Guy: <strong>${esc(dg.name)}</strong> — Call/WhatsApp: <a href="tel:${esc(dg.phone)}" style="color:var(--green); font-weight:800;">${esc(dg.phone)}</a> (${esc(dg.zone)})`;
+
+  const chatContainer = $('bargainChatBox');
+  const msgs = state.bargainMessages[userId] || [
+    { sender: 'Delivery Guy', text: `Hello! I am ${dg.name}. Your delivery fee for Kumasi/KNUST is GHS 50. Let me know your offer so we can agree.`, time: 'System' }
+  ];
+
+  chatContainer.innerHTML = msgs.map(m => {
+    const isMe = m.sender === 'Client';
+    const bg = isMe ? '#D1FAE5' : '#E0F2FE';
+    const align = isMe ? 'margin-left:auto;' : 'margin-right:auto;';
+    const color = isMe ? '#065F46' : '#0369A1';
+    return `<div style="background:${bg}; color:${color}; padding:10px 14px; border-radius:10px; max-width:85%; ${align} font-size:13px; margin-bottom:6px;"><strong>${esc(m.sender)}:</strong> ${esc(m.text)} <div style="font-size:9px; color:var(--slate); text-align:right; margin-top:2px;">${esc(m.time)}</div></div>`;
+  }).join('');
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+function sendBargainMessage(e) {
+  e.preventDefault();
+  const text = $('bargainInput').value.trim();
+  if (!text || !state.user) return;
+  const userId = state.user.id;
+
+  if (!state.bargainMessages[userId]) {
+    state.bargainMessages[userId] = [];
+  }
+
+  state.bargainMessages[userId].push({
+    sender: 'Client',
+    text: text,
+    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  });
+
+  // Simulated automated delivery guy response for bargaining agreement
+  setTimeout(() => {
+    state.bargainMessages[userId].push({
+      sender: 'Delivery Guy',
+      text: 'Thanks for your offer! Let us agree on that price. I will dispatch your package accordingly.',
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    });
+    localStorage.setItem('ev_bargain_messages', JSON.stringify(state.bargainMessages));
+    loadClientTrackingAndBargain();
+  }, 1000);
+
+  localStorage.setItem('ev_bargain_messages', JSON.stringify(state.bargainMessages));
+  $('bargainInput').value = '';
+  loadClientTrackingAndBargain();
+  toast('Bargain message sent to delivery personnel', 'ok');
 }
 
 /* --- FILE PROOF --- */
@@ -1529,6 +1678,12 @@ function loadAdmin() {
   $('statOrdersCount').textContent = state.orders.filter(o => o.status === 'Pending Verification').length;
   $('statProdCount').textContent = state.products.length;
 
+  // Populate client select for tracking updates
+  const trackSel = $('admTrackClientSelect');
+  if (trackSel) {
+    trackSel.innerHTML = allClientsCombined.map(c => `<option value="${c.id}">${c.name} (${c.mark})</option>`).join('');
+  }
+
   $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Email / Phone</th><th>Shipping Mark ID</th><th>Referred By</th><th>Client Type</th></tr></thead><tbody>' + (allClientsCombined.length ? allClientsCombined.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.email) + ' / ' + esc(c.phone) + '</td><td><code>' + esc(c.mark) + '</code></td><td><code style="color:var(--green-hover);">' + esc(c.referredBy || 'None (Direct)') + '</code></td><td><span class="pill ' + (c.type?.includes('Old') ? 'pill-type' : 'pill-verified') + '">' + esc(c.type || 'Registered Client') + '</span></td></tr>').join('') : '<tr><td colspan="5" style="text-align:center; color:var(--slate);">No clients recorded.</td></tr>') + '</tbody></table></div>';
 
   $('adminAdsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Business / Client</th><th>Contact</th><th>Promo / Ad Details</th><th>Date Submitted</th></tr></thead><tbody>' + (state.ads.length ? state.ads.map(a => '<tr><td>' + esc(a.name) + '</td><td>' + esc(a.contact) + '</td><td>' + esc(a.details) + '</td><td>' + esc(a.date) + '</td></tr>').join('') : '<tr><td colspan="4" style="text-align:center; color:var(--slate);">No advertisement requests submitted yet.</td></tr>') + '</tbody></table></div>';
@@ -1541,8 +1696,29 @@ function loadAdmin() {
     return '<tr><td>' + esc(o.clientName) + '</td><td><code>' + esc(o.clientMark) + '</code></td><td><span class="pill pill-type">' + esc(o.type) + '</span></td><td>' + esc(o.summary) + '</td><td>' + fmtGHS(o.total) + '</td><td>' + esc(o.slot) + '<br><code>' + esc(o.txRef) + '</code><br>' + proofLink + '</td><td>' + verifyBtn + '</td></tr>';
   }).join('') : '<tr><td colspan="7" style="text-align:center; color:var(--slate);">No payment orders submitted yet.</td></tr>') + '</tbody></table></div>';
 
+  // Tracking records list
+  const tRecords = Object.entries(state.tracking).map(([uid, t]) => {
+    const cli = allClientsCombined.find(c => c.id === uid) || { name: 'Client', mark: uid };
+    return `<tr><td>${esc(cli.name)} (${esc(cli.mark)})</td><td><span class="pill pill-type">${esc(t.status)}</span></td><td>${esc(t.message)}</td><td>${esc(t.time)}</td></tr>`;
+  }).join('');
+  $('adminTrackingRecordsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Status Stage</th><th>Message Note</th><th>Last Updated</th></tr></thead><tbody>' + (tRecords || '<tr><td colspan="4" style="text-align:center; color:var(--slate);">No active tracking updates issued yet.</td></tr>') + '</tbody></table></div>';
+
+  // Delivery guy info fields
+  $('dgName').value = state.deliveryGuy.name;
+  $('dgPhone').value = state.deliveryGuy.phone;
+  $('dgZone').value = state.deliveryGuy.zone;
+
+  // Bargaining conversations summary for admin
+  const bList = Object.entries(state.bargainMessages).map(([uid, msgs]) => {
+    const cli = allClientsCombined.find(c => c.id === uid) || { name: 'Client', mark: uid };
+    const lastMsg = msgs[msgs.length - 1] || { text: 'No messages' };
+    return `<div class="card" style="margin-bottom:10px;"><strong>Client: ${esc(cli.name)} (${esc(cli.mark)})</strong><p style="font-size:13px; color:var(--slate); margin-top:4px;">Latest: "${esc(lastMsg.text)}" (${esc(lastMsg.sender)})</p></div>`;
+  }).join('');
+  $('adminBargainList').innerHTML = bList || '<p style="color:var(--slate);">No delivery bargaining conversations yet.</p>';
+
   $('adminProductsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Product</th><th>Category</th><th>Type</th><th>Price</th><th>Cart Action</th><th>Catalog Action</th></tr></thead><tbody>' + state.products.map(p => {
-    const inCart = state.cart.some(i => String(i.id) === String(p.id));
+    const items = getCartItems();
+    const inCart = items.some(i => String(i.id) === String(p.id));
     const cartBtn = inCart 
       ? '<button class="btn btn-sm btn-danger" onclick="adminRemoveFromCart(\'' + p.id + '\')">Remove from Cart</button>'
       : '<button class="btn btn-sm btn-green" onclick="adminAddToCart(\'' + p.id + '\')">Add to Cart</button>';
@@ -1556,6 +1732,34 @@ function loadAdmin() {
   $('cfgAirRate1').value = state.settings.airRate1;
   $('cfgAirRate2').value = state.settings.airRate2;
   $('cfgBannerMsg').value = state.settings.bannerMsg;
+}
+
+function adminUpdateTracking(e) {
+  e.preventDefault();
+  const clientId = $('admTrackClientSelect').value;
+  const status = $('admTrackStatusSelect').value;
+  const message = $('admTrackMsg').value.trim();
+
+  state.tracking[clientId] = {
+    status: status,
+    message: message,
+    time: new Date().toLocaleString()
+  };
+  localStorage.setItem('ev_local_tracking', JSON.stringify(state.tracking));
+
+  toast('Client tracking update and message saved successfully!', 'ok');
+  loadAdmin();
+}
+
+function saveDeliveryGuyInfo(e) {
+  e.preventDefault();
+  state.deliveryGuy = {
+    name: $('dgName').value.trim(),
+    phone: $('dgPhone').value.trim(),
+    zone: $('dgZone').value.trim()
+  };
+  localStorage.setItem('ev_delivery_guy', JSON.stringify(state.deliveryGuy));
+  toast('Delivery guy info updated live successfully!', 'ok');
 }
 
 function exportClientData() {
@@ -1587,6 +1791,8 @@ function adminTab(tab) {
   document.querySelectorAll('.admin-nav-btn').forEach(t => t.classList.toggle('active', t.dataset.admintab === tab));
   $('adminProducts').classList.toggle('active', tab === 'products');
   $('adminPayments').classList.toggle('active', tab === 'payments');
+  $('adminTracking').classList.toggle('active', tab === 'tracking');
+  $('adminDelivery').classList.toggle('active', tab === 'delivery');
   $('adminAds').classList.toggle('active', tab === 'ads');
   $('adminClients').classList.toggle('active', tab === 'clients');
   $('adminContent').classList.toggle('active', tab === 'content');
@@ -1676,7 +1882,7 @@ function applyUserState() {
   }
 }
 
-Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, handleLogoFileSelect, saveLogoFile, addToCart, updateCartQty, removeFromCart, clearCart, adminAddToCart, adminRemoveFromCart, goToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, doSubmitReview, copyText, adminTab, toggleOrderVerify, doLogin, doReg, doResetPassword, doSignOut, doAdmin, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts, exportClientData });
+Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, handleLogoFileSelect, saveLogoFile, addToCart, updateCartQty, removeFromCart, clearCart, adminAddToCart, adminRemoveFromCart, goToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, doSubmitReview, copyText, adminTab, toggleOrderVerify, doLogin, doReg, doResetPassword, doSignOut, doAdmin, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts, exportClientData, adminUpdateTracking, saveDeliveryGuyInfo, sendBargainMessage });
 
 (function init() {
   applyPortalSettings();
