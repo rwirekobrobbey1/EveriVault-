@@ -42,7 +42,7 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 .cart-badge { background:#EF4444; color:#fff; border-radius:50px; padding:2px 8px; font-size:11px; font-weight:800; }
 .menu-toggle { display:none; color:#fff; font-size:26px; cursor:pointer; background:none; border:none; padding:6px; }
 
-/* Buttons & Controls */
+/* Buttons & UI Controls */
 .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 22px; border-radius:10px; font-weight:700; border:none; cursor:pointer; font-size:14px; text-decoration:none; transition:all 0.2s ease; white-space:nowrap; }
 .btn:active { transform:scale(0.98); }
 .btn:disabled { opacity:0.5; cursor:not-allowed; }
@@ -185,8 +185,8 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       <li><a class="plink" data-p="address" onclick="go('address')">Warehouses</a></li>
       <li><a class="plink" data-p="track" onclick="go('track')">Track Shipment</a></li>
       <li id="clientLink" style="display:none;"><a class="plink" data-p="orders" onclick="go('orders')">My Orders</a></li>
-      <li id="adminLink" style="display:none;"><a class="plink" data-p="admin" onclick="go('admin')">Admin Portal</a></li>
-      <li id="authNav"><a class="nav-cta plink" data-p="auth" onclick="go('auth')">Client Login</a></li>
+      <li id="adminLink" style="display:none;"><a class="plink" data-p="admin" onclick="go('admin')">Master Admin Suite</a></li>
+      <li id="authNav"><a class="nav-cta plink" data-p="auth" onclick="go('auth')">Client Portal</a></li>
     </ul>
     <button class="menu-toggle" onclick="toggleMenu()">☰</button>
   </div>
@@ -358,40 +358,70 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- AUTH PAGE WITH EASY LOGIN -->
+<!-- AUTH PAGE WITH EMAIL OR SHIPPING MARK DUAL LOGIN & PASSWORD RESET -->
 <section id="p-auth" class="page">
   <div class="container">
-    <h2>Client & Admin Portal</h2>
+    <h2>Account Authentication Portal</h2>
     <div class="form-box">
       <div class="tabs">
-        <button class="tab active" data-authtab="client" onclick="authTab('client')">Client Login</button>
-        <button class="tab" data-authtab="admin" onclick="authTab('admin')">Admin Login</button>
+        <button class="tab active" data-authtab="login" onclick="authTab('login')">Client Sign In</button>
+        <button class="tab" data-authtab="reg" onclick="authTab('reg')">Client Register</button>
+        <button class="tab" data-authtab="reset" onclick="authTab('reset')">Reset Password</button>
+        <button class="tab" data-authtab="admin" onclick="authTab('admin')">Admin Access</button>
       </div>
 
-      <!-- EASY LOGIN DEMO BUTTONS -->
-      <div style="background:var(--bg-light); border:1px solid var(--border-color); padding:12px; border-radius:10px; margin-bottom:16px; text-align:center;">
-        <span style="font-size:12px; font-weight:700; color:var(--navy);">EASY LOGIN PREFILL:</span>
+      <!-- EASY DEMO LOGIN SELECTOR -->
+      <div style="background:var(--bg-light); border:1px solid var(--border-color); padding:10px; border-radius:10px; margin-bottom:16px; text-align:center;">
+        <span style="font-size:12px; font-weight:700; color:var(--navy);">EASY DEMO PREFILL:</span>
         <div style="display:flex; gap:8px; justify-content:center; margin-top:6px;">
-          <button class="btn btn-sm btn-outline" onclick="prefillLogin('client')">Demo Client</button>
-          <button class="btn btn-sm btn-outline" onclick="prefillLogin('admin')">Demo Admin</button>
+          <button class="btn btn-sm btn-outline" onclick="prefillLogin('client')">Demo Client (Gmail)</button>
+          <button class="btn btn-sm btn-outline" onclick="prefillLogin('mark')">Demo Client (Shipping Mark)</button>
+          <button class="btn btn-sm btn-outline" onclick="prefillLogin('admin')">Master Admin</button>
         </div>
       </div>
 
-      <div id="tClient" class="tab-content active">
-        <form id="fLogin" onsubmit="doLogin(event)">
-          <div class="form-group"><label>Email Address</label><input type="email" id="lem" required></div>
+      <!-- CLIENT DUAL LOGIN -->
+      <div id="tLogin" class="tab-content active">
+        <form onsubmit="doLogin(event)">
+          <div class="form-group">
+            <label>Gmail Address OR Auto-Generated Shipping Mark Code</label>
+            <input type="text" id="lem" placeholder="e.g. client@gmail.com OR GH001K-CLI-A1B2C3" required>
+          </div>
           <div class="form-group"><label>Password</label><input type="password" id="lpw" required></div>
-          <div id="lmsg" class="msg"></div>
           <button class="btn btn-green btn-block" type="submit" id="loginBtn">Sign In Easy</button>
         </form>
       </div>
 
+      <!-- CLIENT REGISTRATION WITH AUTO-GENERATED MARK -->
+      <div id="tReg" class="tab-content">
+        <form onsubmit="doReg(event)">
+          <div class="form-group"><label>Full Name</label><input type="text" id="rn" required placeholder="e.g. Richmond Wireko"></div>
+          <div class="form-group"><label>Gmail / Email Address</label><input type="email" id="rem" required placeholder="e.g. richmond@gmail.com"></div>
+          <div class="form-group"><label>Phone Number</label><input type="tel" id="rp" required placeholder="e.g. +233 54 315 5883"></div>
+          <div class="form-group"><label>Location / City</label><input type="text" id="rl" required placeholder="e.g. Kumasi, Ghana"></div>
+          <div class="form-group"><label>Password</label><input type="password" id="rpw" required minlength="6"></div>
+          <div class="form-group"><label>Confirm Password</label><input type="password" id="rpw2" required minlength="6"></div>
+          <button class="btn btn-green btn-block" type="submit" id="regBtn">Register & Generate Shipping Mark</button>
+        </form>
+      </div>
+
+      <!-- PASSWORD RESET -->
+      <div id="tReset" class="tab-content">
+        <form onsubmit="doResetPassword(event)">
+          <div class="form-group">
+            <label>Enter Registered Gmail or Shipping Mark</label>
+            <input type="text" id="resetIdent" placeholder="e.g. client@gmail.com OR GH001K-CLI-A1B2C3" required>
+          </div>
+          <button class="btn btn-navy btn-block" type="submit">Send Reset Password Instructions</button>
+        </form>
+      </div>
+
+      <!-- ADMIN ACCESS PORTAL -->
       <div id="tAdmin" class="tab-content">
         <form onsubmit="doAdmin(event)">
-          <div class="form-group"><label>Admin Email</label><input type="email" id="aem" required></div>
-          <div class="form-group"><label>Security Password</label><input type="password" id="apw" required></div>
-          <div id="amsg" class="msg"></div>
-          <button class="btn btn-navy btn-block" type="submit" id="adminBtn">Authenticate Admin</button>
+          <div class="form-group"><label>Executive Admin Identifier / Gmail</label><input type="email" id="aem" required></div>
+          <div class="form-group"><label>Admin Security Password</label><input type="password" id="apw" required></div>
+          <button class="btn btn-navy btn-block" type="submit" id="adminBtn">Authenticate Executive Suite</button>
         </form>
       </div>
     </div>
@@ -413,7 +443,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           <input type="text" id="payTxRef" placeholder="Or Enter MoMo / Bank Transaction ID" style="margin-top:8px;">
         </div>
 
-        <div id="oMsg" class="msg"></div>
         <button class="btn btn-green btn-block" type="submit" id="orderBtn">Submit Order & Proof for Verification</button>
       </form>
     </div>
@@ -444,15 +473,33 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- ADMIN DASHBOARD: CLIENTS & PROOF VERIFICATION -->
+<!-- UNIQUE EXECUTIVE MASTER ADMIN PORTAL WITH PASSWORD CHANGE TOOL -->
 <section id="p-admin" class="page admin-only">
   <div class="container">
-    <h2>Management Dashboard</h2>
+    <div style="background:var(--navy); color:#fff; padding:24px; border-radius:16px; margin-bottom:28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+      <div>
+        <h2 style="color:var(--green); text-align:left; margin-bottom:4px;">Master Executive Suite — CEO Control Center</h2>
+        <p style="color:var(--slate-light);">Authorized Director Management Portal: Richmond Wireko Brobbey</p>
+      </div>
+      <button class="btn btn-sm btn-outline" style="color:#fff; border-color:#fff;" onclick="openAdminPasswordModal()">🔑 Change Admin Password</button>
+    </div>
+
+    <!-- ADMIN CHANGE PASSWORD FORM / MODAL CONTAINER -->
+    <div id="adminPwBox" class="form-box" style="display:none; max-width:600px; margin-bottom:28px; border:2px solid var(--green);">
+      <h3>Update Master Admin Password</h3>
+      <form onsubmit="doAdminChangePassword(event)">
+        <div class="form-group"><label>New Master Password</label><input type="password" id="aNewPw" required minlength="6"></div>
+        <div style="display:flex; gap:10px;">
+          <button class="btn btn-green btn-block" type="submit">Update Password Now</button>
+          <button class="btn btn-outline" type="button" onclick="openAdminPasswordModal(false)">Cancel</button>
+        </div>
+      </form>
+    </div>
     
     <div class="tabs">
-      <button class="tab active" data-admintab="clients" onclick="adminTab('clients')">Registered Clients</button>
-      <button class="tab" data-admintab="orders" onclick="adminTab('orders')">Order Payment Verification</button>
-      <button class="tab" data-admintab="products" onclick="adminTab('products')">Product Inventory</button>
+      <button class="tab active" data-admintab="clients" onclick="adminTab('clients')">Registered Clients Roster</button>
+      <button class="tab" data-admintab="orders" onclick="adminTab('orders')">Payment Proof Verification</button>
+      <button class="tab" data-admintab="products" onclick="adminTab('products')">Upload & Manage Catalog</button>
     </div>
 
     <!-- REGISTERED CLIENTS TAB -->
@@ -467,9 +514,24 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       <div id="adminOrdersList"></div>
     </div>
 
-    <!-- PRODUCTS TAB -->
+    <!-- PRODUCTS UNLIMITED UPLOAD TAB -->
     <div id="adminProducts" class="tab-content">
-      <h3 style="margin-bottom:16px; color:var(--navy);">Catalog Items</h3>
+      <div class="form-box" style="max-width:700px; margin-bottom:30px;">
+        <h3>Upload New Product to Catalog (Unlimited)</h3>
+        <form onsubmit="doAddProduct(event)">
+          <div class="form-group"><label>Product Title</label><input type="text" id="npName" required placeholder="e.g. Smart Watch Ultra 2"></div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px;">
+            <div class="form-group"><label>Category</label><input type="text" id="npCat" required placeholder="e.g. Electronics"></div>
+            <div class="form-group"><label>Price (GHS)</label><input type="number" id="npPrice" step="0.01" required placeholder="450.00"></div>
+          </div>
+          <div class="form-group">
+            <label>Product Photo File / Image URL</label>
+            <input type="file" id="npFile" accept="image/*" onchange="handleImageFile(event)">
+            <input type="url" id="npImgUrl" placeholder="Or Enter Image Web URL" style="margin-top:8px;">
+          </div>
+          <button class="btn btn-green btn-block" type="submit" id="addProdBtn">Publish Product to Catalog</button>
+        </form>
+      </div>
       <div id="adminProductsList"></div>
     </div>
   </div>
@@ -477,7 +539,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
 
 <footer>
   <div class="container">
-    <h3>EVERIVAULT LOGISTICS</h3>
+    <h3>EVERIVAULT LOGISTICS EXECUTIVE SUITE</h3>
     <p>China ↔ Ghana Commercial Freight Forwarding</p>
     <p>Contact: +233 543 155 883 | Email: richmonwireko@gmail.com</p>
   </div>
@@ -502,7 +564,8 @@ const state = {
   orders: [], 
   clients: [],
   cart: JSON.parse(localStorage.getItem('ev_cart') || '[]'),
-  paymentProofBase64: ''
+  paymentProofBase64: '',
+  uploadedProdBase64: ''
 };
 
 const $ = id => document.getElementById(id);
@@ -536,27 +599,114 @@ function go(page) {
 }
 
 function toggleMenu() { $('menu').classList.toggle('active'); }
+
 function authTab(tab) {
   document.querySelectorAll('[data-authtab]').forEach(t => t.classList.toggle('active', t.dataset.authtab === tab));
-  $('tClient').classList.toggle('active', tab === 'client');
+  $('tLogin').classList.toggle('active', tab === 'login');
+  $('tReg').classList.toggle('active', tab === 'reg');
+  $('tReset').classList.toggle('active', tab === 'reset');
   $('tAdmin').classList.toggle('active', tab === 'admin');
 }
 
-/* --- EASY LOGIN HELPER --- */
+/* --- EASY DEMO LOGIN PREFILL --- */
 function prefillLogin(role) {
   if (role === 'client') {
-    authTab('client');
-    $('lem').value = 'client@everivault.com';
+    authTab('login');
+    $('lem').value = 'client@gmail.com';
+    $('lpw').value = 'client123';
+  } else if (role === 'mark') {
+    authTab('login');
+    $('lem').value = 'GH001K-CLI-A1B2C3';
     $('lpw').value = 'client123';
   } else {
     authTab('admin');
     $('aem').value = 'richmonwireko@gmail.com';
     $('apw').value = 'admin123';
   }
-  toast('Demo credentials prefilled for easy login', 'ok');
+  toast('Credentials prefilled for quick login', 'ok');
 }
 
-/* --- PROOF OF PAYMENT FILE HANDLER --- */
+/* --- DUAL LOGIN LOGIC (GMAIL OR AUTO-GENERATED SHIPPING MARK) --- */
+async function doLogin(e) {
+  e.preventDefault();
+  if (!sb) return;
+  const identifier = $('lem').value.trim();
+  const password = $('lpw').value;
+  let email = identifier;
+
+  // Check if identifier is a Shipping Mark (doesn't contain '@' or matches GH001K format)
+  if (!identifier.includes('@')) {
+    const { data, error } = await sb.from('profiles').select('email').eq('mark', identifier.toUpperCase()).maybeSingle();
+    if (error || !data) {
+      toast('Shipping Mark not found in registry', 'err');
+      return;
+    }
+    email = data.email;
+  }
+
+  const { error } = await sb.auth.signInWithPassword({ email, password });
+  if (error) { toast(error.message, 'err'); return; }
+  await loadProfile(); applyUserState(); toast('Logged in successfully', 'ok'); go('home');
+}
+
+/* --- REGISTRATION WITH AUTOMATIC SHIPPING MARK GENERATION --- */
+async function doReg(e) {
+  e.preventDefault();
+  if (!sb) return;
+  const name = $('rn').value.trim(), email = $('rem').value.trim().toLowerCase(), phone = $('rp').value.trim(), location = $('rl').value.trim();
+  const pw = $('rpw').value, pw2 = $('rpw2').value;
+  if (pw !== pw2) { toast('Passwords do not match.', 'err'); return; }
+
+  const generatedMark = randomMark(name);
+
+  const { data, error } = await sb.auth.signUp({ 
+    email, password: pw, 
+    options: { data: { name, phone, location, mark: generatedMark } } 
+  });
+
+  if (error) { toast(error.message, 'err'); return; }
+  
+  toast('Account registered! Your Shipping Mark: ' + generatedMark, 'ok', 6000);
+  if (data.session) { await loadProfile(); applyUserState(); setTimeout(() => go('home'), 600); }
+  else { authTab('login'); }
+}
+
+/* --- PASSWORD RESET LOGIC --- */
+async function doResetPassword(e) {
+  e.preventDefault();
+  if (!sb) return;
+  const identifier = $('resetIdent').value.trim();
+  let email = identifier;
+
+  if (!identifier.includes('@')) {
+    const { data } = await sb.from('profiles').select('email').eq('mark', identifier.toUpperCase()).maybeSingle();
+    if (data) email = data.email;
+  }
+
+  const { error } = await sb.auth.resetPasswordForEmail(email);
+  if (error) { toast(error.message, 'err'); }
+  else { toast('Password reset link dispatched to your registered email!', 'ok'); }
+}
+
+/* --- ADMIN PASSWORD MANAGEMENT --- */
+function openAdminPasswordModal(show = true) {
+  $('adminPwBox').style.display = show ? 'block' : 'none';
+}
+
+async function doAdminChangePassword(e) {
+  e.preventDefault();
+  if (!sb) return;
+  const newPassword = $('aNewPw').value;
+  const { error } = await sb.auth.updateUser({ password: newPassword });
+  if (error) { toast(error.message, 'err'); }
+  else { 
+    toast('Admin password updated successfully!', 'ok'); 
+    $('aNewPw').value = '';
+    openAdminPasswordModal(false);
+  }
+}
+
+/* --- PROOF OF PAYMENT HANDLER --- */
 function handleProofFile(e) {
   const file = e.target.files[0];
   if (!file) return;
@@ -565,6 +715,14 @@ function handleProofFile(e) {
     state.paymentProofBase64 = evt.target.result;
     toast('Proof of payment image attached', 'ok');
   };
+  reader.readAsDataURL(file);
+}
+
+function handleImageFile(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt) { state.uploadedProdBase64 = evt.target.result; };
   reader.readAsDataURL(file);
 }
 
@@ -628,6 +786,21 @@ function renderProducts() {
   grid.innerHTML = state.products.map(p => '<div class="card"><h3>' + esc(p.name) + '</h3><p style="font-weight:800; color:var(--navy); font-size:18px; margin:8px 0;">' + fmtGHS(p.price) + '</p><button class="btn btn-sm btn-green" onclick="addToCart(\'' + p.id + '\')">Add to Cart</button></div>').join('');
 }
 
+async function doAddProduct(e) {
+  e.preventDefault();
+  if (!sb) return;
+  const productObj = { 
+    name: $('npName').value.trim(), 
+    category: $('npCat').value.trim(), 
+    price: parseFloat($('npPrice').value) || 0, 
+    image: state.uploadedProdBase64 || $('npImgUrl').value.trim() 
+  };
+  const { error } = await sb.from('products').insert(productObj);
+  if (error) { toast(error.message, 'err'); return; }
+  toast('Product published to catalog', 'ok');
+  loadProducts();
+}
+
 /* --- SUBMIT ORDER WITH PAYMENT PROOF --- */
 async function submitOrder(e) {
   e.preventDefault();
@@ -648,8 +821,7 @@ async function submitOrder(e) {
   btn.disabled = false; btn.textContent = 'Submit Order & Proof for Verification';
   if (error) { toast(error.message, 'err'); return; }
   
-  clearCart();
-  state.paymentProofBase64 = '';
+  clearCart(); state.paymentProofBase64 = '';
   toast('Order & Payment Proof Submitted!', 'ok');
   go('orders');
 }
@@ -658,18 +830,16 @@ async function submitOrder(e) {
 async function loadAdmin() {
   if (!state.user || state.user.role !== 'admin' || !sb) return;
   
-  // Load Registered Clients
   const { data: clients } = await sb.from('profiles').select('*').order('created_at', { ascending: false });
   state.clients = clients || [];
-  $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Phone</th><th>Location</th><th>Ref Code</th></tr></thead><tbody>' + state.clients.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.phone) + '</td><td>' + esc(c.location) + '</td><td><code>' + esc(c.mark) + '</code></td></tr>').join('') + '</tbody></table></div>';
+  $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Phone</th><th>Location</th><th>Shipping Mark Ref</th></tr></thead><tbody>' + state.clients.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.phone) + '</td><td>' + esc(c.location) + '</td><td><code>' + esc(c.mark) + '</code></td></tr>').join('') + '</tbody></table></div>';
 
-  // Load Payment Proof Verification
   const { data: orders } = await sb.from('orders').select('*').order('created_at', { ascending: false });
   state.orders = orders || [];
   $('adminOrdersList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Items</th><th>Total</th><th>Proof</th><th>Status</th><th>Action</th></tr></thead><tbody>' + state.orders.map(o => {
     const proofView = o.proof_data && o.proof_data.startsWith('data:image') 
-      ? '<a href="' + o.proof_data + '" target="_blank" style="color:var(--green); font-weight:700;">View Screenshot</a>' 
-      : (o.proof_data ? '<code>' + esc(o.proof_data) + '</code>' : 'No Proof Uploaded');
+      ? '<a href="' + o.proof_data + '" target="_blank" style="color:var(--green); font-weight:700;">View Receipt Screenshot</a>' 
+      : (o.proof_data ? '<code>' + esc(o.proof_data) + '</code>' : 'No Proof');
     return '<tr><td>' + esc(o.user_name) + '</td><td>' + esc(o.item) + '</td><td>' + fmtGHS(o.total) + '</td><td>' + proofView + '</td><td><span class="pill ' + (o.verified ? 'pill-verified' : 'pill-pending') + '">' + (o.verified ? 'Verified' : 'Pending') + '</span></td><td><button class="btn btn-sm btn-green" onclick="toggleVerifyOrder(\'' + o.id + '\', ' + !o.verified + ')">' + (o.verified ? 'Unverify' : 'Verify Payment') + '</button></td></tr>';
   }).join('') + '</tbody></table></div>';
 }
@@ -686,15 +856,6 @@ function adminTab(tab) {
   $('adminClients').classList.toggle('active', tab === 'clients');
   $('adminOrders').classList.toggle('active', tab === 'orders');
   $('adminProducts').classList.toggle('active', tab === 'products');
-}
-
-/* --- AUTH & INIT --- */
-async function doLogin(e) {
-  e.preventDefault();
-  if (!sb) return;
-  const { error } = await sb.auth.signInWithPassword({ email: $('lem').value.trim().toLowerCase(), password: $('lpw').value });
-  if (error) { toast(error.message, 'err'); return; }
-  await loadProfile(); applyUserState(); toast('Logged in successfully', 'ok'); go('home');
 }
 
 async function doAdmin(e) {
@@ -727,7 +888,7 @@ function copyText(text) {
   if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => toast('Copied to clipboard', 'ok'));
 }
 
-Object.assign(window, { go, toggleMenu, authTab, prefillLogin, handleProofFile, addToCart, removeFromCart, clearCart, proceedToCheckout, submitOrder, copyText, adminTab, toggleVerifyOrder, doLogin, doAdmin });
+Object.assign(window, { go, toggleMenu, authTab, prefillLogin, handleProofFile, handleImageFile, addToCart, removeFromCart, clearCart, proceedToCheckout, submitOrder, copyText, adminTab, toggleVerifyOrder, doLogin, doReg, doResetPassword, doAdmin, openAdminPasswordModal, doAdminChangePassword, doAddProduct });
 
 (async function init() {
   if (sb) { try { await loadProfile(); } catch(e){} }
