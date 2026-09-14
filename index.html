@@ -1087,7 +1087,7 @@ const state = {
   paymentProofBase64: '',
   selectedPaymentSlot: 'momo',
   paymentCategory: 'goods',
-  tempLogoBase64: ''
+  uploadedLogoBase64: ''
 };
 
 const $ = id => document.getElementById(id);
@@ -1444,7 +1444,6 @@ async function doUniversalReset(e) {
   e.preventDefault();
   const ident = $('resetIdent').value.trim().toLowerCase();
   
-  // Check if it matches admin, delivery, or client
   let targetName = 'User';
   if (ident.includes('admin') || ident === 'richmonwireko@gmail.com') {
     targetName = 'Master Admin (Richmond Wireko Brobbey)';
@@ -1872,12 +1871,7 @@ function loadAdmin() {
   `;
 
   $('adminProductsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Product</th><th>Category</th><th>Type</th><th>Price</th><th>Cart Action</th><th>Catalog Action</th></tr></thead><tbody>' + state.products.map(p => {
-    const items = getCartItems();
-    const inCart = items.some(i => String(i.id) === String(p.id));
-    const cartBtn = inCart 
-      ? '<button class="btn btn-sm btn-danger" onclick="adminRemoveFromCart(\'' + p.id + '\')">Remove from Cart</button>'
-      : '<button class="btn btn-sm btn-green" onclick="adminAddToCart(\'' + p.id + '\')">Add to Cart</button>';
-    return '<tr><td>' + esc(p.name) + '</td><td>' + esc(p.category) + '</td><td><span class="pill ' + (p.type === 'preorder' ? 'pill-pending' : 'pill-verified') + '">' + (p.type === 'preorder' ? 'Pre-Order (No Ship Fee)' : 'Available') + '</span></td><td>' + fmtGHS(p.price) + '</td><td>' + cartBtn + '</td><td><button class="btn btn-sm btn-outline" onclick="deleteCatalogProduct(\'' + p.id + '\')">Delete Product</button></td></tr>';
+    return '<tr><td>' + esc(p.name) + '</td><td>' + esc(p.category) + '</td><td><span class="pill ' + (p.type === 'preorder' ? 'pill-pending' : 'pill-verified') + '">' + (p.type === 'preorder' ? 'Pre-Order (No Ship Fee)' : 'Available') + '</span></td><td>' + fmtGHS(p.price) + '</td><td><button class="btn btn-sm btn-green" onclick="addToCart(\'' + p.id + '\')">Add to Cart</button></td><td><button class="btn btn-sm btn-outline" onclick="deleteCatalogProduct(\'' + p.id + '\')">Delete Product</button></td></tr>';
   }).join('') + '</tbody></table></div>';
 
   $('cfgHeroTitle').value = state.settings.heroTitle;
@@ -1995,6 +1989,52 @@ function doAdminChangePassword(e) {
   openAdminPasswordModal(false);
 }
 
+/* --- LOGO & IMAGE FILE HANDLERS --- */
+function handleLogoFileSelect(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    state.uploadedLogoBase64 = evt.target.result;
+    toast('Logo file loaded successfully', 'ok');
+  };
+  reader.readAsDataURL(file);
+}
+
+function saveLogoFile(e) {
+  e.preventDefault();
+  if (!state.uploadedLogoBase64) {
+    toast('Please select an image file first', 'err');
+    return;
+  }
+  state.settings.logoUrl = state.uploadedLogoBase64;
+  localStorage.setItem('ev_portal_settings', JSON.stringify(state.settings));
+  applyPortalSettings();
+  toast('Business logo updated live across navigation header!', 'ok');
+}
+
+function handleImageFile(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt) { state.uploadedProdBase64 = evt.target.result; toast('Product photo attached', 'ok'); };
+  reader.readAsDataURL(file);
+}
+
+function submitAdvertisement(e) {
+  e.preventDefault();
+  const adObj = {
+    name: $('adName').value.trim(),
+    contact: $('adContact').value.trim(),
+    details: $('adDetails').value.trim(),
+    date: new Date().toLocaleDateString()
+  };
+  state.ads.unshift(adObj);
+  localStorage.setItem('ev_local_ads', JSON.stringify(state.ads));
+  $('adName').value = ''; $('adContact').value = ''; $('adDetails').value = '';
+  toast('Advertisement request submitted successfully', 'ok');
+}
+
 /* --- REVIEWS & UTILS --- */
 function loadReviews() {
   $('reviewsList').innerHTML = state.reviews.map(r => '<div class="review-card"><div><strong style="color:var(--navy);">' + esc(r.name) + '</strong> <code style="font-size:12px;">' + esc(r.mark || 'VERIFIED CLIENT') + '</code></div><p>' + esc(r.comment) + '</p></div>').join('');
@@ -2045,6 +2085,63 @@ function applyUserState() {
   } else if (isClient && document.getElementById('p-admin').classList.contains('active')) {
     go('home');
   }
+}
+
+/* --- FREIGHT CALCULATOR FUNCTIONS --- */
+function calcMode(mode) {
+  document.getElementById('tabBtnSea').classList.toggle('active', mode === 'sea');
+  document.getElementById('tabBtnAir').classList.toggle('active', mode === 'air');
+  document.getElementById('tabBtnCompare').classList.toggle('active', mode === 'compare');
+  document.getElementById('calcSea').classList.toggle('active', mode === 'sea');
+  document.getElementById('calcAir').classList.toggle('active', mode === 'air');
+  document.getElementById('calcCompare').classList.toggle('active', mode === 'compare');
+}
+
+function calcSea() {
+  const l = parseFloat(document.getElementById('seaL').value) || 0;
+  const w = parseFloat(document.getElementById('seaW').value) || 0;
+  const h = parseFloat(document.getElementById('seaH').value) || 0;
+  const qty = parseInt(document.getElementById('seaQty').value) || 1;
+  const cbm = (l * w * h / 1000000) * qty;
+  const rateUsd = cbm >= 1.0 ? 255 : 260;
+  const usd = cbm * rateUsd;
+  const ghs = usd * 15.5; // conversion factor estimate
+  document.getElementById('seaCbm').textContent = cbm.toFixed(3);
+  document.getElementById('seaUsd').textContent = '$' + usd.toFixed(2);
+  document.getElementById('seaGhs').textContent = fmtGHS(ghs);
+}
+
+function calcAir() {
+  const type = document.getElementById('airType').value;
+  const kg = parseFloat(document.getElementById('airKg').value) || 0;
+  let usd = 0;
+  let ghs = 0;
+  if (type === 'device') {
+    ghs = 500;
+    usd = 500 / 15.5;
+  } else {
+    usd = kg * 17;
+    ghs = usd * 15.5;
+  }
+  document.getElementById('airUsd').textContent = '$' + usd.toFixed(2);
+  document.getElementById('airGhs').textContent = fmtGHS(ghs);
+}
+
+function calcCompare() {
+  const l = parseFloat(document.getElementById('compL').value) || 0;
+  const w = parseFloat(document.getElementById('compW').value) || 0;
+  const h = parseFloat(document.getElementById('compH').value) || 0;
+  const kg = parseFloat(document.getElementById('compKg').value) || 0;
+  
+  const cbm = (l * w * h) / 1000000;
+  const seaUsd = cbm * (cbm >= 1.0 ? 255 : 260);
+  const seaGhs = seaUsd * 15.5;
+
+  const airUsd = kg * 17;
+  const airGhs = airUsd * 15.5;
+
+  document.getElementById('compSeaRes').textContent = fmtGHS(seaGhs) + ' (' + cbm.toFixed(3) + ' m³)';
+  document.getElementById('compAirRes').textContent = fmtGHS(airGhs) + ' (' + kg.toFixed(1) + ' kg)';
 }
 
 Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, handleLogoFileSelect, saveLogoFile, addToCart, updateCartQty, removeFromCart, clearCart, goToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, doSubmitReview, copyText, adminTab, toggleOrderVerify, doUniversalLogin, doReg, doUniversalReset, doSignOut, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts, exportClientData, adminUpdateTracking, saveDeliveryGuyInfo, sendBargainMessage, loadCourierChat, sendCourierMessage });
