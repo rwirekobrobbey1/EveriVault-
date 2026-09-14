@@ -86,13 +86,16 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 .referral-banner { background:linear-gradient(135deg, #059669 0%, #10B981 100%); color:#fff; border-radius:16px; padding:24px; margin:30px auto; max-width:940px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; box-shadow:0 10px 25px rgba(16,185,129,0.25); }
 .referral-banner h3 { font-size:20px; font-weight:800; margin-bottom:4px; }
 
-/* Floating Showcase Ticker */
-.showcase-bar { background:var(--navy-surface); border-top:1px solid var(--green); border-bottom:1px solid var(--green); padding:20px 0; overflow:hidden; }
-.showcase-title { font-size:14px; font-weight:800; color:var(--green); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; text-align:center; }
-.showcase-track { display:flex; gap:16px; overflow-x:auto; scroll-behavior:smooth; padding-bottom:10px; }
-.showcase-track::-webkit-scrollbar { height:6px; }
-.showcase-track::-webkit-scrollbar-thumb { background:var(--green); border-radius:10px; }
-.showcase-card { flex:0 0 220px; background:#fff; border-radius:12px; padding:12px; border:1px solid var(--border-color); }
+/* Home Showcase Catalog & Advertisement Form Section */
+.home-showcase-section { background:#fff; padding:60px 0; border-top:1px solid var(--border-color); border-bottom:1px solid var(--border-color); margin-top:40px; }
+.home-showcase-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:20px; margin-top:24px; }
+
+/* Advertisement Form Section on Home */
+.ad-form-box { background:var(--navy); color:#fff; border-radius:20px; padding:40px; max-width:800px; margin:50px auto 0; box-shadow:var(--card-shadow); }
+.ad-form-box h3 { font-size:24px; color:var(--green); margin-bottom:8px; font-weight:800; text-align:center; }
+.ad-form-box p { color:var(--slate-light); text-align:center; font-size:14px; margin-bottom:24px; }
+.ad-form-box label { color:#fff; }
+.ad-form-box input, .ad-form-box textarea, .ad-form-box select { background:#112240; border-color:#233554; color:#fff; }
 
 /* Cards & Layout */
 section { padding:60px 0; }
@@ -128,13 +131,6 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 .terms-box h4 { font-weight:800; color:#92400E; margin-bottom:8px; text-transform:uppercase; font-size:12px; }
 .terms-box ul { padding-left:18px; margin-top:6px; }
 .terms-box li { margin-bottom:6px; }
-
-/* Payment Slot Component */
-.payment-slot-card { background:#F0FDF4; border:2px solid var(--green); border-radius:16px; padding:20px; margin:20px 0; }
-.pay-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:10px; margin-top:10px; }
-.pay-btn { background:#fff; border:1.5px solid #CBD5E1; border-radius:10px; padding:10px; text-align:center; cursor:pointer; font-size:13px; font-weight:700; color:var(--navy); transition:0.2s; }
-.pay-btn.active { border-color:var(--green); background:var(--green-light); color:var(--green-hover); }
-.pay-details-box { background:#fff; border:1px solid #A7F3D0; border-radius:12px; padding:16px; margin-top:12px; }
 
 /* Cart Item Styling */
 .cart-item-row { display:flex; justify-content:space-between; align-items:center; padding:16px; background:#fff; border-radius:12px; margin-bottom:12px; border:1px solid var(--border-color); flex-wrap:wrap; gap:12px; }
@@ -212,7 +208,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       EVERIVAULT <span>LOGISTICS</span>
     </a>
     <ul class="nav-links" id="menu">
-      <!-- CLIENT ONLY MENU -->
       <li class="nav-client-item"><a class="plink active" data-p="home" onclick="go('home')">Home</a></li>
       <li class="nav-client-item"><a class="plink" data-p="store" onclick="go('store')">Store Catalog</a></li>
       <li class="nav-client-item"><a class="plink" data-p="cart" onclick="go('cart')">Cart <span class="cart-badge" id="cartBadgeCount">0</span></a></li>
@@ -220,7 +215,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       <li class="nav-client-item"><a class="plink" data-p="address" onclick="go('address')">Warehouses</a></li>
       <li class="nav-client-item"><a class="plink" data-p="reviews" onclick="go('reviews')">Reviews</a></li>
       
-      <!-- ADMIN ONLY MENU -->
       <li id="adminLink" style="display:none;"><a class="plink" data-p="admin" onclick="go('admin')">Master Admin Suite</a></li>
       
       <li id="authNav"><a class="nav-cta plink" data-p="auth" onclick="go('auth')">Client Portal</a></li>
@@ -284,11 +278,38 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     </div>
   </div>
 
-  <!-- FLOATING STORE SHOWCASE TICKER -->
-  <div class="showcase-bar">
+  <!-- HOME SHOWCASE: STORE CATALOG ITEMS & IMAGES -->
+  <div class="home-showcase-section">
     <div class="container">
-      <div class="showcase-title">Featured Store Inventory & Imports</div>
-      <div class="showcase-track" id="homeShowcaseTrack"></div>
+      <h2>Featured Online Store Inventory</h2>
+      <p class="subtitle">Direct factory imports with clear pricing and imagery.</p>
+      <div id="homeCatalogGrid" class="grid-4"></div>
+      <div style="text-align:center; margin-top:30px;">
+        <button class="btn btn-navy" onclick="go('store')">View Full Catalog Store ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADVERTISEMENT / PROMOTIONAL SUBMISSION FORM ON HOME -->
+  <div class="container">
+    <div class="ad-form-box">
+      <h3>Submit Advertisement or Promo Request</h3>
+      <p>Have custom products, promotional banners, or business announcements you want featured across EveriVault channels? Send your ad details below.</p>
+      <form onsubmit="submitAdvertisement(event)">
+        <div class="form-group">
+          <label>Your Business / Client Name</label>
+          <input type="text" id="adName" required placeholder="e.g. Accra Trend Collections">
+        </div>
+        <div class="form-group">
+          <label>Contact Email or Phone Number</label>
+          <input type="text" id="adContact" required placeholder="e.g. +233 24 000 0000">
+        </div>
+        <div class="form-group">
+          <label>Advertisement / Promo Details</label>
+          <textarea id="adDetails" rows="3" required placeholder="Describe what you want advertised or promoted..."></textarea>
+        </div>
+        <button class="btn btn-green btn-block" type="submit">Submit Advertisement Request</button>
+      </form>
     </div>
   </div>
 </section>
@@ -568,7 +589,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <div class="val" id="statPendingCount" style="color:#D97706;">0</div>
       </div>
       <div class="stat-card">
-        <h4>Verified Payments</h4>
+        <h4>Verified Orders</h4>
         <div class="val" id="statVerifiedCount" style="color:var(--green);">0</div>
       </div>
       <div class="stat-card">
@@ -581,7 +602,8 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     <div class="admin-layout">
       <!-- SIDEBAR -->
       <div class="admin-sidebar">
-        <button class="admin-nav-btn active" data-admintab="orders" onclick="adminTab('orders')">Payment Verification</button>
+        <button class="admin-nav-btn active" data-admintab="orders" onclick="adminTab('orders')">Order Verification</button>
+        <button class="admin-nav-btn" data-admintab="ads" onclick="adminTab('ads')">Promo / Ad Requests</button>
         <button class="admin-nav-btn" data-admintab="clients" onclick="adminTab('clients')">Registered Clients</button>
         <button class="admin-nav-btn" data-admintab="products" onclick="adminTab('products')">Manage Catalog</button>
         <button class="admin-nav-btn" data-admintab="content" onclick="adminTab('content')">Edit Portal Content</button>
@@ -601,10 +623,16 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           </form>
         </div>
 
-        <!-- PAYMENT VERIFICATION DESK -->
+        <!-- ORDER VERIFICATION DESK -->
         <div id="adminOrders" class="tab-content active">
-          <h3 style="margin-bottom:16px; color:var(--navy);">Payment Proof Verification (Goods & Shipping)</h3>
+          <h3 style="margin-bottom:16px; color:var(--navy);">Order Verification Desk</h3>
           <div id="adminOrdersList"></div>
+        </div>
+
+        <!-- ADVERTISEMENTS & PROMO REQUESTS TAB -->
+        <div id="adminAds" class="tab-content">
+          <h3 style="margin-bottom:16px; color:var(--navy);">Submitted Advertisement & Promo Requests</h3>
+          <div id="adminAdsList"></div>
         </div>
 
         <!-- REGISTERED CLIENTS TAB -->
@@ -729,6 +757,7 @@ const state = {
   settings: JSON.parse(localStorage.getItem('ev_portal_settings') || 'null') || defaultSettings,
   orders: [], 
   clients: [],
+  ads: JSON.parse(localStorage.getItem('ev_local_ads') || '[]'),
   reviews: JSON.parse(localStorage.getItem('ev_reviews') || 'null') || [
     { name: 'Kofi Mensah', mark: 'GH001K-KOF-A12B', rating: 5, comment: 'Received my 1688 cargo from Foshan in under 3 weeks. Very reliable service!' },
     { name: 'Abena Osei', mark: 'GH001K-ABE-X99Z', rating: 5, comment: 'Air express phones flat rate is unbeatable. Kumasi delivery was fast.' }
@@ -787,6 +816,24 @@ function authTab(tab) {
   $('tAdmin').classList.toggle('active', tab === 'admin');
 }
 
+/* --- ADVERTISEMENT SUBMISSION FORM --- */
+function submitAdvertisement(e) {
+  e.preventDefault();
+  const adObj = {
+    id: 'ad_' + Math.random().toString(36).slice(2, 8),
+    name: $('adName').value.trim(),
+    contact: $('adContact').value.trim(),
+    details: $('adDetails').value.trim(),
+    date: new Date().toLocaleDateString()
+  };
+  state.ads.unshift(adObj);
+  localStorage.setItem('ev_local_ads', JSON.stringify(state.ads));
+  $('adName').value = '';
+  $('adContact').value = '';
+  $('adDetails').value = '';
+  toast('Advertisement request submitted successfully!', 'ok');
+}
+
 /* --- CHECKOUT ACTION --- */
 function proceedToCheckout() {
   if (!state.cart.length) {
@@ -799,7 +846,6 @@ function proceedToCheckout() {
     return;
   }
   
-  // Direct client checkout action
   const order = {
     id: 'ord_' + Math.random().toString(36).slice(2, 8),
     user_id: state.user.id,
@@ -1045,10 +1091,10 @@ function handleImageFile(e) {
   reader.readAsDataURL(file);
 }
 
-/* --- UNLIMITED PRODUCTS & CATALOG MANAGEMENT --- */
+/* --- CATALOG & HOME SHOWCASE --- */
 function renderProducts() {
   const grid = $('prodGrid');
-  const track = $('homeShowcaseTrack');
+  const homeGrid = $('homeCatalogGrid');
   const search = $('searchInput') ? $('searchInput').value.toLowerCase() : '';
   const cat = $('catFilter') ? $('catFilter').value : 'all';
 
@@ -1075,8 +1121,12 @@ function renderProducts() {
     }
   }
 
-  if (track) {
-    track.innerHTML = state.products.map(p => '<div class="showcase-card"><strong>' + esc(p.name) + '</strong><br><span style="color:var(--green); font-weight:800;">' + fmtGHS(p.price) + '</span></div>').join('');
+  if (homeGrid) {
+    const topItems = state.products.slice(0, 4);
+    homeGrid.innerHTML = topItems.map(p => {
+      const imgHtml = p.image ? '<img src="' + esc(p.image) + '" class="prod-img" alt="product">' : '<div class="prod-img" style="display:flex; align-items:center; justify-content:center; color:var(--slate);">No Image</div>';
+      return '<div class="card">' + imgHtml + '<div><span style="font-size:11px; font-weight:800; color:var(--green); text-transform:uppercase;">' + esc(p.category || 'GENERAL') + '</span><h3>' + esc(p.name) + '</h3><p style="font-weight:800; color:var(--navy); font-size:18px; margin:6px 0 12px;">' + fmtGHS(p.price) + '</p></div><button class="btn btn-sm btn-green btn-block" onclick="addToCart(\'' + p.id + '\')">Add to Cart</button></div>';
+    }).join('');
   }
 }
 
@@ -1115,24 +1165,21 @@ function loadAdmin() {
   const clients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
   const orders = JSON.parse(localStorage.getItem('ev_local_orders') || '[]');
   
-  // Calculate Dashboard Quick Stats
   $('statClientCount').textContent = clients.length;
   $('statPendingCount').textContent = orders.filter(o => !o.verified).length;
   $('statVerifiedCount').textContent = orders.filter(o => o.verified).length;
   $('statProdCount').textContent = state.products.length;
 
-  // Clients Roster Table
   $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Email / Phone</th><th>Shipping Mark Ref</th></tr></thead><tbody>' + (clients.length ? clients.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.email) + '</td><td><code>' + esc(c.mark) + '</code></td></tr>').join('') : '<tr><td colspan="3" style="text-align:center; color:var(--slate);">No clients registered yet.</td></tr>') + '</tbody></table></div>';
 
-  // Orders Verification Desk Table
   $('adminOrdersList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Type</th><th>Details</th><th>Total</th><th>Status</th><th>Action</th></tr></thead><tbody>' + (orders.length ? orders.map(o => {
     return '<tr><td>' + esc(o.user_name) + '</td><td><span class="pill pill-type">' + esc(o.type || 'Goods') + '</span></td><td>' + esc(o.item) + '</td><td>' + fmtGHS(o.total) + '</td><td><span class="pill ' + (o.verified ? 'pill-verified' : 'pill-pending') + '">' + (o.verified ? 'Verified' : 'Pending') + '</span></td><td><button class="btn btn-sm btn-green" onclick="toggleVerifyOrder(\'' + o.id + '\', ' + !o.verified + ')">' + (o.verified ? 'Unverify' : 'Verify Order') + '</button></td></tr>';
   }).join('') : '<tr><td colspan="6" style="text-align:center; color:var(--slate);">No orders placed yet.</td></tr>') + '</tbody></table></div>';
 
-  // Products Table
+  $('adminAdsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Business / Client</th><th>Contact</th><th>Promo / Ad Details</th><th>Date Submitted</th></tr></thead><tbody>' + (state.ads.length ? state.ads.map(a => '<tr><td>' + esc(a.name) + '</td><td>' + esc(a.contact) + '</td><td>' + esc(a.details) + '</td><td>' + esc(a.date) + '</td></tr>').join('') : '<tr><td colspan="4" style="text-align:center; color:var(--slate);">No advertisement requests submitted yet.</td></tr>') + '</tbody></table></div>';
+
   $('adminProductsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Action</th></tr></thead><tbody>' + state.products.map(p => '<tr><td>' + esc(p.name) + '</td><td>' + esc(p.category) + '</td><td>' + fmtGHS(p.price) + '</td><td><button class="btn btn-sm btn-danger" onclick="deleteCatalogProduct(\'' + p.id + '\')">Remove Item</button></td></tr>').join('') + '</tbody></table></div>';
 
-  // Load Content Editor Form Values
   $('cfgHeroTitle').value = state.settings.heroTitle;
   $('cfgHeroSub').value = state.settings.heroSub;
   $('cfgSeaRate1').value = state.settings.seaRate1;
@@ -1153,8 +1200,9 @@ function toggleVerifyOrder(orderId, verifyStatus) {
 
 function adminTab(tab) {
   document.querySelectorAll('.admin-nav-btn').forEach(t => t.classList.toggle('active', t.dataset.admintab === tab));
-  $('adminClients').classList.toggle('active', tab === 'clients');
   $('adminOrders').classList.toggle('active', tab === 'orders');
+  $('adminAds').classList.toggle('active', tab === 'ads');
+  $('adminClients').classList.toggle('active', tab === 'clients');
   $('adminProducts').classList.toggle('active', tab === 'products');
   $('adminContent').classList.toggle('active', tab === 'content');
 }
@@ -1217,7 +1265,6 @@ function applyUserState() {
   const isLoggedIn = !!state.user;
   const isAdmin = state.user?.role === 'admin';
 
-  // Toggle navigation links based on user role
   document.querySelectorAll('.nav-client-item').forEach(el => el.style.display = isAdmin ? 'none' : 'block');
   $('adminLink').style.display = isAdmin ? 'block' : 'none';
   $('signOutNav').style.display = isLoggedIn ? 'block' : 'none';
@@ -1226,7 +1273,6 @@ function applyUserState() {
   document.querySelectorAll('.auth-only').forEach(el => el.classList.toggle('show', isLoggedIn));
   document.querySelectorAll('.admin-only').forEach(el => el.classList.toggle('show', isAdmin));
 
-  // Auto-route to appropriate portal if on restricted view
   if (isAdmin && !document.getElementById('p-admin').classList.contains('active')) {
     go('admin');
   } else if (!isAdmin && document.getElementById('p-admin').classList.contains('active')) {
@@ -1234,12 +1280,13 @@ function applyUserState() {
   }
 }
 
-Object.assign(window, { go, toggleMenu, authTab, proceedToCheckout, calcMode, calcSea, calcAir, calcCompare, handleImageFile, addToCart, updateCartQty, removeFromCart, clearCart, doSubmitReview, copyText, adminTab, toggleVerifyOrder, doLogin, doReg, doResetPassword, doSignOut, doAdmin, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, renderProducts });
+Object.assign(window, { go, toggleMenu, authTab, proceedToCheckout, calcMode, calcSea, calcAir, calcCompare, handleImageFile, addToCart, updateCartQty, removeFromCart, clearCart, doSubmitReview, copyText, adminTab, toggleVerifyOrder, doLogin, doReg, doResetPassword, doSignOut, doAdmin, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts });
 
 (function init() {
   applyPortalSettings();
   updateCartBadge();
   applyUserState();
+  renderProducts();
 })();
 </script>
 </body>
