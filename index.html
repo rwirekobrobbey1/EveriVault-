@@ -83,7 +83,6 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 .showcase-track::-webkit-scrollbar { height:6px; }
 .showcase-track::-webkit-scrollbar-thumb { background:var(--green); border-radius:10px; }
 .showcase-card { flex:0 0 220px; background:#fff; border-radius:12px; padding:12px; border:1px solid var(--border-color); }
-.showcase-img { width:100%; height:120px; object-fit:cover; border-radius:8px; background:#F1F5F9; }
 
 /* Cards & Layout */
 section { padding:60px 0; }
@@ -113,12 +112,16 @@ input, select, textarea { width:100%; padding:12px 16px; border:1.5px solid #CBD
 input:focus, select:focus, textarea:focus { outline:none; border-color:var(--green); background:#fff; box-shadow:0 0 0 4px var(--green-light); }
 input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 
-/* Payment Slot Component Styling */
+/* Payment Slot Component */
 .payment-slot-card { background:#F0FDF4; border:2px solid var(--green); border-radius:16px; padding:20px; margin:20px 0; }
 .pay-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:10px; margin-top:10px; }
 .pay-btn { background:#fff; border:1.5px solid #CBD5E1; border-radius:10px; padding:10px; text-align:center; cursor:pointer; font-size:13px; font-weight:700; color:var(--navy); transition:0.2s; }
 .pay-btn.active { border-color:var(--green); background:var(--green-light); color:var(--green-hover); }
 .pay-details-box { background:#fff; border:1px solid #A7F3D0; border-radius:12px; padding:16px; margin-top:12px; }
+
+/* Review Portal Styles */
+.review-card { background:#fff; border-radius:16px; padding:20px; border:1px solid var(--border-color); box-shadow:var(--card-shadow); margin-bottom:16px; }
+.star-rating { color:#F59E0B; font-size:18px; }
 
 /* Chinese Address Component */
 .addr-section { background:#fff; border-radius:20px; padding:28px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); margin-bottom:24px; }
@@ -182,9 +185,11 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       <li><a class="plink" data-p="calc" onclick="go('calc')">Freight Calculator</a></li>
       <li><a class="plink" data-p="address" onclick="go('address')">Warehouses</a></li>
       <li><a class="plink" data-p="track" onclick="go('track')">Track Shipment</a></li>
-      <li id="clientLink" style="display:none;"><a class="plink" data-p="orders" onclick="go('orders')">My Orders</a></li>
+      <li><a class="plink" data-p="reviews" onclick="go('reviews')">Client Reviews</a></li>
+      <li id="clientLink" style="display:none;"><a class="plink" data-p="orders" onclick="go('orders')">My Orders & Payment Portal</a></li>
       <li id="adminLink" style="display:none;"><a class="plink" data-p="admin" onclick="go('admin')">Master Admin Suite</a></li>
       <li id="authNav"><a class="nav-cta plink" data-p="auth" onclick="go('auth')">Client Portal</a></li>
+      <li id="signOutNav" style="display:none;"><a class="btn btn-sm btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.4);" onclick="doSignOut()">Sign Out</a></li>
     </ul>
     <button class="menu-toggle" onclick="toggleMenu()">☰</button>
   </div>
@@ -274,14 +279,14 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </div>
         <div style="display:flex; gap:12px; justify-content:flex-end;">
           <button class="btn btn-outline" onclick="clearCart()">Clear Cart</button>
-          <button class="btn btn-green" onclick="proceedToCheckout()">Proceed to Checkout</button>
+          <button class="btn btn-green" onclick="proceedToCheckout()">Proceed to Payment Portal</button>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ENHANCED FREIGHT COST CALCULATOR (SEA, AIR & SIDE-BY-SIDE COMPARISON) -->
+<!-- FREIGHT COST CALCULATOR -->
 <section id="p-calc" class="page">
   <div class="container">
     <h2>Freight Cost Calculator</h2>
@@ -294,7 +299,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <button class="tab" id="tabBtnCompare" onclick="calcMode('compare')">Compare Both</button>
       </div>
 
-      <!-- SEA CARGO CALCULATOR -->
+      <!-- SEA CARGO -->
       <div id="calcSea" class="tab-content active">
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:12px;">
           <div class="form-group"><label>Length (cm)</label><input type="number" id="seaL" oninput="calcSea()" placeholder="100"></div>
@@ -309,7 +314,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </div>
       </div>
 
-      <!-- AIR EXPRESS CALCULATOR -->
+      <!-- AIR EXPRESS -->
       <div id="calcAir" class="tab-content">
         <div class="form-group">
           <label>Cargo Type</label>
@@ -325,7 +330,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </div>
       </div>
 
-      <!-- SIDE-BY-SIDE COMPARISON CALCULATOR -->
+      <!-- SIDE-BY-SIDE COMPARISON -->
       <div id="calcCompare" class="tab-content">
         <p style="font-size:13px; font-weight:700; color:var(--navy); margin-bottom:12px;">Enter dimensions & weight to compare Sea Cargo vs Air Express:</p>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:12px;">
@@ -348,6 +353,38 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       </div>
 
     </div>
+  </div>
+</section>
+
+<!-- REVIEW PORTAL PAGE -->
+<section id="p-reviews" class="page">
+  <div class="container">
+    <h2>Client Review Portal</h2>
+    <p class="subtitle">Read verified feedback from our clients across Ghana and China.</p>
+
+    <!-- SUBMIT REVIEW FORM (For Logged In Clients) -->
+    <div class="form-box auth-only" style="margin-bottom:36px; border:2px solid var(--green);">
+      <h3>Write a Client Review</h3>
+      <form onsubmit="doSubmitReview(event)">
+        <div class="form-group">
+          <label>Rating</label>
+          <select id="revRating" required>
+            <option value="5">★★★★★ - Excellent (5 Stars)</option>
+            <option value="4">★★★★☆ - Very Good (4 Stars)</option>
+            <option value="3">★★★☆☆ - Good (3 Stars)</option>
+            <option value="2">★★☆☆☆ - Average (2 Stars)</option>
+            <option value="1">★☆☆☆☆ - Poor (1 Star)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Your Review / Logistics Feedback</label>
+          <textarea id="revComment" rows="3" required placeholder="Share your experience with EveriVault cargo shipping, delivery speed, or customer service..."></textarea>
+        </div>
+        <button class="btn btn-green btn-block" type="submit" id="submitRevBtn">Post Verified Review</button>
+      </form>
+    </div>
+
+    <div id="reviewsList" style="max-width:800px; margin:0 auto;"></div>
   </div>
 </section>
 
@@ -394,7 +431,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- AUTH PAGE WITH BACKEND INTEGRATION -->
+<!-- AUTH PAGE WITH FAST BACKEND LOGIN -->
 <section id="p-auth" class="page">
   <div class="container">
     <h2>Account Authentication Portal</h2>
@@ -414,7 +451,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
             <input type="text" id="lem" placeholder="e.g. client@gmail.com OR GH001K-CLI-A1B2C3" required>
           </div>
           <div class="form-group"><label>Password</label><input type="password" id="lpw" required></div>
-          <button class="btn btn-green btn-block" type="submit" id="loginBtn">Sign In</button>
+          <button class="btn btn-green btn-block" type="submit" id="loginBtn">Fast Client Sign In</button>
         </form>
       </div>
 
@@ -454,18 +491,18 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- ORDER SUBMISSION & DEDICATED PAYMENT SLOT -->
+<!-- CLIENT PAYMENT & ORDER CHECKOUT PORTAL -->
 <section id="p-order" class="page auth-only">
   <div class="container">
-    <h2>Order Checkout & Settlement</h2>
+    <h2>Client Settlement & Payment Portal</h2>
     <div class="form-box" style="max-width:640px;">
       <form onsubmit="submitOrder(event)">
         <div class="form-group"><label>Selected Items Summary</label><input type="text" id="oItem" required readonly></div>
-        <div class="form-group"><label>Total Payable (GHS)</label><input type="number" id="oTotal" step="0.01" required readonly style="font-size:20px; font-weight:800; color:var(--navy);"></div>
+        <div class="form-group"><label>Total Payable Amount (GHS)</label><input type="number" id="oTotal" step="0.01" required style="font-size:20px; font-weight:800; color:var(--navy);"></div>
         
         <!-- DEDICATED PAYMENT SLOT -->
         <div class="payment-slot-card">
-          <label style="color:var(--navy); font-size:14px; font-weight:800;">Select Instant Payment Slot</label>
+          <label style="color:var(--navy); font-size:14px; font-weight:800;">Select Instant Settlement Option</label>
           <div class="pay-grid">
             <div class="pay-btn active" id="pbtn-momo" onclick="selectPaymentSlot('momo')">MTN MoMo</div>
             <div class="pay-btn" id="pbtn-telecel" onclick="selectPaymentSlot('telecel')">Telecel Cash</div>
@@ -474,19 +511,19 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           </div>
 
           <div class="pay-details-box" id="paySlotInfo">
-            <p style="font-size:13px; font-weight:700; color:var(--navy);">MTN Mobile Money Slot</p>
+            <p style="font-size:13px; font-weight:700; color:var(--navy);">MTN Mobile Money Settlement Account</p>
             <p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p>
             <p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>
           </div>
         </div>
 
         <div class="form-group">
-          <label>Payment Reference Code or Transaction ID</label>
-          <input type="text" id="payTxRef" placeholder="e.g. Transaction ID / Reference Code" required>
+          <label>Mobile Money Transaction ID or Bank Ref</label>
+          <input type="text" id="payTxRef" placeholder="e.g. 20491823901" required>
         </div>
 
         <div class="form-group">
-          <label>Upload Payment Proof (Receipt / Screenshot)</label>
+          <label>Upload Payment Proof Receipt (Image Screenshot)</label>
           <input type="file" id="payProofFile" accept="image/*" onchange="handleProofFile(event)">
         </div>
 
@@ -496,10 +533,10 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- CLIENT ORDERS PAGE -->
+<!-- CLIENT ORDERS & PAYMENT PORTAL HISTORY -->
 <section id="p-orders" class="page auth-only">
   <div class="container">
-    <h2>My Orders & Verification Status</h2>
+    <h2>Client Orders & Payment Receipts</h2>
     <div id="ordersList" style="max-width:800px; margin:0 auto;"></div>
   </div>
 </section>
@@ -520,13 +557,13 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- RESTRICTED MASTER ADMIN PORTAL (ADMIN ONLY ACCESS) -->
+<!-- RESTRICTED MASTER ADMIN PORTAL -->
 <section id="p-admin" class="page admin-only">
   <div class="container">
     <div style="background:var(--navy); color:#fff; padding:24px; border-radius:16px; margin-bottom:28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
       <div>
         <h2 style="color:var(--green); text-align:left; margin-bottom:4px;">Master Executive Suite — CEO Control Center</h2>
-        <p style="color:var(--slate-light);">Authorized Management Portal: Richmond Wireko Brobbey</p>
+        <p style="color:var(--slate-light);">Authorized Director Management Portal: Richmond Wireko Brobbey</p>
       </div>
       <button class="btn btn-sm btn-outline" style="color:#fff; border-color:#fff;" onclick="openAdminPasswordModal()">🔑 Change Admin Password</button>
     </div>
@@ -601,7 +638,7 @@ const SUPABASE_ANON_KEY = 'sb_publishable_ZdxSIdlfrMQStQkt8Zq3oQ_0wIrkxIF';
 let sb = null;
 try {
   sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-    auth: { persistSession: true, autoRefreshToken: true }
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
   });
 } catch(e) {}
 
@@ -610,6 +647,10 @@ const state = {
   products: [], 
   orders: [], 
   clients: [],
+  reviews: [
+    { name: 'Kofi Mensah', mark: 'GH001K-KOF-A12B', rating: 5, comment: 'Received my 1688 cargo from Foshan in under 3 weeks. Very reliable service!' },
+    { name: 'Abena Osei', mark: 'GH001K-ABE-X99Z', rating: 5, comment: 'Air express phones flat rate is unbeatable. Kumasi delivery was fast.' }
+  ],
   cart: JSON.parse(localStorage.getItem('ev_cart') || '[]'),
   paymentProofBase64: '',
   uploadedProdBase64: '',
@@ -633,7 +674,7 @@ function toast(msg, type = 'info', ms = 3000) {
 
 function go(page) {
   if (page === 'admin' && state.user?.role !== 'admin') {
-    toast('Access Denied: Admin authorization required', 'err');
+    toast('Access Denied: Master Admin authorization required', 'err');
     go('auth');
     return;
   }
@@ -648,6 +689,7 @@ function go(page) {
   if (page === 'store' || page === 'home') loadProducts();
   if (page === 'cart') renderCart();
   if (page === 'orders') loadOrders();
+  if (page === 'reviews') loadReviews();
   if (page === 'admin') loadAdmin();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -731,20 +773,23 @@ function selectPaymentSlot(slot) {
 
   const slotBox = $('paySlotInfo');
   if (slot === 'momo') {
-    slotBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">MTN Mobile Money Slot</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p><p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>';
+    slotBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">MTN Mobile Money Settlement Account</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p><p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>';
   } else if (slot === 'telecel') {
-    slotBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">Telecel Cash Slot</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p><p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>';
+    slotBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">Telecel Cash Settlement Account</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p><p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>';
   } else if (slot === 'at') {
-    slotBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">AT Money Slot</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p><p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>';
+    slotBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">AT Money Settlement Account</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p><p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>';
   } else if (slot === 'bank') {
-    slotBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">GTBank Direct Settlement Slot</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Account Number: 1304001024705</p><p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey (Guaranty Trust Bank)</p>';
+    slotBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">GTBank Direct Settlement Account</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Account Number: 1304001024705</p><p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey (Guaranty Trust Bank)</p>';
   }
 }
 
-/* --- CLIENT LOGIN --- */
+/* --- FAST BACKEND CLIENT LOGIN (GMAIL OR SHIPPING MARK) --- */
 async function doLogin(e) {
   e.preventDefault();
   if (!sb) return;
+  const btn = $('loginBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Authenticating...';
+
   const identifier = $('lem').value.trim();
   const password = $('lpw').value;
   let email = identifier;
@@ -752,15 +797,17 @@ async function doLogin(e) {
   if (!identifier.includes('@')) {
     const { data, error } = await sb.from('profiles').select('email').eq('mark', identifier.toUpperCase()).maybeSingle();
     if (error || !data) {
-      toast('Shipping Mark reference not registered', 'err');
+      btn.disabled = false; btn.textContent = 'Fast Client Sign In';
+      toast('Shipping Mark reference not found', 'err');
       return;
     }
     email = data.email;
   }
 
   const { error } = await sb.auth.signInWithPassword({ email, password });
+  btn.disabled = false; btn.textContent = 'Fast Client Sign In';
   if (error) { toast(error.message, 'err'); return; }
-  await loadProfile(); applyUserState(); toast('Signed in successfully', 'ok'); go('home');
+  await loadProfile(); applyUserState(); toast('Logged in successfully!', 'ok'); go('home');
 }
 
 /* --- CLIENT REGISTRATION --- */
@@ -780,7 +827,7 @@ async function doReg(e) {
 
   if (error) { toast(error.message, 'err'); return; }
   
-  toast('Registration successful! Shipping Mark: ' + generatedMark, 'ok', 6000);
+  toast('Account Registered! Shipping Mark: ' + generatedMark, 'ok', 6000);
   if (data.session) { await loadProfile(); applyUserState(); setTimeout(() => go('home'), 600); }
   else { authTab('login'); }
 }
@@ -799,25 +846,51 @@ async function doResetPassword(e) {
 
   const { error } = await sb.auth.resetPasswordForEmail(email);
   if (error) { toast(error.message, 'err'); }
-  else { toast('Password reset link sent to registered email', 'ok'); }
+  else { toast('Password reset instructions sent to registered email', 'ok'); }
 }
 
-/* --- ADMIN PASSWORD MANAGEMENT --- */
-function openAdminPasswordModal(show = true) {
-  $('adminPwBox').style.display = show ? 'block' : 'none';
+async function doSignOut() {
+  if (sb) await sb.auth.signOut();
+  state.user = null;
+  applyUserState();
+  toast('Signed out successfully', 'ok');
+  go('home');
 }
 
-async function doAdminChangePassword(e) {
-  e.preventDefault();
-  if (!sb) return;
-  const newPassword = $('aNewPw').value;
-  const { error } = await sb.auth.updateUser({ password: newPassword });
-  if (error) { toast(error.message, 'err'); }
-  else { 
-    toast('Admin password updated successfully!', 'ok'); 
-    $('aNewPw').value = '';
-    openAdminPasswordModal(false);
+/* --- REVIEW PORTAL LOGIC --- */
+async function loadReviews() {
+  if (sb) {
+    const { data } = await sb.from('reviews').select('*').order('created_at', { ascending: false });
+    if (data && data.length) state.reviews = data;
   }
+  const container = $('reviewsList');
+  if (!container) return;
+  container.innerHTML = state.reviews.map(r => {
+    const stars = '★'.repeat(r.rating || 5) + '☆'.repeat(5 - (r.rating || 5));
+    return '<div class="review-card"><div><strong style="color:var(--navy); font-size:16px;">' + esc(r.name) + '</strong> <code style="font-size:12px; color:var(--slate);">' + esc(r.mark || 'VERIFIED CLIENT') + '</code></div><div class="star-rating" style="margin:4px 0;">' + stars + '</div><p style="color:#334155;">' + esc(r.comment) + '</p></div>';
+  }).join('');
+}
+
+async function doSubmitReview(e) {
+  e.preventDefault();
+  if (!state.user) { toast('Please sign in to leave a review', 'err'); return; }
+  const rating = parseInt($('revRating').value);
+  const comment = $('revComment').value.trim();
+  
+  const revObj = {
+    name: state.user.name,
+    mark: state.user.mark,
+    rating,
+    comment
+  };
+
+  if (sb) {
+    await sb.from('reviews').insert(revObj);
+  }
+  state.reviews.unshift(revObj);
+  $('revComment').value = '';
+  toast('Thank you for your feedback!', 'ok');
+  loadReviews();
 }
 
 /* --- FILE PROOF & IMAGE HANDLERS --- */
@@ -827,7 +900,7 @@ function handleProofFile(e) {
   const reader = new FileReader();
   reader.onload = function(evt) {
     state.paymentProofBase64 = evt.target.result;
-    toast('Proof of payment image attached', 'ok');
+    toast('Payment receipt screenshot attached', 'ok');
   };
   reader.readAsDataURL(file);
 }
@@ -880,7 +953,7 @@ function clearCart() { state.cart = []; updateCartBadge(); renderCart(); }
 
 function proceedToCheckout() {
   if (!state.cart.length) return;
-  if (!state.user) { toast('Please log in to proceed', 'err'); go('auth'); return; }
+  if (!state.user) { toast('Please log in to access payment portal', 'err'); go('auth'); return; }
   $('oItem').value = state.cart.map(i => i.name + ' (x' + i.qty + ')').join(', ');
   $('oTotal').value = state.cart.reduce((s, i) => s + (i.price * i.qty), 0).toFixed(2);
   go('order');
@@ -915,12 +988,12 @@ async function doAddProduct(e) {
   loadProducts();
 }
 
-/* --- ORDER SUBMISSION WITH PAYMENT SLOT & PROOF --- */
+/* --- ORDER & PAYMENT PORTAL SUBMISSION --- */
 async function submitOrder(e) {
   e.preventDefault();
   const btn = $('orderBtn');
   if (!state.user || !sb) return;
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Submitting Order...';
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Processing Payment Proof...';
   
   const order = {
     user_id: state.user.id, user_email: state.user.email, user_name: state.user.name,
@@ -937,8 +1010,20 @@ async function submitOrder(e) {
   if (error) { toast(error.message, 'err'); return; }
   
   clearCart(); state.paymentProofBase64 = '';
-  toast('Order & Payment Proof Submitted!', 'ok');
+  toast('Payment Settlement Submitted for Verification!', 'ok');
   go('orders');
+}
+
+async function loadOrders() {
+  if (!state.user || !sb) return;
+  const { data: orders } = await sb.from('orders').select('*').eq('user_id', state.user.id).order('created_at', { ascending: false });
+  const container = $('ordersList');
+  if (!container) return;
+  if (!orders || !orders.length) {
+    container.innerHTML = '<div class="card" style="text-align:center;"><p>No payment history or orders found.</p></div>';
+    return;
+  }
+  container.innerHTML = orders.map(o => '<div class="card" style="margin-bottom:12px;"><h3>' + esc(o.item) + '</h3><p style="font-weight:800; color:var(--green);">' + fmtGHS(o.total) + ' | Slot: ' + esc(o.payment_slot || 'MoMo') + '</p><p>Status: <span class="pill ' + (o.verified ? 'pill-verified' : 'pill-pending') + '">' + esc(o.status) + '</span></p></div>').join('');
 }
 
 /* --- ADMIN DASHBOARD AND ACCESS CONTROL --- */
@@ -1008,6 +1093,8 @@ function applyUserState() {
   const isAdmin = state.user?.role === 'admin';
   $('clientLink').style.display = isLoggedIn ? 'block' : 'none';
   $('adminLink').style.display = isAdmin ? 'block' : 'none';
+  $('signOutNav').style.display = isLoggedIn ? 'block' : 'none';
+  $('authNav').style.display = isLoggedIn ? 'none' : 'block';
   document.querySelectorAll('.auth-only').forEach(el => el.classList.toggle('show', isLoggedIn));
   document.querySelectorAll('.admin-only').forEach(el => el.classList.toggle('show', isAdmin));
 }
@@ -1016,7 +1103,7 @@ function copyText(text) {
   if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => toast('Copied to clipboard', 'ok'));
 }
 
-Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, selectPaymentSlot, handleProofFile, handleImageFile, addToCart, removeFromCart, clearCart, proceedToCheckout, submitOrder, copyText, adminTab, toggleVerifyOrder, doLogin, doReg, doResetPassword, doAdmin, openAdminPasswordModal, doAdminChangePassword, doAddProduct });
+Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, selectPaymentSlot, handleProofFile, handleImageFile, addToCart, removeFromCart, clearCart, proceedToCheckout, submitOrder, doSubmitReview, copyText, adminTab, toggleVerifyOrder, doLogin, doReg, doResetPassword, doSignOut, doAdmin, doAddProduct });
 
 (async function init() {
   if (sb) { try { await loadProfile(); } catch(e){} }
