@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>EveriVault Logistics — China ↔ Ghana Supply Chain</title>
+<title>EveriVault Logistics — China to Ghana Supply Chain</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -151,7 +151,6 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 
 /* Review Portal Styles */
 .review-card { background:#fff; border-radius:16px; padding:20px; border:1px solid var(--border-color); box-shadow:var(--card-shadow); margin-bottom:16px; }
-.star-rating { color:#F59E0B; font-size:18px; }
 
 /* Admin Table */
 .admin-table { width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:var(--card-shadow); }
@@ -243,7 +242,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           <h3>Air Express Freight</h3>
           <div class="big">$17 / kg</div>
           <div class="sub">General Cargo Merchandise</div>
-          <div class="big" style="font-size:20px; margin-top:8px; color:#fff;">₵500 Flat Rate</div>
+          <div class="big" style="font-size:20px; margin-top:8px; color:#fff;">GHS 500 Flat Rate</div>
           <div class="sub">Phones / Laptops / Tablets</div>
         </div>
         <div class="rate-card">
@@ -265,7 +264,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     <div class="referral-banner">
       <div>
         <h3>Client Referral Reward Program</h3>
-        <p>Refer new commercial clients or business partners to EveriVault Logistics and receive a <strong>FREE GIFT</strong> on your next freight shipment arrival!</p>
+        <p>Refer new commercial clients or business partners to EveriVault Logistics and receive a FREE GIFT on your next freight shipment arrival!</p>
       </div>
       <button class="btn btn-navy" onclick="copyText('Use my EveriVault referral code for shipping from China to Ghana!')">Copy Referral Share Link</button>
     </div>
@@ -274,7 +273,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   <!-- FLOATING STORE SHOWCASE TICKER -->
   <div class="showcase-bar">
     <div class="container">
-      <div class="showcase-title">🔥 Featured Store Inventory & Imports</div>
+      <div class="showcase-title">Featured Store Inventory & Imports</div>
       <div class="showcase-track" id="homeShowcaseTrack"></div>
     </div>
   </div>
@@ -304,11 +303,11 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       <div id="cartItemsContainer"></div>
       <div class="card" style="margin-top:20px; text-align:right;">
         <div style="font-size:18px; font-weight:800; color:var(--navy); margin-bottom:16px;">
-          Cart Subtotal: <span id="cartGrandTotal" style="color:var(--green);">₵0.00 GHS</span>
+          Cart Subtotal: <span id="cartGrandTotal" style="color:var(--green);">GHS 0.00</span>
         </div>
         <div style="display:flex; gap:12px; justify-content:flex-end; flex-wrap:wrap;">
           <button class="btn btn-outline" onclick="clearCart()">Clear Cart</button>
-          <button class="btn btn-green" onclick="redirectToPayment('goods')">Proceed to Payment Portal ➔</button>
+          <button class="btn btn-green" onclick="redirectToPayment('goods')">Proceed to Payment Portal</button>
         </div>
       </div>
     </div>
@@ -339,8 +338,8 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <div class="card" style="background:#ECFDF5; border:1px solid #A7F3D0; margin-top:16px;">
           <p>Calculated Volume: <span id="seaCbm" style="font-weight:800;">0.000</span> m³</p>
           <p style="font-size:14px; color:var(--slate); margin-top:4px;">USD Cost: <span id="seaUsd" style="font-weight:700;">$0.00</span></p>
-          <p style="font-size:18px; margin-top:6px;">Estimated Total: <strong id="seaGhs" style="color:var(--green);">₵0.00 GHS</strong></p>
-          <button class="btn btn-sm btn-green" style="margin-top:12px;" onclick="redirectToPayment('shipping')">Pay for Freight Shipping ➔</button>
+          <p style="font-size:18px; margin-top:6px;">Estimated Total: <strong id="seaGhs" style="color:var(--green);">GHS 0.00</strong></p>
+          <button class="btn btn-sm btn-green" style="margin-top:12px;" onclick="redirectToPayment('shipping')">Pay for Freight Shipping</button>
         </div>
       </div>
 
@@ -350,14 +349,14 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           <label>Cargo Type</label>
           <select id="airType" onchange="calcAir()">
             <option value="general">General Merchandise ($17 / kg)</option>
-            <option value="device">Electronics / Devices (Flat ₵500 GHS)</option>
+            <option value="device">Electronics / Devices (Flat GHS 500)</option>
           </select>
         </div>
         <div class="form-group"><label>Weight (kg)</label><input type="number" id="airKg" step="0.1" oninput="calcAir()" placeholder="1.5"></div>
         <div class="card" style="background:#EFF6FF; border:1px solid #BFDBFE;">
           <p style="font-size:14px; color:var(--slate);">USD Cost: <span id="airUsd" style="font-weight:700;">$0.00</span></p>
-          <p style="font-size:18px; margin-top:6px;">Estimated Air Freight: <strong id="airGhs" style="color:var(--navy);">₵0.00 GHS</strong></p>
-          <button class="btn btn-sm btn-green" style="margin-top:12px;" onclick="redirectToPayment('shipping')">Pay for Air Freight ➔</button>
+          <p style="font-size:18px; margin-top:6px;">Estimated Air Freight: <strong id="airGhs" style="color:var(--navy);">GHS 0.00</strong></p>
+          <button class="btn btn-sm btn-green" style="margin-top:12px;" onclick="redirectToPayment('shipping')">Pay for Air Freight</button>
         </div>
       </div>
 
@@ -374,15 +373,15 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-top:16px;">
           <div class="card" style="background:#ECFDF5; border:1px solid #A7F3D0;">
             <h4 style="color:var(--green-hover);">Sea Cargo Freight</h4>
-            <p style="font-size:18px; font-weight:800; color:var(--green);" id="compSeaRes">₵0.00 GHS (0.000 m³)</p>
+            <p style="font-size:18px; font-weight:800; color:var(--green);" id="compSeaRes">GHS 0.00 (0.000 m³)</p>
           </div>
           <div class="card" style="background:#EFF6FF; border:1px solid #BFDBFE;">
             <h4 style="color:var(--navy);">Air Express Freight</h4>
-            <p style="font-size:18px; font-weight:800; color:var(--navy);" id="compAirRes">₵0.00 GHS (0.0 kg)</p>
+            <p style="font-size:18px; font-weight:800; color:var(--navy);" id="compAirRes">GHS 0.00 (0.0 kg)</p>
           </div>
         </div>
         <div style="text-align:center; margin-top:16px;">
-          <button class="btn btn-green" onclick="redirectToPayment('shipping')">Redirect to Payment Portal ➔</button>
+          <button class="btn btn-green" onclick="redirectToPayment('shipping')">Redirect to Payment Portal</button>
         </div>
       </div>
 
@@ -445,9 +444,9 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <div class="form-group">
           <label>Rating</label>
           <select id="revRating" required>
-            <option value="5">★★★★★ - Excellent (5 Stars)</option>
-            <option value="4">★★★★☆ - Very Good (4 Stars)</option>
-            <option value="3">★★★☆☆ - Good (3 Stars)</option>
+            <option value="5">5 Stars - Excellent</option>
+            <option value="4">4 Stars - Very Good</option>
+            <option value="3">3 Stars - Good</option>
           </select>
         </div>
         <div class="form-group">
@@ -493,7 +492,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
 
           <!-- TERMS AND CONDITIONS SUMMARY BOX -->
           <div class="terms-box">
-            <h4>⚠️ Terms & Shipping Policy (Mandatory Compliance)</h4>
+            <h4>Terms & Shipping Policy (Mandatory Compliance)</h4>
             <ul>
               <li><strong>Mandatory Shipping Mark:</strong> Registration auto-generates your unique Shipping Mark code. All packages sent to China warehouses MUST clearly display this code. <em>Failure to write your shipping mark on your packages leads to complete loss/unclaimed forfeiture of items under our terms.</em></li>
               <li><strong>Prohibited Products:</strong> We strictly <strong>DO NOT ACCEPT fragile goods nor battery products</strong> (power banks, lithium batteries, liquids, explosives). Unauthorized items will be confiscated or rejected by customs.</li>
@@ -546,8 +545,8 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <div style="margin-bottom:20px; text-align:center;">
           <label style="font-size:14px; margin-bottom:10px;">Select Settlement Category</label>
           <div style="display:flex; gap:10px;">
-            <button class="btn btn-block btn-green" id="payTypeBtnGoods" type="button" onclick="setPaymentType('goods')">📦 Pay for Goods</button>
-            <button class="btn btn-block btn-outline" id="payTypeBtnShipping" type="button" onclick="setPaymentType('shipping')">🚢✈️ Pay for Shipping</button>
+            <button class="btn btn-block btn-green" id="payTypeBtnGoods" type="button" onclick="setPaymentType('goods')">Pay for Goods</button>
+            <button class="btn btn-block btn-outline" id="payTypeBtnShipping" type="button" onclick="setPaymentType('shipping')">Pay for Shipping</button>
           </div>
         </div>
 
@@ -614,7 +613,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           <h3 style="color:#92400E;">Cargo Consolidation & Support Desk</h3>
           <p style="font-size:13px; color:#78350F; margin:4px 0 12px;">Cargo consolidation is executed strictly per request. DM Management on WhatsApp to request consolidation:</p>
           <a href="https://wa.me/13095194647?text=Hello%20Management%2C%20I%20would%20like%20to%20request%20consolidation%20for%20my%20packages" target="_blank" class="btn btn-sm btn-green" style="background:var(--wa-green);">
-            💬 DM Management (+1 309 519 4647)
+            DM Management (+1 309 519 4647)
           </a>
         </div>
 
@@ -634,7 +633,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <h2 style="color:var(--green); text-align:left; margin-bottom:4px;">Master Executive Suite — CEO Control Center</h2>
         <p style="color:var(--slate-light);">Authorized Director Management Portal: Richmond Wireko Brobbey</p>
       </div>
-      <button class="btn btn-sm btn-outline" style="color:#fff; border-color:#fff;" onclick="openAdminPasswordModal()">🔑 Change Admin Password</button>
+      <button class="btn btn-sm btn-outline" style="color:#fff; border-color:#fff;" onclick="openAdminPasswordModal()">Change Admin Password</button>
     </div>
 
     <!-- ADMIN CHANGE PASSWORD MODAL -->
@@ -694,7 +693,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
 <footer>
   <div class="container">
     <h3>EVERIVAULT LOGISTICS EXECUTIVE SUITE</h3>
-    <p>China ↔ Ghana Commercial Freight Forwarding</p>
+    <p>China to Ghana Commercial Freight Forwarding</p>
     <p style="margin-top:8px;">
       WhatsApp Management & Complaints: 
       <a href="https://wa.me/13095194647" target="_blank" style="color:var(--green); font-weight:700;">+1 (309) 519-4647</a>
@@ -739,7 +738,7 @@ const state = {
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
-const fmtGHS = n => '₵' + Number(n || 0).toLocaleString('en-GH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const fmtGHS = n => 'GHS ' + Number(n || 0).toLocaleString('en-GH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const randomMark = name => 'GH001K-' + (name || 'EV').split(/\s+/).map(w => w[0]).join('').toUpperCase().slice(0, 3).padEnd(3, 'X') + '-' + Math.random().toString(36).slice(2, 8).toUpperCase();
 
 function saveProducts() {
@@ -1052,7 +1051,7 @@ function renderCart() {
   if (!container) return;
   if (!state.cart.length) {
     container.innerHTML = '<div class="card" style="text-align:center; padding:40px;"><p style="color:var(--slate);">Your shopping cart is currently empty.</p></div>';
-    $('cartGrandTotal').textContent = '₵0.00 GHS';
+    $('cartGrandTotal').textContent = 'GHS 0.00';
     return;
   }
   let total = 0;
@@ -1062,7 +1061,7 @@ function renderCart() {
     const imgHtml = item.image ? '<img src="' + esc(item.image) + '" style="width:50px; height:50px; object-fit:cover; border-radius:8px;">' : '';
     return '<div class="cart-item-row"><div style="display:flex; align-items:center; gap:12px;">' + imgHtml + '<div><strong style="color:var(--navy); font-size:15px;">' + esc(item.name) + '</strong><br><span style="color:var(--green); font-weight:700;">' + fmtGHS(item.price) + '</span> each</div></div><div style="display:flex; align-items:center; gap:10px;"><button class="qty-btn" onclick="updateCartQty(\'' + item.id + '\', -1)">-</button><span style="font-weight:800; min-width:20px; text-align:center;">' + item.qty + '</span><button class="qty-btn" onclick="updateCartQty(\'' + item.id + '\', 1)">+</button></div><div style="text-align:right;"><span style="font-weight:800; color:var(--navy);">' + fmtGHS(itemTotal) + '</span><br><button class="btn btn-sm btn-danger" style="margin-top:4px; padding:4px 8px; font-size:11px;" onclick="removeFromCart(\'' + item.id + '\')">Remove</button></div></div>';
   }).join('');
-  $('cartGrandTotal').textContent = fmtGHS(total) + ' GHS';
+  $('cartGrandTotal').textContent = fmtGHS(total);
 }
 
 /* --- FILE & IMAGE PROOF --- */
@@ -1237,7 +1236,7 @@ function doAdminChangePassword(e) {
 
 /* --- REVIEWS & UTILS --- */
 function loadReviews() {
-  $('reviewsList').innerHTML = state.reviews.map(r => '<div class="review-card"><div><strong style="color:var(--navy);">' + esc(r.name) + '</strong> <code style="font-size:12px;">' + esc(r.mark || 'VERIFIED CLIENT') + '</code></div><div class="star-rating">★★★★★</div><p>' + esc(r.comment) + '</p></div>').join('');
+  $('reviewsList').innerHTML = state.reviews.map(r => '<div class="review-card"><div><strong style="color:var(--navy);">' + esc(r.name) + '</strong> <code style="font-size:12px;">' + esc(r.mark || 'VERIFIED CLIENT') + '</code></div><p>' + esc(r.comment) + '</p></div>').join('');
 }
 
 function doSubmitReview(e) {
