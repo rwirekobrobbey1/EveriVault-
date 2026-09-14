@@ -2,124 +2,141 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EveriVault — China ↔ Ghana Shipping, Store & Paystack Portal</title>
-<!-- Paystack Inline JS SDK -->
-<script src="https://js.paystack.co/v1/inline.js"></script>
-<!-- Supabase JS Client CDN -->
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>EveriVault — China ↔ Ghana Shipping & Store</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--navy:#0A2463;--gold:#D4AF37;--sky:#0096FF;--green:#22C55E;--red:#EF4444;--light:#F8FAFC;--shadow:0 8px 24px rgba(10,36,99,.1);}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI','Roboto',sans-serif;}
+:root{--navy:#0A2463;--gold:#D4AF37;--sky:#0096FF;--green:#22C55E;--red:#EF4444;--orange:#F59E0B;--light:#F8FAFC;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI','Roboto',system-ui,sans-serif;}
 html{scroll-behavior:smooth;}
 body{background:#F8FAFC;color:#333;line-height:1.6;}
 .container{max-width:1200px;margin:0 auto;padding:0 16px;}
-
-nav{background:var(--navy);position:sticky;top:0;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,.15);}
+nav{background:var(--navy);position:sticky;top:0;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.15);}
 .nav-wrap{display:flex;justify-content:space-between;align-items:center;padding:12px 0;}
-.logo{font-size:clamp(20px,5vw,26px);font-weight:900;color:var(--gold);text-decoration:none;}
-.nav-links{display:flex;gap:4px;list-style:none;flex-wrap:wrap;align-items:center;}
-.nav-links a{color:#E0E7FF;text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:600;font-size:14px;}
+.logo{font-size:clamp(20px,5vw,26px);font-weight:900;color:var(--gold);text-decoration:none;cursor:pointer;letter-spacing:.5px;}
+.nav-links{display:flex;gap:2px;list-style:none;flex-wrap:wrap;}
+.nav-links a{color:#E0E7FF;text-decoration:none;padding:10px 12px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;transition:.2s;}
 .nav-links a:hover,.nav-links a.active{background:rgba(255,255,255,.1);color:var(--gold);}
 .nav-cta{background:linear-gradient(135deg,var(--gold),#B8860B);color:var(--navy)!important;}
-.admin-badge-nav{background:var(--red);color:#fff!important;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:800;}
-.menu-toggle{display:none;color:#fff;font-size:28px;cursor:pointer;}
-
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:10px;font-weight:700;border:none;cursor:pointer;font-size:15px;text-decoration:none;transition:.2s;}
+.menu-toggle{display:none;color:#fff;font-size:28px;cursor:pointer;padding:4px 10px;background:none;border:none;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:10px;font-weight:700;border:none;cursor:pointer;font-size:15px;text-decoration:none;transition:.2s;white-space:nowrap;font-family:inherit;}
 .btn:active{transform:scale(.97);}
-.btn-gold{background:linear-gradient(135deg,var(--gold),#B8860B);color:var(--navy);box-shadow:0 4px 12px rgba(212,175,55,.3);}
-.btn-gold:hover{transform:translateY(-2px);}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#B8860B);color:var(--navy);}
 .btn-sky{background:var(--sky);color:#fff;}
 .btn-green{background:var(--green);color:#fff;}
 .btn-red{background:var(--red);color:#fff;}
-.btn-sm{padding:6px 12px;font-size:13px;}
+.btn-sm{padding:8px 14px;font-size:13px;}
 .btn-block{width:100%;justify-content:center;}
-
-.hero{background:linear-gradient(135deg,#051238,var(--navy),#1E40AF);color:#fff;padding:clamp(40px,10vw,60px) 0;text-align:center;}
+.btn-outline{border:2px solid var(--navy);background:transparent;color:var(--navy);}
+.hero{background:linear-gradient(135deg,#051238,var(--navy),#1E40AF);color:#fff;padding:clamp(40px,10vw,70px) 0;text-align:center;}
 .badge{display:inline-block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:8px 18px;border-radius:50px;font-weight:700;margin-bottom:16px;font-size:14px;}
-.hero h1{font-size:clamp(24px,6vw,44px);margin-bottom:12px;}
+.hero h1{font-size:clamp(24px,6vw,44px);margin-bottom:12px;line-height:1.2;}
 .hero h1 span{color:var(--gold);}
 .hero p{font-size:clamp(15px,3vw,18px);opacity:.9;max-width:650px;margin:0 auto 24px;}
 .rate-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;max-width:900px;margin:0 auto 24px;}
 .rate-card{background:rgba(255,255,255,.08);border-radius:14px;padding:18px;}
 .rate-card .big{font-size:clamp(22px,5vw,26px);font-weight:900;color:var(--gold);}
+.alert{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:12px;max-width:600px;margin:0 auto 20px;color:#FECACA;font-size:14px;}
 .hero-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
-
 section{padding:clamp(40px,8vw,60px) 0;}
 h2{text-align:center;font-size:clamp(20px,4vw,30px);color:var(--navy);margin-bottom:10px;}
 h2::after{content:'';display:block;width:60px;height:4px;background:var(--gold);margin:10px auto 0;border-radius:2px;}
 .subtitle{text-align:center;color:#64748B;margin-bottom:30px;font-size:15px;max-width:600px;margin-left:auto;margin-right:auto;}
-
-.category-bar{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;margin-bottom:20px;scrollbar-width:thin;}
-.cat-chip{background:#E2E8F0;color:#334155;padding:8px 16px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;transition:.2s;}
-.cat-chip.active,.cat-chip:hover{background:var(--navy);color:#fff;}
-
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
+.grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+.card{background:#fff;padding:22px;border-radius:14px;box-shadow:0 8px 24px rgba(10,36,99,.1);transition:.3s;}
+.card:hover{transform:translateY(-4px);}
+.card h3{color:var(--navy);margin-bottom:8px;font-size:18px;}
+.stars{color:var(--gold);font-size:16px;}
+.tag{display:inline-block;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:8px;}
+.tag-pre{background:#DBEAFE;color:#1E40AF;}
+.tag-stock{background:#D1FAE5;color:#166534;}
 .tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;border-bottom:2px solid #E2E8F0;}
-.tab{padding:10px 16px;border-radius:10px 10px 0 0;cursor:pointer;font-weight:700;color:#64748B;border-bottom:3px solid transparent;transition:all 0.2s ease;}
+.tab{padding:10px 16px;border-radius:10px 10px 0 0;cursor:pointer;font-weight:700;color:#64748B;border-bottom:3px solid transparent;font-size:14px;background:none;border-top:none;border-left:none;border-right:none;font-family:inherit;}
 .tab.active{color:var(--navy);border-bottom-color:var(--gold);background:rgba(212,175,55,.08);}
 .tab-content{display:none;}
-.tab-content.active{display:block !important;animation:fadeIn .3s ease;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
-
-.form-box{max-width:550px;margin:0 auto;background:#fff;padding:clamp(20px,5vw,30px);border-radius:16px;box-shadow:var(--shadow);}
+.tab-content.active{display:block;}
+.form-box{max-width:520px;margin:0 auto;background:#fff;padding:clamp(20px,5vw,30px);border-radius:16px;box-shadow:0 8px 24px rgba(10,36,99,.1);}
 .form-group{margin-bottom:16px;}
-label{display:block;margin-bottom:6px;font-weight:600;color:var(--navy);}
-input,select,textarea{width:100%;padding:12px;border:2px solid #E2E8F0;border-radius:10px;font-size:15px;}
-input:focus,select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(10,36,99,.1);}
-.msg{padding:12px;border-radius:10px;margin:12px 0;display:none;font-weight:600;}
+label{display:block;margin-bottom:6px;font-weight:600;color:var(--navy);font-size:14px;}
+input,select,textarea{width:100%;padding:12px;border:2px solid #E2E8F0;border-radius:10px;font-size:15px;font-family:inherit;background:#fff;}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--navy);}
+input[readonly]{background:#f5f5f5;cursor:not-allowed;}
+.msg{padding:12px;border-radius:10px;margin:12px 0;display:none;font-weight:600;font-size:14px;}
 .msg.ok{background:#ECFDF5;color:#065F45;display:block;}
 .msg.err{background:#FEF2F2;color:#B91C1C;display:block;}
-
-.tracking-banner{background:linear-gradient(135deg,var(--navy),#1E40AF);color:#fff;padding:18px;border-radius:12px;margin-bottom:24px;text-align:center;box-shadow:var(--shadow);}
-.tracking-banner .code{font-size:24px;font-weight:900;color:var(--gold);letter-spacing:1px;margin-top:4px;display:block;}
-
-.alert-notice{background:#FEF3C7;border-left:5px solid var(--gold);padding:14px;border-radius:8px;color:#78350F;margin-bottom:20px;font-size:14px;}
-
-.store-layout{display:grid;grid-template-columns:2.5fr 1fr;gap:24px;align-items:start;}
-.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;}
-.product-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:space-between;transition:.2s;}
-.product-card:hover{transform:translateY(-4px);}
-.product-img-box{height:180px;background:#F1F5F9;position:relative;overflow:hidden;}
-.product-img-box img{width:100%;height:100%;object-fit:cover;}
-.product-tag{position:absolute;top:10px;left:10px;background:var(--gold);color:var(--navy);font-size:11px;font-weight:800;padding:3px 8px;border-radius:12px;text-transform:uppercase;}
-.product-cat-tag{position:absolute;bottom:10px;right:10px;background:rgba(10,36,99,.85);color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;}
-.product-info{padding:16px;flex-grow:1;display:flex;flex-direction:column;justify-content:space-between;}
-.product-title{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px;line-height:1.3;}
-.product-price{font-size:18px;font-weight:900;color:var(--green);margin-bottom:12px;}
-.cart-card{background:#fff;padding:20px;border-radius:16px;box-shadow:var(--shadow);position:sticky;top:90px;}
-.cart-item{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #E2E8F0;}
-.order-item-card{background:#fff;padding:16px;border-radius:12px;box-shadow:var(--shadow);margin-bottom:12px;border-left:4px solid var(--gold);}
-
-.admin-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:30px;}
-.stat-card{background:#fff;padding:18px;border-radius:12px;box-shadow:var(--shadow);text-align:center;}
-.stat-card h4{color:#64748B;font-size:13px;text-transform:uppercase;margin-bottom:6px;}
-.stat-card .val{font-size:24px;font-weight:900;color:var(--navy);}
-
-.data-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);margin-top:15px;}
-.data-table th,.data-table td{padding:12px 14px;text-align:left;border-bottom:1px solid #E2E8F0;font-size:14px;vertical-align:middle;}
-.data-table th{background:var(--navy);color:#fff;}
-.data-table tr:hover{background:#F8FAFC;}
-.tbl-thumb{width:48px;height:48px;border-radius:8px;object-fit:cover;background:#F1F5F9;}
-
-.paystack-badge{background:#E0F2FE;border:1px solid #0284C7;color:#0369A1;padding:10px;border-radius:10px;margin-bottom:16px;font-size:13px;display:flex;align-items:center;gap:10px;}
-.momo-providers{display:flex;gap:10px;justify-content:center;margin:12px 0;font-weight:bold;font-size:13px;}
-.momo-tag{padding:4px 10px;border-radius:6px;background:#F1F5F9;border:1px solid #CBD5E1;}
-
+.calc-box{background:#fff;border-radius:16px;padding:clamp(20px,5vw,30px);box-shadow:0 8px 24px rgba(10,36,99,.1);max-width:700px;margin:0 auto;}
+.form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;}
+.result{margin-top:20px;padding:18px;background:#ECFDF5;border-radius:12px;border-left:4px solid var(--green);}
+.result.air{background:#EFF6FF;border-left-color:var(--sky);}
+.result .total{font-size:clamp(20px,5vw,24px);font-weight:900;color:var(--navy);margin-top:8px;}
+.addr-section{background:#fff;border-radius:16px;padding:clamp(18px,5vw,28px);box-shadow:0 8px 24px rgba(10,36,99,.1);margin-bottom:20px;}
+.addr-section h3{color:var(--navy);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid #E2E8F0;font-size:18px;}
+.addr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
+.addr-block{background:var(--light);border-radius:12px;padding:18px;position:relative;}
+.sea{border-left:4px solid var(--navy);}
+.air{border-left:4px solid var(--sky);}
+.gh{border-left:4px solid var(--gold);}
+.copy-btn{position:absolute;top:12px;right:12px;}
+.terms{background:#fff;border-radius:16px;padding:clamp(20px,5vw,30px);box-shadow:0 8px 24px rgba(10,36,99,.1);line-height:1.8;}
+.terms h3{color:var(--navy);margin:18px 0 8px;font-size:17px;}
+.terms ul{margin-left:20px;margin-bottom:10px;}
 .page{display:none;}
 .page.active{display:block;}
-
+.auth-only{display:none!important;}
+.auth-only.show{display:block!important;}
+.admin-only{display:none!important;}
+.admin-only.show{display:block!important;}
+.code{font-size:clamp(14px,4vw,18px);font-weight:900;color:var(--navy);background:var(--light);padding:12px;border-radius:10px;text-align:center;margin:15px 0;word-break:break-all;}
 footer{background:#051238;color:#CBD5E1;padding:30px 0 20px;margin-top:20px;text-align:center;}
-footer h3{color:var(--gold);margin-bottom:12px;}
-
-@media(max-width:900px){
-    .store-layout{grid-template-columns:1fr;}
-    .cart-card{position:static;}
-    .data-table{display:block;overflow-x:auto;}
-}
+footer h3{color:var(--gold);margin-bottom:12px;font-size:20px;}
+footer p{margin-bottom:4px;font-size:14px;}
+.toast-wrap{position:fixed;top:80px;right:20px;z-index:10001;display:flex;flex-direction:column;gap:10px;pointer-events:none;}
+.toast{background:var(--navy);color:#fff;padding:14px 20px;border-radius:10px;font-weight:600;font-size:14px;max-width:340px;opacity:0;transform:translateX(120%);transition:.3s;pointer-events:auto;}
+.toast.show{opacity:1;transform:translateX(0);}
+.toast.ok{background:var(--green);}
+.toast.err{background:var(--red);}
+.toast.warn{background:var(--orange);}
+.admin-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 8px 24px rgba(10,36,99,.1);}
+.admin-table th{background:var(--navy);color:#fff;padding:12px;text-align:left;font-size:13px;text-transform:uppercase;}
+.admin-table td{padding:12px;border-bottom:1px solid #E2E8F0;font-size:14px;}
+.pill{display:inline-block;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+.pill-pending{background:#FEF3C7;color:#92400E;}
+.pill-processing{background:#DBEAFE;color:#1E40AF;}
+.pill-shipped{background:#E0E7FF;color:#3730A3;}
+.pill-delivered{background:#D1FAE5;color:#166534;}
+.pill-cancelled{background:#FEE2E2;color:#991B1B;}
+.spinner{display:inline-block;width:18px;height:18px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-center{text-align:center;padding:40px;color:#888;}
+.travel-hero{background:linear-gradient(135deg,#1E40AF,#0A2463);color:#fff;padding:clamp(30px,8vw,50px) 0;text-align:center;}
+.travel-hero h2{color:var(--gold);}
+.travel-hero h2::after{background:#fff;}
+.travel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:30px;}
+.travel-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(10,36,99,.1);}
+.travel-img{width:100%;height:200px;background:linear-gradient(135deg,var(--sky),var(--navy));display:flex;align-items:center;justify-content:center;font-size:48px;color:#fff;}
+.travel-body{padding:20px;}
+.travel-body h3{color:var(--navy);margin-bottom:6px;}
+.travel-date{color:var(--sky);font-weight:700;font-size:14px;margin-bottom:10px;}
+.travel-body p{color:#555;line-height:1.7;margin-bottom:12px;}
+.timeline{border-left:3px solid var(--gold);padding-left:24px;margin-top:30px;max-width:800px;margin-left:auto;margin-right:auto;}
+.timeline-item{position:relative;margin-bottom:30px;}
+.timeline-item::before{content:'✈️';position:absolute;left:-35px;top:0;background:#fff;padding:4px;}
+.timeline-year{font-weight:900;color:var(--gold);font-size:18px;margin-bottom:4px;}
+.timeline-place{font-weight:700;color:var(--navy);font-size:16px;}
+.timeline-desc{color:#555;}
+.restricted-box{text-align:center;padding:60px 20px;}
+.restricted-icon{font-size:60px;margin-bottom:20px;opacity:.3;}
 @media(max-width:768px){
     .menu-toggle{display:block;}
-    .nav-links{position:absolute;top:100%;left:0;right:0;background:var(--navy);flex-direction:column;padding:16px;display:none;}
+    .nav-links{position:absolute;top:100%;left:0;right:0;background:var(--navy);flex-direction:column;padding:16px;display:none;max-height:80vh;overflow-y:auto;}
     .nav-links.active{display:flex;}
+    .nav-links a{width:100%;padding:12px 16px;}
+    .form-box,.calc-box{margin:0 -16px;border-radius:0;}
+    .hero-actions .btn{width:100%;}
+    .copy-btn{position:static;margin-top:10px;width:100%;}
 }
 </style>
 </head>
@@ -127,921 +144,746 @@ footer h3{color:var(--gold);margin-bottom:12px;}
 
 <nav>
     <div class="container nav-wrap">
-        <a href="#" class="logo" onclick="go('home');return false;">EVERIVAULT</a>
+        <a class="logo" onclick="go('home')">EVERIVAULT</a>
         <ul class="nav-links" id="menu">
-            <li><a href="#" class="plink active" data-p="home" onclick="go('home');return false;">Home</a></li>
-            <li><a href="#" class="plink" data-p="shop" onclick="go('shop');return false;">🛒 Store</a></li>
-            <li><a href="#" class="plink" data-p="pay" onclick="go('pay');return false;">💳 Pay Online</a></li>
-            <li><a href="#" class="plink" data-p="calc" onclick="go('calc');return false;">📐 Calculator</a></li>
-            <li><a href="#" class="plink" data-p="address" onclick="go('address');return false;">📍 Shipping Info</a></li>
-            <li><a href="#" class="plink" data-p="track" onclick="go('track');return false;">🔍 Track</a></li>
-            <li id="ordersNav" style="display:none;"><a href="#" class="plink" data-p="orders" onclick="go('orders');return false;">👤 My Profile & Mark</a></li>
-            <li id="adminNav" style="display:none;"><a href="#" class="plink admin-badge-nav" data-p="admin" onclick="go('admin');return false;">🛡️ Admin Dashboard</a></li>
-            <li id="authBtn"><a href="#" class="nav-cta plink" data-p="auth" onclick="go('auth');return false;">Login / Register</a></li>
-            <li id="userProfileNav" style="display:none;"><a href="#" class="plink" onclick="logout();return false;" style="color:var(--red);">🚪 Logout</a></li>
+            <li><a class="plink active" data-p="home" onclick="go('home')">Home</a></li>
+            <li><a class="plink" data-p="store" onclick="go('store')">🛒 Store</a></li>
+            <li><a class="plink" data-p="calc" onclick="go('calc')">📐 Calculator</a></li>
+            <li><a class="plink" data-p="address" onclick="go('address')">📍 Shipping Info</a></li>
+            <li id="travelNavItem" style="display:none;"><a class="plink" data-p="travel" onclick="go('travel')">🌍 CEO Travels</a></li>
+            <li><a class="plink" data-p="track" onclick="go('track')">🔍 Track</a></li>
+            <li><a class="plink" data-p="reviews" onclick="go('reviews')">⭐ Reviews</a></li>
+            <li><a class="plink" data-p="terms" onclick="go('terms')">📋 Terms</a></li>
+            <li id="clientLink" style="display:none;"><a class="plink" data-p="orders" onclick="go('orders')">👤 My Orders</a></li>
+            <li id="adminLink" style="display:none;"><a class="plink" data-p="admin" onclick="go('admin')">👑 Admin</a></li>
+            <li id="authNav"><a class="nav-cta plink" data-p="auth" onclick="go('auth')">Login</a></li>
         </ul>
-        <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
     </div>
 </nav>
 
-<!-- HOME -->
 <section id="p-home" class="page active">
     <div class="hero">
         <div class="container">
             <div class="badge">📍 Kumasi — KNUST, Ayeduase New Site</div>
             <h1>China ↔ Ghana <span>Trusted Shipping & Store</span></h1>
-            <p>Shop Direct • Instant MoMo Payments via Paystack • Real-Time Tracking</p>
+            <p>Shop Direct • Sea & Air Freight • Real-Time Tracking • Secure Payments</p>
             <div class="rate-grid">
-                <div class="rate-card">
-                    <h3>🚢 Sea Freight</h3>
-                    <div class="big">$260/m³</div>
-                    <div>Under 1 CBM</div>
-                </div>
-                <div class="rate-card">
-                    <h3>✈️ Air Freight</h3>
-                    <div class="big">$17/kg</div>
-                    <div>Standard Goods</div>
-                </div>
-                <div class="rate-card">
-                    <h3>📲 Direct MoMo</h3>
-                    <div class="big">0543155883</div>
-                    <div>MTN / Telecel / AirtelTigo</div>
-                </div>
+                <div class="rate-card"><h3>🚢 Sea Freight</h3><div class="big">$260/m³</div><div>Under 1 CBM</div><div class="big" style="font-size:20px;margin-top:6px;">$255/m³</div><div>1 CBM & Above</div><div style="opacity:.7;margin-top:6px;">⏱️ 45–60 Days</div></div>
+                <div class="rate-card"><h3>✈️ Air Freight</h3><div class="big">$17/kg</div><div>Standard Goods</div><div class="big" style="font-size:20px;margin-top:6px;">₵500</div><div>Phones/Laptops/Tablets</div><div style="opacity:.7;margin-top:6px;">⏱️ 3–7 Days</div></div>
+                <div class="rate-card"><h3>💱 Exchange</h3><div class="big">1 USD = ₵13</div><div>Auto Conversion</div></div>
             </div>
+            <div class="alert">⚠️ No batteries, fragile items, or liquids via Sea accepted</div>
             <div class="hero-actions">
-                <a href="#" class="btn btn-gold" onclick="go('shop');return false;">🛒 Shop Products</a>
-                <a href="#" class="btn btn-green" onclick="go('pay');return false;">💳 Pay via Paystack MoMo</a>
+                <a class="btn btn-gold" onclick="go('store')">🛒 Shop Now</a>
+                <a class="btn btn-sky" onclick="go('calc')">📐 Calculate Cost</a>
+                <a class="btn btn-green auth-only" id="heroTravelBtn" onclick="go('travel')">🌍 CEO Travels</a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h2>Why EveriVault?</h2>
+        <p class="subtitle">Your trusted partner — direct from China to your doorstep in Ghana</p>
+        <div class="grid-3">
+            <div class="card"><h3>🛒 Online Store</h3><p>Ready stock & pre-order items. Prices shown in GHS — no surprises.</p></div>
+            <div class="card"><h3>✅ Transparent Pricing</h3><p>No hidden fees. Fixed rates. USD→GHS at ₵13.</p></div>
+            <div class="card"><h3>🔍 Unique Tracking</h3><p>GH001K-Initials-XXXXXX = Reference = Tracking.</p></div>
+            <div class="card"><h3>💰 Flexible Payments</h3><p>MoMo or Bank Transfer. Verified status protects your funds.</p></div>
+            <div class="card"><h3>🚢 Sea + ✈️ Air</h3><p>Warehouses in Foshan & Guangzhou. Choose economy or express.</p></div>
+            <div class="card"><h3>📍 Local Support</h3><p>Kumasi based. Call +233 543 155 883 anytime.</p></div>
+        </div>
+    </div>
+</section>
+
+<section id="p-travel" class="page">
+    <div id="travelRestricted" class="restricted-box">
+        <div class="restricted-icon">🔒</div>
+        <h2>🌍 CEO Travels & Highlights</h2>
+        <p class="subtitle">Exclusive to registered clients</p>
+        <div style="max-width:400px;margin:0 auto;">
+            <p style="margin-bottom:20px;color:#64748B;">Sign in to see Richmond's business trips and behind-the-scenes photos.</p>
+            <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+                <a class="btn btn-gold" onclick="go('auth')">🔐 Login / Register</a>
+                <a class="btn btn-outline" onclick="go('home')">← Back Home</a>
+            </div>
+        </div>
+    </div>
+    <div id="travelFull" style="display:none;">
+        <div class="travel-hero">
+            <div class="container">
+                <h2>🌍 CEO Travels & Highlights</h2>
+                <p class="subtitle" style="color:#E0E7FF;">Follow Richmond Wireko Brobbey across the globe</p>
+            </div>
+        </div>
+        <div class="container">
+            <h3 style="text-align:center;color:var(--navy);margin-top:20px;font-size:22px;">📅 Journey Timeline</h3>
+            <div class="timeline" id="travelTimeline"></div>
+            <h3 style="text-align:center;color:var(--navy);margin-top:50px;font-size:22px;">📸 Trips & Photos</h3>
+            <div class="travel-grid" id="travelGrid"></div>
+        </div>
+    </div>
+</section>
+
+<section id="p-store" class="page">
+    <div class="container">
+        <h2>🛒 EveriVault Online Store</h2>
+        <p class="subtitle">In-Stock & Pre-Order — Prices in GHS</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:25px;">
+            <input type="search" id="searchInput" placeholder="🔍 Search products..." oninput="renderProducts()" style="padding:10px;border-radius:8px;border:2px solid #E2E8F0;min-width:200px;flex:1;max-width:300px;">
+            <select id="catFilter" onchange="renderProducts()" style="padding:10px;border-radius:8px;border:2px solid #E2E8F0;min-width:160px;"><option value="all">All Categories</option></select>
+            <select id="stockFilter" onchange="renderProducts()" style="padding:10px;border-radius:8px;border:2px solid #E2E8F0;min-width:160px;">
+                <option value="">All Items</option>
+                <option value="false">✅ In Stock</option>
+                <option value="true">⏳ Pre-Order</option>
+            </select>
+        </div>
+        <div id="prodGrid" class="grid-4"></div>
+    </div>
+</section>
+
+<section id="p-calc" class="page">
+    <div class="container">
+        <h2>📐 Shipping Cost Calculator</h2>
+        <div class="calc-box">
+            <div class="tabs">
+                <button class="tab active" onclick="calcMode('sea')">🚢 Sea Freight</button>
+                <button class="tab" onclick="calcMode('air')">✈️ Air Freight</button>
+            </div>
+            <div id="calcSea" class="tab-content active">
+                <p style="margin-bottom:15px;font-weight:600;color:var(--navy);font-size:14px;">CBM = L(m) × W(m) × H(m) × Quantity</p>
+                <div class="form-row">
+                    <div class="form-group"><label>Length (cm)</label><input type="number" id="seaL" oninput="calcSea()" placeholder="100" min="0"></div>
+                    <div class="form-group"><label>Width (cm)</label><input type="number" id="seaW" oninput="calcSea()" placeholder="60" min="0"></div>
+                    <div class="form-group"><label>Height (cm)</label><input type="number" id="seaH" oninput="calcSea()" placeholder="50" min="0"></div>
+                </div>
+                <div class="form-group"><label>Quantity</label><input type="number" id="seaQty" value="1" min="1" oninput="calcSea()"></div>
+                <div class="result">
+                    <strong>Volume:</strong> <span id="seaCbm">0.000</span> m³<br><br>
+                    • &lt;1CBM → $260/m³<br>• ≥1CBM → $255/m³<br>• $1 = ₵13<br><br>
+                    <strong>Total:</strong>
+                    <div class="total">$<span id="seaUsd">0.00</span> = ₵<span id="seaGhs">0.00</span></div>
+                    <small>⏱️ Delivery: 45–60 Days</small>
+                </div>
+            </div>
+            <div id="calcAir" class="tab-content">
+                <div class="form-group">
+                    <label>Item Type</label>
+                    <select id="airType" onchange="calcAir()">
+                        <option value="std">Standard — $17/kg</option>
+                        <option value="phone">📱 Phone — ₵500 Flat</option>
+                        <option value="laptop">💻 Laptop — ₵500 Flat</option>
+                        <option value="tab">📱 Tablet — ₵500 Flat</option>
+                    </select>
+                </div>
+                <div class="form-group" id="airKgRow"><label>Weight (kg)</label><input type="number" id="airKg" step="0.1" oninput="calcAir()" min="0"></div>
+                <div class="result air">
+                    <strong>Cost:</strong>
+                    <div class="total">$<span id="airUsd">0.00</span> = ₵<span id="airGhs">0.00</span></div>
+                    <small>⏱️ Delivery: 3–7 Days</small>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- STORE -->
-<section id="p-shop" class="page">
+<section id="p-address" class="page">
     <div class="container">
-        <h2>🛒 Direct China Store</h2>
-        <p class="subtitle">Browse products stocked by EveriVault Admin and pay instantly via Mobile Money</p>
-        
-        <div class="category-bar" id="categoryBar">
-            <div class="cat-chip active" onclick="filterCategory('All', this)">✨ All Items</div>
-            <div class="cat-chip" onclick="filterCategory('Skin Care', this)">🧴 Skin Care</div>
-            <div class="cat-chip" onclick="filterCategory('Bags', this)">👜 Bags</div>
-            <div class="cat-chip" onclick="filterCategory('Phones', this)">📱 Phones & Tech</div>
-            <div class="cat-chip" onclick="filterCategory('Cars', this)">🚗 Car Accessories</div>
-            <div class="cat-chip" onclick="filterCategory('Footwear', this)">👟 Men & Ladies Footwear</div>
-            <div class="cat-chip" onclick="filterCategory('Clothing', this)">👗 Men & Ladies Clothes</div>
-            <div class="cat-chip" onclick="filterCategory('Home Appliances', this)">🍳 Home Appliances</div>
+        <h2>📍 Warehouse & Shipping Addresses</h2>
+        <div class="addr-section">
+            <h3>🇬🇭 Ghana Office</h3>
+            <div class="addr-block gh">
+                <p><strong>EveriVault</strong><br>KNUST Campus, Ayeduase New Site<br>Kumasi, Ashanti Region<br>Ghana<br><br>📞 +233 543 155 883<br>📧 richmonwireko@gmail.com</p>
+                <button class="btn btn-sm btn-gold copy-btn" onclick="copyText(this.parentElement.querySelector('p').innerText)">📋 Copy</button>
+            </div>
         </div>
-
-        <div class="store-layout">
-            <div class="product-grid" id="productGrid"></div>
-            
-            <div class="cart-card">
-                <h3 style="color:var(--navy);margin-bottom:15px;display:flex;align-items:center;justify-content:space-between;">
-                    <span>🛍️ Your Cart</span>
-                    <span id="cartCount" style="font-size:14px;background:var(--gold);color:var(--navy);padding:2px 8px;border-radius:10px;">0 items</span>
-                </h3>
-                <div id="cartItems">
-                    <p style="text-align:center;color:#64748B;padding:20px 0;">Your cart is empty.</p>
+        <div class="addr-section">
+            <h3>🇨🇳 China Warehouses</h3>
+            <div class="addr-grid">
+                <div class="addr-block sea">
+                    <h4>🚢 Sea — Foshan (45–60 Days)</h4>
+                    <p>Bohui Phase 5, No.88 Xinpu West Road, Shishan Town<br>Nanhai District, Foshan, Guangdong<br>China<br><br>Mr Zhang: +86 181 2571 7488<br>Mr Yue: +86 180 2417 9599<br><br>Ref: EveriVault — GH001K-YourName — +233 543 155 883</p>
+                    <button class="btn btn-sm btn-outline copy-btn" onclick="copyText(this.parentElement.querySelector('p').innerText)">📋 Copy</button>
                 </div>
-                <div style="margin-top:15px;border-top:2px solid #E2E8F0;padding-top:15px;">
-                    <div style="display:flex;justify-content:space-between;font-weight:800;font-size:18px;color:var(--navy);">
-                        <span>Total:</span>
-                        <span>₵<span id="cartTotal">0.00</span></span>
-                    </div>
-                    <button class="btn btn-green btn-block" style="margin-top:15px;" onclick="checkoutWithPaystack()">🔒 Pay Now with Paystack MoMo</button>
+                <div class="addr-block air">
+                    <h4>✈️ Air — Guangzhou (3–7 Days)</h4>
+                    <p>Room 510, 99 Business Center, No.99 West Guangyuan Road<br>Yuexiu District, Guangzhou, Guangdong<br>China<br><br>Ref: EveriVault — GH001K-YourName — +233 543 155 883</p>
+                    <button class="btn btn-sm btn-sky copy-btn" onclick="copyText(this.parentElement.querySelector('p').innerText)">📋 Copy</button>
+                </div>
+            </div>
+        </div>
+        <div class="addr-section">
+            <h3>💳 Payment Details</h3>
+            <div class="addr-grid">
+                <div class="addr-block" style="border-left:4px solid var(--green);">
+                    <p><strong>Bank:</strong> Guaranty Trust Bank<br><strong>Name:</strong> Richmond Wireko Brobbey<br><strong>Account:</strong> 1304001024705</p>
+                    <button class="btn btn-sm btn-green copy-btn" onclick="copyText(this.parentElement.querySelector('p').innerText)">📋 Copy</button>
+                </div>
+                <div class="addr-block" style="border-left:4px solid var(--orange);">
+                    <p><strong>MoMo:</strong> 0543155883<br>Use your Shipping Mark as Reference</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- PAYSTACK PAYMENT PORTAL -->
-<section id="p-pay" class="page">
+<section id="p-auth" class="page">
     <div class="container">
-        <h2>💳 Paystack Mobile Money Portal</h2>
-        <p class="subtitle">Pay for shipping bills, freight fees, or custom orders directly to 0543155883</p>
-
+        <h2>🔐 Account</h2>
         <div class="form-box">
-            <div class="paystack-badge">
-                <span style="font-size:22px;">🔒</span>
-                <div>
-                    <strong>Secured by Paystack</strong><br>
-                    Merchant MoMo Account: <strong>0543155883</strong> (Richmond Wireko Brobbey)
-                </div>
+            <div class="tabs">
+                <button class="tab active" data-authtab="client" onclick="authTab('client')">Client</button>
+                <button class="tab" data-authtab="admin" onclick="authTab('admin')">Admin</button>
             </div>
-
-            <div class="momo-providers">
-                <span class="momo-tag" style="color:#B45309;background:#FEF3C7;">🟡 MTN MoMo</span>
-                <span class="momo-tag" style="color:#B91C1C;background:#FEE2E2;">🔴 Telecel Cash</span>
-                <span class="momo-tag" style="color:#1D4ED8;background:#DBEAFE;">🔵 AirtelTigo</span>
+            <div id="tClient" class="tab-content active">
+                <div class="tabs">
+                    <button class="tab active" data-authsub="login" onclick="authSub('login')">Login</button>
+                    <button class="tab" data-authsub="reg" onclick="authSub('reg')">Register</button>
+                </div>
+                <form id="fLogin" class="tab-content active" onsubmit="doLogin(event)">
+                    <div class="form-group"><label>Email</label><input type="email" id="lem" required></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="lpw" required></div>
+                    <div id="lmsg" class="msg"></div>
+                    <button class="btn btn-gold btn-block" type="submit" id="loginBtn">Sign In</button>
+                </form>
+                <form id="fReg" class="tab-content" onsubmit="doReg(event)">
+                    <div class="form-group"><label>Full Name</label><input type="text" id="rn" required maxlength="60"></div>
+                    <div class="form-group"><label>Email</label><input type="email" id="rem" required></div>
+                    <div class="form-group"><label>Phone</label><input type="tel" id="rp" required maxlength="20"></div>
+                    <div class="form-group"><label>Location</label><input type="text" id="rl" required maxlength="60" placeholder="Kumasi..."></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="rpw" required minlength="6"></div>
+                    <div class="form-group"><label>Confirm Password</label><input type="password" id="rpw2" required minlength="6"></div>
+                    <div id="rmsg" class="msg"></div>
+                    <button class="btn btn-gold btn-block" type="submit" id="regBtn">Create Account</button>
+                </form>
             </div>
+            <div id="tAdmin" class="tab-content">
+                <form onsubmit="doAdmin(event)">
+                    <div class="form-group"><label>Admin Email</label><input type="email" id="aem" required></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="apw" required></div>
+                    <div id="amsg" class="msg"></div>
+                    <button class="btn btn-gold btn-block" type="submit" id="adminBtn">Admin Sign In</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 
-            <form id="paystackPortalForm" onsubmit="triggerDirectPaystack(event)">
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="payName" placeholder="e.g. Kwame Mensah" required>
+<section id="p-order" class="page auth-only">
+    <div class="container">
+        <h2>✅ Place Order</h2>
+        <div class="form-box">
+            <form onsubmit="submitOrder(event)">
+                <div class="form-group"><label>Item Name</label><input type="text" id="oItem" required readonly></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Quantity</label><input type="number" id="oQty" value="1" min="1" required oninput="updateTotal()"></div>
+                    <div class="form-group"><label>Unit Price (GHS)</label><input type="number" id="oPrice" step="0.01" required readonly></div>
                 </div>
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="payEmail" placeholder="e.g. kwame@gmail.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Mobile Money Phone Number</label>
-                    <input type="tel" id="payPhone" placeholder="e.g. 0543155883" value="0543155883" required>
-                </div>
-                <div class="form-group">
-                    <label>Shipping Mark / Tracking Reference Number</label>
-                    <input type="text" id="payRef" placeholder="e.g. GHOO1KKWAME0543155883" required>
-                </div>
-                <div class="form-group">
-                    <label>Amount (GHS ₵)</label>
-                    <input type="number" id="payAmount" step="0.01" min="1" placeholder="e.g. 500" required>
-                </div>
-                <button type="submit" class="btn btn-gold btn-block" style="font-size:16px;">📲 Proceed to MoMo Prompt</button>
+                <div class="form-group"><label>Total (GHS)</label><input type="number" id="oTotal" step="0.01" required readonly style="font-weight:bold;"></div>
+                <div class="form-group"><label>Shipping Mode</label><select id="oMode"><option value="sea">🚢 Sea — 45–60 Days</option><option value="air">✈️ Air — 3–7 Days</option></select></div>
+                <div class="form-group"><label>Payment Method</label><select id="oPay"><option>MTN MoMo</option><option>Telecel Cash</option><option>AirtelTigo Money</option><option>Bank Transfer</option></select></div>
+                <div class="form-group"><label>Notes (optional)</label><textarea id="oNote" rows="3" maxlength="300"></textarea></div>
+                <div class="code">Your Mark: <span id="showMark">—</span></div>
+                <div id="oMsg" class="msg"></div>
+                <button class="btn btn-gold btn-block" type="submit" id="orderBtn">✅ Submit Order</button>
             </form>
         </div>
     </div>
 </section>
 
-<!-- CALCULATOR (AIR & SEA FREIGHT) -->
-<section id="p-calc" class="page">
+<section id="p-orders" class="page auth-only">
     <div class="container">
-        <h2>📐 Shipping Cost Calculator</h2>
-        <p class="subtitle">Calculate estimated costs for Air Freight, Sea Freight, and Combined Total</p>
-        
-        <div class="form-box">
-            <div class="form-group">
-                <label>✈️ Air Freight Weight (kg) — Rate: $17/kg</label>
-                <input type="number" id="calcKg" oninput="runCalc()" placeholder="e.g. 10">
-            </div>
-            <div class="form-group">
-                <label>🚢 Sea Freight Volume (CBM / m³) — Rate: $260/m³</label>
-                <input type="number" id="calcCbm" step="0.01" oninput="runCalc()" placeholder="e.g. 0.5">
-            </div>
-
-            <div style="background:#F1F5F9;padding:16px;border-radius:12px;margin:20px 0;line-height:1.8;">
-                <p style="display:flex;justify-content:space-between;">
-                    <span>✈️ Air Freight Total:</span>
-                    <strong>$<span><span id="calcAirUsd">0.00</span></span> (₵<span id="calcAirGhs">0.00</span>)</strong>
-                </p>
-                <p style="display:flex;justify-content:space-between;">
-                    <span>🚢 Sea Freight Total:</span>
-                    <strong>$<span><span id="calcSeaUsd">0.00</span></span> (₵<span id="calcSeaGhs">0.00</span>)</strong>
-                </p>
-                <hr style="margin:10px 0;border:0;border-top:2px dashed #CBD5E1;">
-                <p style="display:flex;justify-content:space-between;font-size:18px;color:var(--navy);font-weight:900;">
-                    <span>💵 Total Shipping Cost:</span>
-                    <span>₵<span id="calcTotalGhs">0.00</span> ($<span id="calcTotalUsd">0.00</span>)</span>
-                </p>
-            </div>
-            <button class="btn btn-sky btn-block" onclick="go('pay')">Proceed to Pay via MoMo</button>
-        </div>
+        <h2>👤 My Orders</h2>
+        <div style="text-align:center;margin-bottom:20px;"><button class="btn btn-sm btn-outline" onclick="loadOrders()">🔄 Refresh</button></div>
+        <div id="ordersList"></div>
     </div>
 </section>
 
-<!-- ADDRESSES (EXACT SPECIFIED AIR AND SEA WAREHOUSES) -->
-<section id="p-address" class="page">
-    <div class="container">
-        <h2>📍 China Warehouse Addresses</h2>
-        <p class="subtitle">Send your supplier items directly to our Guangzhou Air or Foshan Sea warehouses</p>
-        
-        <div class="alert-notice" style="max-width:1000px;margin:0 auto 24px;">
-            📌 <strong>IMPORTANT SHIPPING MARK INSTRUCTION:</strong><br>
-            Your <strong>Shipping Mark</strong> must be identical to your generated <strong>Tracking Number / Reference Number</strong> (Format: <code>GHOO1K + FIRST NAME + PHONE</code>). Make sure your China supplier writes or prints this mark clearly on all package boxes!
-        </div>
-
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;max-width:1000px;margin:0 auto;">
-            
-            <!-- AIR FREIGHT WAREHOUSE -->
-            <div style="background:#fff;padding:24px;border-radius:16px;box-shadow:var(--shadow);border-top:5px solid var(--sky);">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-                    <h3 style="color:var(--navy);font-size:20px;">✈️ Air Freight Warehouse</h3>
-                    <span style="background:#E0F2FE;color:var(--sky);font-weight:800;padding:6px 12px;border-radius:20px;font-size:15px;">$17 / kg</span>
-                </div>
-                
-                <div style="margin-bottom:20px;">
-                    <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇬🇧 English Address</strong>
-                    <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
-                        <strong>Recipient:</strong> EveriVault / [<span class="user-mark-display">Your Shipping Mark</span>]<br>
-                        <strong>Address:</strong> Room 510, Jiujiu Business Center, No. 99 Guangyuan West Road, Yuexiu District, Guangzhou City, Guangdong Province, China
-                    </div>
-                </div>
-
-                <div>
-                    <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇨🇳 Chinese Address (中文地址)</strong>
-                    <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
-                        <strong>收件人:</strong> EveriVault / [<span class="user-mark-display">您的唛头代码</span>]<br>
-                        <strong>地址:</strong> 广州市越秀区广园西路99号玖玖商汇510室
-                    </div>
-                </div>
-            </div>
-
-            <!-- SEA FREIGHT WAREHOUSE -->
-            <div style="background:#fff;padding:24px;border-radius:16px;box-shadow:var(--shadow);border-top:5px solid var(--gold);">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-                    <h3 style="color:var(--navy);font-size:20px;">🚢 EVERIVAULT — SEA WAREHOUSE</h3>
-                    <span style="background:#FEF3C7;color:#B45309;font-weight:800;padding:6px 12px;border-radius:20px;font-size:15px;">$260 / m³</span>
-                </div>
-
-                <div style="margin-bottom:16px;">
-                    <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇬🇧 English Address</strong>
-                    <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
-                        <strong>Recipient:</strong> EveriVault / [<span class="user-mark-display">Your Shipping Mark</span>]<br>
-                        <strong>Address:</strong> Foshan City, Nanhai District, Shishan Town, Xinpu West Road No.88, Bohui Phase 5, Guangdong, China.
-                    </div>
-                </div>
-
-                <div style="margin-bottom:16px;">
-                    <strong style="color:var(--navy);display:block;margin-bottom:6px;">🇨🇳 Chinese Address (中文地址)</strong>
-                    <div style="background:#F8FAFC;padding:12px;border-radius:10px;font-size:14px;border:1px solid #E2E8F0;line-height:1.6;">
-                        <strong>收件人:</strong> EveriVault / [<span class="user-mark-display">您的唛头代码</span>]<br>
-                        <strong>地址:</strong> 广东省佛山市南海区狮山镇新圃西路88号博汇5期
-                    </div>
-                </div>
-
-                <div style="background:#F1F5F9;padding:12px;border-radius:10px;font-size:13px;line-height:1.6;">
-                    🧭 <strong>Navigation:</strong> 佛山固菜仓储服务部（博汇5期） / Foshan Gucai Warehousing Service (Bohui Phase 5)<br>
-                    📞 <strong>China Contacts:</strong> Mr. Zhang +86 181 2571 7488 | Mr. Yue +86 180 2417 9599<br>
-                    📞 <strong>Ghana Contact:</strong> +233 543 155 883
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-<!-- TRACKING -->
 <section id="p-track" class="page">
     <div class="container">
         <h2>🔍 Track Shipment</h2>
         <div class="form-box">
-            <div class="form-group">
-                <label>Tracking Code / Reference Number / Shipping Mark</label>
-                <input type="text" id="trackInput" placeholder="e.g. GHOO1KKWAME0543155883">
+            <div class="form-group"><label>Tracking Code</label><input type="text" id="tCode" placeholder="GH001K-ABC-1A2B3C" required></div>
+            <button class="btn btn-gold btn-block" onclick="doTrack()" id="trackBtn">Check Status</button>
+            <div id="tResult" style="margin-top:20px;display:none;" class="result">
+                <h3 id="tP" style="color:var(--navy);margin-bottom:10px;"></h3>
+                <p><strong>Reference:</strong> <span id="tM"></span></p>
+                <p><strong>Total:</strong> ₵<span id="tA"></span></p>
+                <p><strong>Shipping:</strong> <span id="tMo"></span></p>
+                <p><strong>Status:</strong> <span id="tS"></span></p>
+                <p><strong>Payment:</strong> <span id="tV"></span></p>
             </div>
-            <button class="btn btn-gold btn-block" onclick="performTracking()">Search Order Status</button>
-            <div id="trackResult" style="margin-top:20px;"></div>
         </div>
     </div>
 </section>
 
-<!-- AUTHENTICATION -->
-<section id="p-auth" class="page">
+<section id="p-reviews" class="page">
     <div class="container">
-        <h2>🔐 Portal Account Access</h2>
-        <p class="subtitle">Sign in, register, or reset your password</p>
-        
-        <div class="form-box">
-            <div class="tabs">
-                <div class="tab active" id="tabLogin" onclick="switchAuthTab('login')">Sign In</div>
-                <div class="tab" id="tabReg" onclick="switchAuthTab('reg')">Register</div>
-                <div class="tab" id="tabReset" onclick="switchAuthTab('reset')">Reset Password</div>
-            </div>
-
-            <form id="fLogin" class="tab-content active" onsubmit="doLogin(event)">
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="lem" placeholder="e.g. user@gmail.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="lpw" placeholder="Enter password" required>
-                </div>
-                <div id="lmsg" class="msg"></div>
-                <button type="submit" class="btn btn-gold btn-block">Log In</button>
-            </form>
-
-            <form id="fReg" class="tab-content" onsubmit="doReg(event)">
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="rn" placeholder="e.g. Kwame Mensah" required>
-                </div>
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="rem" placeholder="e.g. kwame@gmail.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" id="rp" placeholder="e.g. 0543155883" required>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="rpw" placeholder="Create password" required>
-                </div>
-                <div class="form-group">
-                    <label>Confirm Password</label>
-                    <input type="password" id="rpw2" placeholder="Confirm password" required>
-                </div>
-                <div id="rmsg" class="msg"></div>
-                <button type="submit" class="btn btn-gold btn-block">Create Account & Auto-Generate Tracking Code</button>
-            </form>
-
-            <form id="fReset" class="tab-content" onsubmit="doResetPassword(event)">
-                <div class="form-group">
-                    <label>Email Address OR Shipping Mark Reference</label>
-                    <input type="text" id="resetId" placeholder="e.g. kwame@gmail.com OR GHOO1KKWAME0543155883" required>
-                </div>
-                <div class="form-group">
-                    <label>New Password</label>
-                    <input type="password" id="resetPw1" placeholder="Enter new password" required>
-                </div>
-                <div class="form-group">
-                    <label>Confirm New Password</label>
-                    <input type="password" id="resetPw2" placeholder="Confirm new password" required>
-                </div>
-                <div id="resetMsg" class="msg"></div>
-                <button type="submit" class="btn btn-gold btn-block">Update Password</button>
+        <h2>⭐ Customer Reviews</h2>
+        <div id="reviewsList" class="grid-3"></div>
+        <div class="form-box" style="margin-top:40px;">
+            <h3 style="text-align:center;color:var(--navy);margin-bottom:20px;">Share Your Experience</h3>
+            <form onsubmit="doRev(event)">
+                <div class="form-group"><label>Rating</label><select id="revS" required><option value="5">⭐⭐⭐⭐⭐ Excellent</option><option value="4">⭐⭐⭐⭐ Very Good</option><option value="3">⭐⭐⭐ Good</option></select></div>
+                <div class="form-group"><label>Comment</label><textarea id="revC" rows="4" required maxlength="300"></textarea></div>
+                <div id="revMsg" class="msg"></div>
+                <button class="btn btn-gold btn-block" type="submit" id="revBtn">Submit Review</button>
             </form>
         </div>
     </div>
 </section>
 
-<!-- PROFILE & ORDERS -->
-<section id="p-orders" class="page">
+<section id="p-terms" class="page">
     <div class="container">
-        <h2>👤 Account Profile & Tracking Mark</h2>
-        <p class="subtitle" id="userWelcomeText">Here is your unique tracking reference code and order history</p>
-        
-        <div style="max-width:600px;margin:0 auto;">
-            <div class="tracking-banner">
-                <span>📦 Your Assigned Tracking & Shipping Mark Code</span>
-                <span class="code" id="userMarkCode">GHOO1K-PENDING</span>
-                <small style="opacity:.8;display:block;margin-top:6px;">Instruct China suppliers to mark this exact code on all outer boxes!</small>
-            </div>
-            <h3 style="color:var(--navy);margin-bottom:15px;">Transaction History</h3>
-            <div id="ordersList"></div>
+        <h2>📋 Terms & Conditions</h2>
+        <div class="terms">
+            <h3>1. Shipping Rates</h3>
+            <ul><li>Sea: Under 1 CBM = $260/m³ | 1 CBM+ = $255/m³</li><li>Air: Standard = $17/kg | Phones/Laptops/Tablets = ₵500 flat each</li><li>Exchange: $1 = ₵13</li></ul>
+            <h3>2. Delivery Times</h3>
+            <ul><li>Sea: 45–60 days</li><li>Air: 3–7 days</li></ul>
+            <h3>3. Prohibited Items</h3>
+            <ul><li>NO batteries, fragile items, or liquids via Sea</li></ul>
+            <h3>4. Payment</h3>
+            <ul><li>MoMo (0543155883) or Bank Transfer with your mark as reference</li></ul>
+            <h3>5. Contact</h3>
+            <ul><li>WhatsApp: +233 543 155 883</li><li>Email: richmonwireko@gmail.com</li></ul>
         </div>
     </div>
 </section>
 
-<!-- ADMIN DASHBOARD (RESTRICTED PRODUCTS MANAGEMENT) -->
-<section id="p-admin" class="page">
+<section id="p-admin" class="page admin-only">
     <div class="container">
-        <h2>🛡️ Administrator Dashboard</h2>
-        <p class="subtitle">Only administrators can publish products to the client storefront, edit inventory, and update statuses</p>
-
-        <div class="admin-stats">
-            <div class="stat-card">
-                <h4>Total Revenue</h4>
-                <div class="val" id="admRev">₵0.00</div>
-            </div>
-            <div class="stat-card">
-                <h4>Total Orders</h4>
-                <div class="val" id="admOrders">0</div>
-            </div>
-            <div class="stat-card">
-                <h4>Registered Users</h4>
-                <div class="val" id="admUsers">0</div>
-            </div>
-            <div class="stat-card">
-                <h4>Store Products</h4>
-                <div class="val" id="admProducts">0</div>
-            </div>
-        </div>
-
+        <h2>👑 Admin Dashboard</h2>
         <div class="tabs">
-            <div class="tab active" id="atabOrders" onclick="switchAdminTab('orders')">📦 All Client Payments & Orders</div>
-            <div class="tab" id="atabProds" onclick="switchAdminTab('prods')">🛒 Add Product to Client Store</div>
-            <div class="tab" id="atabUsers" onclick="switchAdminTab('users')">👥 Registered Users & Marks</div>
+            <button class="tab active" data-admintab="orders" onclick="adminTab('orders')">📦 Orders</button>
+            <button class="tab" data-admintab="products" onclick="adminTab('products')">🛒 Products</button>
+            <button class="tab" data-admintab="users" onclick="adminTab('users')">👥 Users</button>
+            <button class="tab" data-admintab="reviews" onclick="adminTab('reviews')">⭐ Reviews</button>
         </div>
-
-        <div id="acontentOrders" class="tab-content active">
-            <h3 style="color:var(--navy);margin-bottom:12px;">All Transaction Records</h3>
-            <div id="adminOrdersTable"></div>
-        </div>
-
-        <div id="acontentProds" class="tab-content">
-            <div style="display:grid;grid-template-columns:1fr 2fr;gap:20px;align-items:start;">
-                <div class="form-box" style="margin:0;">
-                    <h3 style="color:var(--navy);margin-bottom:15px;">➕ Add Product (Admin Only)</h3>
-                    <form onsubmit="adminAddProduct(event)">
-                        <div class="form-group">
-                            <label>Product Name</label>
-                            <input type="text" id="npName" placeholder="e.g. Glowing Vitamin C Serum" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Store Section / Category</label>
-                            <select id="npCategory" required>
-                                <option value="Skin Care">🧴 Skin Care Section</option>
-                                <option value="Bags">👜 Bags Section</option>
-                                <option value="Phones">📱 Phones Section</option>
-                                <option value="Cars">🚗 Car Accessories Section</option>
-                                <option value="Footwear">👟 Men & Ladies Footwear</option>
-                                <option value="Clothing">👗 Men & Ladies Clothes</option>
-                                <option value="Home Appliances">🍳 Home Appliances Section</option>
-                                <option value="General">📦 General Items</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Price (GHS ₵)</label>
-                            <input type="number" id="npPrice" step="0.01" placeholder="e.g. 150" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Image URL</label>
-                            <input type="url" id="npImageUrl" placeholder="https://images.unsplash.com/photo-..." required>
-                        </div>
-                        <div class="form-group">
-                            <label>Product Tag</label>
-                            <input type="text" id="npTag" placeholder="e.g. Hot Seller, Air Freight, New" value="New Arrival" required>
-                        </div>
-                        <button class="btn btn-green btn-block">Upload & Publish Product</button>
-                    </form>
-                </div>
-                <div>
-                    <h3 style="color:var(--navy);margin-bottom:15px;">Current Client Store Inventory</h3>
-                    <div id="adminProductsTable"></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="acontentUsers" class="tab-content">
-            <h3 style="color:var(--navy);margin-bottom:12px;">Registered Platform Clients & Generated Marks</h3>
-            <div id="adminUsersTable"></div>
-        </div>
+        <div id="adminOrders" class="tab-content active"></div>
+        <div id="adminProducts" class="tab-content"></div>
+        <div id="adminUsers" class="tab-content"></div>
+        <div id="adminReviews" class="tab-content"></div>
     </div>
 </section>
 
 <footer>
     <div class="container">
-        <h3>EVERIVAULT ENTERPRISE</h3>
-        <p>MoMo Payment Portal: 0543155883 | 📧 richmonwireko@gmail.com</p>
-        <p style="margin-top:15px;font-size:13px;opacity:.6;">© 2026 EveriVault. All rights reserved.</p>
+        <h3>EVERIVAULT</h3>
+        <p>China ↔ Ghana Shipping & Store</p>
+        <p>📍 KNUST, Ayeduase New Site, Kumasi</p>
+        <p>📞 +233 543 155 883 | 📧 richmonwireko@gmail.com</p>
+        <p style="margin-top:16px;opacity:.7;font-size:12px;">© 2026 EveriVault</p>
     </div>
 </footer>
 
+<div class="toast-wrap" id="toastWrap"></div>
+
 <script>
-const PAYSTACK_PUBLIC_KEY = 'pk_test_YOUR_PAYSTACK_PUBLIC_KEY';
-const MERCHANT_MOMO_NUMBER = '0543155883';
-const SMS_CONFIG = { apiKey: 'YOUR_ARKESEL_API_KEY', senderId: 'EveriVault' };
+// ============================================================
+// Supabase Connection
+// ============================================================
+const SUPABASE_URL = 'https://admgkiewiwzllfesbpey.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_ZdxSIdlfrMQStQkt8Zq3oQ_0wIrkxIF';
 
-const SUPABASE_URL = 'https://YOUR_SUPABASE_PROJECT_ID.supabase.co';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
-const db = (typeof supabase !== 'undefined') ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
-
-let currentPage = 'home';
-let activeCategoryFilter = 'All';
-let user = JSON.parse(localStorage.getItem('evUser') || 'null');
-let cart = JSON.parse(localStorage.getItem('evCart') || '[]');
-
-// AUTOMATIC TRACKING CODE FORMULA: GHOO1K + USER FIRST NAME + USER PHONE NUMBER
-function generateTrackingCode(fullName, phoneStr){
-    const firstName = fullName ? fullName.trim().split(' ')[0].toUpperCase() : 'USER';
-    const cleanPhone = phoneStr ? phoneStr.trim().replace(/[^0-9]/g, '') : '0000000000';
-    return `GHOO1K${firstName}${cleanPhone}`;
+let sb = null;
+try {
+    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        auth: { persistSession: true, autoRefreshToken: true }
+    });
+    console.log('✅ Supabase client initialized');
+} catch (e) {
+    console.error('❌ Supabase init failed:', e);
 }
 
-const defaultProducts = [
-    { id: 1, name: "Hydrating Facial Vitamin C Serum", category: "Skin Care", priceGhs: 150, imageUrl: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80", tag: "Hot Seller" },
-    { id: 2, name: "Luxury Designer Leather Handbag", category: "Bags", priceGhs: 450, imageUrl: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80", tag: "Trending" },
-    { id: 3, name: "Flagship 5G Smartphone 256GB", category: "Phones", priceGhs: 2800, imageUrl: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80", tag: "Top Tech" },
-    { id: 4, name: "Car Dashboard Multi-Media System", category: "Cars", priceGhs: 850, imageUrl: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80", tag: "Automotive" },
-    { id: 5, name: "Unisex Cushioned Running Sneakers", category: "Footwear", priceGhs: 320, imageUrl: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80", tag: "Popular" },
-    { id: 6, name: "Designer Oversized Cotton Hoodie", category: "Clothing", priceGhs: 240, imageUrl: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=600&q=80", tag: "New Arrival" },
-    { id: 7, name: "Digital Touchscreen Air Fryer 5.5L", category: "Home Appliances", priceGhs: 750, imageUrl: "https://images.unsplash.com/photo-1585515320310-259814833e62?auto=format&fit=crop&w=600&q=80", tag: "Home Essential" }
-];
+const state = { user: null, products: [], orders: [], reviews: [], travel: [] };
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmtGHS = n => '₵' + Number(n || 0).toLocaleString('en-GH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const randomMark = name => 'GH001K-' + (name || 'EV').split(/\s+/).map(w => w[0]).join('').toUpperCase().slice(0, 3).padEnd(3, 'X') + '-' + Math.random().toString(36).slice(2, 8).toUpperCase();
 
-async function fetchProductsFromStore(){
-    if(db){
+function toast(msg, type = 'info', ms = 4000) {
+    const wrap = $('toastWrap');
+    const el = document.createElement('div');
+    el.className = 'toast ' + (type === 'ok' ? 'ok' : type === 'err' ? 'err' : type === 'warn' ? 'warn' : '');
+    el.textContent = msg;
+    wrap.appendChild(el);
+    requestAnimationFrame(() => el.classList.add('show'));
+    setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 400); }, ms);
+}
+
+function go(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const t = $('p-' + page);
+    if (t) t.classList.add('active');
+    document.querySelectorAll('.plink').forEach(l => l.classList.remove('active'));
+    document.querySelectorAll('.plink[data-p="' + page + '"]').forEach(l => l.classList.add('active'));
+    $('menu').classList.remove('active');
+    if (page === 'store') loadProducts();
+    if (page === 'orders') loadOrders();
+    if (page === 'reviews') loadReviews();
+    if (page === 'travel') updateTravelView();
+    if (page === 'admin') loadAdmin();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function toggleMenu() { $('menu').classList.toggle('active'); }
+
+function authTab(tab) {
+    document.querySelectorAll('[data-authtab]').forEach(t => t.classList.toggle('active', t.dataset.authtab === tab));
+    $('tClient').classList.toggle('active', tab === 'client');
+    $('tAdmin').classList.toggle('active', tab === 'admin');
+}
+function authSub(sub) {
+    document.querySelectorAll('[data-authsub]').forEach(t => t.classList.toggle('active', t.dataset.authsub === sub));
+    $('fLogin').classList.toggle('active', sub === 'login');
+    $('fReg').classList.toggle('active', sub === 'reg');
+}
+
+async function doReg(e) {
+    e.preventDefault();
+    const msg = $('rmsg'), btn = $('regBtn');
+    msg.className = 'msg'; msg.textContent = '';
+    if (!sb) { msg.className = 'msg err'; msg.textContent = '❌ Database not connected'; return; }
+    const name = $('rn').value.trim(), email = $('rem').value.trim().toLowerCase(), phone = $('rp').value.trim(), location = $('rl').value.trim();
+    const pw = $('rpw').value, pw2 = $('rpw2').value;
+    if (pw !== pw2) { msg.className = 'msg err'; msg.textContent = '❌ Passwords do not match.'; return; }
+    if (pw.length < 6) { msg.className = 'msg err'; msg.textContent = '❌ Password must be 6+ characters.'; return; }
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Creating...';
+    const { data, error } = await sb.auth.signUp({ email, password: pw, options: { data: { name, phone, location } } });
+    btn.disabled = false; btn.textContent = 'Create Account';
+    if (error) { msg.className = 'msg err'; msg.textContent = '❌ ' + error.message; return; }
+    msg.className = 'msg ok';
+    msg.textContent = data.session ? '✅ Account created!' : '✅ Check email to confirm.';
+    toast('🎉 Welcome!', 'ok');
+    if (data.session) { await loadProfile(); applyUserState(); setTimeout(() => go('home'), 600); }
+    else { authSub('login'); }
+}
+
+async function doLogin(e) {
+    e.preventDefault();
+    const msg = $('lmsg'), btn = $('loginBtn');
+    msg.className = 'msg'; msg.textContent = '';
+    if (!sb) { msg.className = 'msg err'; msg.textContent = '❌ Database not connected'; return; }
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Signing in...';
+    const { error } = await sb.auth.signInWithPassword({ email: $('lem').value.trim().toLowerCase(), password: $('lpw').value });
+    btn.disabled = false; btn.textContent = 'Sign In';
+    if (error) { msg.className = 'msg err'; msg.textContent = '❌ ' + error.message; return; }
+    await loadProfile();
+    applyUserState();
+    toast('✅ Welcome back!', 'ok');
+    setTimeout(() => go(state.user?.role === 'admin' ? 'admin' : 'home'), 400);
+}
+
+async function doAdmin(e) {
+    e.preventDefault();
+    const msg = $('amsg'), btn = $('adminBtn');
+    msg.className = 'msg'; msg.textContent = '';
+    if (!sb) { msg.className = 'msg err'; msg.textContent = '❌ Database not connected'; return; }
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Signing in...';
+    const { error } = await sb.auth.signInWithPassword({ email: $('aem').value.trim().toLowerCase(), password: $('apw').value });
+    btn.disabled = false; btn.textContent = 'Admin Sign In';
+    if (error) { msg.className = 'msg err'; msg.textContent = '❌ ' + error.message; return; }
+    await loadProfile();
+    if (state.user?.role !== 'admin') {
+        msg.className = 'msg err'; msg.textContent = '❌ Not an admin account.';
+        await sb.auth.signOut(); state.user = null; applyUserState(); return;
+    }
+    applyUserState();
+    toast('👑 Welcome Admin!', 'ok');
+    setTimeout(() => go('admin'), 400);
+}
+
+async function logout() {
+    if (sb) await sb.auth.signOut();
+    state.user = null; applyUserState(); go('home');
+    toast('👋 Signed out', 'info');
+}
+
+async function loadProfile() {
+    if (!sb) return null;
+    const { data: { user } } = await sb.auth.getUser();
+    if (!user) { state.user = null; return null; }
+    let { data: profile } = await sb.from('profiles').select('*').eq('id', user.id).single();
+    if (!profile) {
+        const meta = user.user_metadata || {};
+        const insert = { id: user.id, name: meta.name || user.email.split('@')[0], phone: meta.phone || '', location: meta.location || '', mark: randomMark(meta.name || 'User') };
+        const { data: created } = await sb.from('profiles').insert(insert).select().single();
+        profile = created;
+    }
+    if (profile) state.user = { id: user.id, email: user.email, name: profile.name, phone: profile.phone, location: profile.location, role: profile.role, mark: profile.mark };
+    return state.user;
+}
+
+function applyUserState() {
+    const isLoggedIn = !!state.user;
+    const isAdmin = state.user?.role === 'admin';
+    $('travelNavItem').style.display = isLoggedIn ? 'block' : 'none';
+    $('clientLink').style.display = isLoggedIn ? 'block' : 'none';
+    $('adminLink').style.display = isAdmin ? 'block' : 'none';
+    $('heroTravelBtn').style.display = isLoggedIn ? 'inline-flex' : 'none';
+    document.querySelectorAll('.auth-only').forEach(el => el.classList.toggle('show', isLoggedIn));
+    document.querySelectorAll('.admin-only').forEach(el => el.classList.toggle('show', isAdmin));
+    const authNav = $('authNav');
+    if (isLoggedIn) authNav.innerHTML = '<a class="nav-cta plink" onclick="logout()">Logout (' + esc(state.user.name.split(' ')[0]) + ')</a>';
+    else authNav.innerHTML = '<a class="nav-cta plink" data-p="auth" onclick="go(\'auth\')">Login</a>';
+    updateTravelView();
+}
+
+async function loadProducts() {
+    const grid = $('prodGrid');
+    grid.innerHTML = '<p class="loading-center" style="grid-column:1/-1;">Loading products...</p>';
+    if (!sb) { grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--red);padding:40px;">⚠️ Database not connected.</p>'; return; }
+    const { data, error } = await sb.from('products').select('*').order('created_at', { ascending: false });
+    if (error) { grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--red);padding:40px;">Error: ' + esc(error.message) + '</p>'; return; }
+    state.products = data || [];
+    populateCategoryFilter();
+    renderProducts();
+}
+
+function populateCategoryFilter() {
+    const sel = $('catFilter'), cur = sel.value;
+    const cats = [...new Set(state.products.map(p => p.category))].sort();
+    sel.innerHTML = '<option value="all">All Categories</option>' + cats.map(c => '<option>' + esc(c) + '</option>').join('');
+    if ([...sel.options].some(o => o.value === cur)) sel.value = cur;
+}
+
+function renderProducts() {
+    const grid = $('prodGrid');
+    const cat = $('catFilter').value, stock = $('stockFilter').value, search = ($('searchInput').value || '').toLowerCase();
+    let list = [...state.products];
+    if (cat !== 'all') list = list.filter(p => p.category === cat);
+    if (stock === 'false') list = list.filter(p => !p.preorder);
+    if (stock === 'true') list = list.filter(p => p.preorder);
+    if (search) list = list.filter(p => p.name.toLowerCase().includes(search) || p.category.toLowerCase().includes(search));
+    if (!list.length) { grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#888;padding:40px;">No products match.</p>'; return; }
+    grid.innerHTML = list.map(p => '<div class="card" style="display:flex;flex-direction:column;"><div style="height:140px;background:linear-gradient(135deg,#E2E8F0,#CBD5E1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:42px;margin-bottom:12px;">' + getCatEmoji(p.category) + '</div><span class="tag ' + (p.preorder ? 'tag-pre' : 'tag-stock') + '">' + (p.preorder ? '⏳ Pre-Order' : '✅ In Stock') + '</span><h3 style="font-size:16px;margin-bottom:6px;flex-grow:1;">' + esc(p.name) + '</h3><p style="color:#64748B;font-size:13px;margin-bottom:4px;">' + esc(p.category) + '</p><p style="font-weight:900;color:var(--navy);font-size:20px;margin-bottom:10px;">' + fmtGHS(p.price) + '</p><button class="btn btn-sm ' + (p.preorder ? 'btn-sky' : 'btn-gold') + ' btn-block" onclick="orderProduct(\'' + p.id + '\')">' + (p.preorder ? '📋 Pre-Order' : '🛒 Buy Now') + '</button></div>').join('');
+}
+
+function getCatEmoji(cat) {
+    const map = { Phones: '📱', 'Skin Care': '🧴', Perfumes: '🌸', Bags: '👜', Clothes: '👗', Electrical: '⚡', Construction: '🏗️', Cars: '🚗', Others: '📦' };
+    return map[cat] || '📦';
+}
+
+function orderProduct(id) {
+    if (!state.user) { toast('Please login', 'warn'); go('auth'); return; }
+    const p = state.products.find(x => String(x.id) === String(id));
+    if (!p) return;
+    $('oItem').value = p.name; $('oPrice').value = p.price; $('oQty').value = 1; $('oTotal').value = p.price;
+    $('showMark').textContent = state.user.mark || '—';
+    $('oMsg').className = 'msg'; $('oMsg').textContent = '';
+    go('order');
+}
+
+function updateTotal() {
+    const p = parseFloat($('oPrice').value) || 0, q = Math.max(1, parseInt($('oQty').value) || 1);
+    $('oTotal').value = (p * q).toFixed(2);
+}
+
+async function submitOrder(e) {
+    e.preventDefault();
+    const msg = $('oMsg'), btn = $('orderBtn');
+    if (!state.user) { msg.className = 'msg err'; msg.textContent = '❌ Login required.'; return; }
+    if (!sb) { msg.className = 'msg err'; msg.textContent = '❌ Database not connected.'; return; }
+    msg.className = 'msg'; msg.textContent = '';
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Submitting...';
+    const order = {
+        user_id: state.user.id, user_email: state.user.email, user_name: state.user.name,
+        item: $('oItem').value, qty: parseInt($('oQty').value),
+        unit_price: parseFloat($('oPrice').value), total: parseFloat($('oTotal').value),
+        mode: $('oMode').value, pay: $('oPay').value,
+        mark: state.user.mark || randomMark(state.user.name),
+        status: 'Pending Payment', verified: false, note: $('oNote').value
+    };
+    const { error } = await sb.from('orders').insert(order);
+    btn.disabled = false; btn.textContent = '✅ Submit Order';
+    if (error) { msg.className = 'msg err'; msg.textContent = '❌ ' + error.message; return; }
+    msg.className = 'msg ok';
+    msg.innerHTML = '✅ Order submitted! Ref: <strong>' + esc(order.mark) + '</strong>';
+    toast('✅ Order placed!', 'ok');
+    const waText = encodeURIComponent('🛒 NEW ORDER — EveriVault\n\nItem: ' + order.item + '\nQty: ' + order.qty + '\nTotal: ₵' + order.total + '\nRef: ' + order.mark + '\nClient: ' + order.user_name);
+    setTimeout(() => {
+        if (confirm('Send order to WhatsApp?')) window.open('https://wa.me/233543155883?text=' + waText, '_blank');
+        go('orders');
+    }, 800);
+}
+
+async function loadOrders() {
+    const list = $('ordersList');
+    if (!state.user) { list.innerHTML = '<p style="text-align:center;color:#888;">Please login.</p>'; return; }
+    if (!sb) { list.innerHTML = '<p style="text-align:center;color:#888;">Database not connected.</p>'; return; }
+    list.innerHTML = '<p class="loading-center">Loading...</p>';
+    const isAdmin = state.user.role === 'admin';
+    let q = sb.from('orders').select('*').order('created_at', { ascending: false });
+    if (!isAdmin) q = q.eq('user_id', state.user.id);
+    const { data, error } = await q;
+    if (error) { list.innerHTML = '<p class="loading-center">Error: ' + esc(error.message) + '</p>'; return; }
+    if (!data?.length) { list.innerHTML = '<p style="text-align:center;color:#888;padding:30px;">No orders yet.</p>'; return; }
+    const statusClass = s => ({ 'Pending Payment': 'pill-pending', 'Processing': 'pill-processing', 'Shipped': 'pill-shipped', 'Delivered': 'pill-delivered', 'Cancelled': 'pill-cancelled' }[s] || 'pill-pending');
+    list.innerHTML = data.map(o => '<div class="card" style="margin-bottom:16px;"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;"><div><h3 style="font-size:16px;">' + esc(o.item) + ' × ' + o.qty + '</h3><p style="color:#64748B;font-size:13px;">Ref: ' + esc(o.mark) + '</p></div><div style="text-align:right;"><p style="font-weight:900;color:var(--navy);font-size:18px;">' + fmtGHS(o.total) + '</p><span class="pill ' + statusClass(o.status) + '">' + esc(o.status) + '</span></div></div></div>').join('');
+}
+
+async function doTrack() {
+    const code = $('tCode').value.trim().toUpperCase();
+    const r = $('tResult'), btn = $('trackBtn');
+    if (!code || !sb) return;
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Searching...';
+    const { data } = await sb.from('orders').select('*').eq('mark', code).maybeSingle();
+    btn.disabled = false; btn.textContent = 'Check Status';
+    if (data) {
+        $('tP').textContent = '📦 ' + data.item;
+        $('tM').textContent = data.mark; $('tA').textContent = Number(data.total).toLocaleString();
+        $('tMo').textContent = data.mode === 'sea' ? '🚢 Sea' : '✈️ Air';
+        $('tS').textContent = data.status;
+        $('tV').textContent = data.verified ? '✅ Verified' : '⏳ Awaiting';
+    } else {
+        $('tP').textContent = '❌ Not Found'; $('tM').textContent = code; $('tA').textContent = '—'; $('tMo').textContent = '—'; $('tS').textContent = 'No shipment found.'; $('tV').textContent = '—';
+    }
+    r.style.display = 'block';
+}
+
+function calcMode(mode) {
+    document.querySelectorAll('#p-calc .tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('#p-calc .tab[onclick*="' + mode + '"]')?.classList.add('active');
+    $('calcSea').classList.toggle('active', mode === 'sea');
+    $('calcAir').classList.toggle('active', mode === 'air');
+}
+function calcSea() {
+    const L = parseFloat($('seaL').value) || 0, W = parseFloat($('seaW').value) || 0, H = parseFloat($('seaH').value) || 0;
+    const qty = parseInt($('seaQty').value) || 1;
+    const cbm = (L / 100) * (W / 100) * (H / 100) * qty;
+    const rate = cbm >= 1 ? 255 : 260, usd = cbm * rate;
+    $('seaCbm').textContent = cbm.toFixed(3);
+    $('seaUsd').textContent = usd.toFixed(2);
+    $('seaGhs').textContent = (usd * 13).toFixed(2);
+}
+function calcAir() {
+    const type = $('airType').value, kgRow = $('airKgRow');
+    let usd = 0, ghs = 0;
+    if (type === 'std') {
+        kgRow.style.display = 'block';
+        const kg = parseFloat($('airKg').value) || 0;
+        usd = kg * 17; ghs = usd * 13;
+    } else { kgRow.style.display = 'none'; ghs = 500; usd = ghs / 13; }
+    $('airUsd').textContent = usd.toFixed(2);
+    $('airGhs').textContent = ghs.toFixed(2);
+}
+
+async function loadReviews() {
+    const list = $('reviewsList');
+    list.innerHTML = '<p class="loading-center" style="grid-column:1/-1;">Loading...</p>';
+    if (!sb) return;
+    const { data } = await sb.from('reviews').select('*').eq('approved', true).order('created_at', { ascending: false });
+    if (!data?.length) { list.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#888;padding:30px;">No reviews yet.</p>'; return; }
+    list.innerHTML = data.map(r => '<div class="card"><div class="stars">' + '⭐'.repeat(r.stars) + '☆'.repeat(5 - r.stars) + '</div><p style="margin:10px 0;color:#555;">"' + esc(r.text) + '"</p><p style="font-weight:700;color:var(--navy);font-size:14px;">— ' + esc(r.name) + '</p></div>').join('');
+}
+
+async function doRev(e) {
+    e.preventDefault();
+    const msg = $('revMsg');
+    if (!state.user) { msg.className = 'msg err'; msg.textContent = '❌ Please login.'; return; }
+    if (!sb) return;
+    const btn = $('revBtn');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Posting...';
+    const { error } = await sb.from('reviews').insert({ user_id: state.user.id, name: state.user.name.split(' ')[0] + ' ' + (state.user.name.split(' ')[1]?.[0] || '') + '.', stars: parseInt($('revS').value), text: $('revC').value.trim(), approved: true });
+    btn.disabled = false; btn.textContent = 'Submit Review';
+    if (error) { msg.className = 'msg err'; msg.textContent = '❌ ' + error.message; return; }
+    msg.className = 'msg ok'; msg.textContent = '✅ Thank you!';
+    $('revC').value = ''; loadReviews(); toast('⭐ Posted!', 'ok');
+}
+
+function updateTravelView() {
+    const restricted = $('travelRestricted'), full = $('travelFull');
+    if (!restricted || !full) return;
+    const isLoggedIn = !!state.user;
+    restricted.style.display = isLoggedIn ? 'none' : 'block';
+    full.style.display = isLoggedIn ? 'block' : 'none';
+    if (isLoggedIn) renderTravel();
+}
+
+async function renderTravel() {
+    const grid = $('travelGrid'), timeline = $('travelTimeline');
+    grid.innerHTML = '<p class="loading-center" style="grid-column:1/-1;">Loading...</p>';
+    if (!sb) return;
+    const { data } = await sb.from('travel').select('*').order('created_at', { ascending: false });
+    state.travel = data || [];
+    if (!state.travel.length) { grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#888;padding:30px;">No trips yet.</p>'; }
+    else grid.innerHTML = state.travel.map(t => '<div class="travel-card"><div class="travel-img"><span>🌍</span></div><div class="travel-body"><h3>' + esc(t.dest) + '</h3><div class="travel-date">' + esc(t.date) + ' — ' + esc(t.title) + '</div><p>' + esc(t.description) + '</p></div></div>').join('');
+    timeline.innerHTML = state.travel.slice(0, 5).map(t => '<div class="timeline-item"><div class="timeline-year">' + esc(t.date) + '</div><div class="timeline-place">' + esc(t.dest) + '</div><div class="timeline-desc">' + esc(t.title) + '</div></div>').join('');
+}
+
+function adminTab(tab) {
+    document.querySelectorAll('[data-admintab]').forEach(t => t.classList.toggle('active', t.dataset.admintab === tab));
+    ['orders', 'products', 'users', 'reviews'].forEach(k => { const el = $('admin' + k[0].toUpperCase() + k.slice(1)); if (el) el.classList.toggle('active', k === tab); });
+}
+
+async function loadAdmin() {
+    if (!state.user || state.user.role !== 'admin' || !sb) return;
+    loadAdminOrders(); loadAdminProducts(); loadAdminUsers(); loadAdminReviews();
+}
+
+async function loadAdminOrders() {
+    const el = $('adminOrders');
+    el.innerHTML = '<p class="loading-center">Loading...</p>';
+    const { data } = await sb.from('orders').select('*').order('created_at', { ascending: false });
+    if (!data?.length) { el.innerHTML = '<p class="loading-center">No orders yet.</p>'; return; }
+    el.innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Item</th><th>Total</th><th>Status</th><th>Verified</th><th>Actions</th></tr></thead><tbody>' + data.map(o => '<tr><td>' + esc(o.user_name || o.user_email) + '</td><td>' + esc(o.item) + '</td><td>' + fmtGHS(o.total) + '</td><td>' + esc(o.status) + '</td><td>' + (o.verified ? '✅' : '⏳') + '</td><td><button class="btn btn-sm ' + (o.verified ? 'btn-outline' : 'btn-green') + '" onclick="toggleVerify(\'' + o.id + '\')">' + (o.verified ? 'Unverify' : 'Verify') + '</button></td></tr>').join('') + '</tbody></table></div>';
+}
+
+async function toggleVerify(id) {
+    if (!sb) return;
+    const { data } = await sb.from('orders').select('verified').eq('id', id).single();
+    await sb.from('orders').update({ verified: !data.verified }).eq('id', id);
+    loadAdminOrders(); toast('Updated', 'ok');
+}
+
+async function loadAdminProducts() {
+    const el = $('adminProducts');
+    const { data } = await sb.from('products').select('*').order('created_at', { ascending: false });
+    state.products = data || [];
+    el.innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Name</th><th>Category</th><th>Price</th><th>Stock</th></tr></thead><tbody>' + state.products.map(p => '<tr><td>' + esc(p.name) + '</td><td>' + esc(p.category) + '</td><td>' + fmtGHS(p.price) + '</td><td>' + p.stock + '</td></tr>').join('') + '</tbody></table></div>';
+}
+
+async function loadAdminUsers() {
+    const el = $('adminUsers');
+    el.innerHTML = '<p class="loading-center">Loading...</p>';
+    const { data } = await sb.from('profiles').select('*').order('created_at', { ascending: false });
+    if (!data?.length) { el.innerHTML = '<p class="loading-center">No users yet.</p>'; return; }
+    el.innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Name</th><th>Phone</th><th>Role</th><th>Mark</th></tr></thead><tbody>' + data.map(u => '<tr><td>' + esc(u.name) + '</td><td>' + esc(u.phone || '—') + '</td><td>' + esc(u.role) + '</td><td><code style="font-size:12px;">' + esc(u.mark || '—') + '</code></td></tr>').join('') + '</tbody></table></div>';
+}
+
+async function loadAdminReviews() {
+    const el = $('adminReviews');
+    el.innerHTML = '<p class="loading-center">Loading...</p>';
+    const { data } = await sb.from('reviews').select('*').order('created_at', { ascending: false });
+    if (!data?.length) { el.innerHTML = '<p class="loading-center">No reviews yet.</p>'; return; }
+    el.innerHTML = data.map(r => '<div class="card" style="margin-bottom:12px;"><div class="stars">' + '⭐'.repeat(r.stars) + '</div><p style="margin:8px 0;">"' + esc(r.text) + '"</p><p style="font-size:13px;color:#64748B;">— ' + esc(r.name) + '</p></div>').join('');
+}
+
+function copyText(text) {
+    const done = () => toast('📋 Copied', 'ok', 1500);
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+    else fallbackCopy(text, done);
+}
+function fallbackCopy(text, cb) {
+    const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); cb && cb(); } catch {}
+    document.body.removeChild(ta);
+}
+
+Object.assign(window, { go, toggleMenu, authTab, authSub, doLogin, doReg, doAdmin, logout, loadProducts, orderProduct, updateTotal, submitOrder, loadOrders, doTrack, calcMode, calcSea, calcAir, loadReviews, doRev, adminTab, toggleVerify, copyText, renderProducts, loadAdmin, updateTravelView });
+
+(async function init() {
+    console.log('🚀 EveriVault initializing...');
+    if (sb) {
         try {
-            const { data, error } = await db.from('products').select('*').order('created_at', { ascending: false });
-            if(!error && data.length > 0) return data.map(p => ({ id: p.id, name: p.name, category: p.category, priceGhs: p.price_ghs, imageUrl: p.image_url, tag: p.tag }));
-        } catch(e){ console.warn('Supabase offline, using local storage.'); }
+            const { data: { session } } = await sb.auth.getSession();
+            if (session) await loadProfile();
+        } catch (e) { console.error('Session error:', e); }
     }
-    return JSON.parse(localStorage.getItem('evProducts')) || defaultProducts;
-}
-
-function go(page){
-    if(page === 'admin' && (!user || !user.isAdmin)){
-        alert('⛔ Access Denied! Administrators only.');
-        return false;
-    }
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    document.querySelectorAll('.plink').forEach(l=>l.classList.remove('active'));
-    document.getElementById('p-'+page).classList.add('active');
-    document.querySelector(`[data-p="${page}"]`)?.classList.add('active');
-    currentPage = page;
-    document.getElementById('menu').classList.remove('active');
-    if(page === 'shop') renderProducts();
-    if(page === 'orders') renderOrders();
-    if(page === 'admin') renderAdmin();
-    return false;
-}
-
-function toggleMenu(){ document.getElementById('menu').classList.toggle('active'); }
-
-function filterCategory(cat, chipElement){
-    activeCategoryFilter = cat;
-    document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
-    if(chipElement) chipElement.classList.add('active');
-    renderProducts();
-}
-
-function switchAuthTab(type){
-    document.getElementById('tabLogin').classList.toggle('active', type==='login');
-    document.getElementById('tabReg').classList.toggle('active', type==='reg');
-    document.getElementById('tabReset').classList.toggle('active', type==='reset');
-    document.getElementById('fLogin').style.display = type==='login' ? 'block' : 'none';
-    document.getElementById('fReg').style.display = type==='reg' ? 'block' : 'none';
-    document.getElementById('fReset').style.display = type==='reset' ? 'block' : 'none';
-}
-
-async function sendWelcomeSMS(phone, trackingCode, name) {
-    const formattedPhone = phone.startsWith('0') ? '233' + phone.slice(1) : phone;
-    const message = `Hello ${name}, welcome to EveriVault! Your unique Shipping Mark & Reference Number is: ${trackingCode}.`;
-    try {
-        await fetch(`https://sms.arkesel.com/sms/api?action=send-sms&api_key=${SMS_CONFIG.apiKey}&to=${formattedPhone}&from=${SMS_CONFIG.senderId}&sms=${encodeURIComponent(message)}`);
-    } catch (e) { console.error('SMS Error:', e); }
-}
-
-function generateWhatsAppAlertUrl(phone, trackingCode, name) {
-    const formattedPhone = phone.startsWith('0') ? '233' + phone.slice(1) : phone;
-    const message = `*EveriVault Shipping Mark Confirmation*%0A%0AHello ${encodeURIComponent(name)}, your registration is complete!%0A%0A📦 *Your Shipping Mark / Tracking Code:* \`${trackingCode}\``;
-    return `https://wa.me/${formattedPhone}?text=${message}`;
-}
-
-async function doReg(e){
-    e.preventDefault();
-    const name = document.getElementById('rn').value.trim();
-    const email = document.getElementById('rem').value.trim().toLowerCase();
-    const phone = document.getElementById('rp').value.trim();
-    const pw = document.getElementById('rpw').value;
-    const pw2 = document.getElementById('rpw2').value;
-    const msg = document.getElementById('rmsg');
-
-    if(pw !== pw2){ msg.className = 'msg err'; msg.textContent = '❌ Passwords do not match!'; return; }
-    
-    // GENERATE TRACKING CODE: GHOO1K + FIRST NAME + PHONE
-    const assignedCode = generateTrackingCode(name, phone);
-
-    if(db){
-        const { error } = await db.from('users').insert([{ name, email, phone, password: pw, tracking_code: assignedCode, is_admin: false }]);
-        if(error){ msg.className = 'msg err'; msg.textContent = '❌ Registration failed: ' + error.message; return; }
-    }
-
-    let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
-    users.push({ name, email, phone, password: pw, trackingCode: assignedCode, isAdmin: false });
-    localStorage.setItem('evUsers', JSON.stringify(users));
-
-    user = { name, email, phone, trackingCode: assignedCode, isAdmin: false };
-    localStorage.setItem('evUser', JSON.stringify(user));
-
-    sendWelcomeSMS(phone, assignedCode, name);
-    const waUrl = generateWhatsAppAlertUrl(phone, assignedCode, name);
-
-    msg.className = 'msg ok'; 
-    msg.innerHTML = `✅ Account created!<br>📦 <strong>Generated Reference Mark: ${assignedCode}</strong><br><br><a href="${waUrl}" target="_blank" class="btn btn-green btn-sm btn-block">📱 Push to WhatsApp</a>`;
-    updateAuthUI();
-    setTimeout(() => { go('orders'); }, 2500);
-}
-
-async function doLogin(e){
-    e.preventDefault();
-    const email = document.getElementById('lem').value.trim().toLowerCase();
-    const pw = document.getElementById('lpw').value;
-    const msg = document.getElementById('lmsg');
-
-    const adminPassword = localStorage.getItem('evAdminPassword') || 'admin123';
-    if(email === 'admin@everivault.com' && pw === adminPassword){
-        user = { name: 'Super Admin', email, phone: '0543155883', trackingCode: 'GHOO1KADMIN0543155883', isAdmin: true };
-        localStorage.setItem('evUser', JSON.stringify(user));
-        msg.className = 'msg ok'; msg.textContent = '✅ Administrator Logged In!';
-        updateAuthUI();
-        setTimeout(() => { go('admin'); }, 1000);
-        return;
-    }
-
-    let found = null;
-    if(db){
-        const { data } = await db.from('users').select('*').eq('email', email).eq('password', pw);
-        if(data && data.length > 0) found = { name: data[0].name, email: data[0].email, phone: data[0].phone, trackingCode: data[0].tracking_code, isAdmin: data[0].is_admin };
-    }
-    if(!found){
-        let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
-        found = users.find(u => u.email === email && u.password === pw);
-    }
-
-    if(found){
-        user = found;
-        localStorage.setItem('evUser', JSON.stringify(user));
-        msg.className = 'msg ok'; msg.textContent = `✅ Welcome back, ${found.name}!`;
-        updateAuthUI();
-        setTimeout(() => { go('home'); }, 1000);
-    } else {
-        msg.className = 'msg err'; msg.textContent = '❌ Invalid credentials!';
-    }
-}
-
-async function doResetPassword(e){
-    e.preventDefault();
-    const identifier = document.getElementById('resetId').value.trim().toLowerCase();
-    const newPw1 = document.getElementById('resetPw1').value;
-    const newPw2 = document.getElementById('resetPw2').value;
-    const msg = document.getElementById('resetMsg');
-
-    if(newPw1 !== newPw2){ msg.className = 'msg err'; msg.textContent = '❌ Passwords do not match!'; return; }
-
-    if(identifier === 'admin@everivault.com' || identifier.includes('ghoo1kadmin')){
-        localStorage.setItem('evAdminPassword', newPw1);
-        msg.className = 'msg ok'; msg.textContent = '✅ Admin password updated!';
-        setTimeout(() => switchAuthTab('login'), 2000);
-        return;
-    }
-
-    let updated = false;
-    if(db){
-        const { data } = await db.from('users').update({ password: newPw1 }).or(`email.eq.${identifier},tracking_code.ilike.${identifier}`).select();
-        if(data && data.length > 0) updated = true;
-    }
-    if(!updated){
-        let users = JSON.parse(localStorage.getItem('evUsers') || '[]');
-        const idx = users.findIndex(u => u.email.toLowerCase() === identifier || (u.trackingCode && u.trackingCode.toLowerCase() === identifier));
-        if(idx !== -1){ users[idx].password = newPw1; localStorage.setItem('evUsers', JSON.stringify(users)); updated = true; }
-    }
-
-    if(updated){
-        msg.className = 'msg ok'; msg.textContent = '✅ Password updated successfully!';
-        setTimeout(() => switchAuthTab('login'), 2000);
-    } else {
-        msg.className = 'msg err'; msg.textContent = '❌ No record matched that identifier!';
-    }
-}
-
-function logout(){
-    localStorage.removeItem('evUser');
-    user = null;
-    updateAuthUI();
+    applyUserState();
     go('home');
-}
-
-function updateAuthUI(){
-    const isLoggedIn = !!user;
-    const isAdmin = user && user.isAdmin;
-    document.getElementById('authBtn').style.display = isLoggedIn ? 'none' : 'block';
-    document.getElementById('ordersNav').style.display = isLoggedIn ? 'block' : 'none';
-    document.getElementById('adminNav').style.display = isAdmin ? 'block' : 'none';
-    document.getElementById('userProfileNav').style.display = isLoggedIn ? 'block' : 'none';
-    
-    if(isLoggedIn){
-        document.getElementById('userWelcomeText').textContent = `Welcome back, ${user.name}! (${user.email})`;
-        document.getElementById('userMarkCode').textContent = user.trackingCode || 'GHOO1K-PENDING';
-        document.getElementById('payName').value = user.name;
-        document.getElementById('payEmail').value = user.email;
-        document.getElementById('payPhone').value = user.phone;
-        document.getElementById('payRef').value = user.trackingCode || '';
-        document.querySelectorAll('.user-mark-display').forEach(el => el.textContent = user.trackingCode || 'Your Shipping Mark');
-    } else {
-        document.querySelectorAll('.user-mark-display').forEach(el => el.textContent = 'Your Shipping Mark');
-    }
-}
-
-async function renderProducts(){
-    const grid = document.getElementById('productGrid');
-    const prods = await fetchProductsFromStore();
-    const filtered = activeCategoryFilter === 'All' ? prods : prods.filter(p => p.category === activeCategoryFilter);
-
-    if(filtered.length === 0){
-        grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:40px;color:#64748B;">No products found in this section.</p>';
-        return;
-    }
-
-    grid.innerHTML = filtered.map(p => `
-        <div class="product-card">
-            <div class="product-img-box">
-                <img src="${p.imageUrl}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?auto=format&fit=crop&w=600&q=80'">
-                <span class="product-tag">${p.tag || 'Popular'}</span>
-                <span class="product-cat-tag">${p.category || 'General'}</span>
-            </div>
-            <div class="product-info">
-                <div class="product-title">${p.name}</div>
-                <div class="product-price">₵${parseFloat(p.priceGhs).toFixed(2)}</div>
-                <button class="btn btn-gold btn-sm btn-block" onclick="addToCart(${p.id})">🛒 Add to Cart</button>
-            </div>
-        </div>
-    `).join('');
-    updateCartUI();
-}
-
-async function addToCart(id){
-    const prods = await fetchProductsFromStore();
-    const prod = prods.find(p => p.id === id);
-    const existing = cart.find(item => item.id === id);
-    if(existing){ existing.qty += 1; } else { cart.push({ ...prod, qty: 1 }); }
-    localStorage.setItem('evCart', JSON.stringify(cart));
-    updateCartUI();
-}
-
-function updateCartUI(){
-    const container = document.getElementById('cartItems');
-    const totalEl = document.getElementById('cartTotal');
-    const countEl = document.getElementById('cartCount');
-    const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-    const totalPrice = cart.reduce((sum, item) => sum + (item.priceGhs * item.qty), 0);
-    
-    countEl.textContent = `${totalQty} item${totalQty === 1 ? '' : 's'}`;
-    totalEl.textContent = totalPrice.toFixed(2);
-
-    if(cart.length === 0){
-        container.innerHTML = '<p style="text-align:center;color:#64748B;padding:20px 0;">Your cart is empty.</p>';
-        return;
-    }
-
-    container.innerHTML = cart.map(item => `
-        <div class="cart-item">
-            <div>
-                <strong style="color:var(--navy);">${item.name}</strong><br>
-                <small style="color:#64748B;">₵${item.priceGhs} x ${item.qty}</small>
-            </div>
-            <span>₵${(item.priceGhs * item.qty).toFixed(2)}</span>
-        </div>
-    `).join('');
-}
-
-function launchPaystackPopup(email, amountGhs, reference, customerPhone, onSuccessCallback) {
-    const handler = PaystackPop.setup({
-        key: PAYSTACK_PUBLIC_KEY,
-        email: email,
-        amount: Math.round(amountGhs * 100),
-        currency: 'GHS',
-        channels: ['mobile_money'],
-        ref: 'EV-' + Math.floor((Math.random() * 10000000) + 1),
-        metadata: { custom_fields: [{ display_name: "Tracking Mark / Ref", variable_name: "payment_ref", value: reference }] },
-        callback: function(response) {
-            alert('✅ Payment Successful!\nTxRef: ' + response.reference);
-            if(onSuccessCallback) onSuccessCallback(response);
-        },
-        onClose: function() { alert('⚠️ Transaction canceled.'); }
-    });
-    handler.openIframe();
-}
-
-async function recordGlobalOrder(orderObj){
-    if(db){
-        await db.from('orders').insert([{ ref: orderObj.ref, tracking_mark: orderObj.trackingMark, user_email: orderObj.userEmail, user_name: orderObj.userName, user_phone: orderObj.userPhone, total_ghs: orderObj.total, status: orderObj.status, items: orderObj.items }]);
-    }
-    let globalOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
-    globalOrders.unshift(orderObj);
-    localStorage.setItem('evAllOrders', JSON.stringify(globalOrders));
-
-    let userOrders = JSON.parse(localStorage.getItem('evOrders_' + orderObj.userEmail) || '[]');
-    userOrders.unshift(orderObj);
-    localStorage.setItem('evOrders_' + orderObj.userEmail, JSON.stringify(userOrders));
-}
-
-function triggerDirectPaystack(e){
-    e.preventDefault();
-    const name = document.getElementById('payName').value;
-    const email = document.getElementById('payEmail').value;
-    const phone = document.getElementById('payPhone').value;
-    const ref = document.getElementById('payRef').value;
-    const amount = parseFloat(document.getElementById('payAmount').value);
-
-    launchPaystackPopup(email, amount, ref + ' (' + name + ')', phone, function(resp){
-        recordGlobalOrder({ ref: resp.reference, trackingMark: ref, userEmail: email, userName: name, userPhone: phone, date: new Date().toLocaleDateString(), items: [{ name: 'MoMo Payment (' + ref + ')', qty: 1, priceGhs: amount }], total: amount, status: '✅ Paid' });
-        go('orders');
-    });
-}
-
-function checkoutWithPaystack(){
-    if(cart.length === 0){ alert('Cart is empty!'); return; }
-    const totalGhs = cart.reduce((sum, item) => sum + (item.priceGhs * item.qty), 0);
-    const email = user ? user.email : prompt('Enter your email address:');
-    if(!email) return;
-
-    const userMark = user ? user.trackingCode : 'GHOO1KGUEST';
-    launchPaystackPopup(email, totalGhs, 'Store Order - ' + userMark, MERCHANT_MOMO_NUMBER, function(resp){
-        recordGlobalOrder({ ref: resp.reference, trackingMark: userMark, userEmail: email, userName: user ? user.name : 'Guest', userPhone: user ? user.phone : MERCHANT_MOMO_NUMBER, date: new Date().toLocaleDateString(), items: [...cart], total: totalGhs, status: '✅ Paid' });
-        cart = [];
-        localStorage.removeItem('evCart');
-        updateCartUI();
-        go('orders');
-    });
-}
-
-// AIR & SEA FREIGHT CALCULATOR LOGIC
-function runCalc(){
-    const exchangeRate = 13; // 1 USD = 13 GHS
-    const kg = parseFloat(document.getElementById('calcKg').value) || 0;
-    const cbm = parseFloat(document.getElementById('calcCbm').value) || 0;
-
-    const airUsd = kg * 17;
-    const airGhs = airUsd * exchangeRate;
-
-    const seaUsd = cbm * 260;
-    const seaGhs = seaUsd * exchangeRate;
-
-    const totalUsd = airUsd + seaUsd;
-    const totalGhs = totalUsd * exchangeRate;
-
-    document.getElementById('calcAirUsd').textContent = airUsd.toFixed(2);
-    document.getElementById('calcAirGhs').textContent = airGhs.toFixed(2);
-    document.getElementById('calcSeaUsd').textContent = seaUsd.toFixed(2);
-    document.getElementById('calcSeaGhs').textContent = seaGhs.toFixed(2);
-    document.getElementById('calcTotalUsd').textContent = totalUsd.toFixed(2);
-    document.getElementById('calcTotalGhs').textContent = totalGhs.toFixed(2);
-}
-
-function performTracking(){
-    const query = document.getElementById('trackInput').value.trim().toUpperCase();
-    const resultBox = document.getElementById('trackResult');
-    if(!query){ alert('Please enter a tracking code.'); return; }
-
-    const allOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
-    const matches = allOrders.filter(o => o.ref.toUpperCase().includes(query) || (o.trackingMark && o.trackingMark.toUpperCase().includes(query)));
-
-    if(matches.length > 0){
-        resultBox.innerHTML = matches.map(m => `
-            <div class="order-item-card">
-                <strong>Mark / Ref: ${m.trackingMark || m.ref}</strong>
-                <p>Tx ID: ${m.ref}</p>
-                <p>Status: <span style="font-weight:bold;color:var(--green);">${m.status}</span></p>
-                <strong>Total: ₵${m.total.toFixed(2)}</strong>
-            </div>
-        `).join('');
-    } else {
-        resultBox.innerHTML = '<div style="background:#FEF2F2;color:#B91C1C;padding:12px;border-radius:10px;text-align:center;">❌ No shipment records found for this code.</div>';
-    }
-}
-
-function renderOrders(){
-    const list = document.getElementById('ordersList');
-    if(!user){ list.innerHTML = '<p style="text-align:center;padding:30px;">Please log in to view orders.</p>'; return; }
-    const userOrders = JSON.parse(localStorage.getItem('evOrders_' + user.email) || '[]');
-    if(userOrders.length === 0){ list.innerHTML = '<p style="text-align:center;padding:30px;">No completed orders found.</p>'; return; }
-    list.innerHTML = userOrders.map(o => `
-        <div class="order-item-card">
-            <strong>Shipping Mark: ${o.trackingMark || user.trackingCode}</strong>
-            <p>Tx Ref: ${o.ref}</p>
-            <p>Status: <span style="font-weight:bold;color:var(--navy);">${o.status}</span></p>
-            <strong>Total: ₵${o.total.toFixed(2)}</strong>
-        </div>
-    `).join('');
-}
-
-function switchAdminTab(type){
-    document.getElementById('atabOrders').classList.toggle('active', type==='orders');
-    document.getElementById('atabProds').classList.toggle('active', type==='prods');
-    document.getElementById('atabUsers').classList.toggle('active', type==='users');
-    document.getElementById('acontentOrders').style.display = type==='orders' ? 'block' : 'none';
-    document.getElementById('acontentProds').style.display = type==='prods' ? 'block' : 'none';
-    document.getElementById('acontentUsers').style.display = type==='users' ? 'block' : 'none';
-}
-
-async function renderAdmin(){
-    const allOrders = JSON.parse(localStorage.getItem('evAllOrders') || '[]');
-    const allUsers = JSON.parse(localStorage.getItem('evUsers') || '[]');
-    const prods = await fetchProductsFromStore();
-
-    document.getElementById('admRev').textContent = '₵' + allOrders.reduce((s, o) => s + o.total, 0).toFixed(2);
-    document.getElementById('admOrders').textContent = allOrders.length;
-    document.getElementById('admUsers').textContent = allUsers.length;
-    document.getElementById('admProducts').textContent = prods.length;
-
-    document.getElementById('adminProductsTable').innerHTML = `
-        <table class="data-table">
-            <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Action</th></tr></thead>
-            <tbody>${prods.map(p => `
-                <tr>
-                    <td><img src="${p.imageUrl}" class="tbl-thumb" onerror="this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?auto=format&fit=crop&w=600&q=80'"></td>
-                    <td><strong>${p.name}</strong></td>
-                    <td>${p.category}</td>
-                    <td>₵${parseFloat(p.priceGhs).toFixed(2)}</td>
-                    <td><button class="btn btn-sm btn-red" onclick="adminDeleteProduct(${p.id})">🗑️ Delete</button></td>
-                </tr>
-            `).join('')}</tbody>
-        </table>`;
-}
-
-async function adminAddProduct(e){
-    e.preventDefault();
-    const name = document.getElementById('npName').value.trim();
-    const category = document.getElementById('npCategory').value;
-    const price = parseFloat(document.getElementById('npPrice').value);
-    const imageUrl = document.getElementById('npImageUrl').value.trim();
-    const tag = document.getElementById('npTag').value.trim();
-
-    if(db){ await db.from('products').insert([{ name, category, price_ghs: price, image_url: imageUrl, tag }]); }
-    let prods = JSON.parse(localStorage.getItem('evProducts') || '[]');
-    prods.push({ id: Date.now(), name, category, priceGhs: price, imageUrl, tag });
-    localStorage.setItem('evProducts', JSON.stringify(prods));
-
-    alert('✅ Product added to store by Admin!');
-    e.target.reset();
-    renderAdmin();
-    renderProducts();
-}
-
-async function adminDeleteProduct(id){
-    if(!confirm('Delete this product?')) return;
-    if(db){ await db.from('products').delete().eq('id', id); }
-    let prods = (JSON.parse(localStorage.getItem('evProducts')) || defaultProducts).filter(p => p.id !== id);
-    localStorage.setItem('evProducts', JSON.stringify(prods));
-    renderAdmin();
-    renderProducts();
-}
-
-updateAuthUI();
-renderProducts();
+    console.log('✅ EveriVault ready. sb =', sb ? 'connected' : 'NOT connected');
+})();
 </script>
 </body>
 </html>
