@@ -135,13 +135,6 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 .terms-box ul { padding-left:18px; margin-top:6px; }
 .terms-box li { margin-bottom:6px; }
 
-/* Payment Slot Component */
-.payment-slot-card { background:#F0FDF4; border:2px solid var(--green); border-radius:16px; padding:20px; margin:20px 0; }
-.pay-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:10px; margin-top:10px; }
-.pay-btn { background:#fff; border:1.5px solid #CBD5E1; border-radius:10px; padding:10px; text-align:center; cursor:pointer; font-size:13px; font-weight:700; color:var(--navy); transition:0.2s; }
-.pay-btn.active { border-color:var(--green); background:var(--green-light); color:var(--green-hover); }
-.pay-details-box { background:#fff; border:1px solid #A7F3D0; border-radius:12px; padding:16px; margin-top:12px; }
-
 /* Cart Item Styling */
 .cart-item-row { display:flex; justify-content:space-between; align-items:center; padding:16px; background:#fff; border-radius:12px; margin-bottom:12px; border:1px solid var(--border-color); flex-wrap:wrap; gap:12px; }
 .qty-btn { width:28px; height:28px; border-radius:6px; border:1px solid #CBD5E1; background:#F8FAFC; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
@@ -180,8 +173,6 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 
 .page { display:none; }
 .page.active { display:block; }
-.auth-only { display:none !important; }
-.auth-only.show { display:block !important; }
 .admin-only { display:none !important; }
 .admin-only.show { display:block !important; }
 
@@ -224,9 +215,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       <li><a class="plink" data-p="calc" onclick="go('calc')">Freight Calculator</a></li>
       <li><a class="plink" data-p="address" onclick="go('address')">Warehouses</a></li>
       <li><a class="plink" data-p="reviews" onclick="go('reviews')">Reviews</a></li>
-      
-      <!-- PAYMENT PORTAL NAV LINK (VISIBLE TO LOGGED IN CLIENTS ONLY) -->
-      <li class="auth-only" style="display:none;"><a class="plink" data-p="payment" onclick="go('payment')">Payment Portal</a></li>
       
       <li id="adminLink" style="display:none;"><a class="plink" data-p="admin" onclick="go('admin')">Master Admin Suite</a></li>
       
@@ -281,7 +269,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 
   <!-- CLIENT DASHBOARD SHIPPING MARK DISPLAY (WHEN LOGGED IN) -->
-  <div class="container auth-only" style="margin-top:30px;">
+  <div class="container" id="clientDashboardCard" style="display:none; margin-top:30px;">
     <div class="card" style="background:#ECFDF5; border:2px solid var(--green); text-align:center; padding:24px;">
       <h3 style="color:var(--green-hover); font-size:18px; margin-bottom:6px;">Your Official Logistics Shipping Mark ID</h3>
       <p style="font-size:14px; color:var(--slate); margin-bottom:12px;">Use this unique identity code on all supplier packages shipped to our China warehouses:</p>
@@ -372,7 +360,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </div>
         <div style="display:flex; gap:12px; justify-content:flex-end; flex-wrap:wrap;">
           <button class="btn btn-outline" onclick="clearCart()">Clear Cart</button>
-          <button class="btn btn-green" onclick="redirectToPaymentPortal('goods')">Proceed to Payment Portal</button>
+          <button class="btn btn-green" onclick="toast('Please contact management via WhatsApp or visit our physical desk to complete payment', 'ok')">Request Order & Checkout</button>
         </div>
       </div>
     </div>
@@ -404,7 +392,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           <p>Calculated Volume: <span id="seaCbm" style="font-weight:800;">0.000</span> m³</p>
           <p style="font-size:14px; color:var(--slate); margin-top:4px;">USD Cost: <span id="seaUsd" style="font-weight:700;">$0.00</span></p>
           <p style="font-size:18px; margin-top:6px;">Estimated Total: <strong id="seaGhs" style="color:var(--green);">GHS 0.00</strong></p>
-          <button class="btn btn-sm btn-green" style="margin-top:12px;" onclick="redirectToPaymentPortal('shipping')">Pay Shipping Cost</button>
         </div>
       </div>
 
@@ -421,7 +408,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <div class="card" style="background:#EFF6FF; border:1px solid #BFDBFE;">
           <p style="font-size:14px; color:var(--slate);">USD Cost: <span id="airUsd" style="font-weight:700;">$0.00</span></p>
           <p style="font-size:18px; margin-top:6px;">Estimated Air Freight: <strong id="airGhs" style="color:var(--navy);">GHS 0.00</strong></p>
-          <button class="btn btn-sm btn-green" style="margin-top:12px;" onclick="redirectToPaymentPortal('shipping')">Pay Shipping Cost</button>
         </div>
       </div>
 
@@ -444,9 +430,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
             <h4 style="color:var(--navy);">Air Express Freight</h4>
             <p style="font-size:18px; font-weight:800; color:var(--navy);" id="compAirRes">GHS 0.00 (0.0 kg)</p>
           </div>
-        </div>
-        <div style="text-align:center; margin-top:16px;">
-          <button class="btn btn-green" onclick="redirectToPaymentPortal('shipping')">Pay Shipping Cost</button>
         </div>
       </div>
 
@@ -503,7 +486,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     <h2>Client Review Portal</h2>
     <p class="subtitle">Read verified feedback from our clients across Ghana and China.</p>
 
-    <div class="form-box auth-only" style="margin-bottom:36px; border:2px solid var(--green);">
+    <div class="form-box" id="reviewFormContainer" style="display:none; margin-bottom:36px; border:2px solid var(--green);">
       <h3>Write a Client Review</h3>
       <form onsubmit="doSubmitReview(event)">
         <div class="form-group">
@@ -523,78 +506,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     </div>
 
     <div id="reviewsList" style="max-width:800px; margin:0 auto;"></div>
-  </div>
-</section>
-
-<!-- DEDICATED CLIENT PAYMENT PORTAL -->
-<section id="p-payment" class="page auth-only">
-  <div class="container">
-    <h2>EveriVault Payment Portal</h2>
-    <p class="subtitle">Settle store purchases or freight shipping costs securely below.</p>
-
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:24px; max-width:1050px; margin:0 auto;">
-      
-      <!-- PAYMENT FORM -->
-      <div class="form-box" style="margin:0;">
-        <div style="margin-bottom:20px; text-align:center;">
-          <label style="font-size:14px; margin-bottom:10px;">Select Settlement Category</label>
-          <div style="display:flex; gap:10px;">
-            <button class="btn btn-block btn-green" id="payTypeBtnGoods" type="button" onclick="setPaymentType('goods')">Pay for Store Goods</button>
-            <button class="btn btn-block btn-outline" id="payTypeBtnShipping" type="button" onclick="setPaymentType('shipping')">Pay Shipping Cost</button>
-          </div>
-        </div>
-
-        <form onsubmit="submitPayment(event)">
-          <h3 id="payFormHeading" style="color:var(--navy); font-size:18px; margin-bottom:16px;">Store Purchase Settlement</h3>
-
-          <div id="goodsPayFields">
-            <div class="form-group">
-              <label>Purchased Items Summary</label>
-              <input type="text" id="payItemSummary" placeholder="Cart items summary" required>
-            </div>
-          </div>
-
-          <div id="shippingPayFields" style="display:none;">
-            <div class="form-group">
-              <label>Shipping / Freight Description</label>
-              <input type="text" id="payShipDesc" placeholder="e.g. Sea Freight for CBM / Air Express kg">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Total Amount (GHS)</label>
-            <input type="number" id="payTotalAmount" step="0.01" required placeholder="0.00" style="font-size:20px; font-weight:800; color:var(--navy);">
-          </div>
-          
-          <div class="payment-slot-card">
-            <label style="color:var(--navy); font-weight:800;">Select Instant Settlement Channel</label>
-            <div class="pay-grid">
-              <div class="pay-btn active" id="pbtn-momo" onclick="selectPaymentSlot('momo')">MTN MoMo</div>
-              <div class="pay-btn" id="pbtn-telecel" onclick="selectPaymentSlot('telecel')">Telecel Cash</div>
-              <div class="pay-btn" id="pbtn-bank" onclick="selectPaymentSlot('bank')">GTBank Direct</div>
-            </div>
-
-            <div class="pay-details-box" id="paySlotInfo">
-              <p style="font-size:13px; font-weight:700; color:var(--navy);">MTN Mobile Money Settlement Account</p>
-              <p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p>
-              <p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>
-            </div>
-          </div>
-
-          <div class="form-group"><label>MoMo Tx ID / Transaction Reference</label><input type="text" id="payTxRef" placeholder="e.g. 20491823901" required></div>
-          <div class="form-group"><label>Upload Payment Receipt Proof (Screenshot)</label><input type="file" id="payProofFile" accept="image/*" onchange="handleProofFile(event)"></div>
-
-          <button class="btn btn-green btn-block" type="submit" id="paySubmitBtn">Submit Payment Verification</button>
-        </form>
-      </div>
-
-      <!-- MY PAYMENTS & ORDERS HISTORY -->
-      <div>
-        <h3 style="margin-bottom:14px; color:var(--navy);">My Payment Settlements & History</h3>
-        <div id="myPaymentsList"></div>
-      </div>
-
-    </div>
   </div>
 </section>
 
@@ -687,12 +598,8 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <div class="val" id="statClientCount">0</div>
       </div>
       <div class="stat-card">
-        <h4>Pending Verification</h4>
-        <div class="val" id="statPendingCount" style="color:#D97706;">0</div>
-      </div>
-      <div class="stat-card">
-        <h4>Verified Payments</h4>
-        <div class="val" id="statVerifiedCount" style="color:var(--green);">0</div>
+        <h4>Promo Requests</h4>
+        <div class="val" id="statAdsCount">0</div>
       </div>
       <div class="stat-card">
         <h4>Store Catalog Items</h4>
@@ -704,10 +611,9 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     <div class="admin-layout">
       <!-- SIDEBAR -->
       <div class="admin-sidebar">
-        <button class="admin-nav-btn active" data-admintab="orders" onclick="adminTab('orders')">Payment Verification</button>
+        <button class="admin-nav-btn active" data-admintab="products" onclick="adminTab('products')">Manage Catalog & Cart</button>
         <button class="admin-nav-btn" data-admintab="ads" onclick="adminTab('ads')">Promo / Ad Requests</button>
         <button class="admin-nav-btn" data-admintab="clients" onclick="adminTab('clients')">Registered Clients</button>
-        <button class="admin-nav-btn" data-admintab="products" onclick="adminTab('products')">Manage Catalog</button>
         <button class="admin-nav-btn" data-admintab="content" onclick="adminTab('content')">Edit Portal Content</button>
       </div>
 
@@ -725,28 +631,10 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           </form>
         </div>
 
-        <!-- PAYMENT VERIFICATION DESK -->
-        <div id="adminOrders" class="tab-content active">
-          <h3 style="margin-bottom:16px; color:var(--navy);">Payment Proof Verification Desk</h3>
-          <div id="adminOrdersList"></div>
-        </div>
-
-        <!-- ADVERTISEMENTS & PROMO REQUESTS TAB -->
-        <div id="adminAds" class="tab-content">
-          <h3 style="margin-bottom:16px; color:var(--navy);">Submitted Advertisement & Promo Requests</h3>
-          <div id="adminAdsList"></div>
-        </div>
-
-        <!-- REGISTERED CLIENTS TAB -->
-        <div id="adminClients" class="tab-content">
-          <h3 style="margin-bottom:16px; color:var(--navy);">Registered Clients List</h3>
-          <div id="adminClientsList"></div>
-        </div>
-
-        <!-- PRODUCTS UNLIMITED UPLOAD TAB -->
-        <div id="adminProducts" class="tab-content">
+        <!-- PRODUCTS & CART MANAGEMENT TAB -->
+        <div id="adminProducts" class="tab-content active">
           <div class="form-box" style="max-width:100%; margin-bottom:30px;">
-            <h3>Upload New Product to Catalog (Unlimited)</h3>
+            <h3>Upload New Product to Catalog</h3>
             <form onsubmit="doAddProduct(event)">
               <div class="form-group"><label>Product Title</label><input type="text" id="npName" required placeholder="e.g. Smart Watch Ultra 2"></div>
               <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px;">
@@ -768,8 +656,20 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
               <button class="btn btn-green btn-block" type="submit" id="addProdBtn">Publish Product to Catalog</button>
             </form>
           </div>
-          <h3 style="margin-bottom:16px; color:var(--navy);">Catalog Products Management</h3>
+          <h3 style="margin-bottom:16px; color:var(--navy);">Catalog Products & Cart Control</h3>
           <div id="adminProductsList"></div>
+        </div>
+
+        <!-- ADVERTISEMENTS & PROMO REQUESTS TAB -->
+        <div id="adminAds" class="tab-content">
+          <h3 style="margin-bottom:16px; color:var(--navy);">Submitted Advertisement & Promo Requests</h3>
+          <div id="adminAdsList"></div>
+        </div>
+
+        <!-- REGISTERED CLIENTS TAB -->
+        <div id="adminClients" class="tab-content">
+          <h3 style="margin-bottom:16px; color:var(--navy);">Registered Clients List</h3>
+          <div id="adminClientsList"></div>
         </div>
 
         <!-- CLIENT PORTAL CONTENT EDITOR -->
@@ -864,18 +764,13 @@ const state = {
   user: JSON.parse(localStorage.getItem('ev_active_user') || 'null'), 
   products: JSON.parse(localStorage.getItem('ev_local_products') || 'null') || defaultProducts, 
   settings: JSON.parse(localStorage.getItem('ev_portal_settings') || 'null') || defaultSettings,
-  orders: [], 
-  clients: [],
   ads: JSON.parse(localStorage.getItem('ev_local_ads') || '[]'),
   reviews: JSON.parse(localStorage.getItem('ev_reviews') || 'null') || [
     { name: 'Kofi Mensah', mark: 'GH001K-KM-0541234567', rating: 5, comment: 'Received my 1688 cargo from Foshan in under 3 weeks. Very reliable service!' },
     { name: 'Abena Osei', mark: 'GH001K-AO-0249876543', rating: 5, comment: 'Air express phones flat rate is unbeatable. Kumasi delivery was fast.' }
   ],
   cart: JSON.parse(localStorage.getItem('ev_cart') || '[]'),
-  uploadedProdBase64: '',
-  paymentProofBase64: '',
-  selectedPaymentSlot: 'momo',
-  paymentCategory: 'goods'
+  uploadedProdBase64: ''
 };
 
 const $ = id => document.getElementById(id);
@@ -918,7 +813,6 @@ function go(page) {
   
   if (page === 'store' || page === 'home') renderProducts();
   if (page === 'cart') renderCart();
-  if (page === 'payment') loadPaymentPortal();
   if (page === 'reviews') loadReviews();
   if (page === 'admin') loadAdmin();
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -950,133 +844,6 @@ function submitAdvertisement(e) {
   $('adContact').value = '';
   $('adDetails').value = '';
   toast('Advertisement request submitted successfully!', 'ok');
-}
-
-/* --- PAYMENT PORTAL REDIRECTION & SETTLEMENT --- */
-function redirectToPaymentPortal(category = 'goods') {
-  if (!state.user) {
-    toast('Please sign in to access the payment portal', 'err');
-    go('auth');
-    return;
-  }
-
-  setPaymentType(category);
-
-  if (category === 'goods') {
-    if (!state.cart.length) {
-      toast('Your cart is empty', 'err');
-      return;
-    }
-    const summary = state.cart.map(i => i.name + ' (x' + i.qty + ')' + (i.type === 'preorder' ? ' [Pre-Order: No Ship Fee]' : '')).join(', ');
-    const total = state.cart.reduce((s, i) => s + (i.price * i.qty), 0);
-    $('payItemSummary').value = summary;
-    $('payTotalAmount').value = total.toFixed(2);
-  } else if (category === 'shipping') {
-    const seaVal = parseFloat(($('seaGhs').textContent || '').replace(/[^0-9.]/g, '')) || 0;
-    const airVal = parseFloat(($('airGhs').textContent || '').replace(/[^0-9.]/g, '')) || 0;
-    const calcTotal = seaVal || airVal || '';
-    if (calcTotal) $('payTotalAmount').value = calcTotal.toFixed(2);
-    $('payShipDesc').value = 'Calculated Freight Shipping Settlement';
-  }
-
-  go('payment');
-  toast('Redirected to Payment Portal', 'ok');
-}
-
-function setPaymentType(type) {
-  state.paymentCategory = type;
-  const btnGoods = $('payTypeBtnGoods');
-  const btnShipping = $('payTypeBtnShipping');
-  const goodsFields = $('goodsPayFields');
-  const shippingFields = $('shippingPayFields');
-  const heading = $('payFormHeading');
-
-  if (type === 'goods') {
-    btnGoods.className = 'btn btn-block btn-green';
-    btnShipping.className = 'btn btn-block btn-outline';
-    goodsFields.style.display = 'block';
-    shippingFields.style.display = 'none';
-    heading.textContent = 'Store Purchase Settlement';
-  } else {
-    btnGoods.className = 'btn btn-block btn-outline';
-    btnShipping.className = 'btn btn-block btn-green';
-    goodsFields.style.display = 'none';
-    shippingFields.style.display = 'block';
-    heading.textContent = 'Freight Shipping Cost Settlement';
-  }
-}
-
-function selectPaymentSlot(slot) {
-  state.selectedPaymentSlot = slot;
-  document.querySelectorAll('.pay-btn').forEach(b => b.classList.remove('active'));
-  const btn = $('pbtn-' + slot);
-  if (btn) btn.classList.add('active');
-
-  const slotBox = $('paySlotInfo');
-  if (slot === 'momo') {
-    slotBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">MTN Mobile Money Settlement Account</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p><p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>';
-  } else if (slot === 'telecel') {
-    slotBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">Telecel Cash Settlement Account</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p><p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>';
-  } else if (slot === 'bank') {
-    slotBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">GTBank Direct Settlement Account</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Account Number: 1304001024705</p><p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey (GTBank)</p>';
-  }
-}
-
-function handleProofFile(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(evt) { state.paymentProofBase64 = evt.target.result; toast('Payment receipt attached', 'ok'); };
-  reader.readAsDataURL(file);
-}
-
-function submitPayment(e) {
-  e.preventDefault();
-  if (!state.user) return;
-
-  const isShipping = state.paymentCategory === 'shipping';
-  const detailStr = isShipping ? $('payShipDesc').value.trim() : $('payItemSummary').value.trim();
-
-  const order = {
-    id: 'pay_' + Math.random().toString(36).slice(2, 8),
-    user_id: state.user.id,
-    user_name: state.user.name,
-    user_mark: state.user.mark,
-    type: isShipping ? 'Shipping Cost Settlement' : 'Store Purchase',
-    details: detailStr,
-    total: parseFloat($('payTotalAmount').value) || 0,
-    slot: state.selectedPaymentSlot,
-    txRef: $('payTxRef').value.trim(),
-    proof: state.paymentProofBase64,
-    verified: false,
-    status: 'Pending Verification'
-  };
-
-  const localOrders = JSON.parse(localStorage.getItem('ev_local_orders') || '[]');
-  localOrders.unshift(order);
-  localStorage.setItem('ev_local_orders', JSON.stringify(localOrders));
-
-  if (!isShipping) clearCart();
-  state.paymentProofBase64 = '';
-  $('payTxRef').value = '';
-  toast('Payment verification submitted successfully!', 'ok');
-  loadPaymentPortal();
-}
-
-function loadPaymentPortal() {
-  if (!state.user) return;
-  const localOrders = JSON.parse(localStorage.getItem('ev_local_orders') || '[]');
-  const myOrders = localOrders.filter(o => o.user_id === state.user.id);
-
-  const container = $('myPaymentsList');
-  if (!myOrders.length) {
-    container.innerHTML = '<div class="card"><p style="color:var(--slate);">No payment records found.</p></div>';
-    return;
-  }
-  container.innerHTML = myOrders.map(o => {
-    const proofLink = o.proof ? '<a href="' + o.proof + '" target="_blank" style="color:var(--green); font-weight:700;">View Receipt</a>' : 'No Receipt';
-    return '<div class="card" style="margin-bottom:12px;"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;"><span class="pill pill-type">' + esc(o.type) + '</span><span class="pill ' + (o.verified ? 'pill-verified' : 'pill-pending') + '">' + esc(o.status) + '</span></div><h3>' + esc(o.details) + '</h3><p style="font-weight:800; color:var(--green); margin-top:4px;">' + fmtGHS(o.total) + ' | Slot: ' + esc(o.slot) + '</p><div style="font-size:12px; color:var(--slate); margin-top:6px;">TxRef: <code>' + esc(o.txRef) + '</code> | ' + proofLink + '</div></div>';
-  }).join('');
 }
 
 /* --- FREIGHT CALCULATOR FUNCTIONS --- */
@@ -1282,7 +1049,6 @@ function clearCart() {
   if (state.user?.role === 'admin') loadAdmin();
 }
 
-/* ADMIN CART MANAGEMENT FUNCTIONS */
 function adminAddToCart(prodId) {
   addToCart(prodId);
   loadAdmin();
@@ -1403,18 +1169,12 @@ function loadAdmin() {
   if (!state.user || state.user.role !== 'admin') return;
 
   const clients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
-  const orders = JSON.parse(localStorage.getItem('ev_local_orders') || '[]');
   
   $('statClientCount').textContent = clients.length;
-  $('statPendingCount').textContent = orders.filter(o => !o.verified).length;
-  $('statVerifiedCount').textContent = orders.filter(o => o.verified).length;
+  $('statAdsCount').textContent = state.ads.length;
   $('statProdCount').textContent = state.products.length;
 
   $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Email / Phone</th><th>Shipping Mark ID</th></tr></thead><tbody>' + (clients.length ? clients.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.email) + ' / ' + esc(c.phone) + '</td><td><code>' + esc(c.mark) + '</code></td></tr>').join('') : '<tr><td colspan="3" style="text-align:center; color:var(--slate);">No clients registered yet.</td></tr>') + '</tbody></table></div>';
-
-  $('adminOrdersList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Type</th><th>Details</th><th>Total</th><th>Status</th><th>Action</th></tr></thead><tbody>' + (orders.length ? orders.map(o => {
-    return '<tr><td>' + esc(o.user_name) + '</td><td><span class="pill pill-type">' + esc(o.type || 'Payment') + '</span></td><td>' + esc(o.details) + '</td><td>' + fmtGHS(o.total) + '</td><td><span class="pill ' + (o.verified ? 'pill-verified' : 'pill-pending') + '">' + (o.verified ? 'Verified' : 'Pending') + '</span></td><td><button class="btn btn-sm btn-green" onclick="toggleVerifyOrder(\'' + o.id + '\', ' + !o.verified + ')">' + (o.verified ? 'Unverify' : 'Verify Payment') + '</button></td></tr>';
-  }).join('') : '<tr><td colspan="6" style="text-align:center; color:var(--slate);">No payment records submitted yet.</td></tr>') + '</tbody></table></div>';
 
   $('adminAdsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Business / Client</th><th>Contact</th><th>Promo / Ad Details</th><th>Date Submitted</th></tr></thead><tbody>' + (state.ads.length ? state.ads.map(a => '<tr><td>' + esc(a.name) + '</td><td>' + esc(a.contact) + '</td><td>' + esc(a.details) + '</td><td>' + esc(a.date) + '</td></tr>').join('') : '<tr><td colspan="4" style="text-align:center; color:var(--slate);">No advertisement requests submitted yet.</td></tr>') + '</tbody></table></div>';
 
@@ -1435,21 +1195,11 @@ function loadAdmin() {
   $('cfgBannerMsg').value = state.settings.bannerMsg;
 }
 
-function toggleVerifyOrder(orderId, verifyStatus) {
-  const localOrders = JSON.parse(localStorage.getItem('ev_local_orders') || '[]');
-  const matched = localOrders.find(o => String(o.id) === String(orderId));
-  if (matched) { matched.verified = verifyStatus; matched.status = verifyStatus ? 'Payment Verified' : 'Pending Verification'; }
-  localStorage.setItem('ev_local_orders', JSON.stringify(localOrders));
-  toast('Payment status updated', 'ok');
-  loadAdmin();
-}
-
 function adminTab(tab) {
   document.querySelectorAll('.admin-nav-btn').forEach(t => t.classList.toggle('active', t.dataset.admintab === tab));
-  $('adminOrders').classList.toggle('active', tab === 'orders');
+  $('adminProducts').classList.toggle('active', tab === 'products');
   $('adminAds').classList.toggle('active', tab === 'ads');
   $('adminClients').classList.toggle('active', tab === 'clients');
-  $('adminProducts').classList.toggle('active', tab === 'products');
   $('adminContent').classList.toggle('active', tab === 'content');
 }
 
@@ -1491,6 +1241,8 @@ function doAdminChangePassword(e) {
 
 /* --- REVIEWS & UTILS --- */
 function loadReviews() {
+  const isLoggedIn = !!state.user && state.user.role !== 'admin';
+  $('reviewFormContainer').style.display = isLoggedIn ? 'block' : 'none';
   $('reviewsList').innerHTML = state.reviews.map(r => '<div class="review-card"><div><strong style="color:var(--navy);">' + esc(r.name) + '</strong> <code style="font-size:12px;">' + esc(r.mark || 'VERIFIED CLIENT') + '</code></div><p>' + esc(r.comment) + '</p></div>').join('');
 }
 
@@ -1511,8 +1263,7 @@ function applyUserState() {
   const isLoggedIn = !!state.user;
   const isAdmin = state.user?.role === 'admin';
 
-  document.querySelectorAll('.auth-only').forEach(el => el.classList.toggle('show', isLoggedIn && !isAdmin));
-
+  $('clientDashboardCard').style.display = (isLoggedIn && !isAdmin) ? 'block' : 'none';
   $('adminLink').style.display = isAdmin ? 'block' : 'none';
   $('signOutNav').style.display = isLoggedIn ? 'block' : 'none';
   $('authNav').style.display = isLoggedIn ? 'none' : 'block';
@@ -1530,7 +1281,7 @@ function applyUserState() {
   }
 }
 
-Object.assign(window, { go, toggleMenu, authTab, redirectToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, calcMode, calcSea, calcAir, calcCompare, handleImageFile, addToCart, updateCartQty, removeFromCart, clearCart, adminAddToCart, adminRemoveFromCart, doSubmitReview, copyText, adminTab, toggleVerifyOrder, doLogin, doReg, doResetPassword, doSignOut, doAdmin, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts });
+Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, addToCart, updateCartQty, removeFromCart, clearCart, adminAddToCart, adminRemoveFromCart, doSubmitReview, copyText, adminTab, doLogin, doReg, doResetPassword, doSignOut, doAdmin, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts });
 
 (function init() {
   applyPortalSettings();
