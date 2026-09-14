@@ -279,7 +279,8 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </div>
       </div>
 
-      <div class="hero-actions">
+      <!-- Hero Actions hidden automatically when logged in -->
+      <div class="hero-actions" id="heroAuthCtas">
         <button class="btn btn-green" onclick="go('auth')">Sign In / Register to Access Portals & Shop</button>
       </div>
     </div>
@@ -315,7 +316,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       <h2>Online Store Catalog Preview</h2>
       <p class="subtitle">Browse our factory-direct inventory below with images and prices. Please <strong>Sign In</strong> to add items to your cart and place orders.</p>
       <div id="homeCatalogGrid" class="grid-4"></div>
-      <div style="text-align:center; margin-top:35px;">
+      <div style="text-align:center; margin-top:35px;" id="homeCatalogCtaBox">
         <button class="btn btn-navy" onclick="go('auth')">Sign In / Register to Access Full Store & Portal ➔</button>
       </div>
     </div>
@@ -911,7 +912,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
 
         <div id="adminClients" class="tab-content">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
-            <h3 style="color:var(--navy); margin:0;">All Registered Clients (Instant Backend Sync) & Referrals</h3>
+            <h3 style="color:var(--navy); margin:0;">All Newly Registered Clients (Instant Backend Sync) & Referrals</h3>
             <button class="btn btn-sm btn-green" onclick="exportClientData()">Export All to CSV</button>
           </div>
           <div id="adminClientsList"></div>
@@ -1344,7 +1345,6 @@ function initiateRegistrationOtp(e) {
     return;
   }
 
-  // Check if Gmail already exists (Enforce only one Gmail and password)
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
   const allKnown = [...localClients, ...defaultHistoricalClients];
   if (allKnown.some(c => c.email && c.email.toLowerCase() === email)) {
@@ -1364,7 +1364,6 @@ function initiateRegistrationOtp(e) {
     }
   }
 
-  // Generate 6-digit OTP code for Gmail human verification
   const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
   state.activeGeneratedOtp = otpCode;
   
@@ -1379,7 +1378,6 @@ function initiateRegistrationOtp(e) {
     dateRegistered: new Date().toLocaleDateString()
   };
 
-  // Switch UI to OTP step
   $('regFormMain').style.display = 'none';
   $('otpVerifyBox').style.display = 'block';
   $('otpTargetEmail').textContent = email;
@@ -1387,7 +1385,7 @@ function initiateRegistrationOtp(e) {
   toast(`📧 OTP Code sent to ${email}. Verification Code: ${otpCode}`, 'ok', 9000);
 }
 
-// STEP 2: Verify OTP and finalize registration
+// STEP 2: Verify OTP and finalize registration with instant backend sync for admin
 function verifyOtpAndRegister() {
   const enteredOtp = $('otpCodeInput').value.trim();
   if (enteredOtp !== state.activeGeneratedOtp) {
@@ -1402,11 +1400,11 @@ function verifyOtpAndRegister() {
   }
 
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
-  localClients.unshift(newClientObj); // Added immediately for instant admin view
+  localClients.unshift(newClientObj); // Instant backend sync
   localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
   window.dispatchEvent(new Event('storage'));
 
-  // Keep client logged in until they opt to log out
+  // Keep client logged in across browser sessions until they sign out
   state.user = newClientObj;
   localStorage.setItem('ev_active_user', JSON.stringify(state.user));
 
@@ -1823,7 +1821,7 @@ function loadAdmin() {
     trackSel.innerHTML = allClientsCombined.map(c => `<option value="${c.id}">${c.name} (${c.mark}) - Loc: ${c.location || 'Kumasi'}</option>`).join('');
   }
 
-  // INSTANT BACKEND SYNC VIEW FOR ADMIN
+  // ADMIN PORTAL - INSTANT BACKEND CLIENT LIST
   $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Full Name</th><th>Gmail / Email</th><th>Phone Number</th><th>Delivery Location</th><th>Shipping Mark ID</th><th>Referred By</th><th>Account Type</th><th>Date Registered</th></tr></thead><tbody>' + (allClientsCombined.length ? allClientsCombined.map(c => '<tr><td><strong>' + esc(c.name) + '</strong></td><td>' + esc(c.email) + '</td><td>' + esc(c.phone) + '</td><td>' + esc(c.location || 'Kumasi') + '</td><td><code>' + esc(c.mark) + '</code></td><td><code style="color:var(--green-hover);">' + esc(c.referredBy || 'None (Direct)') + '</code></td><td><span class="pill ' + (c.type?.includes('Old') ? 'pill-type' : 'pill-verified') + '">' + esc(c.type || 'Registered Client') + '</span></td><td>' + esc(c.dateRegistered || 'N/A') + '</td></tr>').join('') : '<tr><td colspan="8" style="text-align:center; color:var(--slate);">No clients recorded.</td></tr>') + '</tbody></table></div>';
 
   $('adminAdsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Business / Client</th><th>Contact</th><th>Promo / Ad Details</th><th>Date Submitted</th></tr></thead><tbody>' + (state.ads.length ? state.ads.map(a => '<tr><td>' + esc(a.name) + '</td><td>' + esc(a.contact) + '</td><td>' + esc(a.details) + '</td><td>' + esc(a.date) + '</td></tr>').join('') : '<tr><td colspan="4" style="text-align:center; color:var(--slate);">No advertisement requests submitted yet.</td></tr>') + '</tbody></table></div>';
@@ -2067,6 +2065,13 @@ function applyUserState() {
   $('authNav').style.display = isLoggedIn ? 'none' : 'block';
 
   document.querySelectorAll('.admin-only').forEach(el => el.classList.toggle('show', isAdmin));
+
+  // Hide login/register CTA in hero and catalog sections when user is signed in
+  const heroCtas = $('heroAuthCtas');
+  if (heroCtas) heroCtas.style.display = isLoggedIn ? 'none' : 'block';
+  
+  const catalogCtaBox = $('homeCatalogCtaBox');
+  if (catalogCtaBox) catalogCtaBox.style.display = isLoggedIn ? 'none' : 'block';
 
   const refBox = $('referralBannerBox');
   if (refBox) {
