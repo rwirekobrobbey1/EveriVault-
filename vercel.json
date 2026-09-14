@@ -10,7 +10,4 @@
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "server.js" }
   ]
-  {
-  "outputDirectory": "."
-}
 }
