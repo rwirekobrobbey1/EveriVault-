@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>EveriVault Enterprise — China to Ghana Supply Chain</title>
 
-<!-- OpenGraph & Social Preview Meta Tags for WhatsApp, TikTok, Snapchat -->
 <meta property="property" content="EveriVault Enterprise">
 <meta property="og:title" content="EveriVault Enterprise — China to Ghana Freight & Supply">
 <meta property="og:description" content="Trusted service. Swift results. Direct factory sourcing from China, sea & air freight cargo to Ghana, and real-time package tracking.">
@@ -912,7 +911,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
 
         <div id="adminClients" class="tab-content">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
-            <h3 style="color:var(--navy); margin:0;">All Newly Registered Clients (Instant Backend Sync) & Referrals</h3>
+            <h3 style="color:var(--navy); margin:0;">Newly Registered Clients (LocalStorage Directory) & Referrals</h3>
             <button class="btn btn-sm btn-green" onclick="exportClientData()">Export All to CSV</button>
           </div>
           <div id="adminClientsList"></div>
@@ -1022,14 +1021,11 @@ const defaultSettings = {
   logoUrl: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA='
 };
 
-const defaultHistoricalClients = [
-  { id: 'old_1', name: 'Kofi Mensah', email: 'kofi.mensah@gmail.com', phone: '0541234567', location: 'Ayeduase New Site, Kumasi', mark: 'GH001K-KM-0541234567', referredBy: 'None (Direct)', type: 'Historical Client (Old)', dateRegistered: '2026-01-10' },
-  { id: 'old_2', name: 'Abena Osei', email: 'abena.osei@gmail.com', phone: '0249876543', location: 'Asafo Market, Kumasi', mark: 'GH001K-AO-0249876543', referredBy: 'GH001K-KM-0541234567', type: 'Historical Client (Old)', dateRegistered: '2026-02-14' },
-  { id: 'old_3', name: 'Yaw Boateng', email: 'yaw.boateng@yahoo.com', phone: '0201112233', location: 'Tech Junction, Kumasi', mark: 'GH001K-YB-0201112233', referredBy: 'None (Direct)', type: 'Historical Client (Old)', dateRegistered: '2026-03-01' }
-];
+// Force clear active session on load as requested
+localStorage.removeItem('ev_active_user');
 
 const state = { 
-  user: JSON.parse(localStorage.getItem('ev_active_user') || 'null'), 
+  user: null, 
   products: JSON.parse(localStorage.getItem('ev_local_products') || 'null') || defaultProducts, 
   settings: JSON.parse(localStorage.getItem('ev_portal_settings') || 'null') || defaultSettings,
   ads: JSON.parse(localStorage.getItem('ev_local_ads') || '[]'),
@@ -1039,8 +1035,7 @@ const state = {
   bargainMessages: JSON.parse(localStorage.getItem('ev_bargain_messages') || '{}'), 
   cartMeta: JSON.parse(localStorage.getItem('ev_cart_meta') || '{"items":[], "expiresAt":0}'),
   reviews: JSON.parse(localStorage.getItem('ev_reviews') || 'null') || [
-    { name: 'Kofi Mensah', mark: 'GH001K-KM-0541234567', rating: 5, comment: 'Received my 1688 cargo from Foshan in under 3 weeks. Trusted service. Swift results.' },
-    { name: 'Abena Osei', mark: 'GH001K-AO-0249876543', rating: 5, comment: 'Air express phones flat rate is unbeatable. Kumasi delivery was fast.' }
+    { name: 'Kofi Mensah', mark: 'GH001K-KM-0541234567', rating: 5, comment: 'Received my 1688 cargo from Foshan in under 3 weeks. Trusted service. Swift results.' }
   ],
   uploadedProdBase64: '',
   paymentProofBase64: '',
@@ -1286,8 +1281,7 @@ async function doUniversalLogin(e) {
   }
 
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
-  const allKnownClients = [...localClients, ...defaultHistoricalClients];
-  const matchedClient = allKnownClients.find(c => 
+  const matchedClient = localClients.find(c => 
     (c.email && c.email.toLowerCase() === identifier) || 
     (c.mark && c.mark.toLowerCase() === identifier)
   );
@@ -1346,8 +1340,7 @@ function initiateRegistrationOtp(e) {
   }
 
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
-  const allKnown = [...localClients, ...defaultHistoricalClients];
-  if (allKnown.some(c => c.email && c.email.toLowerCase() === email)) {
+  if (localClients.some(c => c.email && c.email.toLowerCase() === email)) {
     toast('An account with this Gmail address already exists! Please Sign In instead.', 'err', 6000);
     return;
   }
@@ -1356,7 +1349,7 @@ function initiateRegistrationOtp(e) {
   
   let verifiedReferrer = 'None (Direct)';
   if (refInput) {
-    const refFound = allKnown.find(c => c.mark.toLowerCase() === refInput.toLowerCase());
+    const refFound = localClients.find(c => c.mark.toLowerCase() === refInput.toLowerCase());
     if (refFound) {
       verifiedReferrer = refFound.mark + ' (' + refFound.name + ')';
     } else {
@@ -1430,8 +1423,7 @@ async function doUniversalReset(e) {
     targetName = 'Delivery Personnel (' + state.deliveryGuy.name + ')';
   } else {
     const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
-    const allKnown = [...localClients, ...defaultHistoricalClients];
-    const found = allKnown.find(c => c.email.toLowerCase() === ident || (c.mark && c.mark.toLowerCase() === ident));
+    const found = localClients.find(c => c.email.toLowerCase() === ident || (c.mark && c.mark.toLowerCase() === ident));
     if (found) {
       targetName = found.name + ' (' + found.mark + ')';
     } else {
@@ -1642,17 +1634,16 @@ function loadCourierPortal() {
   if (!state.user || state.user.role !== 'delivery') return;
 
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
-  const allClients = [...localClients, ...defaultHistoricalClients];
 
   const sel = $('courierClientSelect');
   if (sel) {
-    sel.innerHTML = allClients.map(c => `<option value="${c.id}">${c.name} (${c.mark}) - Location: ${c.location || 'Kumasi'}</option>`).join('');
+    sel.innerHTML = localClients.map(c => `<option value="${c.id}">${c.name} (${c.mark}) - Location: ${c.location || 'Kumasi'}</option>`).join('');
   }
 
   const dispatchList = [];
   Object.entries(state.tracking).forEach(([uid, t]) => {
     if (t.status === 'Out for Delivery') {
-      const cli = allClients.find(c => c.id === uid) || { name: 'Client', mark: uid, location: 'Kumasi', phone: '0540000000' };
+      const cli = localClients.find(c => c.id === uid) || { name: 'Client', mark: uid, location: 'Kumasi', phone: '0540000000' };
       dispatchList.push(`
         <div style="background:#ECFDF5; border:1px solid #A7F3D0; border-radius:12px; padding:14px; margin-bottom:10px;">
           <strong>🔔 Dispatch Notification:</strong> Deliver goods to <strong>${esc(cli.name)}</strong> (${esc(cli.mark)})<br>
@@ -1666,20 +1657,20 @@ function loadCourierPortal() {
 
   $('courierDeliveriesList').innerHTML = dispatchList.join('') || '<p style="color:var(--slate);">No active delivery dispatches at the moment. Admin updates status to "Out for Delivery" to trigger notifications here.</p>';
 
-  renderCourierNewClients(allClients);
+  renderCourierNewClients(localClients);
   loadCourierChat();
 }
 
-function renderCourierNewClients(allClients) {
+function renderCourierNewClients(localClients) {
   const container = $('courierNewClientsList');
   if (!container) return;
 
-  if (!allClients.length) {
-    container.innerHTML = '<p style="color:var(--slate);">No registered clients found.</p>';
+  if (!localClients.length) {
+    container.innerHTML = '<p style="color:var(--slate);">No newly registered clients found in local storage yet.</p>';
     return;
   }
 
-  container.innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Shipping Mark</th><th>Phone / Location</th><th>Date Registered</th></tr></thead><tbody>' + allClients.map(c => {
+  container.innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Shipping Mark</th><th>Phone / Location</th><th>Date Registered</th></tr></thead><tbody>' + localClients.map(c => {
     return `<tr><td><strong>${esc(c.name)}</strong><br><span style="font-size:12px; color:var(--slate);">${esc(c.email)}</span></td><td><code>${esc(c.mark)}</code></td><td>${esc(c.phone)}<br><span style="font-size:12px; color:var(--slate);">${esc(c.location || 'Kumasi')}</span></td><td>${esc(c.dateRegistered || 'N/A')}</td></tr>`;
   }).join('') + '</tbody></table></div>';
 }
@@ -1810,19 +1801,18 @@ function loadAdmin() {
   if (!state.user || state.user.role !== 'admin') return;
 
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
-  const allClientsCombined = [...localClients, ...defaultHistoricalClients];
   
-  $('statClientCount').textContent = allClientsCombined.length;
+  $('statClientCount').textContent = localClients.length;
   $('statOrdersCount').textContent = state.orders.filter(o => o.status === 'Pending Verification').length;
   $('statProdCount').textContent = state.products.length;
 
   const trackSel = $('admTrackClientSelect');
   if (trackSel) {
-    trackSel.innerHTML = allClientsCombined.map(c => `<option value="${c.id}">${c.name} (${c.mark}) - Loc: ${c.location || 'Kumasi'}</option>`).join('');
+    trackSel.innerHTML = localClients.map(c => `<option value="${c.id}">${c.name} (${c.mark}) - Loc: ${c.location || 'Kumasi'}</option>`).join('');
   }
 
-  // ADMIN PORTAL - INSTANT BACKEND CLIENT LIST
-  $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Full Name</th><th>Gmail / Email</th><th>Phone Number</th><th>Delivery Location</th><th>Shipping Mark ID</th><th>Referred By</th><th>Account Type</th><th>Date Registered</th></tr></thead><tbody>' + (allClientsCombined.length ? allClientsCombined.map(c => '<tr><td><strong>' + esc(c.name) + '</strong></td><td>' + esc(c.email) + '</td><td>' + esc(c.phone) + '</td><td>' + esc(c.location || 'Kumasi') + '</td><td><code>' + esc(c.mark) + '</code></td><td><code style="color:var(--green-hover);">' + esc(c.referredBy || 'None (Direct)') + '</code></td><td><span class="pill ' + (c.type?.includes('Old') ? 'pill-type' : 'pill-verified') + '">' + esc(c.type || 'Registered Client') + '</span></td><td>' + esc(c.dateRegistered || 'N/A') + '</td></tr>').join('') : '<tr><td colspan="8" style="text-align:center; color:var(--slate);">No clients recorded.</td></tr>') + '</tbody></table></div>';
+  // ADMIN PORTAL - LOCALSTORAGE CLIENT DIRECTORY WITH NOTIFICATION ACTION
+  $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Full Name</th><th>Gmail / Email</th><th>Phone Number</th><th>Delivery Location</th><th>Shipping Mark ID</th><th>Referred By</th><th>Date Registered</th><th>Admin Action</th></tr></thead><tbody>' + (localClients.length ? localClients.map(c => '<tr><td><strong>' + esc(c.name) + '</strong></td><td>' + esc(c.email) + '</td><td>' + esc(c.phone) + '</td><td>' + esc(c.location || 'Kumasi') + '</td><td><code>' + esc(c.mark) + '</code></td><td><code style="color:var(--green-hover);">' + esc(c.referredBy || 'None (Direct)') + '</code></td><td>' + esc(c.dateRegistered || 'N/A') + '</td><td><button class="btn btn-sm btn-green" onclick="promptAdminMessageClient(\'' + esc(c.email) + '\', \'' + esc(c.name) + '\')">Send Message</button></td></tr>').join('') : '<tr><td colspan="8" style="text-align:center; color:var(--slate);">No newly registered clients in localStorage yet. Register a new account to test!</td></tr>') + '</tbody></table></div>';
 
   $('adminAdsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Business / Client</th><th>Contact</th><th>Promo / Ad Details</th><th>Date Submitted</th></tr></thead><tbody>' + (state.ads.length ? state.ads.map(a => '<tr><td>' + esc(a.name) + '</td><td>' + esc(a.contact) + '</td><td>' + esc(a.details) + '</td><td>' + esc(a.date) + '</td></tr>').join('') : '<tr><td colspan="4" style="text-align:center; color:var(--slate);">No advertisement requests submitted yet.</td></tr>') + '</tbody></table></div>';
 
@@ -1835,13 +1825,13 @@ function loadAdmin() {
   }).join('') : '<tr><td colspan="7" style="text-align:center; color:var(--slate);">No payment orders submitted yet.</td></tr>') + '</tbody></table></div>';
 
   const tRecords = Object.entries(state.tracking).map(([uid, t]) => {
-    const cli = allClientsCombined.find(c => c.id === uid) || { name: 'Client', mark: uid };
+    const cli = localClients.find(c => c.id === uid) || { name: 'Client', mark: uid };
     return `<tr><td>${esc(cli.name)} (${esc(cli.mark)})</td><td><span class="pill pill-type">${esc(t.status)}</span></td><td>${esc(t.message)}</td><td>${esc(t.time)}</td></tr>`;
   }).join('');
   $('adminTrackingRecordsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Status Stage</th><th>Message Note</th><th>Last Updated</th></tr></thead><tbody>' + (tRecords || '<tr><td colspan="4" style="text-align:center; color:var(--slate);">No active tracking updates issued yet.</td></tr>') + '</tbody></table></div>';
 
   const secretChatList = Object.entries(state.bargainMessages).map(([uid, msgs]) => {
-    const cli = allClientsCombined.find(c => c.id === uid) || { name: 'Client', mark: uid };
+    const cli = localClients.find(c => c.id === uid) || { name: 'Client', mark: uid };
     const chatHtml = msgs.map(m => `<div style="font-size:12px; margin-bottom:4px;"><strong>${esc(m.sender)}:</strong> ${esc(m.text)} <span style="color:var(--slate); font-size:10px;">(${esc(m.time)})</span></div>`).join('');
     return `<div class="card" style="margin-bottom:14px;"><h4 style="color:var(--navy); font-size:14px; margin-bottom:8px;">Chat with Client: ${esc(cli.name)} (${esc(cli.mark)})</h4><div style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:8px; padding:10px; max-height:160px; overflow-y:auto;">${chatHtml}</div></div>`;
   }).join('');
@@ -1874,6 +1864,13 @@ function loadAdmin() {
   $('cfgAirRate1').value = state.settings.airRate1;
   $('cfgAirRate2').value = state.settings.airRate2;
   $('cfgBannerMsg').value = state.settings.bannerMsg;
+}
+
+function promptAdminMessageClient(email, name) {
+  const msg = prompt(`Send notification message to client ${name} (${email}):`);
+  if (!msg) return;
+  sendAdminGmailNotification(`Notification from Admin to ${name}`, msg);
+  toast(`Message notification successfully sent to ${name} (${email})!`, 'ok', 5000);
 }
 
 function adminUpdateTracking(e) {
@@ -1911,9 +1908,8 @@ function saveDeliveryGuyInfo(e) {
 
 function exportClientData() {
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
-  const allClients = [...localClients, ...defaultHistoricalClients];
   let csv = 'Name,Email,Phone,Location,ShippingMark,ReferredBy,Type,DateRegistered\n';
-  allClients.forEach(c => {
+  localClients.forEach(c => {
     csv += `"${c.name}","${c.email}","${c.phone}","${c.location || 'Kumasi'}","${c.mark}","${c.referredBy || 'None'}","${c.type || 'New'}","${c.dateRegistered || 'N/A'}"\n`;
   });
   const blob = new Blob([csv], { type: 'text/csv' });
@@ -2160,7 +2156,7 @@ window.addEventListener('storage', () => {
   if (document.getElementById('p-admin').classList.contains('active')) loadAdmin();
 });
 
-Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, handleLogoFileSelect, saveLogoFile, addToCart, updateCartQty, removeFromCart, clearCart, goToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, doSubmitReview, copyText, adminTab, toggleOrderVerify, doUniversalLogin, initiateRegistrationOtp, verifyOtpAndRegister, doUniversalReset, doSignOut, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts, exportClientData, adminUpdateTracking, saveDeliveryGuyInfo, sendBargainMessage, loadCourierChat, sendCourierMessage });
+Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, handleLogoFileSelect, saveLogoFile, addToCart, updateCartQty, removeFromCart, clearCart, goToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, doSubmitReview, copyText, adminTab, toggleOrderVerify, doUniversalLogin, initiateRegistrationOtp, verifyOtpAndRegister, doUniversalReset, doSignOut, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts, exportClientData, adminUpdateTracking, saveDeliveryGuyInfo, sendBargainMessage, loadCourierChat, sendCourierMessage, promptAdminMessageClient });
 
 (function init() {
   applyPortalSettings();
