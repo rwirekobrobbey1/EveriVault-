@@ -2066,7 +2066,6 @@ function applyUserState() {
 
   document.querySelectorAll('.admin-only').forEach(el => el.classList.toggle('show', isAdmin));
 
-  // Hide login/register CTA in hero and catalog sections when user is signed in
   const heroCtas = $('heroAuthCtas');
   if (heroCtas) heroCtas.style.display = isLoggedIn ? 'none' : 'block';
   
