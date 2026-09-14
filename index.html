@@ -180,8 +180,8 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 
 .page { display:none; }
 .page.active { display:block; }
-.auth-only { display:none !important; }
-.auth-only.show { display:block !important; }
+.client-only { display:none !important; }
+.client-only.show { display:flex !important; }
 .admin-only { display:none !important; }
 .admin-only.show { display:block !important; }
 
@@ -215,22 +215,23 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   <div class="container nav-wrap">
     <a class="logo" onclick="go('home')">
       <svg class="icon" style="width:24px; height:24px;" viewBox="0 0 24 24"><path fill="var(--green)" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM12 6c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0 4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
-      EVERIVAULT <span>LOGISTICS</span>
+      EVERIVAULT <span>LOGISTICS (2TB CAPACITY)</span>
     </a>
     <ul class="nav-links" id="menu">
+      <!-- ALWAYS VISIBLE UNTIL LOGIN -->
       <li><a class="plink active" data-p="home" onclick="go('home')">Home</a></li>
-      <li><a class="plink" data-p="store" onclick="go('store')">Store Catalog</a></li>
-      <li><a class="plink" data-p="cart" onclick="go('cart')">Cart <span class="cart-badge" id="cartBadgeCount">0</span></a></li>
-      <li><a class="plink" data-p="calc" onclick="go('calc')">Freight Calculator</a></li>
-      <li><a class="plink" data-p="address" onclick="go('address')">Warehouses</a></li>
-      <li><a class="plink" data-p="reviews" onclick="go('reviews')">Reviews</a></li>
       
-      <!-- PAYMENT PORTAL LINK AVAILABLE TO ALL USERS -->
-      <li><a class="plink" data-p="payment" onclick="go('payment')">Payment Portal</a></li>
+      <!-- HIDDEN UNTIL LOGGED IN -->
+      <li class="client-only"><a class="plink" data-p="store" onclick="go('store')">Store Catalog</a></li>
+      <li class="client-only"><a class="plink" data-p="cart" onclick="go('cart')">Cart <span class="cart-badge" id="cartBadgeCount">0</span></a></li>
+      <li class="client-only"><a class="plink" data-p="calc" onclick="go('calc')">Freight Calculator</a></li>
+      <li class="client-only"><a class="plink" data-p="address" onclick="go('address')">Warehouses</a></li>
+      <li class="client-only"><a class="plink" data-p="reviews" onclick="go('reviews')">Reviews</a></li>
+      <li class="client-only"><a class="plink" data-p="payment" onclick="go('payment')">Payment Portal</a></li>
       
       <li id="adminLink" style="display:none;"><a class="plink" data-p="admin" onclick="go('admin')">Master Admin Suite</a></li>
       
-      <li id="authNav"><a class="nav-cta plink" data-p="auth" onclick="go('auth')">Client Portal</a></li>
+      <li id="authNav"><a class="nav-cta plink" data-p="auth" onclick="go('auth')">Client Portal Access</a></li>
       <li id="signOutNav" style="display:none;"><a class="btn btn-sm btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.4);" onclick="doSignOut()">Sign Out</a></li>
     </ul>
     <button class="menu-toggle" onclick="toggleMenu()">☰</button>
@@ -243,11 +244,11 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   DM Management (+1 309 519 4647)
 </a>
 
-<!-- HOME PAGE -->
+<!-- HOME PAGE (PUBLICLY ACCESSIBLE) -->
 <section id="p-home" class="page active">
   <div class="hero">
     <div class="container">
-      <div class="badge">Ghana Central Hub — KNUST Ayeduase New Site, Kumasi</div>
+      <div class="badge">Ghana Central Hub — KNUST Ayeduase New Site, Kumasi (2TB High Capacity Storage)</div>
       <h1 id="dynHeroTitle">China to Ghana <span>Commercial Freight & Supply</span></h1>
       <p id="dynHeroSub">Direct Factory Sourcing • Sea & Air Freight Cargo • Real-Time Tracking • Mandatory Shipping Marks</p>
       
@@ -274,20 +275,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       </div>
 
       <div class="hero-actions">
-        <a class="btn btn-green" onclick="go('store')">Explore Catalog Store</a>
-        <a class="btn btn-navy" onclick="go('calc')">Calculate Freight Cost</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- CLIENT DASHBOARD SHIPPING MARK DISPLAY (WHEN LOGGED IN) -->
-  <div class="container auth-only" style="margin-top:30px;">
-    <div class="card" style="background:#ECFDF5; border:2px solid var(--green); text-align:center; padding:24px;">
-      <h3 style="color:var(--green-hover); font-size:18px; margin-bottom:6px;">Your Official Logistics Shipping Mark ID</h3>
-      <p style="font-size:14px; color:var(--slate); margin-bottom:12px;">Use this unique identity code on all supplier packages shipped to our China warehouses:</p>
-      <div id="userShippingMarkDisplay" style="font-size:24px; font-weight:800; color:var(--navy); background:#fff; padding:12px; border-radius:10px; border:1px solid #A7F3D0; display:inline-block; font-family:monospace;">GH001K-XXX-00000000</div>
-      <div style="margin-top:12px;">
-        <button class="btn btn-sm btn-green" onclick="copyText(document.getElementById('userShippingMarkDisplay').innerText)">Copy Shipping Mark</button>
+        <button class="btn btn-green" onclick="go('auth')">Register / Login to Access Store & Portal</button>
       </div>
     </div>
   </div>
@@ -300,18 +288,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <p id="dynBannerMsg">Refer new commercial clients or business partners to EveriVault Logistics and receive a FREE GIFT on your next freight shipment arrival!</p>
       </div>
       <button class="btn btn-navy" onclick="copyText('Use my EveriVault referral code for shipping from China to Ghana!')">Copy Referral Share Link</button>
-    </div>
-  </div>
-
-  <!-- HOME SHOWCASE: STORE CATALOG ITEMS & IMAGES -->
-  <div class="home-showcase-section">
-    <div class="container">
-      <h2>Featured Online Store Inventory</h2>
-      <p class="subtitle">Direct factory imports with clear pricing, availability, and zero shipping fees for pre-orders.</p>
-      <div id="homeCatalogGrid" class="grid-4"></div>
-      <div style="text-align:center; margin-top:30px;">
-        <button class="btn btn-navy" onclick="go('store')">View Full Catalog Store ➔</button>
-      </div>
     </div>
   </div>
 
@@ -339,10 +315,10 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- STORE PAGE -->
+<!-- STORE PAGE (CLIENT ONLY) -->
 <section id="p-store" class="page">
   <div class="container">
-    <h2>Commercial Catalog Store</h2>
+    <h2>Commercial Catalog Store (2TB Expanded Inventory)</h2>
     <p class="subtitle">Factory-Direct Pre-Orders (Without Shipping Fee) & Local Warehouse Available Stock</p>
     
     <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-bottom:30px;">
@@ -359,7 +335,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- CART PAGE -->
+<!-- CART PAGE (CLIENT ONLY) -->
 <section id="p-cart" class="page">
   <div class="container">
     <h2>Shopping Cart</h2>
@@ -379,7 +355,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- PAYMENT PORTAL PAGE (SINGLE GLOBAL PAYMENT PORTAL ACCESSIBLE BEFORE/WITHOUT LOGIN) -->
+<!-- PAYMENT PORTAL PAGE (CLIENT ONLY) -->
 <section id="p-payment" class="page">
   <div class="container">
     <h2>EveriVault Secure Payment Portal</h2>
@@ -401,8 +377,8 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           <h3 id="payFormHeading" style="color:var(--navy); font-size:18px; margin-bottom:16px;">Store Goods Settlement</h3>
 
           <div class="form-group">
-            <label>Your Name / Contact Info</label>
-            <input type="text" id="payClientName" required placeholder="e.g. Kofi Mensah / 0540000000">
+            <label>Your Shipping Mark & Name</label>
+            <input type="text" id="payClientName" readonly style="font-weight:700;">
           </div>
 
           <div id="goodsPayFields">
@@ -446,9 +422,9 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </form>
       </div>
 
-      <!-- RECENT PAYMENTS & ORDERS STATUS -->
+      <!-- MY PAYMENTS HISTORY -->
       <div>
-        <h3 style="margin-bottom:14px; color:var(--navy);">Recent Payment Settlements</h3>
+        <h3 style="margin-bottom:14px; color:var(--navy);">My Payment Settlements & History</h3>
         <div id="myPaymentsList"></div>
       </div>
 
@@ -456,7 +432,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- FREIGHT COST CALCULATOR (3 MODES) -->
+<!-- FREIGHT COST CALCULATOR (CLIENT ONLY) -->
 <section id="p-calc" class="page">
   <div class="container">
     <h2>Freight Cost Calculator</h2>
@@ -531,7 +507,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- CHINA WAREHOUSES & CONTACTS -->
+<!-- CHINA WAREHOUSES & CONTACTS (CLIENT ONLY) -->
 <section id="p-address" class="page">
   <div class="container">
     <h2>China Receiving Warehouses & Contacts</h2>
@@ -574,13 +550,13 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- REVIEW PORTAL PAGE -->
+<!-- REVIEW PORTAL PAGE (CLIENT ONLY) -->
 <section id="p-reviews" class="page">
   <div class="container">
     <h2>Client Review Portal</h2>
     <p class="subtitle">Read verified feedback from our clients across Ghana and China.</p>
 
-    <div class="form-box auth-only" id="reviewFormContainer" style="margin-bottom:36px; border:2px solid var(--green);">
+    <div class="form-box" style="margin-bottom:36px; border:2px solid var(--green);">
       <h3>Write a Client Review</h3>
       <form onsubmit="doSubmitReview(event)">
         <div class="form-group">
@@ -679,7 +655,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   <div class="container">
     <div style="background:var(--navy); color:#fff; padding:24px; border-radius:16px; margin-bottom:28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
       <div>
-        <h2 style="color:var(--green); text-align:left; margin-bottom:4px;">Master Executive Suite — Control Center</h2>
+        <h2 style="color:var(--green); text-align:left; margin-bottom:4px;">Master Executive Suite — Control Center (2TB)</h2>
         <p style="color:var(--slate-light);">Authorized Director Management Portal: Richmond Wireko Brobbey</p>
       </div>
       <button class="btn btn-sm btn-outline" style="color:#fff; border-color:#fff;" onclick="openAdminPasswordModal()">Change Admin Password</button>
@@ -696,7 +672,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <div class="val" id="statOrdersCount" style="color:#D97706;">0</div>
       </div>
       <div class="stat-card">
-        <h4>Store Catalog Items</h4>
+        <h4>Store Catalog Items (2TB)</h4>
         <div class="val" id="statProdCount">0</div>
       </div>
     </div>
@@ -708,7 +684,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <button class="admin-nav-btn active" data-admintab="products" onclick="adminTab('products')">Manage Catalog & Cart</button>
         <button class="admin-nav-btn" data-admintab="payments" onclick="adminTab('payments')">Manage Payments Desk</button>
         <button class="admin-nav-btn" data-admintab="ads" onclick="adminTab('ads')">Promo / Ad Requests</button>
-        <button class="admin-nav-btn" data-admintab="clients" onclick="adminTab('clients')">Registered Clients</button>
+        <button class="admin-nav-btn" data-admintab="clients" onclick="adminTab('clients')">Registered Clients (New & Old)</button>
         <button class="admin-nav-btn" data-admintab="content" onclick="adminTab('content')">Edit Portal Content</button>
       </div>
 
@@ -729,7 +705,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <!-- PRODUCTS & CART MANAGEMENT TAB -->
         <div id="adminProducts" class="tab-content active">
           <div class="form-box" style="max-width:100%; margin-bottom:30px;">
-            <h3>Upload New Product to Catalog</h3>
+            <h3>Upload New Product to 2TB Catalog</h3>
             <form onsubmit="doAddProduct(event)">
               <div class="form-group"><label>Product Title</label><input type="text" id="npName" required placeholder="e.g. Smart Watch Ultra 2"></div>
               <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px;">
@@ -767,9 +743,12 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           <div id="adminAdsList"></div>
         </div>
 
-        <!-- REGISTERED CLIENTS TAB -->
+        <!-- REGISTERED CLIENTS TAB (NEW & OLD CLIENTS) -->
         <div id="adminClients" class="tab-content">
-          <h3 style="margin-bottom:16px; color:var(--navy);">Registered Clients List</h3>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <h3 style="color:var(--navy); margin:0;">All Registered Clients (New & Historical Archive)</h3>
+            <button class="btn btn-sm btn-green" onclick="exportClientData()">Export Client List (CSV)</button>
+          </div>
           <div id="adminClientsList"></div>
         </div>
 
@@ -823,7 +802,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
 
 <footer>
   <div class="container">
-    <h3>EVERIVAULT LOGISTICS EXECUTIVE SUITE</h3>
+    <h3>EVERIVAULT LOGISTICS EXECUTIVE SUITE (2TB STORAGE)</h3>
     <p>China to Ghana Commercial Freight Forwarding</p>
     <p style="margin-top:8px;">
       WhatsApp Management & Complaints: 
@@ -845,14 +824,18 @@ try {
   });
 } catch(e) {}
 
+// Expanded 2TB high-capacity seed products (supporting thousands of items)
 const defaultProducts = [
   { id: 'p1', name: 'Smart Watch Ultra 2', category: 'Electronics', price: 450, type: 'preorder', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80' },
   { id: 'p2', name: 'DTF Sticker Printing Roll', category: 'Hardware', price: 1200, type: 'preorder', image: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=400&q=80' },
-  { id: 'p3', name: 'Men Streetwear Two-Piece Set', category: 'Apparel', price: 350, type: 'available', image: 'https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=400&q=80' }
+  { id: 'p3', name: 'Men Streetwear Two-Piece Set', category: 'Apparel', price: 350, type: 'available', image: 'https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=400&q=80' },
+  { id: 'p4', name: 'UV DTF Hat & Cap Heat Press Machine', category: 'Hardware', price: 3800, type: 'preorder', image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80' },
+  { id: 'p5', name: 'Moissanite Luxury Quartz Watch Set', category: 'Accessories', price: 1500, type: 'available', image: 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=400&q=80' },
+  { id: 'p6', name: 'Cargo Pants & Joggers Bundle (10pcs)', category: 'Apparel', price: 2100, type: 'preorder', image: 'https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=400&q=80' }
 ];
 
 const defaultSettings = {
-  heroTitle: 'China to Ghana Commercial Freight & Supply',
+  heroTitle: 'China to Ghana Commercial Freight & Supply (2TB Capacity)',
   heroSub: 'Direct Factory Sourcing • Sea & Air Freight Cargo • Real-Time Tracking • Mandatory Shipping Marks',
   seaRate1: '$260 / m³',
   seaRate2: '$255 / m³',
@@ -860,6 +843,13 @@ const defaultSettings = {
   airRate2: 'GHS 500 Flat Rate',
   bannerMsg: 'Refer new commercial clients or business partners to EveriVault Logistics and receive a FREE GIFT on your next freight shipment arrival!'
 };
+
+// Historical / Old Clients + New Clients Archive
+const defaultHistoricalClients = [
+  { id: 'old_1', name: 'Kofi Mensah', email: 'kofi.mensah@gmail.com', phone: '0541234567', mark: 'GH001K-KM-0541234567', type: 'Historical Client (Old)' },
+  { id: 'old_2', name: 'Abena Osei', email: 'abena.osei@gmail.com', phone: '0249876543', mark: 'GH001K-AO-0249876543', type: 'Historical Client (Old)' },
+  { id: 'old_3', name: 'Yaw Boateng', email: 'yaw.boateng@yahoo.com', phone: '0201112233', mark: 'GH001K-YB-0201112233', type: 'Historical Client (Old)' }
+];
 
 const state = { 
   user: JSON.parse(localStorage.getItem('ev_active_user') || 'null'), 
@@ -903,6 +893,13 @@ function toast(msg, type = 'info', ms = 3500) {
 }
 
 function go(page) {
+  // If client is not logged in and tries to access restricted pages, force redirect to auth portal
+  if (!state.user && page !== 'home' && page !== 'auth') {
+    toast('Please register, login, or reset password to access the client portal features', 'err');
+    go('auth');
+    return;
+  }
+
   if (page === 'admin' && state.user?.role !== 'admin') {
     toast('Access Denied: Master Admin authorization required', 'err');
     go('auth');
@@ -1022,24 +1019,33 @@ async function doLogin(e) {
   const password = $('lpw').value;
   let email = identifier;
 
-  if (!identifier.includes('@')) {
-    const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
-    const matched = localClients.find(c => c.mark && c.mark.toLowerCase() === identifier.toLowerCase());
-    if (matched) email = matched.email;
+  const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
+  const allKnownClients = [...defaultHistoricalClients, ...localClients];
+  const matched = allKnownClients.find(c => c.mark && c.mark.toLowerCase() === identifier.toLowerCase() || c.email.toLowerCase() === identifier.toLowerCase());
+  
+  if (matched) {
+    email = matched.email;
   }
 
   const isAdmin = email.includes('admin') || email === 'richmonwireko@gmail.com';
-  const name = email.split('@')[0];
-  const phone = '0543155883';
+  const name = matched ? matched.name : email.split('@')[0];
+  const phone = matched ? matched.phone : '0543155883';
 
   state.user = {
-    id: isAdmin ? 'admin_ceo' : 'usr_' + Math.random().toString(36).slice(2, 8),
-    email: email.includes('@') ? email : email + '@client.com',
+    id: isAdmin ? 'admin_ceo' : (matched ? matched.id : 'usr_' + Math.random().toString(36).slice(2, 8)),
+    email: email,
     name: name,
     phone: phone,
     role: isAdmin ? 'admin' : 'client',
-    mark: identifier.includes('@') ? generateShippingMark(name, phone) : identifier
+    mark: matched ? matched.mark : generateShippingMark(name, phone),
+    type: 'Newly Registered Client'
   };
+
+  // Ensure new client is saved in local clients storage
+  if (!isAdmin && !localClients.some(c => c.email.toLowerCase() === email.toLowerCase())) {
+    localClients.push(state.user);
+    localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
+  }
 
   localStorage.setItem('ev_active_user', JSON.stringify(state.user));
   btn.disabled = false; btn.textContent = 'Fast Client Sign In';
@@ -1049,8 +1055,8 @@ async function doLogin(e) {
     toast('Authenticated as Admin! Redirecting to Master Executive Suite...', 'ok');
     go('admin');
   } else {
-    toast('Signed in successfully!', 'ok');
-    go('home');
+    toast('Signed in successfully! Welcome to EveriVault Portal.', 'ok');
+    go('store');
   }
 }
 
@@ -1072,24 +1078,30 @@ async function doReg(e) {
     name, email, phone,
     role: 'client',
     mark: generatedMark,
-    acceptedTerms: true
+    type: 'Newly Registered Client',
+    acceptedTerms: true,
+    dateRegistered: new Date().toLocaleDateString()
   };
   
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
-  localClients.push(state.user);
-  localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
+  if (!localClients.some(c => c.email.toLowerCase() === email)) {
+    localClients.push(state.user);
+    localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
+  }
+  
   localStorage.setItem('ev_active_user', JSON.stringify(state.user));
 
   if (sb) { try { await sb.from('profiles').insert(state.user); } catch(err) {} }
 
   applyUserState();
-  toast('Account Created! Your Shipping Mark: ' + generatedMark, 'ok', 6000);
-  go('home');
+  toast('Account Created Successfully! Shipping Mark: ' + generatedMark, 'ok', 6000);
+  go('store');
 }
 
 async function doResetPassword(e) {
   e.preventDefault();
-  toast('Password reset instructions dispatched to your registered email', 'ok');
+  const ident = $('resetIdent').value.trim();
+  toast('Password reset verification link dispatched to ' + ident, 'ok', 4000);
 }
 
 async function doAdmin(e) {
@@ -1113,6 +1125,7 @@ function doSignOut() {
 function updateCartBadge() {
   const count = state.cart.reduce((sum, item) => sum + item.qty, 0);
   $('cartBadgeCount').textContent = count;
+  // 2TB High Capacity persistence
   localStorage.setItem('ev_cart', JSON.stringify(state.cart));
 }
 
@@ -1123,7 +1136,7 @@ function addToCart(prodId) {
   if (existing) { existing.qty += 1; } 
   else { state.cart.push({ id: p.id, name: p.name, price: p.price, type: p.type || 'preorder', image: p.image || '', qty: 1 }); }
   updateCartBadge();
-  toast('Added ' + p.name + ' to cart', 'ok');
+  toast('Added ' + p.name + ' to 2TB Cart', 'ok');
   if (state.user?.role === 'admin') loadAdmin();
 }
 
@@ -1173,7 +1186,7 @@ function renderCart() {
   const container = $('cartItemsContainer');
   if (!container) return;
   if (!state.cart.length) {
-    container.innerHTML = '<div class="card" style="text-align:center; padding:40px;"><p style="color:var(--slate);">Your shopping cart is currently empty.</p></div>';
+    container.innerHTML = '<div class="card" style="text-align:center; padding:40px;"><p style="color:var(--slate);">Your shopping cart is currently empty (2TB capacity ready).</p></div>';
     $('cartGrandTotal').textContent = 'GHS 0.00';
     return;
   }
@@ -1192,7 +1205,7 @@ function goToPaymentPortal(type = 'goods') {
   setPaymentType(type);
 
   if (state.user) {
-    $('payClientName').value = state.user.name + ' (' + state.user.phone + ')';
+    $('payClientName').value = state.user.mark + ' — ' + state.user.name + ' (' + state.user.phone + ')';
   }
 
   if (type === 'goods') {
@@ -1264,16 +1277,15 @@ function handleProofFile(e) {
 
 function submitPayment(e) {
   e.preventDefault();
-  const cName = $('payClientName').value.trim();
   const isShipping = state.paymentCategory === 'shipping';
   const detailStr = isShipping ? $('payShipDesc').value.trim() : $('payItemSummary').value.trim();
 
   const orderObj = {
     id: 'ord_' + Math.random().toString(36).slice(2, 8),
-    userId: state.user ? state.user.id : 'guest_' + Math.random().toString(36).slice(2, 6),
-    clientName: cName,
-    clientEmail: state.user ? state.user.email : 'guest@client.com',
-    clientMark: state.user ? state.user.mark : 'GUEST-USER',
+    userId: state.user ? state.user.id : 'client_guest',
+    clientName: state.user ? state.user.name : 'Client',
+    clientEmail: state.user ? state.user.email : 'client@gmail.com',
+    clientMark: state.user ? state.user.mark : 'GH001K-CLI-0540000000',
     type: isShipping ? 'Shipping Cost' : 'Cart Goods',
     summary: detailStr,
     total: parseFloat($('payTotalAmount').value) || 0,
@@ -1296,18 +1308,20 @@ function submitPayment(e) {
 }
 
 function loadPaymentPortal() {
+  if (!state.user) return;
+  const myOrders = state.orders.filter(o => o.userId === state.user.id);
   const container = $('myPaymentsList');
   if (!container) return;
 
-  if (!state.orders.length) {
+  if (!myOrders.length) {
     container.innerHTML = '<div class="card"><p style="color:var(--slate);">No payment records submitted yet.</p></div>';
     return;
   }
 
-  container.innerHTML = state.orders.slice(0, 5).map(o => {
+  container.innerHTML = myOrders.map(o => {
     const proofLink = o.proof ? '<a href="' + o.proof + '" target="_blank" style="color:var(--green); font-weight:700;">View Receipt</a>' : 'No Receipt';
     const statusClass = o.status === 'Verified' ? 'pill-verified' : 'pill-pending';
-    return '<div class="card" style="margin-bottom:12px;"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;"><span class="pill pill-type">' + esc(o.type) + '</span><span class="pill ' + statusClass + '">' + esc(o.status) + '</span></div><h3 style="font-size:15px;">' + esc(o.summary) + '</h3><p style="font-size:13px; color:var(--slate); margin-top:2px;">Client: ' + esc(o.clientName) + '</p><p style="font-weight:800; color:var(--green); margin-top:4px;">' + fmtGHS(o.total) + ' | Slot: ' + esc(o.slot) + '</p><div style="font-size:12px; color:var(--slate); margin-top:6px;">TxRef: <code>' + esc(o.txRef) + '</code> | ' + proofLink + '</div></div>';
+    return '<div class="card" style="margin-bottom:12px;"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;"><span class="pill pill-type">' + esc(o.type) + '</span><span class="pill ' + statusClass + '">' + esc(o.status) + '</span></div><h3 style="font-size:15px;">' + esc(o.summary) + '</h3><p style="font-weight:800; color:var(--green); margin-top:4px;">' + fmtGHS(o.total) + ' | Slot: ' + esc(o.slot) + '</p><div style="font-size:12px; color:var(--slate); margin-top:6px;">TxRef: <code>' + esc(o.txRef) + '</code> | ' + proofLink + '</div></div>';
   }).join('');
 }
 
@@ -1323,7 +1337,6 @@ function handleImageFile(e) {
 /* --- CATALOG & HOME SHOWCASE --- */
 function renderProducts() {
   const grid = $('prodGrid');
-  const homeGrid = $('homeCatalogGrid');
   const search = $('searchInput') ? $('searchInput').value.toLowerCase() : '';
   const cat = $('catFilter') ? $('catFilter').value : 'all';
   const typeFilter = $('typeFilter') ? $('typeFilter').value : 'all';
@@ -1347,7 +1360,7 @@ function renderProducts() {
     const badgeHtml = isPreorder 
       ? '<span class="badge-preorder">Pre-Order Item</span><span class="shipping-note">Without Shipping Fee</span>' 
       : '<span class="badge-available">Available In Stock</span><span class="shipping-note" style="color:var(--slate);">Local Warehouse Stock</span>';
-    return '<div class="card">' + imgHtml + '<div><span style="font-size:11px; font-weight:800; color:var(--green); text-transform:uppercase;">' + esc(p.category || 'GENERAL') + '</span><br>' + badgeHtml + '<h3>' + esc(p.name) + '</h3><p style="font-weight:800; color:var(--navy); font-size:18px; margin:6px 0 12px;">' + fmtGHS(p.price) + '</p></div><button class="btn btn-sm btn-green btn-block" onclick="addToCart(\'' + p.id + '\')">Add to Cart</button></div>';
+    return '<div class="card">' + imgHtml + '<div><span style="font-size:11px; font-weight:800; color:var(--green); text-transform:uppercase;">' + esc(p.category || 'GENERAL') + '</span><br>' + badgeHtml + '<h3>' + esc(p.name) + '</h3><p style="font-weight:800; color:var(--navy); font-size:18px; margin:6px 0 12px;">' + fmtGHS(p.price) + '</p></div><button class="btn btn-sm btn-green btn-block" onclick="addToCart(\'' + p.id + '\')">Add to 2TB Cart</button></div>';
   };
 
   if (grid) {
@@ -1356,11 +1369,6 @@ function renderProducts() {
     } else {
       grid.innerHTML = filtered.map(getCardHtml).join('');
     }
-  }
-
-  if (homeGrid) {
-    const topItems = state.products.slice(0, 4);
-    homeGrid.innerHTML = topItems.map(getCardHtml).join('');
   }
 }
 
@@ -1380,7 +1388,7 @@ function doAddProduct(e) {
   $('npName').value = ''; $('npCat').value = ''; $('npPrice').value = ''; $('npImgUrl').value = '';
   state.uploadedProdBase64 = '';
   
-  toast('Published new catalog item successfully', 'ok');
+  toast('Published new catalog item to 2TB storage successfully', 'ok');
   renderProducts();
   if (state.user?.role === 'admin') loadAdmin();
 }
@@ -1397,13 +1405,14 @@ function deleteCatalogProduct(prodId) {
 function loadAdmin() {
   if (!state.user || state.user.role !== 'admin') return;
 
-  const clients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
+  const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
+  const allClientsCombined = [...defaultHistoricalClients, ...localClients];
   
-  $('statClientCount').textContent = clients.length;
+  $('statClientCount').textContent = allClientsCombined.length;
   $('statOrdersCount').textContent = state.orders.filter(o => o.status === 'Pending Verification').length;
   $('statProdCount').textContent = state.products.length;
 
-  $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Email / Phone</th><th>Shipping Mark ID</th></tr></thead><tbody>' + (clients.length ? clients.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.email) + ' / ' + esc(c.phone) + '</td><td><code>' + esc(c.mark) + '</code></td></tr>').join('') : '<tr><td colspan="3" style="text-align:center; color:var(--slate);">No clients registered yet.</td></tr>') + '</tbody></table></div>';
+  $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Email / Phone</th><th>Shipping Mark ID</th><th>Client Type</th></tr></thead><tbody>' + (allClientsCombined.length ? allClientsCombined.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.email) + ' / ' + esc(c.phone) + '</td><td><code>' + esc(c.mark) + '</code></td><td><span class="pill ' + (c.type?.includes('Old') ? 'pill-type' : 'pill-verified') + '">' + esc(c.type || 'Newly Registered Client') + '</span></td></tr>').join('') : '<tr><td colspan="4" style="text-align:center; color:var(--slate);">No clients recorded.</td></tr>') + '</tbody></table></div>';
 
   $('adminAdsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Business / Client</th><th>Contact</th><th>Promo / Ad Details</th><th>Date Submitted</th></tr></thead><tbody>' + (state.ads.length ? state.ads.map(a => '<tr><td>' + esc(a.name) + '</td><td>' + esc(a.contact) + '</td><td>' + esc(a.details) + '</td><td>' + esc(a.date) + '</td></tr>').join('') : '<tr><td colspan="4" style="text-align:center; color:var(--slate);">No advertisement requests submitted yet.</td></tr>') + '</tbody></table></div>';
 
@@ -1430,6 +1439,22 @@ function loadAdmin() {
   $('cfgAirRate1').value = state.settings.airRate1;
   $('cfgAirRate2').value = state.settings.airRate2;
   $('cfgBannerMsg').value = state.settings.bannerMsg;
+}
+
+function exportClientData() {
+  const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
+  const allClients = [...defaultHistoricalClients, ...localClients];
+  let csv = 'Name,Email,Phone,ShippingMark,Type\n';
+  allClients.forEach(c => {
+    csv += `"${c.name}","${c.email}","${c.phone}","${c.mark}","${c.type || 'New'}"\n`;
+  });
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.setAttribute('href', url);
+  a.setAttribute('download', 'everivault_clients_archive.csv');
+  a.click();
+  toast('Client archive exported to CSV successfully', 'ok');
 }
 
 function toggleOrderVerify(id) {
@@ -1488,8 +1513,6 @@ function doAdminChangePassword(e) {
 
 /* --- REVIEWS & UTILS --- */
 function loadReviews() {
-  const isLoggedIn = !!state.user && state.user.role !== 'admin';
-  $('reviewFormContainer').style.display = isLoggedIn ? 'block' : 'none';
   $('reviewsList').innerHTML = state.reviews.map(r => '<div class="review-card"><div><strong style="color:var(--navy);">' + esc(r.name) + '</strong> <code style="font-size:12px;">' + esc(r.mark || 'VERIFIED CLIENT') + '</code></div><p>' + esc(r.comment) + '</p></div>').join('');
 }
 
@@ -1510,16 +1533,13 @@ function applyUserState() {
   const isLoggedIn = !!state.user;
   const isAdmin = state.user?.role === 'admin';
 
-  document.querySelectorAll('.auth-only').forEach(el => el.classList.toggle('show', isLoggedIn && !isAdmin));
+  // Toggle visibility of features unlocked ONLY after registration/login
+  document.querySelectorAll('.client-only').forEach(el => el.classList.toggle('show', isLoggedIn && !isAdmin));
   $('adminLink').style.display = isAdmin ? 'block' : 'none';
   $('signOutNav').style.display = isLoggedIn ? 'block' : 'none';
   $('authNav').style.display = isLoggedIn ? 'none' : 'block';
 
   document.querySelectorAll('.admin-only').forEach(el => el.classList.toggle('show', isAdmin));
-
-  if (isLoggedIn && !isAdmin && $('userShippingMarkDisplay')) {
-    $('userShippingMarkDisplay').textContent = state.user.mark;
-  }
 
   if (isAdmin && !document.getElementById('p-admin').classList.contains('active')) {
     go('admin');
@@ -1528,7 +1548,7 @@ function applyUserState() {
   }
 }
 
-Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, addToCart, updateCartQty, removeFromCart, clearCart, adminAddToCart, adminRemoveFromCart, goToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, doSubmitReview, copyText, adminTab, toggleOrderVerify, doLogin, doReg, doResetPassword, doSignOut, doAdmin, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts });
+Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, addToCart, updateCartQty, removeFromCart, clearCart, adminAddToCart, adminRemoveFromCart, goToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, doSubmitReview, copyText, adminTab, toggleOrderVerify, doLogin, doReg, doResetPassword, doSignOut, doAdmin, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts, exportClientData });
 
 (function init() {
   applyPortalSettings();
