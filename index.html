@@ -1289,15 +1289,14 @@ async function doUniversalLogin(e) {
     btn.disabled = false; btn.textContent = 'Sign In to Portal';
     applyUserState();
     
-    // WELCOME NOTIFICATION POPUP ON LOGIN
     toast(`🎉 Welcome back, ${matchedClient.name}! Shipping Mark: ${matchedClient.mark}`, 'ok', 6000);
-    
     go('store');
     return;
   }
 
+  // Quick auto-registration on sign-in if client doesn't exist yet
   const generatedMark = generateShippingMark(identifier.split('@')[0], '0543155883');
-  state.user = {
+  const newClientObj = {
     id: 'usr_' + Math.random().toString(36).slice(2, 8),
     email: identifier.includes('@') ? identifier : identifier + '@client.com',
     name: identifier.split('@')[0],
@@ -1309,17 +1308,18 @@ async function doUniversalLogin(e) {
     type: 'Registered Client',
     dateRegistered: new Date().toLocaleDateString()
   };
-  localClients.unshift(state.user);
+  
+  localClients.unshift(newClientObj);
   localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
   window.dispatchEvent(new Event('storage'));
+
+  state.user = newClientObj;
   localStorage.setItem('ev_active_user', JSON.stringify(state.user));
 
   btn.disabled = false; btn.textContent = 'Sign In to Portal';
   applyUserState();
   
-  // WELCOME NOTIFICATION POPUP ON LOGIN
   toast(`🎉 Welcome to EveriVault Enterprise, ${state.user.name}! Shipping Mark: ${generatedMark}`, 'ok', 6000);
-
   go('store');
 }
 
@@ -1378,9 +1378,7 @@ async function doReg(e) {
 
   applyUserState();
   
-  // WELCOME NOTIFICATION POPUP ON REGISTRATION
   toast(`🎉 Welcome to EveriVault Enterprise, ${name}! Your Shipping Mark is ${generatedMark}`, 'ok', 7000);
-
   go('store');
 }
 
@@ -1786,8 +1784,8 @@ function loadAdmin() {
     trackSel.innerHTML = allClientsCombined.map(c => `<option value="${c.id}">${c.name} (${c.mark}) - Loc: ${c.location || 'Kumasi'}</option>`).join('');
   }
 
-  // UNLIMITED VIEW FOR ADMIN
-  $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Email / Phone</th><th>Location</th><th>Shipping Mark ID</th><th>Referred By</th><th>Type</th><th>Date Registered</th></tr></thead><tbody>' + (allClientsCombined.length ? allClientsCombined.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.email) + ' / ' + esc(c.phone) + '</td><td>' + esc(c.location || 'Kumasi') + '</td><td><code>' + esc(c.mark) + '</code></td><td><code style="color:var(--green-hover);">' + esc(c.referredBy || 'None (Direct)') + '</code></td><td><span class="pill ' + (c.type?.includes('Old') ? 'pill-type' : 'pill-verified') + '">' + esc(c.type || 'Registered Client') + '</span></td><td>' + esc(c.dateRegistered || 'N/A') + '</td></tr>').join('') : '<tr><td colspan="7" style="text-align:center; color:var(--slate);">No clients recorded.</td></tr>') + '</tbody></table></div>';
+  // UNLIMITED VIEW & FULL DETAILS TABLE FOR ADMIN
+  $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Full Name</th><th>Gmail / Email</th><th>Phone Number</th><th>Delivery Location</th><th>Shipping Mark ID</th><th>Referred By</th><th>Account Type</th><th>Date Registered</th></tr></thead><tbody>' + (allClientsCombined.length ? allClientsCombined.map(c => '<tr><td><strong>' + esc(c.name) + '</strong></td><td>' + esc(c.email) + '</td><td>' + esc(c.phone) + '</td><td>' + esc(c.location || 'Kumasi') + '</td><td><code>' + esc(c.mark) + '</code></td><td><code style="color:var(--green-hover);">' + esc(c.referredBy || 'None (Direct)') + '</code></td><td><span class="pill ' + (c.type?.includes('Old') ? 'pill-type' : 'pill-verified') + '">' + esc(c.type || 'Registered Client') + '</span></td><td>' + esc(c.dateRegistered || 'N/A') + '</td></tr>').join('') : '<tr><td colspan="8" style="text-align:center; color:var(--slate);">No clients recorded.</td></tr>') + '</tbody></table></div>';
 
   $('adminAdsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Business / Client</th><th>Contact</th><th>Promo / Ad Details</th><th>Date Submitted</th></tr></thead><tbody>' + (state.ads.length ? state.ads.map(a => '<tr><td>' + esc(a.name) + '</td><td>' + esc(a.contact) + '</td><td>' + esc(a.details) + '</td><td>' + esc(a.date) + '</td></tr>').join('') : '<tr><td colspan="4" style="text-align:center; color:var(--slate);">No advertisement requests submitted yet.</td></tr>') + '</tbody></table></div>';
 
