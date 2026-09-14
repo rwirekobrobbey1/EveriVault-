@@ -2,887 +2,952 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>EveriVault — China ↔ Ghana Shipping & Store</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>EveriVault — China ↔ Ghana Shipping & Global Logistics</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--navy:#0A2463;--gold:#D4AF37;--sky:#0096FF;--green:#22C55E;--red:#EF4444;--orange:#F59E0B;--light:#F8FAFC;}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI','Roboto',system-ui,sans-serif;}
-html{scroll-behavior:smooth;}
-body{background:#F8FAFC;color:#333;line-height:1.6;}
-.container{max-width:1200px;margin:0 auto;padding:0 16px;}
-nav{background:var(--navy);position:sticky;top:0;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.15);}
-.nav-wrap{display:flex;justify-content:space-between;align-items:center;padding:12px 0;}
-.logo{font-size:clamp(20px,5vw,26px);font-weight:900;color:var(--gold);text-decoration:none;cursor:pointer;letter-spacing:.5px;}
-.nav-links{display:flex;gap:2px;list-style:none;flex-wrap:wrap;}
-.nav-links a{color:#E0E7FF;text-decoration:none;padding:10px 12px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;transition:.2s;}
-.nav-links a:hover,.nav-links a.active{background:rgba(255,255,255,.1);color:var(--gold);}
-.nav-cta{background:linear-gradient(135deg,var(--gold),#B8860B);color:var(--navy)!important;}
-.menu-toggle{display:none;color:#fff;font-size:28px;cursor:pointer;padding:4px 10px;background:none;border:none;}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:10px;font-weight:700;border:none;cursor:pointer;font-size:15px;text-decoration:none;transition:.2s;white-space:nowrap;font-family:inherit;}
-.btn:active{transform:scale(.97);}
-.btn:disabled{opacity:.5;cursor:not-allowed;}
-.btn-gold{background:linear-gradient(135deg,var(--gold),#B8860B);color:var(--navy);}
-.btn-sky{background:var(--sky);color:#fff;}
-.btn-green{background:var(--green);color:#fff;}
-.btn-red{background:var(--red);color:#fff;}
-.btn-sm{padding:8px 14px;font-size:13px;}
-.btn-block{width:100%;justify-content:center;}
-.btn-outline{border:2px solid var(--navy);background:transparent;color:var(--navy);}
-.hero{background:linear-gradient(135deg,#051238,var(--navy),#1E40AF);color:#fff;padding:clamp(40px,10vw,70px) 0;text-align:center;}
-.badge{display:inline-block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:8px 18px;border-radius:50px;font-weight:700;margin-bottom:16px;font-size:14px;}
-.hero h1{font-size:clamp(24px,6vw,44px);margin-bottom:12px;line-height:1.2;}
-.hero h1 span{color:var(--gold);}
-.hero p{font-size:clamp(15px,3vw,18px);opacity:.9;max-width:650px;margin:0 auto 24px;}
-.rate-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;max-width:900px;margin:0 auto 24px;}
-.rate-card{background:rgba(255,255,255,.08);border-radius:14px;padding:18px;}
-.rate-card .big{font-size:clamp(22px,5vw,26px);font-weight:900;color:var(--gold);}
-.alert{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:12px;max-width:600px;margin:0 auto 20px;color:#FECACA;font-size:14px;}
-.hero-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
-section{padding:clamp(40px,8vw,60px) 0;}
-h2{text-align:center;font-size:clamp(20px,4vw,30px);color:var(--navy);margin-bottom:10px;}
-h2::after{content:'';display:block;width:60px;height:4px;background:var(--gold);margin:10px auto 0;border-radius:2px;}
-.subtitle{text-align:center;color:#64748B;margin-bottom:30px;font-size:15px;max-width:600px;margin-left:auto;margin-right:auto;}
-.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
-.grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
-.card{background:#fff;padding:22px;border-radius:14px;box-shadow:0 8px 24px rgba(10,36,99,.1);transition:.3s;}
-.card:hover{transform:translateY(-4px);}
-.card h3{color:var(--navy);margin-bottom:8px;font-size:18px;}
-.stars{color:var(--gold);font-size:16px;}
-.tag{display:inline-block;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:8px;}
-.tag-pre{background:#DBEAFE;color:#1E40AF;}
-.tag-stock{background:#D1FAE5;color:#166534;}
-.tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;border-bottom:2px solid #E2E8F0;}
-.tab{padding:10px 16px;border-radius:10px 10px 0 0;cursor:pointer;font-weight:700;color:#64748B;border-bottom:3px solid transparent;font-size:14px;background:none;border-top:none;border-left:none;border-right:none;font-family:inherit;}
-.tab.active{color:var(--navy);border-bottom-color:var(--gold);background:rgba(212,175,55,.08);}
-.tab-content{display:none;}
-.tab-content.active{display:block;}
-.form-box{max-width:520px;margin:0 auto;background:#fff;padding:clamp(20px,5vw,30px);border-radius:16px;box-shadow:0 8px 24px rgba(10,36,99,.1);}
-.form-group{margin-bottom:16px;}
-label{display:block;margin-bottom:6px;font-weight:600;color:var(--navy);font-size:14px;}
-input,select,textarea{width:100%;padding:12px;border:2px solid #E2E8F0;border-radius:10px;font-size:15px;font-family:inherit;background:#fff;}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--navy);}
-input[readonly]{background:#f5f5f5;cursor:not-allowed;}
-.msg{padding:12px;border-radius:10px;margin:12px 0;display:none;font-weight:600;font-size:14px;}
-.msg.ok{background:#ECFDF5;color:#065F45;display:block;}
-.msg.err{background:#FEF2F2;color:#B91C1C;display:block;}
-.calc-box{background:#fff;border-radius:16px;padding:clamp(20px,5vw,30px);box-shadow:0 8px 24px rgba(10,36,99,.1);max-width:700px;margin:0 auto;}
-.form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;}
-.result{margin-top:20px;padding:18px;background:#ECFDF5;border-radius:12px;border-left:4px solid var(--green);}
-.result.air{background:#EFF6FF;border-left-color:var(--sky);}
-.result .total{font-size:clamp(20px,5vw,24px);font-weight:900;color:var(--navy);margin-top:8px;}
-.addr-section{background:#fff;border-radius:16px;padding:clamp(18px,5vw,28px);box-shadow:0 8px 24px rgba(10,36,99,.1);margin-bottom:20px;}
-.addr-section h3{color:var(--navy);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid #E2E8F0;font-size:18px;}
-.addr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
-.addr-block{background:var(--light);border-radius:12px;padding:18px;position:relative;}
-.sea{border-left:4px solid var(--navy);}
-.air{border-left:4px solid var(--sky);}
-.gh{border-left:4px solid var(--gold);}
-.copy-btn{position:absolute;top:12px;right:12px;}
-.terms{background:#fff;border-radius:16px;padding:clamp(20px,5vw,30px);box-shadow:0 8px 24px rgba(10,36,99,.1);line-height:1.8;}
-.terms h3{color:var(--navy);margin:18px 0 8px;font-size:17px;}
-.terms ul{margin-left:20px;margin-bottom:10px;}
-.page{display:none;}
-.page.active{display:block;}
-.auth-only{display:none!important;}
-.auth-only.show{display:block!important;}
-.admin-only{display:none!important;}
-.admin-only.show{display:block!important;}
-.code{font-size:clamp(14px,4vw,18px);font-weight:900;color:var(--navy);background:var(--light);padding:12px;border-radius:10px;text-align:center;margin:15px 0;word-break:break-all;}
-footer{background:#051238;color:#CBD5E1;padding:30px 0 20px;margin-top:20px;text-align:center;}
-footer h3{color:var(--gold);margin-bottom:12px;font-size:20px;}
-footer p{margin-bottom:4px;font-size:14px;}
-.toast-wrap{position:fixed;top:80px;right:20px;z-index:10001;display:flex;flex-direction:column;gap:10px;pointer-events:none;}
-.toast{background:var(--navy);color:#fff;padding:14px 20px;border-radius:10px;font-weight:600;font-size:14px;max-width:340px;opacity:0;transform:translateX(120%);transition:.3s;pointer-events:auto;}
-.toast.show{opacity:1;transform:translateX(0);}
-.toast.ok{background:var(--green);}
-.toast.err{background:var(--red);}
-.toast.warn{background:var(--orange);}
-.admin-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 8px 24px rgba(10,36,99,.1);}
-.admin-table th{background:var(--navy);color:#fff;padding:12px;text-align:left;font-size:13px;text-transform:uppercase;}
-.admin-table td{padding:12px;border-bottom:1px solid #E2E8F0;font-size:14px;}
-.pill{display:inline-block;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;}
-.pill-pending{background:#FEF3C7;color:#92400E;}
-.pill-processing{background:#DBEAFE;color:#1E40AF;}
-.pill-shipped{background:#E0E7FF;color:#3730A3;}
-.pill-delivered{background:#D1FAE5;color:#166534;}
-.pill-cancelled{background:#FEE2E2;color:#991B1B;}
-.spinner{display:inline-block;width:18px;height:18px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-.loading-center{text-align:center;padding:40px;color:#888;}
-.travel-hero{background:linear-gradient(135deg,#1E40AF,#0A2463);color:#fff;padding:clamp(30px,8vw,50px) 0;text-align:center;}
-.travel-hero h2{color:var(--gold);}
-.travel-hero h2::after{background:#fff;}
-.travel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:30px;}
-.travel-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(10,36,99,.1);}
-.travel-img{width:100%;height:200px;background:linear-gradient(135deg,var(--sky),var(--navy));display:flex;align-items:center;justify-content:center;font-size:48px;color:#fff;}
-.travel-body{padding:20px;}
-.travel-body h3{color:var(--navy);margin-bottom:6px;}
-.travel-date{color:var(--sky);font-weight:700;font-size:14px;margin-bottom:10px;}
-.travel-body p{color:#555;line-height:1.7;margin-bottom:12px;}
-.timeline{border-left:3px solid var(--gold);padding-left:24px;margin-top:30px;max-width:800px;margin-left:auto;margin-right:auto;}
-.timeline-item{position:relative;margin-bottom:30px;}
-.timeline-item::before{content:'✈️';position:absolute;left:-35px;top:0;background:#fff;padding:4px;}
-.timeline-year{font-weight:900;color:var(--gold);font-size:18px;margin-bottom:4px;}
-.timeline-place{font-weight:700;color:var(--navy);font-size:16px;}
-.timeline-desc{color:#555;}
-.restricted-box{text-align:center;padding:60px 20px;}
-.restricted-icon{font-size:60px;margin-bottom:20px;opacity:.3;}
-@media(max-width:768px){
-    .menu-toggle{display:block;}
-    .nav-links{position:absolute;top:100%;left:0;right:0;background:var(--navy);flex-direction:column;padding:16px;display:none;max-height:80vh;overflow-y:auto;}
-    .nav-links.active{display:flex;}
-    .nav-links a{width:100%;padding:12px 16px;}
-    .form-box,.calc-box{margin:0 -16px;border-radius:0;}
-    .hero-actions .btn{width:100%;}
-    .copy-btn{position:static;margin-top:10px;width:100%;}
+:root {
+  --navy: #081225;
+  --navy-light: #102042;
+  --gold: #E5B842;
+  --gold-hover: #C99E2E;
+  --sky: #2563EB;
+  --green: #10B981;
+  --red: #EF4444;
+  --slate: #64748B;
+  --light: #F8FAFC;
+  --card-shadow: 0 10px 30px -5px rgba(8, 18, 37, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.12);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; }
+html { scroll-behavior:smooth; }
+body { background:#F1F5F9; color:#1E293B; line-height:1.6; }
+
+.container { max-width:1200px; margin:0 auto; padding:0 20px; }
+
+/* Navigation */
+nav { background:var(--navy); position:sticky; top:0; z-index:9999; backdrop-filter:blur(10px); border-bottom:1px solid rgba(255,255,255,0.08); }
+.nav-wrap { display:flex; justify-content:space-between; align-items:center; height:72px; }
+.logo { font-size:22px; font-weight:800; color:var(--gold); text-decoration:none; cursor:pointer; letter-spacing:0.5px; display:flex; align-items:center; gap:8px; }
+.nav-links { display:flex; gap:6px; list-style:none; align-items:center; }
+.nav-links a { color:#94A3B8; text-decoration:none; padding:8px 14px; border-radius:8px; font-weight:600; font-size:14px; cursor:pointer; transition:all 0.2s ease; }
+.nav-links a:hover, .nav-links a.active { color:#FFFFFF; background:rgba(255,255,255,0.08); }
+.nav-cta { background:linear-gradient(135deg, var(--gold), var(--gold-hover)) !important; color:var(--navy) !important; font-weight:700 !important; }
+.nav-cta:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(229,184,66,0.3); }
+.menu-toggle { display:none; color:#fff; font-size:26px; cursor:pointer; background:none; border:none; padding:6px; }
+
+/* Buttons & Controls */
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 22px; border-radius:10px; font-weight:700; border:none; cursor:pointer; font-size:14px; text-decoration:none; transition:all 0.2s ease; white-space:nowrap; }
+.btn:active { transform:scale(0.98); }
+.btn:disabled { opacity:0.5; cursor:not-allowed; }
+.btn-gold { background:linear-gradient(135deg, var(--gold), var(--gold-hover)); color:var(--navy); }
+.btn-sky { background:var(--sky); color:#fff; }
+.btn-green { background:var(--green); color:#fff; }
+.btn-outline { border:2px solid var(--navy); background:transparent; color:var(--navy); }
+.btn-sm { padding:8px 14px; font-size:13px; border-radius:8px; }
+.btn-block { width:100%; }
+
+/* Hero Section */
+.hero { background:radial-gradient(circle at top right, #102042 0%, var(--navy) 100%); color:#fff; padding:70px 0 80px; text-align:center; position:relative; overflow:hidden; }
+.hero::before { content:''; position:absolute; top:0; left:0; right:0; bottom:0; background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+.badge { display:inline-flex; align-items:center; gap:6px; background:rgba(229,184,66,0.12); border:1px solid rgba(229,184,66,0.3); color:var(--gold); padding:6px 16px; border-radius:50px; font-weight:700; margin-bottom:20px; font-size:13px; }
+.hero h1 { font-size:clamp(28px, 5vw, 48px); margin-bottom:16px; font-weight:800; letter-spacing:-0.5px; }
+.hero h1 span { color:var(--gold); }
+.hero p { font-size:clamp(15px, 2.5vw, 18px); color:#94A3B8; max-width:640px; margin:0 auto 32px; font-weight:500; }
+
+.rate-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:16px; max-width:940px; margin:0 auto 32px; }
+.rate-card { background:rgba(255, 255, 255, 0.04); border:1px solid var(--glass-border); backdrop-filter:blur(10px); border-radius:16px; padding:20px; text-align:left; transition:0.2s; }
+.rate-card:hover { border-color:rgba(229,184,66,0.4); }
+.rate-card h3 { font-size:15px; color:#94A3B8; font-weight:600; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+.rate-card .big { font-size:26px; font-weight:800; color:var(--gold); }
+.rate-card .sub { font-size:13px; color:#CBD5E1; margin-top:2px; }
+
+.alert { background:rgba(239, 68, 68, 0.12); border:1px solid rgba(239, 68, 68, 0.3); border-radius:12px; padding:12px 18px; max-width:640px; margin:0 auto 28px; color:#FCA5A5; font-size:13px; font-weight:600; display:flex; align-items:center; justify-content:center; gap:8px; }
+.hero-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+/* Sections & Grid Layouts */
+section { padding:60px 0; }
+h2 { text-align:center; font-size:28px; color:var(--navy); margin-bottom:8px; font-weight:800; }
+h2::after { content:''; display:block; width:48px; height:4px; background:var(--gold); margin:12px auto 0; border-radius:2px; }
+.subtitle { text-align:center; color:var(--slate); margin-bottom:36px; font-size:15px; font-weight:500; }
+
+.grid-3 { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px; }
+.grid-4 { display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:20px; }
+
+.card { background:#fff; padding:24px; border-radius:16px; box-shadow:var(--card-shadow); border:1px solid #E2E8F0; transition:all 0.25s ease; }
+.card:hover { transform:translateY(-4px); box-shadow:0 20px 35px -10px rgba(8,18,37,0.12); }
+.card h3 { color:var(--navy); margin-bottom:8px; font-size:18px; font-weight:700; }
+.stars { color:var(--gold); font-size:15px; }
+
+.tag { display:inline-block; padding:4px 10px; border-radius:30px; font-size:12px; font-weight:700; margin-bottom:10px; }
+.tag-pre { background:#DBEAFE; color:#1E40AF; }
+.tag-stock { background:#D1FAE5; color:#065F46; }
+
+/* Interactive Tabs */
+.tabs { display:flex; gap:6px; margin-bottom:24px; border-bottom:2px solid #E2E8F0; padding-bottom:2px; }
+.tab { padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:700; color:var(--slate); border:none; background:none; font-size:14px; transition:0.2s; }
+.tab.active { color:var(--navy); background:#E2E8F0; }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+
+/* Forms & Calculator */
+.form-box { max-width:520px; margin:0 auto; background:#fff; padding:32px; border-radius:20px; box-shadow:var(--card-shadow); border:1px solid #E2E8F0; }
+.calc-box { background:#fff; border-radius:20px; padding:32px; box-shadow:var(--card-shadow); border:1px solid #E2E8F0; max-width:680px; margin:0 auto; }
+.form-group { margin-bottom:18px; }
+label { display:block; margin-bottom:6px; font-weight:700; color:var(--navy); font-size:13px; text-transform:uppercase; letter-spacing:0.3px; }
+input, select, textarea { width:100%; padding:12px 16px; border:1.5px solid #CBD5E1; border-radius:10px; font-size:15px; background:#F8FAFC; transition:0.2s; color:#0F172A; }
+input:focus, select:focus, textarea:focus { outline:none; border-color:var(--sky); background:#fff; box-shadow:0 0 0 4px rgba(37,99,235,0.1); }
+input[readonly] { background:#E2E8F0; cursor:not-allowed; }
+.form-row { display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:12px; }
+
+.msg { padding:12px; border-radius:10px; margin:12px 0; display:none; font-weight:600; font-size:14px; }
+.msg.ok { background:#ECFDF5; color:#065F45; display:block; border:1px solid #A7F3D0; }
+.msg.err { background:#FEF2F2; color:#991B1B; display:block; border:1px solid #FECACA; }
+
+.result { margin-top:24px; padding:20px; background:#F0FDF4; border-radius:14px; border:1px solid #BBF7D0; }
+.result.air { background:#EFF6FF; border-color:#BFDBFE; }
+.result .total { font-size:24px; font-weight:800; color:var(--navy); margin-top:6px; }
+
+/* Address Blocks */
+.addr-section { background:#fff; border-radius:20px; padding:28px; box-shadow:var(--card-shadow); border:1px solid #E2E8F0; margin-bottom:24px; }
+.addr-section h3 { color:var(--navy); margin-bottom:18px; padding-bottom:10px; border-bottom:2px solid #F1F5F9; font-size:18px; font-weight:700; }
+.addr-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px; }
+.addr-block { background:#F8FAFC; border-radius:14px; padding:20px; position:relative; border:1px solid #E2E8F0; }
+.sea { border-left:4px solid var(--navy); }
+.air { border-left:4px solid var(--sky); }
+.gh { border-left:4px solid var(--gold); }
+.copy-btn { position:absolute; top:16px; right:16px; }
+
+/* Page Views */
+.page { display:none; }
+.page.active { display:block; }
+.auth-only { display:none !important; }
+.auth-only.show { display:block !important; }
+.admin-only { display:none !important; }
+.admin-only.show { display:block !important; }
+.code { font-size:16px; font-weight:800; color:var(--navy); background:#F1F5F9; padding:12px; border-radius:10px; text-align:center; margin:16px 0; border:1px dashed #CBD5E1; word-break:break-all; }
+
+/* Tables */
+.admin-table { width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:var(--card-shadow); }
+.admin-table th { background:var(--navy); color:#fff; padding:14px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:0.5px; }
+.admin-table td { padding:14px; border-bottom:1px solid #E2E8F0; font-size:14px; }
+
+.pill { display:inline-block; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:700; }
+.pill-pending { background:#FEF3C7; color:#92400E; }
+.pill-processing { background:#DBEAFE; color:#1E40AF; }
+.pill-shipped { background:#E0E7FF; color:#3730A3; }
+.pill-delivered { background:#D1FAE5; color:#166534; }
+.pill-cancelled { background:#FEE2E2; color:#991B1B; }
+
+/* Timeline & Travel */
+.travel-hero { background:linear-gradient(135deg, var(--navy-light), var(--navy)); color:#fff; padding:50px 0; text-align:center; }
+.travel-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px; margin-top:28px; }
+.travel-card { background:#fff; border-radius:16px; overflow:hidden; box-shadow:var(--card-shadow); border:1px solid #E2E8F0; }
+.travel-img { height:180px; background:linear-gradient(135deg, var(--sky), var(--navy)); display:flex; align-items:center; justify-content:center; font-size:48px; color:#fff; }
+.travel-body { padding:20px; }
+
+.timeline { border-left:3px solid var(--gold); padding-left:24px; margin:30px auto 0; max-width:700px; }
+.timeline-item { position:relative; margin-bottom:28px; }
+.timeline-item::before { content:'✈️'; position:absolute; left:-37px; top:0; background:#F1F5F9; border-radius:50%; padding:2px; font-size:14px; }
+.timeline-year { font-weight:800; color:var(--gold); font-size:16px; }
+
+/* Toast Notifications */
+.toast-wrap { position:fixed; top:84px; right:20px; z-index:10001; display:flex; flex-direction:column; gap:10px; pointer-events:none; }
+.toast { background:var(--navy); color:#fff; padding:14px 20px; border-radius:12px; font-weight:600; font-size:14px; max-width:340px; opacity:0; transform:translateX(100%); transition:all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); pointer-events:auto; box-shadow:0 10px 25px rgba(0,0,0,0.15); }
+.toast.show { opacity:1; transform:translateX(0); }
+.toast.ok { background:var(--green); }
+.toast.err { background:var(--red); }
+.toast.warn { background:#F59E0B; }
+
+footer { background:var(--navy); color:#94A3B8; padding:40px 0 24px; margin-top:60px; text-align:center; border-top:1px solid rgba(255,255,255,0.08); }
+footer h3 { color:var(--gold); margin-bottom:12px; font-size:20px; font-weight:800; }
+footer p { margin-bottom:6px; font-size:14px; }
+
+.spinner { display:inline-block; width:16px; height:16px; border:2.5px solid rgba(255,255,255,0.3); border-top-color:#fff; border-radius:50%; animation:spin .8s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+
+@media(max-width:768px) {
+  .menu-toggle { display:block; }
+  .nav-links { position:absolute; top:100%; left:0; right:0; background:var(--navy); flex-direction:column; padding:16px; display:none; border-bottom:1px solid rgba(255,255,255,0.1); }
+  .nav-links.active { display:flex; }
+  .nav-links a { width:100%; padding:12px; text-align:left; }
+  .form-box, .calc-box { padding:20px; border-radius:16px; }
+  .hero-actions .btn { width:100%; }
 }
 </style>
 </head>
 <body>
 
 <nav>
-    <div class="container nav-wrap">
-        <a class="logo" onclick="go('home')">EVERIVAULT</a>
-        <ul class="nav-links" id="menu">
-            <li><a class="plink active" data-p="home" onclick="go('home')">Home</a></li>
-            <li><a class="plink" data-p="store" onclick="go('store')">🛒 Store</a></li>
-            <li><a class="plink" data-p="calc" onclick="go('calc')">📐 Calculator</a></li>
-            <li><a class="plink" data-p="address" onclick="go('address')">📍 Shipping Info</a></li>
-            <li id="travelNavItem" style="display:none;"><a class="plink" data-p="travel" onclick="go('travel')">🌍 CEO Travels</a></li>
-            <li><a class="plink" data-p="track" onclick="go('track')">🔍 Track</a></li>
-            <li><a class="plink" data-p="reviews" onclick="go('reviews')">⭐ Reviews</a></li>
-            <li><a class="plink" data-p="terms" onclick="go('terms')">📋 Terms</a></li>
-            <li id="clientLink" style="display:none;"><a class="plink" data-p="orders" onclick="go('orders')">👤 My Orders</a></li>
-            <li id="adminLink" style="display:none;"><a class="plink" data-p="admin" onclick="go('admin')">👑 Admin</a></li>
-            <li id="authNav"><a class="nav-cta plink" data-p="auth" onclick="go('auth')">Login</a></li>
-        </ul>
-        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-    </div>
+  <div class="container nav-wrap">
+    <a class="logo" onclick="go('home')">📦 EVERIVAULT</a>
+    <ul class="nav-links" id="menu">
+      <li><a class="plink active" data-p="home" onclick="go('home')">Home</a></li>
+      <li><a class="plink" data-p="store" onclick="go('store')">🛒 Store</a></li>
+      <li><a class="plink" data-p="calc" onclick="go('calc')">📐 Calculator</a></li>
+      <li><a class="plink" data-p="address" onclick="go('address')">📍 Shipping Info</a></li>
+      <li id="travelNavItem" style="display:none;"><a class="plink" data-p="travel" onclick="go('travel')">🌍 CEO Travels</a></li>
+      <li><a class="plink" data-p="track" onclick="go('track')">🔍 Track</a></li>
+      <li><a class="plink" data-p="reviews" onclick="go('reviews')">⭐ Reviews</a></li>
+      <li><a class="plink" data-p="terms" onclick="go('terms')">📋 Terms</a></li>
+      <li id="clientLink" style="display:none;"><a class="plink" data-p="orders" onclick="go('orders')">👤 My Orders</a></li>
+      <li id="adminLink" style="display:none;"><a class="plink" data-p="admin" onclick="go('admin')">👑 Admin</a></li>
+      <li id="authNav"><a class="nav-cta plink" data-p="auth" onclick="go('auth')">Login</a></li>
+    </ul>
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+  </div>
 </nav>
 
+<!-- HOME PAGE -->
 <section id="p-home" class="page active">
-    <div class="hero">
-        <div class="container">
-            <div class="badge">📍 Kumasi — KNUST, Ayeduase New Site</div>
-            <h1>China ↔ Ghana <span>Trusted Shipping & Store</span></h1>
-            <p>Shop Direct • Sea & Air Freight • Real-Time Tracking • Secure Payments</p>
-            <div class="rate-grid">
-                <div class="rate-card"><h3>🚢 Sea Freight</h3><div class="big">$260/m³</div><div>Under 1 CBM</div><div class="big" style="font-size:20px;margin-top:6px;">$255/m³</div><div>1 CBM & Above</div><div style="opacity:.7;margin-top:6px;">⏱️ 45–60 Days</div></div>
-                <div class="rate-card"><h3>✈️ Air Freight</h3><div class="big">$17/kg</div><div>Standard Goods</div><div class="big" style="font-size:20px;margin-top:6px;">₵500</div><div>Phones/Laptops/Tablets</div><div style="opacity:.7;margin-top:6px;">⏱️ 3–7 Days</div></div>
-                <div class="rate-card"><h3>💱 Exchange</h3><div class="big">1 USD = ₵13</div><div>Auto Conversion</div></div>
-            </div>
-            <div class="alert">⚠️ No batteries, fragile items, or liquids via Sea accepted</div>
-            <div class="hero-actions">
-                <a class="btn btn-gold" onclick="go('store')">🛒 Shop Now</a>
-                <a class="btn btn-sky" onclick="go('calc')">📐 Calculate Cost</a>
-                <a class="btn btn-green auth-only" id="heroTravelBtn" onclick="go('travel')">🌍 CEO Travels</a>
-            </div>
-        </div>
-    </div>
+  <div class="hero">
     <div class="container">
-        <h2>Why EveriVault?</h2>
-        <p class="subtitle">Your trusted partner — direct from China to your doorstep in Ghana</p>
-        <div class="grid-3">
-            <div class="card"><h3>🛒 Online Store</h3><p>Ready stock & pre-order items. Prices shown in GHS — no surprises.</p></div>
-            <div class="card"><h3>✅ Transparent Pricing</h3><p>No hidden fees. Fixed rates. USD→GHS at ₵13.</p></div>
-            <div class="card"><h3>🔍 Unique Tracking</h3><p>GH001K-Initials-XXXXXX = Reference = Tracking.</p></div>
-            <div class="card"><h3>💰 Flexible Payments</h3><p>MoMo or Bank Transfer. Verified status protects your funds.</p></div>
-            <div class="card"><h3>🚢 Sea + ✈️ Air</h3><p>Warehouses in Foshan & Guangzhou. Choose economy or express.</p></div>
-            <div class="card"><h3>📍 Local Support</h3><p>Kumasi based. Call +233 543 155 883 anytime.</p></div>
+      <div class="badge">📍 Ghana Hub — KNUST Ayeduase New Site, Kumasi</div>
+      <h1>China ↔ Ghana <span>Logistics & Express Store</span></h1>
+      <p>Direct Procurement • Air & Sea Freight • Real-Time Order Tracking • Guaranteed Security</p>
+      
+      <div class="rate-grid">
+        <div class="rate-card">
+          <h3>🚢 Sea Freight</h3>
+          <div class="big">$260 / m³</div>
+          <div class="sub">Under 1 CBM</div>
+          <div class="big" style="font-size:20px; margin-top:8px; color:#fff;">$255 / m³</div>
+          <div class="sub">1 CBM & Above</div>
+          <div class="sub" style="margin-top:8px; color:var(--gold);">⏱️ 45–60 Days Delivery</div>
         </div>
+        <div class="rate-card">
+          <h3>✈️ Air Freight</h3>
+          <div class="big">$17 / kg</div>
+          <div class="sub">Standard Cargo</div>
+          <div class="big" style="font-size:20px; margin-top:8px; color:#fff;">₵500 Flat</div>
+          <div class="sub">Phones / Laptops / Tablets</div>
+          <div class="sub" style="margin-top:8px; color:var(--gold);">⏱️ 3–7 Days Delivery</div>
+        </div>
+        <div class="rate-card">
+          <h3>💱 Exchange Rate</h3>
+          <div class="big">1 USD = ₵13</div>
+          <div class="sub">Automated GHS Calculations</div>
+        </div>
+      </div>
+
+      <div class="alert">⚠️ Notice: Liquids, standalone batteries, and fragile glass are prohibited via Sea Cargo.</div>
+
+      <div class="hero-actions">
+        <a class="btn btn-gold" onclick="go('store')">🛒 Shop Direct</a>
+        <a class="btn btn-sky" onclick="go('calc')">📐 Calculate Shipping Cost</a>
+        <a class="btn btn-green auth-only" id="heroTravelBtn" onclick="go('travel')">🌍 CEO Travels</a>
+      </div>
     </div>
+  </div>
+
+  <div class="container" style="margin-top:60px;">
+    <h2>Why Choose EveriVault?</h2>
+    <p class="subtitle">End-to-end purchasing, warehousing, and customs clearance built for efficiency.</p>
+    
+    <div class="grid-3">
+      <div class="card">
+        <h3>🛒 Curated Online Store</h3>
+        <p>Source factory-direct items in Ghana Cedi without dealing with complex foreign exchange barriers.</p>
+      </div>
+      <div class="card">
+        <h3>✅ Transparent Rates</h3>
+        <p>No hidden clearance fees or sudden surges. Fixed dollar-to-cedi conversion rates.</p>
+      </div>
+      <div class="card">
+        <h3>🔍 Unique Tracking Code</h3>
+        <p>Every shipment is tagged with a custom shipping reference for real-time status updates.</p>
+      </div>
+      <div class="card">
+        <h3>💰 Verified Payments</h3>
+        <p>Flexible Mobile Money (MTN, Telecel, AT) and direct GT Bank deposits with automatic receipt records.</p>
+      </div>
+      <div class="card">
+        <h3>🚢 Dual Warehouses</h3>
+        <p>Dedicated modern warehouses located in Guangzhou and Foshan for air and sea consolidation.</p>
+      </div>
+      <div class="card">
+        <h3>📍 Kumasi Pickup Hub</h3>
+        <p>Convenient pickup station at Ayeduase New Site or nationwide dispatch to your doorstep.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section id="p-travel" class="page">
-    <div id="travelRestricted" class="restricted-box">
-        <div class="restricted-icon">🔒</div>
-        <h2>🌍 CEO Travels & Highlights</h2>
-        <p class="subtitle">Exclusive to registered clients</p>
-        <div style="max-width:400px;margin:0 auto;">
-            <p style="margin-bottom:20px;color:#64748B;">Sign in to see Richmond's business trips and behind-the-scenes photos.</p>
-            <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-                <a class="btn btn-gold" onclick="go('auth')">🔐 Login / Register</a>
-                <a class="btn btn-outline" onclick="go('home')">← Back Home</a>
-            </div>
-        </div>
-    </div>
-    <div id="travelFull" style="display:none;">
-        <div class="travel-hero">
-            <div class="container">
-                <h2>🌍 CEO Travels & Highlights</h2>
-                <p class="subtitle" style="color:#E0E7FF;">Follow Richmond Wireko Brobbey across the globe</p>
-            </div>
-        </div>
-        <div class="container">
-            <h3 style="text-align:center;color:var(--navy);margin-top:20px;font-size:22px;">📅 Journey Timeline</h3>
-            <div class="timeline" id="travelTimeline"></div>
-            <h3 style="text-align:center;color:var(--navy);margin-top:50px;font-size:22px;">📸 Trips & Photos</h3>
-            <div class="travel-grid" id="travelGrid"></div>
-        </div>
-    </div>
-</section>
-
+<!-- STORE PAGE -->
 <section id="p-store" class="page">
-    <div class="container">
-        <h2>🛒 EveriVault Online Store</h2>
-        <p class="subtitle">In-Stock & Pre-Order — Prices in GHS</p>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:25px;">
-            <input type="search" id="searchInput" placeholder="🔍 Search products..." oninput="renderProducts()" style="padding:10px;border-radius:8px;border:2px solid #E2E8F0;min-width:200px;flex:1;max-width:300px;">
-            <select id="catFilter" onchange="renderProducts()" style="padding:10px;border-radius:8px;border:2px solid #E2E8F0;min-width:160px;"><option value="all">All Categories</option></select>
-            <select id="stockFilter" onchange="renderProducts()" style="padding:10px;border-radius:8px;border:2px solid #E2E8F0;min-width:160px;">
-                <option value="">All Items</option>
-                <option value="false">✅ In Stock</option>
-                <option value="true">⏳ Pre-Order</option>
-            </select>
-        </div>
-        <div id="prodGrid" class="grid-4"></div>
+  <div class="container">
+    <h2>🛒 EveriVault Express Store</h2>
+    <p class="subtitle">Factory-Direct Pre-Orders & Local Ready Stock</p>
+    
+    <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-bottom:30px;">
+      <input type="search" id="searchInput" placeholder="🔍 Search products..." oninput="renderProducts()" style="max-width:280px;">
+      <select id="catFilter" onchange="renderProducts()" style="max-width:180px;"><option value="all">All Categories</option></select>
+      <select id="stockFilter" onchange="renderProducts()" style="max-width:180px;">
+        <option value="">All Items</option>
+        <option value="false">✅ In Stock</option>
+        <option value="true">⏳ Pre-Order</option>
+      </select>
     </div>
+
+    <div id="prodGrid" class="grid-4"></div>
+  </div>
 </section>
 
+<!-- CALCULATOR PAGE -->
 <section id="p-calc" class="page">
-    <div class="container">
-        <h2>📐 Shipping Cost Calculator</h2>
-        <div class="calc-box">
-            <div class="tabs">
-                <button class="tab active" onclick="calcMode('sea')">🚢 Sea Freight</button>
-                <button class="tab" onclick="calcMode('air')">✈️ Air Freight</button>
-            </div>
-            <div id="calcSea" class="tab-content active">
-                <p style="margin-bottom:15px;font-weight:600;color:var(--navy);font-size:14px;">CBM = L(m) × W(m) × H(m) × Quantity</p>
-                <div class="form-row">
-                    <div class="form-group"><label>Length (cm)</label><input type="number" id="seaL" oninput="calcSea()" placeholder="100" min="0"></div>
-                    <div class="form-group"><label>Width (cm)</label><input type="number" id="seaW" oninput="calcSea()" placeholder="60" min="0"></div>
-                    <div class="form-group"><label>Height (cm)</label><input type="number" id="seaH" oninput="calcSea()" placeholder="50" min="0"></div>
-                </div>
-                <div class="form-group"><label>Quantity</label><input type="number" id="seaQty" value="1" min="1" oninput="calcSea()"></div>
-                <div class="result">
-                    <strong>Volume:</strong> <span id="seaCbm">0.000</span> m³<br><br>
-                    • &lt;1CBM → $260/m³<br>• ≥1CBM → $255/m³<br>• $1 = ₵13<br><br>
-                    <strong>Total:</strong>
-                    <div class="total">$<span id="seaUsd">0.00</span> = ₵<span id="seaGhs">0.00</span></div>
-                    <small>⏱️ Delivery: 45–60 Days</small>
-                </div>
-            </div>
-            <div id="calcAir" class="tab-content">
-                <div class="form-group">
-                    <label>Item Type</label>
-                    <select id="airType" onchange="calcAir()">
-                        <option value="std">Standard — $17/kg</option>
-                        <option value="phone">📱 Phone — ₵500 Flat</option>
-                        <option value="laptop">💻 Laptop — ₵500 Flat</option>
-                        <option value="tab">📱 Tablet — ₵500 Flat</option>
-                    </select>
-                </div>
-                <div class="form-group" id="airKgRow"><label>Weight (kg)</label><input type="number" id="airKg" step="0.1" oninput="calcAir()" min="0"></div>
-                <div class="result air">
-                    <strong>Cost:</strong>
-                    <div class="total">$<span id="airUsd">0.00</span> = ₵<span id="airGhs">0.00</span></div>
-                    <small>⏱️ Delivery: 3–7 Days</small>
-                </div>
-            </div>
+  <div class="container">
+    <h2>📐 Freight Cost Calculator</h2>
+    <p class="subtitle">Estimate your shipping fees instantly before sending cargo to our warehouse.</p>
+    
+    <div class="calc-box">
+      <div class="tabs">
+        <button class="tab active" onclick="calcMode('sea')">🚢 Sea Freight</button>
+        <button class="tab" onclick="calcMode('air')">✈️ Air Freight</button>
+      </div>
+
+      <div id="calcSea" class="tab-content active">
+        <p style="margin-bottom:16px; font-weight:700; color:var(--navy); font-size:13px;">FORMULA: Volume (m³) = Length(m) × Width(m) × Height(m) × Quantity</p>
+        <div class="form-row">
+          <div class="form-group"><label>Length (cm)</label><input type="number" id="seaL" oninput="calcSea()" placeholder="100"></div>
+          <div class="form-group"><label>Width (cm)</label><input type="number" id="seaW" oninput="calcSea()" placeholder="60"></div>
+          <div class="form-group"><label>Height (cm)</label><input type="number" id="seaH" oninput="calcSea()" placeholder="50"></div>
         </div>
+        <div class="form-group"><label>Quantity</label><input type="number" id="seaQty" value="1" min="1" oninput="calcSea()"></div>
+        
+        <div class="result">
+          <strong>Calculated Volume:</strong> <span id="seaCbm">0.000</span> m³<br><br>
+          <small>• Under 1 CBM: $260/m³ | 1 CBM & Above: $255/m³<br>• Exchange Rate: $1 = ₵13</small>
+          <div class="total">$<span id="seaUsd">0.00</span> ≈ ₵<span id="seaGhs">0.00</span></div>
+          <small style="color:var(--slate);">⏱️ Estimated Transit: 45–60 Days</small>
+        </div>
+      </div>
+
+      <div id="calcAir" class="tab-content">
+        <div class="form-group">
+          <label>Item Type</label>
+          <select id="airType" onchange="calcAir()">
+            <option value="std">Standard Goods — $17 / kg</option>
+            <option value="phone">📱 Mobile Phone — ₵500 Flat Rate</option>
+            <option value="laptop">💻 Laptop — ₵500 Flat Rate</option>
+            <option value="tab">📱 Tablet — ₵500 Flat Rate</option>
+          </select>
+        </div>
+        <div class="form-group" id="airKgRow"><label>Weight (kg)</label><input type="number" id="airKg" step="0.1" oninput="calcAir()" placeholder="1.5"></div>
+        
+        <div class="result air">
+          <strong>Calculated Fee:</strong>
+          <div class="total">$<span id="airUsd">0.00</span> ≈ ₵<span id="airGhs">0.00</span></div>
+          <small style="color:var(--slate);">⏱️ Express Transit: 3–7 Days</small>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 
+<!-- ADDRESS PAGE -->
 <section id="p-address" class="page">
-    <div class="container">
-        <h2>📍 Warehouse & Shipping Addresses</h2>
-        <div class="addr-section">
-            <h3>🇬🇭 Ghana Office</h3>
-            <div class="addr-block gh">
-                <p><strong>EveriVault</strong><br>KNUST Campus, Ayeduase New Site<br>Kumasi, Ashanti Region<br>Ghana<br><br>📞 +233 543 155 883<br>📧 richmonwireko@gmail.com</p>
-                <button class="btn btn-sm btn-gold copy-btn" onclick="copyText(this.parentElement.querySelector('p').innerText)">📋 Copy</button>
-            </div>
-        </div>
-        <div class="addr-section">
-            <h3>🇨🇳 China Warehouses</h3>
-            <div class="addr-grid">
-                <div class="addr-block sea">
-                    <h4>🚢 Sea — Foshan (45–60 Days)</h4>
-                    <p>Bohui Phase 5, No.88 Xinpu West Road, Shishan Town<br>Nanhai District, Foshan, Guangdong<br>China<br><br>Mr Zhang: +86 181 2571 7488<br>Mr Yue: +86 180 2417 9599<br><br>Ref: EveriVault — GH001K-YourName — +233 543 155 883</p>
-                    <button class="btn btn-sm btn-outline copy-btn" onclick="copyText(this.parentElement.querySelector('p').innerText)">📋 Copy</button>
-                </div>
-                <div class="addr-block air">
-                    <h4>✈️ Air — Guangzhou (3–7 Days)</h4>
-                    <p>Room 510, 99 Business Center, No.99 West Guangyuan Road<br>Yuexiu District, Guangzhou, Guangdong<br>China<br><br>Ref: EveriVault — GH001K-YourName — +233 543 155 883</p>
-                    <button class="btn btn-sm btn-sky copy-btn" onclick="copyText(this.parentElement.querySelector('p').innerText)">📋 Copy</button>
-                </div>
-            </div>
-        </div>
-        <div class="addr-section">
-            <h3>💳 Payment Details</h3>
-            <div class="addr-grid">
-                <div class="addr-block" style="border-left:4px solid var(--green);">
-                    <p><strong>Bank:</strong> Guaranty Trust Bank<br><strong>Name:</strong> Richmond Wireko Brobbey<br><strong>Account:</strong> 1304001024705</p>
-                    <button class="btn btn-sm btn-green copy-btn" onclick="copyText(this.parentElement.querySelector('p').innerText)">📋 Copy</button>
-                </div>
-                <div class="addr-block" style="border-left:4px solid var(--orange);">
-                    <p><strong>MoMo:</strong> 0543155883<br>Use your Shipping Mark as Reference</p>
-                </div>
-            </div>
-        </div>
+  <div class="container">
+    <h2>📍 Warehouse Addresses & Billing</h2>
+    <p class="subtitle">Copy our precise address marks when ordering on 1688, Taobao, or Alibaba.</p>
+
+    <div class="addr-section">
+      <h3>🇬🇭 Ghana Office & Pickup Point</h3>
+      <div class="addr-block gh">
+        <p><strong>EveriVault Logistics</strong><br>KNUST Campus, Ayeduase New Site<br>Kumasi, Ashanti Region, Ghana<br><br>📞 +233 543 155 883<br>📧 richmonwireko@gmail.com</p>
+        <button class="btn btn-sm btn-gold copy-btn" onclick="copyText(this.parentElement.querySelector('p').innerText)">📋 Copy Address</button>
+      </div>
     </div>
+
+    <div class="addr-section">
+      <h3>🇨🇳 China Consolidation Hubs</h3>
+      <div class="addr-grid">
+        <div class="addr-block sea">
+          <h4>🚢 Sea Freight — Foshan Hub</h4>
+          <p>Bohui Phase 5, No.88 Xinpu West Road, Shishan Town, Nanhai District, Foshan, Guangdong, China<br><br>Mr Zhang: +86 181 2571 7488<br>Mr Yue: +86 180 2417 9599<br><br><strong>Shipping Mark:</strong> EveriVault — GH001K-[YourName] — +233543155883</p>
+          <button class="btn btn-sm btn-outline copy-btn" onclick="copyText(this.parentElement.querySelector('p').innerText)">📋 Copy</button>
+        </div>
+        <div class="addr-block air">
+          <h4>✈️ Air Freight — Guangzhou Express</h4>
+          <p>Room 510, 99 Business Center, No.99 West Guangyuan Road, Yuexiu District, Guangzhou, Guangdong, China<br><br><strong>Shipping Mark:</strong> EveriVault — GH001K-[YourName] — +233543155883</p>
+          <button class="btn btn-sm btn-sky copy-btn" onclick="copyText(this.parentElement.querySelector('p').innerText)">📋 Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="addr-section">
+      <h3>💳 Payment & MoMo Options</h3>
+      <div class="addr-grid">
+        <div class="addr-block" style="border-left:4px solid var(--green);">
+          <p><strong>Bank Deposit:</strong> Guaranty Trust Bank (GTBank)<br><strong>Account Name:</strong> Richmond Wireko Brobbey<br><strong>Account Number:</strong> 1304001024705</p>
+          <button class="btn btn-sm btn-green copy-btn" onclick="copyText('1304001024705')">📋 Copy Account</button>
+        </div>
+        <div class="addr-block" style="border-left:4px solid #F59E0B;">
+          <p><strong>Mobile Money:</strong> 0543155883<br><strong>Merchant/Name:</strong> Richmond Wireko Brobbey<br><em>Reference: Use your unique shipping mark code</em></p>
+          <button class="btn btn-sm btn-gold copy-btn" onclick="copyText('0543155883')">📋 Copy MoMo</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- AUTH PAGE -->
 <section id="p-auth" class="page">
-    <div class="container">
-        <h2>🔐 Account</h2>
-        <div class="form-box">
-            <div class="tabs">
-                <button class="tab active" data-authtab="client" onclick="authTab('client')">Client</button>
-                <button class="tab" data-authtab="admin" onclick="authTab('admin')">Admin</button>
-            </div>
-            <div id="tClient" class="tab-content active">
-                <div class="tabs">
-                    <button class="tab active" data-authsub="login" onclick="authSub('login')">Login</button>
-                    <button class="tab" data-authsub="reg" onclick="authSub('reg')">Register</button>
-                </div>
-                <form id="fLogin" class="tab-content active" onsubmit="doLogin(event)">
-                    <div class="form-group"><label>Email</label><input type="email" id="lem" required></div>
-                    <div class="form-group"><label>Password</label><input type="password" id="lpw" required></div>
-                    <div id="lmsg" class="msg"></div>
-                    <button class="btn btn-gold btn-block" type="submit" id="loginBtn">Sign In</button>
-                </form>
-                <form id="fReg" class="tab-content" onsubmit="doReg(event)">
-                    <div class="form-group"><label>Full Name</label><input type="text" id="rn" required maxlength="60"></div>
-                    <div class="form-group"><label>Email</label><input type="email" id="rem" required></div>
-                    <div class="form-group"><label>Phone</label><input type="tel" id="rp" required maxlength="20"></div>
-                    <div class="form-group"><label>Location</label><input type="text" id="rl" required maxlength="60" placeholder="Kumasi..."></div>
-                    <div class="form-group"><label>Password</label><input type="password" id="rpw" required minlength="6"></div>
-                    <div class="form-group"><label>Confirm Password</label><input type="password" id="rpw2" required minlength="6"></div>
-                    <div id="rmsg" class="msg"></div>
-                    <button class="btn btn-gold btn-block" type="submit" id="regBtn">Create Account</button>
-                </form>
-            </div>
-            <div id="tAdmin" class="tab-content">
-                <form onsubmit="doAdmin(event)">
-                    <div class="form-group"><label>Admin Email</label><input type="email" id="aem" required></div>
-                    <div class="form-group"><label>Password</label><input type="password" id="apw" required></div>
-                    <div id="amsg" class="msg"></div>
-                    <button class="btn btn-gold btn-block" type="submit" id="adminBtn">Admin Sign In</button>
-                </form>
-            </div>
+  <div class="container">
+    <h2>🔐 Account Access</h2>
+    <div class="form-box">
+      <div class="tabs">
+        <button class="tab active" data-authtab="client" onclick="authTab('client')">Client Portal</button>
+        <button class="tab" data-authtab="admin" onclick="authTab('admin')">Administrator</button>
+      </div>
+
+      <div id="tClient" class="tab-content active">
+        <div class="tabs" style="border-bottom:none; margin-bottom:16px;">
+          <button class="tab active" data-authsub="login" onclick="authSub('login')">Sign In</button>
+          <button class="tab" data-authsub="reg" onclick="authSub('reg')">Create Account</button>
         </div>
+
+        <form id="fLogin" class="tab-content active" onsubmit="doLogin(event)">
+          <div class="form-group"><label>Email Address</label><input type="email" id="lem" required></div>
+          <div class="form-group"><label>Password</label><input type="password" id="lpw" required></div>
+          <div id="lmsg" class="msg"></div>
+          <button class="btn btn-gold btn-block" type="submit" id="loginBtn">Sign In</button>
+        </form>
+
+        <form id="fReg" class="tab-content" onsubmit="doReg(event)">
+          <div class="form-group"><label>Full Name</label><input type="text" id="rn" required></div>
+          <div class="form-group"><label>Email Address</label><input type="email" id="rem" required></div>
+          <div class="form-group"><label>Phone Number</label><input type="tel" id="rp" required></div>
+          <div class="form-group"><label>Delivery City/Location</label><input type="text" id="rl" placeholder="e.g. Kumasi, Accra" required></div>
+          <div class="form-group"><label>Password</label><input type="password" id="rpw" required minlength="6"></div>
+          <div class="form-group"><label>Confirm Password</label><input type="password" id="rpw2" required minlength="6"></div>
+          <div id="rmsg" class="msg"></div>
+          <button class="btn btn-gold btn-block" type="submit" id="regBtn">Create Account</button>
+        </form>
+      </div>
+
+      <div id="tAdmin" class="tab-content">
+        <form onsubmit="doAdmin(event)">
+          <div class="form-group"><label>Admin Email</label><input type="email" id="aem" required></div>
+          <div class="form-group"><label>Secret Key / Password</label><input type="password" id="apw" required></div>
+          <div id="amsg" class="msg"></div>
+          <button class="btn btn-gold btn-block" type="submit" id="adminBtn">Admin Sign In</button>
+        </form>
+      </div>
     </div>
+  </div>
 </section>
 
+<!-- ORDER FORM PAGE -->
 <section id="p-order" class="page auth-only">
-    <div class="container">
-        <h2>✅ Place Order</h2>
-        <div class="form-box">
-            <form onsubmit="submitOrder(event)">
-                <div class="form-group"><label>Item Name</label><input type="text" id="oItem" required readonly></div>
-                <div class="form-row">
-                    <div class="form-group"><label>Quantity</label><input type="number" id="oQty" value="1" min="1" required oninput="updateTotal()"></div>
-                    <div class="form-group"><label>Unit Price (GHS)</label><input type="number" id="oPrice" step="0.01" required readonly></div>
-                </div>
-                <div class="form-group"><label>Total (GHS)</label><input type="number" id="oTotal" step="0.01" required readonly style="font-weight:bold;"></div>
-                <div class="form-group"><label>Shipping Mode</label><select id="oMode"><option value="sea">🚢 Sea — 45–60 Days</option><option value="air">✈️ Air — 3–7 Days</option></select></div>
-                <div class="form-group"><label>Payment Method</label><select id="oPay"><option>MTN MoMo</option><option>Telecel Cash</option><option>AirtelTigo Money</option><option>Bank Transfer</option></select></div>
-                <div class="form-group"><label>Notes (optional)</label><textarea id="oNote" rows="3" maxlength="300"></textarea></div>
-                <div class="code">Your Mark: <span id="showMark">—</span></div>
-                <div id="oMsg" class="msg"></div>
-                <button class="btn btn-gold btn-block" type="submit" id="orderBtn">✅ Submit Order</button>
-            </form>
+  <div class="container">
+    <h2>✅ Submit Order</h2>
+    <div class="form-box">
+      <form onsubmit="submitOrder(event)">
+        <div class="form-group"><label>Selected Item</label><input type="text" id="oItem" required readonly></div>
+        <div class="form-row">
+          <div class="form-group"><label>Quantity</label><input type="number" id="oQty" value="1" min="1" required oninput="updateTotal()"></div>
+          <div class="form-group"><label>Unit Price (GHS)</label><input type="number" id="oPrice" step="0.01" required readonly></div>
         </div>
+        <div class="form-group"><label>Total Payable (GHS)</label><input type="number" id="oTotal" step="0.01" required readonly style="font-size:18px; font-weight:800; color:var(--navy);"></div>
+        <div class="form-group">
+          <label>Shipping Method</label>
+          <select id="oMode">
+            <option value="sea">🚢 Sea Freight (45–60 Days)</option>
+            <option value="air">✈️ Air Express (3–7 Days)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Payment Channel</label>
+          <select id="oPay">
+            <option>MTN Mobile Money</option>
+            <option>Telecel Cash</option>
+            <option>AirtelTigo Money</option>
+            <option>GTBank Direct Transfer</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Special Instructions (Optional)</label><textarea id="oNote" rows="2" maxlength="250"></textarea></div>
+        <div class="code">Your Reference Code: <span id="showMark">—</span></div>
+        <div id="oMsg" class="msg"></div>
+        <button class="btn btn-gold btn-block" type="submit" id="orderBtn">Submit Order Now</button>
+      </form>
     </div>
+  </div>
 </section>
 
+<!-- CLIENT ORDERS PAGE -->
 <section id="p-orders" class="page auth-only">
-    <div class="container">
-        <h2>👤 My Orders</h2>
-        <div style="text-align:center;margin-bottom:20px;"><button class="btn btn-sm btn-outline" onclick="loadOrders()">🔄 Refresh</button></div>
-        <div id="ordersList"></div>
+  <div class="container">
+    <h2>👤 My Orders</h2>
+    <div style="text-align:center; margin-bottom:20px;">
+      <button class="btn btn-sm btn-outline" onclick="loadOrders()">🔄 Refresh Orders</button>
     </div>
+    <div id="ordersList" style="max-width:800px; margin:0 auto;"></div>
+  </div>
 </section>
 
+<!-- TRACKING PAGE -->
 <section id="p-track" class="page">
-    <div class="container">
-        <h2>🔍 Track Shipment</h2>
-        <div class="form-box">
-            <div class="form-group"><label>Tracking Code</label><input type="text" id="tCode" placeholder="GH001K-ABC-1A2B3C" required></div>
-            <button class="btn btn-gold btn-block" onclick="doTrack()" id="trackBtn">Check Status</button>
-            <div id="tResult" style="margin-top:20px;display:none;" class="result">
-                <h3 id="tP" style="color:var(--navy);margin-bottom:10px;"></h3>
-                <p><strong>Reference:</strong> <span id="tM"></span></p>
-                <p><strong>Total:</strong> ₵<span id="tA"></span></p>
-                <p><strong>Shipping:</strong> <span id="tMo"></span></p>
-                <p><strong>Status:</strong> <span id="tS"></span></p>
-                <p><strong>Payment:</strong> <span id="tV"></span></p>
-            </div>
-        </div>
+  <div class="container">
+    <h2>🔍 Track Shipment</h2>
+    <p class="subtitle">Enter your reference code to view cargo processing & location status.</p>
+    <div class="form-box">
+      <div class="form-group">
+        <label>Tracking Code</label>
+        <input type="text" id="tCode" placeholder="e.g. GH001K-ABC-1A2B3C" required style="text-transform:uppercase;">
+      </div>
+      <button class="btn btn-gold btn-block" onclick="doTrack()" id="trackBtn">Locate Shipment</button>
+      
+      <div id="tResult" style="display:none;" class="result">
+        <h3 id="tP" style="color:var(--navy); margin-bottom:12px;"></h3>
+        <p><strong>Tracking Ref:</strong> <span id="tM"></span></p>
+        <p><strong>Total Value:</strong> ₵<span id="tA"></span></p>
+        <p><strong>Logistics Type:</strong> <span id="tMo"></span></p>
+        <p><strong>Current Status:</strong> <span id="tS" class="pill pill-pending"></span></p>
+        <p><strong>Payment Status:</strong> <span id="tV"></span></p>
+      </div>
     </div>
+  </div>
 </section>
 
+<!-- REVIEWS PAGE -->
 <section id="p-reviews" class="page">
-    <div class="container">
-        <h2>⭐ Customer Reviews</h2>
-        <div id="reviewsList" class="grid-3"></div>
-        <div class="form-box" style="margin-top:40px;">
-            <h3 style="text-align:center;color:var(--navy);margin-bottom:20px;">Share Your Experience</h3>
-            <form onsubmit="doRev(event)">
-                <div class="form-group"><label>Rating</label><select id="revS" required><option value="5">⭐⭐⭐⭐⭐ Excellent</option><option value="4">⭐⭐⭐⭐ Very Good</option><option value="3">⭐⭐⭐ Good</option></select></div>
-                <div class="form-group"><label>Comment</label><textarea id="revC" rows="4" required maxlength="300"></textarea></div>
-                <div id="revMsg" class="msg"></div>
-                <button class="btn btn-gold btn-block" type="submit" id="revBtn">Submit Review</button>
-            </form>
+  <div class="container">
+    <h2>⭐ Client Testimonials</h2>
+    <p class="subtitle">Read real experiences from businesses and individual importers across Ghana.</p>
+    <div id="reviewsList" class="grid-3" style="margin-bottom:40px;"></div>
+
+    <div class="form-box">
+      <h3 style="text-align:center; color:var(--navy); margin-bottom:16px;">Leave Your Feedback</h3>
+      <form onsubmit="doRev(event)">
+        <div class="form-group">
+          <label>Rating</label>
+          <select id="revS" required>
+            <option value="5">⭐⭐⭐⭐⭐ Excellent Service</option>
+            <option value="4">⭐⭐⭐⭐ Very Good</option>
+            <option value="3">⭐⭐⭐ Good</option>
+          </select>
         </div>
+        <div class="form-group"><label>Your Review</label><textarea id="revC" rows="3" required maxlength="300"></textarea></div>
+        <div id="revMsg" class="msg"></div>
+        <button class="btn btn-gold btn-block" type="submit" id="revBtn">Submit Review</button>
+      </form>
     </div>
+  </div>
 </section>
 
+<!-- CEO TRAVELS PAGE -->
+<section id="p-travel" class="page">
+  <div id="travelRestricted" style="text-align:center; padding:60px 20px;">
+    <div style="font-size:54px; margin-bottom:16px;">🔒</div>
+    <h2>CEO Travels & Sourcing Highlights</h2>
+    <p class="subtitle">Exclusive to verified clients and registered importers.</p>
+    <a class="btn btn-gold" onclick="go('auth')">🔐 Login to Access</a>
+  </div>
+
+  <div id="travelFull" style="display:none;">
+    <div class="travel-hero">
+      <div class="container">
+        <h2 style="color:var(--gold);">🌍 CEO Trade Missions & Factory Visits</h2>
+        <p style="color:#94A3B8;">Follow Richmond Wireko Brobbey's trips to China manufacturing hubs.</p>
+      </div>
+    </div>
+    <div class="container">
+      <h3 style="text-align:center; color:var(--navy); margin-top:30px;">📅 Travel Timeline</h3>
+      <div class="timeline" id="travelTimeline"></div>
+      <h3 style="text-align:center; color:var(--navy); margin-top:40px;">📸 Field Photos & Insights</h3>
+      <div class="travel-grid" id="travelGrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TERMS PAGE -->
 <section id="p-terms" class="page">
-    <div class="container">
-        <h2>📋 Terms & Conditions</h2>
-        <div class="terms">
-            <h3>1. Shipping Rates</h3>
-            <ul><li>Sea: Under 1 CBM = $260/m³ | 1 CBM+ = $255/m³</li><li>Air: Standard = $17/kg | Phones/Laptops/Tablets = ₵500 flat each</li><li>Exchange: $1 = ₵13</li></ul>
-            <h3>2. Delivery Times</h3>
-            <ul><li>Sea: 45–60 days</li><li>Air: 3–7 days</li></ul>
-            <h3>3. Prohibited Items</h3>
-            <ul><li>NO batteries, fragile items, or liquids via Sea</li></ul>
-            <h3>4. Payment</h3>
-            <ul><li>MoMo (0543155883) or Bank Transfer with your mark as reference</li></ul>
-            <h3>5. Contact</h3>
-            <ul><li>WhatsApp: +233 543 155 883</li><li>Email: richmonwireko@gmail.com</li></ul>
-        </div>
+  <div class="container">
+    <h2>📋 Terms of Service & Policy</h2>
+    <div class="card" style="max-width:800px; margin:0 auto; line-height:1.8;">
+      <h3>1. Freight Rate Structure</h3>
+      <p>Sea freight rates are calculated on a volumetric basis ($260/m³ under 1 CBM; $255/m³ for 1 CBM and above). Air express cargo is calculated at $17/kg for general merchandise and a flat rate of ₵500 per mobile device or laptop.</p>
+      <br>
+      <h3>2. Transit Timelines</h3>
+      <p>Estimated transit times are 45–60 days for Sea Cargo and 3–7 days for Air Cargo. Transit times begin upon vessel departure or flight takeoff from China.</p>
+      <br>
+      <h3>3. Prohibited & Restricted Items</h3>
+      <p>Standalone lithium batteries, flammable liquids, weapons, and combustible materials are strictly prohibited from sea freight. Any contraband seized by customs will be the responsibility of the importer.</p>
     </div>
+  </div>
 </section>
 
+<!-- ADMIN DASHBOARD -->
 <section id="p-admin" class="page admin-only">
-    <div class="container">
-        <h2>👑 Admin Dashboard</h2>
-        <div class="tabs">
-            <button class="tab active" data-admintab="orders" onclick="adminTab('orders')">📦 Orders</button>
-            <button class="tab" data-admintab="products" onclick="adminTab('products')">🛒 Products</button>
-            <button class="tab" data-admintab="users" onclick="adminTab('users')">👥 Users</button>
-            <button class="tab" data-admintab="reviews" onclick="adminTab('reviews')">⭐ Reviews</button>
-        </div>
-        <div id="adminOrders" class="tab-content active"></div>
-        <div id="adminProducts" class="tab-content"></div>
-        <div id="adminUsers" class="tab-content"></div>
-        <div id="adminReviews" class="tab-content"></div>
+  <div class="container">
+    <h2>👑 Admin Control Center</h2>
+    <div class="tabs">
+      <button class="tab active" data-admintab="orders" onclick="adminTab('orders')">📦 Orders</button>
+      <button class="tab" data-admintab="products" onclick="adminTab('products')">🛒 Products</button>
+      <button class="tab" data-admintab="users" onclick="adminTab('users')">👥 Users</button>
     </div>
+    <div id="adminOrders" class="tab-content active"></div>
+    <div id="adminProducts" class="tab-content"></div>
+    <div id="adminUsers" class="tab-content"></div>
+  </div>
 </section>
 
 <footer>
-    <div class="container">
-        <h3>EVERIVAULT</h3>
-        <p>China ↔ Ghana Shipping & Store</p>
-        <p>📍 KNUST, Ayeduase New Site, Kumasi</p>
-        <p>📞 +233 543 155 883 | 📧 richmonwireko@gmail.com</p>
-        <p style="margin-top:16px;opacity:.7;font-size:12px;">© 2026 EveriVault</p>
-    </div>
+  <div class="container">
+    <h3>EVERIVAULT</h3>
+    <p>China ↔ Ghana Logistics & Direct Procurement</p>
+    <p>📍 Ayeduase New Site, KNUST Campus, Kumasi</p>
+    <p>📞 +233 543 155 883 | 📧 richmonwireko@gmail.com</p>
+    <p style="margin-top:16px; opacity:0.6; font-size:12px;">© 2026 EveriVault Logistics. All rights reserved.</p>
+  </div>
 </footer>
 
 <div class="toast-wrap" id="toastWrap"></div>
 
 <script>
-// ============================================================
-// Supabase Connection
-// ============================================================
+// Supabase Backend Init
 const SUPABASE_URL = 'https://admgkiewiwzllfesbpey.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_ZdxSIdlfrMQStQkt8Zq3oQ_0wIrkxIF';
 
 let sb = null;
 try {
-    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-        auth: { persistSession: true, autoRefreshToken: true }
-    });
-    console.log('✅ Supabase client initialized');
-} catch (e) {
-    console.error('❌ Supabase init failed:', e);
+  sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: { persistSession: true, autoRefreshToken: true }
+  });
+} catch(e) {
+  console.error("Supabase initialization error:", e);
 }
 
 const state = { user: null, products: [], orders: [], reviews: [], travel: [] };
 const $ = id => document.getElementById(id);
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
 const fmtGHS = n => '₵' + Number(n || 0).toLocaleString('en-GH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const randomMark = name => 'GH001K-' + (name || 'EV').split(/\s+/).map(w => w[0]).join('').toUpperCase().slice(0, 3).padEnd(3, 'X') + '-' + Math.random().toString(36).slice(2, 8).toUpperCase();
 
 function toast(msg, type = 'info', ms = 4000) {
-    const wrap = $('toastWrap');
-    const el = document.createElement('div');
-    el.className = 'toast ' + (type === 'ok' ? 'ok' : type === 'err' ? 'err' : type === 'warn' ? 'warn' : '');
-    el.textContent = msg;
-    wrap.appendChild(el);
-    requestAnimationFrame(() => el.classList.add('show'));
-    setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 400); }, ms);
+  const wrap = $('toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast ' + (type === 'ok' ? 'ok' : type === 'err' ? 'err' : type === 'warn' ? 'warn' : '');
+  el.textContent = msg;
+  wrap.appendChild(el);
+  requestAnimationFrame(() => el.classList.add('show'));
+  setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 400); }, ms);
 }
 
 function go(page) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    const t = $('p-' + page);
-    if (t) t.classList.add('active');
-    document.querySelectorAll('.plink').forEach(l => l.classList.remove('active'));
-    document.querySelectorAll('.plink[data-p="' + page + '"]').forEach(l => l.classList.add('active'));
-    $('menu').classList.remove('active');
-    if (page === 'store') loadProducts();
-    if (page === 'orders') loadOrders();
-    if (page === 'reviews') loadReviews();
-    if (page === 'travel') updateTravelView();
-    if (page === 'admin') loadAdmin();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const t = $('p-' + page);
+  if (t) t.classList.add('active');
+  document.querySelectorAll('.plink').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.plink[data-p="' + page + '"]').forEach(l => l.classList.add('active'));
+  $('menu').classList.remove('active');
+  
+  if (page === 'store') loadProducts();
+  if (page === 'orders') loadOrders();
+  if (page === 'reviews') loadReviews();
+  if (page === 'travel') updateTravelView();
+  if (page === 'admin') loadAdmin();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
 function toggleMenu() { $('menu').classList.toggle('active'); }
 
 function authTab(tab) {
-    document.querySelectorAll('[data-authtab]').forEach(t => t.classList.toggle('active', t.dataset.authtab === tab));
-    $('tClient').classList.toggle('active', tab === 'client');
-    $('tAdmin').classList.toggle('active', tab === 'admin');
+  document.querySelectorAll('[data-authtab]').forEach(t => t.classList.toggle('active', t.dataset.authtab === tab));
+  $('tClient').classList.toggle('active', tab === 'client');
+  $('tAdmin').classList.toggle('active', tab === 'admin');
 }
+
 function authSub(sub) {
-    document.querySelectorAll('[data-authsub]').forEach(t => t.classList.toggle('active', t.dataset.authsub === sub));
-    $('fLogin').classList.toggle('active', sub === 'login');
-    $('fReg').classList.toggle('active', sub === 'reg');
+  document.querySelectorAll('[data-authsub]').forEach(t => t.classList.toggle('active', t.dataset.authsub === sub));
+  $('fLogin').classList.toggle('active', sub === 'login');
+  $('fReg').classList.toggle('active', sub === 'reg');
 }
 
 async function doReg(e) {
-    e.preventDefault();
-    const msg = $('rmsg'), btn = $('regBtn');
-    msg.className = 'msg'; msg.textContent = '';
-    if (!sb) { msg.className = 'msg err'; msg.textContent = '❌ Database not connected'; return; }
-    const name = $('rn').value.trim(), email = $('rem').value.trim().toLowerCase(), phone = $('rp').value.trim(), location = $('rl').value.trim();
-    const pw = $('rpw').value, pw2 = $('rpw2').value;
-    if (pw !== pw2) { msg.className = 'msg err'; msg.textContent = '❌ Passwords do not match.'; return; }
-    if (pw.length < 6) { msg.className = 'msg err'; msg.textContent = '❌ Password must be 6+ characters.'; return; }
-    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Creating...';
-    const { data, error } = await sb.auth.signUp({ email, password: pw, options: { data: { name, phone, location } } });
-    btn.disabled = false; btn.textContent = 'Create Account';
-    if (error) { msg.className = 'msg err'; msg.textContent = '❌ ' + error.message; return; }
-    msg.className = 'msg ok';
-    msg.textContent = data.session ? '✅ Account created!' : '✅ Check email to confirm.';
-    toast('🎉 Welcome!', 'ok');
-    if (data.session) { await loadProfile(); applyUserState(); setTimeout(() => go('home'), 600); }
-    else { authSub('login'); }
+  e.preventDefault();
+  const msg = $('rmsg'), btn = $('regBtn');
+  msg.className = 'msg'; msg.textContent = '';
+  if (!sb) { msg.className = 'msg err'; msg.textContent = 'Database offline'; return; }
+  
+  const name = $('rn').value.trim(), email = $('rem').value.trim().toLowerCase(), phone = $('rp').value.trim(), location = $('rl').value.trim();
+  const pw = $('rpw').value, pw2 = $('rpw2').value;
+  if (pw !== pw2) { msg.className = 'msg err'; msg.textContent = 'Passwords do not match.'; return; }
+  
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Creating...';
+  const { data, error } = await sb.auth.signUp({ email, password: pw, options: { data: { name, phone, location } } });
+  btn.disabled = false; btn.textContent = 'Create Account';
+  
+  if (error) { msg.className = 'msg err'; msg.textContent = error.message; return; }
+  msg.className = 'msg ok'; msg.textContent = 'Account created successfully!';
+  toast('Welcome to EveriVault!', 'ok');
+  if (data.session) { await loadProfile(); applyUserState(); setTimeout(() => go('home'), 600); }
+  else { authSub('login'); }
 }
 
 async function doLogin(e) {
-    e.preventDefault();
-    const msg = $('lmsg'), btn = $('loginBtn');
-    msg.className = 'msg'; msg.textContent = '';
-    if (!sb) { msg.className = 'msg err'; msg.textContent = '❌ Database not connected'; return; }
-    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Signing in...';
-    const { error } = await sb.auth.signInWithPassword({ email: $('lem').value.trim().toLowerCase(), password: $('lpw').value });
-    btn.disabled = false; btn.textContent = 'Sign In';
-    if (error) { msg.className = 'msg err'; msg.textContent = '❌ ' + error.message; return; }
-    await loadProfile();
-    applyUserState();
-    toast('✅ Welcome back!', 'ok');
-    setTimeout(() => go(state.user?.role === 'admin' ? 'admin' : 'home'), 400);
+  e.preventDefault();
+  const msg = $('lmsg'), btn = $('loginBtn');
+  msg.className = 'msg'; msg.textContent = '';
+  if (!sb) return;
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Signing in...';
+  const { error } = await sb.auth.signInWithPassword({ email: $('lem').value.trim().toLowerCase(), password: $('lpw').value });
+  btn.disabled = false; btn.textContent = 'Sign In';
+  if (error) { msg.className = 'msg err'; msg.textContent = error.message; return; }
+  await loadProfile();
+  applyUserState();
+  toast('Welcome back!', 'ok');
+  setTimeout(() => go(state.user?.role === 'admin' ? 'admin' : 'home'), 400);
 }
 
 async function doAdmin(e) {
-    e.preventDefault();
-    const msg = $('amsg'), btn = $('adminBtn');
-    msg.className = 'msg'; msg.textContent = '';
-    if (!sb) { msg.className = 'msg err'; msg.textContent = '❌ Database not connected'; return; }
-    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Signing in...';
-    const { error } = await sb.auth.signInWithPassword({ email: $('aem').value.trim().toLowerCase(), password: $('apw').value });
-    btn.disabled = false; btn.textContent = 'Admin Sign In';
-    if (error) { msg.className = 'msg err'; msg.textContent = '❌ ' + error.message; return; }
-    await loadProfile();
-    if (state.user?.role !== 'admin') {
-        msg.className = 'msg err'; msg.textContent = '❌ Not an admin account.';
-        await sb.auth.signOut(); state.user = null; applyUserState(); return;
-    }
-    applyUserState();
-    toast('👑 Welcome Admin!', 'ok');
-    setTimeout(() => go('admin'), 400);
+  e.preventDefault();
+  const msg = $('amsg'), btn = $('adminBtn');
+  msg.className = 'msg'; msg.textContent = '';
+  if (!sb) return;
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Signing in...';
+  const { error } = await sb.auth.signInWithPassword({ email: $('aem').value.trim().toLowerCase(), password: $('apw').value });
+  btn.disabled = false; btn.textContent = 'Admin Sign In';
+  if (error) { msg.className = 'msg err'; msg.textContent = error.message; return; }
+  await loadProfile();
+  if (state.user?.role !== 'admin') {
+    msg.className = 'msg err'; msg.textContent = 'Access restricted to administrators.';
+    await sb.auth.signOut(); state.user = null; applyUserState(); return;
+  }
+  applyUserState();
+  toast('Admin Panel Unlocked', 'ok');
+  setTimeout(() => go('admin'), 400);
 }
 
 async function logout() {
-    if (sb) await sb.auth.signOut();
-    state.user = null; applyUserState(); go('home');
-    toast('👋 Signed out', 'info');
+  if (sb) await sb.auth.signOut();
+  state.user = null; applyUserState(); go('home');
+  toast('Signed out', 'info');
 }
 
 async function loadProfile() {
-    if (!sb) return null;
-    const { data: { user } } = await sb.auth.getUser();
-    if (!user) { state.user = null; return null; }
-    let { data: profile } = await sb.from('profiles').select('*').eq('id', user.id).single();
-    if (!profile) {
-        const meta = user.user_metadata || {};
-        const insert = { id: user.id, name: meta.name || user.email.split('@')[0], phone: meta.phone || '', location: meta.location || '', mark: randomMark(meta.name || 'User') };
-        const { data: created } = await sb.from('profiles').insert(insert).select().single();
-        profile = created;
-    }
-    if (profile) state.user = { id: user.id, email: user.email, name: profile.name, phone: profile.phone, location: profile.location, role: profile.role, mark: profile.mark };
-    return state.user;
+  if (!sb) return null;
+  const { data: { user } } = await sb.auth.getUser();
+  if (!user) { state.user = null; return null; }
+  let { data: profile } = await sb.from('profiles').select('*').eq('id', user.id).maybeSingle();
+  if (!profile) {
+    const meta = user.user_metadata || {};
+    const insert = { id: user.id, name: meta.name || user.email.split('@')[0], phone: meta.phone || '', location: meta.location || '', mark: randomMark(meta.name || 'User') };
+    const { data: created } = await sb.from('profiles').insert(insert).select().single();
+    profile = created;
+  }
+  if (profile) state.user = { id: user.id, email: user.email, name: profile.name, phone: profile.phone, location: profile.location, role: profile.role, mark: profile.mark };
+  return state.user;
 }
 
 function applyUserState() {
-    const isLoggedIn = !!state.user;
-    const isAdmin = state.user?.role === 'admin';
-    $('travelNavItem').style.display = isLoggedIn ? 'block' : 'none';
-    $('clientLink').style.display = isLoggedIn ? 'block' : 'none';
-    $('adminLink').style.display = isAdmin ? 'block' : 'none';
-    $('heroTravelBtn').style.display = isLoggedIn ? 'inline-flex' : 'none';
-    document.querySelectorAll('.auth-only').forEach(el => el.classList.toggle('show', isLoggedIn));
-    document.querySelectorAll('.admin-only').forEach(el => el.classList.toggle('show', isAdmin));
-    const authNav = $('authNav');
-    if (isLoggedIn) authNav.innerHTML = '<a class="nav-cta plink" onclick="logout()">Logout (' + esc(state.user.name.split(' ')[0]) + ')</a>';
-    else authNav.innerHTML = '<a class="nav-cta plink" data-p="auth" onclick="go(\'auth\')">Login</a>';
-    updateTravelView();
+  const isLoggedIn = !!state.user;
+  const isAdmin = state.user?.role === 'admin';
+  $('travelNavItem').style.display = isLoggedIn ? 'block' : 'none';
+  $('clientLink').style.display = isLoggedIn ? 'block' : 'none';
+  $('adminLink').style.display = isAdmin ? 'block' : 'none';
+  $('heroTravelBtn').style.display = isLoggedIn ? 'inline-flex' : 'none';
+  document.querySelectorAll('.auth-only').forEach(el => el.classList.toggle('show', isLoggedIn));
+  document.querySelectorAll('.admin-only').forEach(el => el.classList.toggle('show', isAdmin));
+  const authNav = $('authNav');
+  if (isLoggedIn) authNav.innerHTML = '<a class="nav-cta plink" onclick="logout()">Logout (' + esc(state.user.name.split(' ')[0]) + ')</a>';
+  else authNav.innerHTML = '<a class="nav-cta plink" data-p="auth" onclick="go(\'auth\')">Login</a>';
+  updateTravelView();
 }
 
 async function loadProducts() {
-    const grid = $('prodGrid');
-    grid.innerHTML = '<p class="loading-center" style="grid-column:1/-1;">Loading products...</p>';
-    if (!sb) { grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--red);padding:40px;">⚠️ Database not connected.</p>'; return; }
-    const { data, error } = await sb.from('products').select('*').order('created_at', { ascending: false });
-    if (error) { grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--red);padding:40px;">Error: ' + esc(error.message) + '</p>'; return; }
-    state.products = data || [];
-    populateCategoryFilter();
-    renderProducts();
+  const grid = $('prodGrid');
+  grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px;">Loading catalog...</p>';
+  if (!sb) return;
+  const { data } = await sb.from('products').select('*').order('created_at', { ascending: false });
+  state.products = data || [];
+  populateCategoryFilter();
+  renderProducts();
 }
 
 function populateCategoryFilter() {
-    const sel = $('catFilter'), cur = sel.value;
-    const cats = [...new Set(state.products.map(p => p.category))].sort();
-    sel.innerHTML = '<option value="all">All Categories</option>' + cats.map(c => '<option>' + esc(c) + '</option>').join('');
-    if ([...sel.options].some(o => o.value === cur)) sel.value = cur;
+  const sel = $('catFilter'), cur = sel.value;
+  const cats = [...new Set(state.products.map(p => p.category))].sort();
+  sel.innerHTML = '<option value="all">All Categories</option>' + cats.map(c => '<option>' + esc(c) + '</option>').join('');
+  if ([...sel.options].some(o => o.value === cur)) sel.value = cur;
 }
 
 function renderProducts() {
-    const grid = $('prodGrid');
-    const cat = $('catFilter').value, stock = $('stockFilter').value, search = ($('searchInput').value || '').toLowerCase();
-    let list = [...state.products];
-    if (cat !== 'all') list = list.filter(p => p.category === cat);
-    if (stock === 'false') list = list.filter(p => !p.preorder);
-    if (stock === 'true') list = list.filter(p => p.preorder);
-    if (search) list = list.filter(p => p.name.toLowerCase().includes(search) || p.category.toLowerCase().includes(search));
-    if (!list.length) { grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#888;padding:40px;">No products match.</p>'; return; }
-    grid.innerHTML = list.map(p => '<div class="card" style="display:flex;flex-direction:column;"><div style="height:140px;background:linear-gradient(135deg,#E2E8F0,#CBD5E1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:42px;margin-bottom:12px;">' + getCatEmoji(p.category) + '</div><span class="tag ' + (p.preorder ? 'tag-pre' : 'tag-stock') + '">' + (p.preorder ? '⏳ Pre-Order' : '✅ In Stock') + '</span><h3 style="font-size:16px;margin-bottom:6px;flex-grow:1;">' + esc(p.name) + '</h3><p style="color:#64748B;font-size:13px;margin-bottom:4px;">' + esc(p.category) + '</p><p style="font-weight:900;color:var(--navy);font-size:20px;margin-bottom:10px;">' + fmtGHS(p.price) + '</p><button class="btn btn-sm ' + (p.preorder ? 'btn-sky' : 'btn-gold') + ' btn-block" onclick="orderProduct(\'' + p.id + '\')">' + (p.preorder ? '📋 Pre-Order' : '🛒 Buy Now') + '</button></div>').join('');
+  const grid = $('prodGrid');
+  const cat = $('catFilter').value, stock = $('stockFilter').value, search = ($('searchInput').value || '').toLowerCase();
+  let list = [...state.products];
+  if (cat !== 'all') list = list.filter(p => p.category === cat);
+  if (stock === 'false') list = list.filter(p => !p.preorder);
+  if (stock === 'true') list = list.filter(p => p.preorder);
+  if (search) list = list.filter(p => p.name.toLowerCase().includes(search) || p.category.toLowerCase().includes(search));
+  
+  if (!list.length) { grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#888; padding:40px;">No matching items found.</p>'; return; }
+  grid.innerHTML = list.map(p => '<div class="card" style="display:flex; flex-direction:column;"><div style="height:120px; background:#F1F5F9; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:40px; margin-bottom:12px;">' + getCatEmoji(p.category) + '</div><span class="tag ' + (p.preorder ? 'tag-pre' : 'tag-stock') + '">' + (p.preorder ? '⏳ Pre-Order' : '✅ In Stock') + '</span><h3 style="font-size:15px; flex-grow:1;">' + esc(p.name) + '</h3><p style="font-weight:800; color:var(--navy); font-size:18px; margin:8px 0;">' + fmtGHS(p.price) + '</p><button class="btn btn-sm ' + (p.preorder ? 'btn-sky' : 'btn-gold') + ' btn-block" onclick="orderProduct(\'' + p.id + '\')">' + (p.preorder ? '📋 Pre-Order' : '🛒 Order Now') + '</button></div>').join('');
 }
 
 function getCatEmoji(cat) {
-    const map = { Phones: '📱', 'Skin Care': '🧴', Perfumes: '🌸', Bags: '👜', Clothes: '👗', Electrical: '⚡', Construction: '🏗️', Cars: '🚗', Others: '📦' };
-    return map[cat] || '📦';
+  const map = { Phones: '📱', 'Skin Care': '🧴', Perfumes: '🌸', Bags: '👜', Clothes: '👗', Electrical: '⚡', Construction: '🏗️', Cars: '🚗' };
+  return map[cat] || '📦';
 }
 
 function orderProduct(id) {
-    if (!state.user) { toast('Please login', 'warn'); go('auth'); return; }
-    const p = state.products.find(x => String(x.id) === String(id));
-    if (!p) return;
-    $('oItem').value = p.name; $('oPrice').value = p.price; $('oQty').value = 1; $('oTotal').value = p.price;
-    $('showMark').textContent = state.user.mark || '—';
-    $('oMsg').className = 'msg'; $('oMsg').textContent = '';
-    go('order');
+  if (!state.user) { toast('Please log in to order', 'warn'); go('auth'); return; }
+  const p = state.products.find(x => String(x.id) === String(id));
+  if (!p) return;
+  $('oItem').value = p.name; $('oPrice').value = p.price; $('oQty').value = 1; $('oTotal').value = p.price;
+  $('showMark').textContent = state.user.mark || '—';
+  $('oMsg').className = 'msg'; $('oMsg').textContent = '';
+  go('order');
 }
 
 function updateTotal() {
-    const p = parseFloat($('oPrice').value) || 0, q = Math.max(1, parseInt($('oQty').value) || 1);
-    $('oTotal').value = (p * q).toFixed(2);
+  const p = parseFloat($('oPrice').value) || 0, q = Math.max(1, parseInt($('oQty').value) || 1);
+  $('oTotal').value = (p * q).toFixed(2);
 }
 
 async function submitOrder(e) {
-    e.preventDefault();
-    const msg = $('oMsg'), btn = $('orderBtn');
-    if (!state.user) { msg.className = 'msg err'; msg.textContent = '❌ Login required.'; return; }
-    if (!sb) { msg.className = 'msg err'; msg.textContent = '❌ Database not connected.'; return; }
-    msg.className = 'msg'; msg.textContent = '';
-    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Submitting...';
-    const order = {
-        user_id: state.user.id, user_email: state.user.email, user_name: state.user.name,
-        item: $('oItem').value, qty: parseInt($('oQty').value),
-        unit_price: parseFloat($('oPrice').value), total: parseFloat($('oTotal').value),
-        mode: $('oMode').value, pay: $('oPay').value,
-        mark: state.user.mark || randomMark(state.user.name),
-        status: 'Pending Payment', verified: false, note: $('oNote').value
-    };
-    const { error } = await sb.from('orders').insert(order);
-    btn.disabled = false; btn.textContent = '✅ Submit Order';
-    if (error) { msg.className = 'msg err'; msg.textContent = '❌ ' + error.message; return; }
-    msg.className = 'msg ok';
-    msg.innerHTML = '✅ Order submitted! Ref: <strong>' + esc(order.mark) + '</strong>';
-    toast('✅ Order placed!', 'ok');
-    const waText = encodeURIComponent('🛒 NEW ORDER — EveriVault\n\nItem: ' + order.item + '\nQty: ' + order.qty + '\nTotal: ₵' + order.total + '\nRef: ' + order.mark + '\nClient: ' + order.user_name);
-    setTimeout(() => {
-        if (confirm('Send order to WhatsApp?')) window.open('https://wa.me/233543155883?text=' + waText, '_blank');
-        go('orders');
-    }, 800);
+  e.preventDefault();
+  const msg = $('oMsg'), btn = $('orderBtn');
+  if (!state.user || !sb) return;
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Processing...';
+  
+  const order = {
+    user_id: state.user.id, user_email: state.user.email, user_name: state.user.name,
+    item: $('oItem').value, qty: parseInt($('oQty').value),
+    unit_price: parseFloat($('oPrice').value), total: parseFloat($('oTotal').value),
+    mode: $('oMode').value, pay: $('oPay').value,
+    mark: state.user.mark || randomMark(state.user.name),
+    status: 'Pending Payment', verified: false, note: $('oNote').value
+  };
+  const { error } = await sb.from('orders').insert(order);
+  btn.disabled = false; btn.textContent = 'Submit Order Now';
+  if (error) { msg.className = 'msg err'; msg.textContent = error.message; return; }
+  
+  toast('Order Placed Successfully!', 'ok');
+  go('orders');
 }
 
 async function loadOrders() {
-    const list = $('ordersList');
-    if (!state.user) { list.innerHTML = '<p style="text-align:center;color:#888;">Please login.</p>'; return; }
-    if (!sb) { list.innerHTML = '<p style="text-align:center;color:#888;">Database not connected.</p>'; return; }
-    list.innerHTML = '<p class="loading-center">Loading...</p>';
-    const isAdmin = state.user.role === 'admin';
-    let q = sb.from('orders').select('*').order('created_at', { ascending: false });
-    if (!isAdmin) q = q.eq('user_id', state.user.id);
-    const { data, error } = await q;
-    if (error) { list.innerHTML = '<p class="loading-center">Error: ' + esc(error.message) + '</p>'; return; }
-    if (!data?.length) { list.innerHTML = '<p style="text-align:center;color:#888;padding:30px;">No orders yet.</p>'; return; }
-    const statusClass = s => ({ 'Pending Payment': 'pill-pending', 'Processing': 'pill-processing', 'Shipped': 'pill-shipped', 'Delivered': 'pill-delivered', 'Cancelled': 'pill-cancelled' }[s] || 'pill-pending');
-    list.innerHTML = data.map(o => '<div class="card" style="margin-bottom:16px;"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;"><div><h3 style="font-size:16px;">' + esc(o.item) + ' × ' + o.qty + '</h3><p style="color:#64748B;font-size:13px;">Ref: ' + esc(o.mark) + '</p></div><div style="text-align:right;"><p style="font-weight:900;color:var(--navy);font-size:18px;">' + fmtGHS(o.total) + '</p><span class="pill ' + statusClass(o.status) + '">' + esc(o.status) + '</span></div></div></div>').join('');
+  const list = $('ordersList');
+  if (!state.user || !sb) return;
+  list.innerHTML = '<p style="text-align:center;">Loading orders...</p>';
+  const { data } = await sb.from('orders').select('*').eq('user_id', state.user.id).order('created_at', { ascending: false });
+  if (!data?.length) { list.innerHTML = '<p style="text-align:center; color:#888;">No order history found.</p>'; return; }
+  
+  list.innerHTML = data.map(o => '<div class="card" style="margin-bottom:12px;"><div style="display:flex; justify-content:space-between; align-items:center;"><div><h3>' + esc(o.item) + ' (×' + o.qty + ')</h3><p style="font-size:12px; color:var(--slate);">Ref: ' + esc(o.mark) + '</p></div><div style="text-align:right;"><p style="font-weight:800; color:var(--navy);">' + fmtGHS(o.total) + '</p><span class="pill pill-pending">' + esc(o.status) + '</span></div></div></div>').join('');
 }
 
 async function doTrack() {
-    const code = $('tCode').value.trim().toUpperCase();
-    const r = $('tResult'), btn = $('trackBtn');
-    if (!code || !sb) return;
-    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Searching...';
-    const { data } = await sb.from('orders').select('*').eq('mark', code).maybeSingle();
-    btn.disabled = false; btn.textContent = 'Check Status';
-    if (data) {
-        $('tP').textContent = '📦 ' + data.item;
-        $('tM').textContent = data.mark; $('tA').textContent = Number(data.total).toLocaleString();
-        $('tMo').textContent = data.mode === 'sea' ? '🚢 Sea' : '✈️ Air';
-        $('tS').textContent = data.status;
-        $('tV').textContent = data.verified ? '✅ Verified' : '⏳ Awaiting';
-    } else {
-        $('tP').textContent = '❌ Not Found'; $('tM').textContent = code; $('tA').textContent = '—'; $('tMo').textContent = '—'; $('tS').textContent = 'No shipment found.'; $('tV').textContent = '—';
-    }
-    r.style.display = 'block';
+  const code = $('tCode').value.trim().toUpperCase();
+  const r = $('tResult'), btn = $('trackBtn');
+  if (!code || !sb) return;
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Locating...';
+  const { data } = await sb.from('orders').select('*').eq('mark', code).maybeSingle();
+  btn.disabled = false; btn.textContent = 'Locate Shipment';
+  
+  if (data) {
+    $('tP').textContent = '📦 ' + data.item;
+    $('tM').textContent = data.mark;
+    $('tA').textContent = Number(data.total).toLocaleString();
+    $('tMo').textContent = data.mode === 'sea' ? '🚢 Sea Cargo' : '✈️ Air Express';
+    $('tS').textContent = data.status;
+    $('tV').textContent = data.verified ? '✅ Payment Confirmed' : '⏳ Pending Payment';
+  } else {
+    $('tP').textContent = '❌ Shipment Not Found';
+    $('tM').textContent = code; $('tA').textContent = '—'; $('tMo').textContent = '—'; $('tS').textContent = 'Invalid Reference'; $('tV').textContent = '—';
+  }
+  r.style.display = 'block';
 }
 
 function calcMode(mode) {
-    document.querySelectorAll('#p-calc .tab').forEach(t => t.classList.remove('active'));
-    document.querySelector('#p-calc .tab[onclick*="' + mode + '"]')?.classList.add('active');
-    $('calcSea').classList.toggle('active', mode === 'sea');
-    $('calcAir').classList.toggle('active', mode === 'air');
+  document.querySelectorAll('#p-calc .tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('#p-calc .tab[onclick*="' + mode + '"]')?.classList.add('active');
+  $('calcSea').classList.toggle('active', mode === 'sea');
+  $('calcAir').classList.toggle('active', mode === 'air');
 }
+
 function calcSea() {
-    const L = parseFloat($('seaL').value) || 0, W = parseFloat($('seaW').value) || 0, H = parseFloat($('seaH').value) || 0;
-    const qty = parseInt($('seaQty').value) || 1;
-    const cbm = (L / 100) * (W / 100) * (H / 100) * qty;
-    const rate = cbm >= 1 ? 255 : 260, usd = cbm * rate;
-    $('seaCbm').textContent = cbm.toFixed(3);
-    $('seaUsd').textContent = usd.toFixed(2);
-    $('seaGhs').textContent = (usd * 13).toFixed(2);
+  const L = parseFloat($('seaL').value) || 0, W = parseFloat($('seaW').value) || 0, H = parseFloat($('seaH').value) || 0;
+  const qty = parseInt($('seaQty').value) || 1;
+  const cbm = (L / 100) * (W / 100) * (H / 100) * qty;
+  const rate = cbm >= 1 ? 255 : 260, usd = cbm * rate;
+  $('seaCbm').textContent = cbm.toFixed(3);
+  $('seaUsd').textContent = usd.toFixed(2);
+  $('seaGhs').textContent = (usd * 13).toFixed(2);
 }
+
 function calcAir() {
-    const type = $('airType').value, kgRow = $('airKgRow');
-    let usd = 0, ghs = 0;
-    if (type === 'std') {
-        kgRow.style.display = 'block';
-        const kg = parseFloat($('airKg').value) || 0;
-        usd = kg * 17; ghs = usd * 13;
-    } else { kgRow.style.display = 'none'; ghs = 500; usd = ghs / 13; }
-    $('airUsd').textContent = usd.toFixed(2);
-    $('airGhs').textContent = ghs.toFixed(2);
+  const type = $('airType').value, kgRow = $('airKgRow');
+  let usd = 0, ghs = 0;
+  if (type === 'std') {
+    kgRow.style.display = 'block';
+    const kg = parseFloat($('airKg').value) || 0;
+    usd = kg * 17; ghs = usd * 13;
+  } else { kgRow.style.display = 'none'; ghs = 500; usd = ghs / 13; }
+  $('airUsd').textContent = usd.toFixed(2);
+  $('airGhs').textContent = ghs.toFixed(2);
 }
 
 async function loadReviews() {
-    const list = $('reviewsList');
-    list.innerHTML = '<p class="loading-center" style="grid-column:1/-1;">Loading...</p>';
-    if (!sb) return;
-    const { data } = await sb.from('reviews').select('*').eq('approved', true).order('created_at', { ascending: false });
-    if (!data?.length) { list.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#888;padding:30px;">No reviews yet.</p>'; return; }
-    list.innerHTML = data.map(r => '<div class="card"><div class="stars">' + '⭐'.repeat(r.stars) + '☆'.repeat(5 - r.stars) + '</div><p style="margin:10px 0;color:#555;">"' + esc(r.text) + '"</p><p style="font-weight:700;color:var(--navy);font-size:14px;">— ' + esc(r.name) + '</p></div>').join('');
+  const list = $('reviewsList');
+  if (!sb) return;
+  const { data } = await sb.from('reviews').select('*').order('created_at', { ascending: false });
+  if (!data?.length) { list.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#888;">No reviews yet.</p>'; return; }
+  list.innerHTML = data.map(r => '<div class="card"><div class="stars">' + '⭐'.repeat(r.stars) + '</div><p style="margin:10px 0;">"' + esc(r.text) + '"</p><p style="font-weight:700; color:var(--navy); font-size:13px;">— ' + esc(r.name) + '</p></div>').join('');
 }
 
 async function doRev(e) {
-    e.preventDefault();
-    const msg = $('revMsg');
-    if (!state.user) { msg.className = 'msg err'; msg.textContent = '❌ Please login.'; return; }
-    if (!sb) return;
-    const btn = $('revBtn');
-    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Posting...';
-    const { error } = await sb.from('reviews').insert({ user_id: state.user.id, name: state.user.name.split(' ')[0] + ' ' + (state.user.name.split(' ')[1]?.[0] || '') + '.', stars: parseInt($('revS').value), text: $('revC').value.trim(), approved: true });
-    btn.disabled = false; btn.textContent = 'Submit Review';
-    if (error) { msg.className = 'msg err'; msg.textContent = '❌ ' + error.message; return; }
-    msg.className = 'msg ok'; msg.textContent = '✅ Thank you!';
-    $('revC').value = ''; loadReviews(); toast('⭐ Posted!', 'ok');
+  e.preventDefault();
+  if (!state.user || !sb) return;
+  const { error } = await sb.from('reviews').insert({ user_id: state.user.id, name: state.user.name, stars: parseInt($('revS').value), text: $('revC').value.trim(), approved: true });
+  if (!error) { $('revC').value = ''; loadReviews(); toast('Review published!', 'ok'); }
 }
 
 function updateTravelView() {
-    const restricted = $('travelRestricted'), full = $('travelFull');
-    if (!restricted || !full) return;
-    const isLoggedIn = !!state.user;
-    restricted.style.display = isLoggedIn ? 'none' : 'block';
-    full.style.display = isLoggedIn ? 'block' : 'none';
-    if (isLoggedIn) renderTravel();
+  const isLoggedIn = !!state.user;
+  $('travelRestricted').style.display = isLoggedIn ? 'none' : 'block';
+  $('travelFull').style.display = isLoggedIn ? 'block' : 'none';
+  if (isLoggedIn) renderTravel();
 }
 
 async function renderTravel() {
-    const grid = $('travelGrid'), timeline = $('travelTimeline');
-    grid.innerHTML = '<p class="loading-center" style="grid-column:1/-1;">Loading...</p>';
-    if (!sb) return;
-    const { data } = await sb.from('travel').select('*').order('created_at', { ascending: false });
-    state.travel = data || [];
-    if (!state.travel.length) { grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#888;padding:30px;">No trips yet.</p>'; }
-    else grid.innerHTML = state.travel.map(t => '<div class="travel-card"><div class="travel-img"><span>🌍</span></div><div class="travel-body"><h3>' + esc(t.dest) + '</h3><div class="travel-date">' + esc(t.date) + ' — ' + esc(t.title) + '</div><p>' + esc(t.description) + '</p></div></div>').join('');
-    timeline.innerHTML = state.travel.slice(0, 5).map(t => '<div class="timeline-item"><div class="timeline-year">' + esc(t.date) + '</div><div class="timeline-place">' + esc(t.dest) + '</div><div class="timeline-desc">' + esc(t.title) + '</div></div>').join('');
-}
-
-function adminTab(tab) {
-    document.querySelectorAll('[data-admintab]').forEach(t => t.classList.toggle('active', t.dataset.admintab === tab));
-    ['orders', 'products', 'users', 'reviews'].forEach(k => { const el = $('admin' + k[0].toUpperCase() + k.slice(1)); if (el) el.classList.toggle('active', k === tab); });
+  const grid = $('travelGrid'), timeline = $('travelTimeline');
+  if (!sb) return;
+  const { data } = await sb.from('travel').select('*').order('created_at', { ascending: false });
+  state.travel = data || [];
+  grid.innerHTML = state.travel.map(t => '<div class="travel-card"><div class="travel-img"><span>🌍</span></div><div class="travel-body"><h3>' + esc(t.dest) + '</h3><p style="color:var(--slate); font-size:13px;">' + esc(t.date) + '</p><p>' + esc(t.description) + '</p></div></div>').join('') || '<p>No travels logged yet.</p>';
+  timeline.innerHTML = state.travel.slice(0, 5).map(t => '<div class="timeline-item"><div class="timeline-year">' + esc(t.date) + '</div><div>' + esc(t.dest) + ' - ' + esc(t.title) + '</div></div>').join('');
 }
 
 async function loadAdmin() {
-    if (!state.user || state.user.role !== 'admin' || !sb) return;
-    loadAdminOrders(); loadAdminProducts(); loadAdminUsers(); loadAdminReviews();
-}
-
-async function loadAdminOrders() {
-    const el = $('adminOrders');
-    el.innerHTML = '<p class="loading-center">Loading...</p>';
-    const { data } = await sb.from('orders').select('*').order('created_at', { ascending: false });
-    if (!data?.length) { el.innerHTML = '<p class="loading-center">No orders yet.</p>'; return; }
-    el.innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Item</th><th>Total</th><th>Status</th><th>Verified</th><th>Actions</th></tr></thead><tbody>' + data.map(o => '<tr><td>' + esc(o.user_name || o.user_email) + '</td><td>' + esc(o.item) + '</td><td>' + fmtGHS(o.total) + '</td><td>' + esc(o.status) + '</td><td>' + (o.verified ? '✅' : '⏳') + '</td><td><button class="btn btn-sm ' + (o.verified ? 'btn-outline' : 'btn-green') + '" onclick="toggleVerify(\'' + o.id + '\')">' + (o.verified ? 'Unverify' : 'Verify') + '</button></td></tr>').join('') + '</tbody></table></div>';
-}
-
-async function toggleVerify(id) {
-    if (!sb) return;
-    const { data } = await sb.from('orders').select('verified').eq('id', id).single();
-    await sb.from('orders').update({ verified: !data.verified }).eq('id', id);
-    loadAdminOrders(); toast('Updated', 'ok');
-}
-
-async function loadAdminProducts() {
-    const el = $('adminProducts');
-    const { data } = await sb.from('products').select('*').order('created_at', { ascending: false });
-    state.products = data || [];
-    el.innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Name</th><th>Category</th><th>Price</th><th>Stock</th></tr></thead><tbody>' + state.products.map(p => '<tr><td>' + esc(p.name) + '</td><td>' + esc(p.category) + '</td><td>' + fmtGHS(p.price) + '</td><td>' + p.stock + '</td></tr>').join('') + '</tbody></table></div>';
-}
-
-async function loadAdminUsers() {
-    const el = $('adminUsers');
-    el.innerHTML = '<p class="loading-center">Loading...</p>';
-    const { data } = await sb.from('profiles').select('*').order('created_at', { ascending: false });
-    if (!data?.length) { el.innerHTML = '<p class="loading-center">No users yet.</p>'; return; }
-    el.innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Name</th><th>Phone</th><th>Role</th><th>Mark</th></tr></thead><tbody>' + data.map(u => '<tr><td>' + esc(u.name) + '</td><td>' + esc(u.phone || '—') + '</td><td>' + esc(u.role) + '</td><td><code style="font-size:12px;">' + esc(u.mark || '—') + '</code></td></tr>').join('') + '</tbody></table></div>';
-}
-
-async function loadAdminReviews() {
-    const el = $('adminReviews');
-    el.innerHTML = '<p class="loading-center">Loading...</p>';
-    const { data } = await sb.from('reviews').select('*').order('created_at', { ascending: false });
-    if (!data?.length) { el.innerHTML = '<p class="loading-center">No reviews yet.</p>'; return; }
-    el.innerHTML = data.map(r => '<div class="card" style="margin-bottom:12px;"><div class="stars">' + '⭐'.repeat(r.stars) + '</div><p style="margin:8px 0;">"' + esc(r.text) + '"</p><p style="font-size:13px;color:#64748B;">— ' + esc(r.name) + '</p></div>').join('');
+  if (!state.user || state.user.role !== 'admin' || !sb) return;
+  const { data: orders } = await sb.from('orders').select('*').order('created_at', { ascending: false });
+  $('adminOrders').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Item</th><th>Total</th><th>Status</th></tr></thead><tbody>' + (orders || []).map(o => '<tr><td>' + esc(o.user_name) + '</td><td>' + esc(o.item) + '</td><td>' + fmtGHS(o.total) + '</td><td>' + esc(o.status) + '</td></tr>').join('') + '</tbody></table></div>';
 }
 
 function copyText(text) {
-    const done = () => toast('📋 Copied', 'ok', 1500);
-    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
-    else fallbackCopy(text, done);
-}
-function fallbackCopy(text, cb) {
-    const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
-    document.body.appendChild(ta); ta.select();
-    try { document.execCommand('copy'); cb && cb(); } catch {}
-    document.body.removeChild(ta);
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => toast('Copied to clipboard!', 'ok'));
+  }
 }
 
-Object.assign(window, { go, toggleMenu, authTab, authSub, doLogin, doReg, doAdmin, logout, loadProducts, orderProduct, updateTotal, submitOrder, loadOrders, doTrack, calcMode, calcSea, calcAir, loadReviews, doRev, adminTab, toggleVerify, copyText, renderProducts, loadAdmin, updateTravelView });
+Object.assign(window, { go, toggleMenu, authTab, authSub, doLogin, doReg, doAdmin, logout, loadProducts, orderProduct, updateTotal, submitOrder, loadOrders, doTrack, calcMode, calcSea, calcAir, loadReviews, doRev, copyText, renderProducts });
 
 (async function init() {
-    console.log('🚀 EveriVault initializing...');
-    if (sb) {
-        try {
-            const { data: { session } } = await sb.auth.getSession();
-            if (session) await loadProfile();
-        } catch (e) { console.error('Session error:', e); }
-    }
-    applyUserState();
-    go('home');
-    console.log('✅ EveriVault ready. sb =', sb ? 'connected' : 'NOT connected');
+  if (sb) {
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session) await loadProfile();
+    } catch(e){}
+  }
+  applyUserState();
+  go('home');
 })();
 </script>
 </body>
