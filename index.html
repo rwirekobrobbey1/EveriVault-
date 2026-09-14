@@ -24,11 +24,12 @@
   --card-shadow: 0 10px 30px -5px rgba(10, 25, 47, 0.08);
 }
 
-* { margin:0; padding:0; box-sizing:border-box; font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; }
 html { scroll-behavior:smooth; }
 body { background:#F1F5F9; color:#0F172A; line-height:1.6; }
 
 .container { max-width:1200px; margin:0 auto; padding:0 20px; }
+.icon { display:inline-block; width:18px; height:18px; fill:currentColor; vertical-align:middle; }
 
 /* Navigation */
 nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-bottom:1px solid rgba(255,255,255,0.08); backdrop-filter:blur(12px); }
@@ -38,15 +39,15 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 .logo { font-size:20px; font-weight:800; color:#FFFFFF; letter-spacing:0.5px; display:flex; align-items:center; gap:8px; }
 .logo span { color:var(--green); }
 .nav-links { display:flex; gap:4px; list-style:none; align-items:center; flex-wrap:wrap; }
-.nav-links a { color:var(--slate-light); text-decoration:none; padding:8px 14px; border-radius:8px; font-weight:600; font-size:14px; cursor:pointer; transition:all 0.15s ease; display:flex; align-items:center; gap:6px; }
+.nav-links a { color:var(--slate-light); text-decoration:none; padding:8px 14px; border-radius:8px; font-weight:600; font-size:14px; cursor:pointer; transition:all 0.2s ease; display:flex; align-items:center; gap:6px; }
 .nav-links a:hover, .nav-links a.active { color:#FFFFFF; background:rgba(255,255,255,0.08); }
 .nav-cta { background:var(--green) !important; color:#FFFFFF !important; font-weight:700 !important; }
 .cart-badge { background:#EF4444; color:#fff; border-radius:50px; padding:2px 8px; font-size:11px; font-weight:800; }
 .menu-toggle { display:none; color:#fff; font-size:26px; cursor:pointer; background:none; border:none; padding:6px; }
 
 /* Buttons & UI Controls */
-.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 22px; border-radius:10px; font-weight:700; border:none; cursor:pointer; font-size:14px; text-decoration:none; transition:all 0.15s ease; white-space:nowrap; }
-.btn:active { transform:scale(0.97); }
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 22px; border-radius:10px; font-weight:700; border:none; cursor:pointer; font-size:14px; text-decoration:none; transition:all 0.2s ease; white-space:nowrap; }
+.btn:active { transform:scale(0.98); }
 .btn:disabled { opacity:0.5; cursor:not-allowed; }
 .btn-green { background:var(--green); color:#FFFFFF; }
 .btn-green:hover { background:var(--green-hover); }
@@ -62,9 +63,9 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
   position:fixed; bottom:24px; right:24px; z-index:10000;
   background:var(--wa-green); color:#FFFFFF; padding:14px 22px; border-radius:50px;
   font-weight:800; font-size:14px; text-decoration:none; display:flex; align-items:center; gap:10px;
-  box-shadow:0 10px 25px rgba(37,211,102,0.4); transition:all 0.2s ease;
+  box-shadow:0 10px 25px rgba(37,211,102,0.4); transition:all 0.3s ease;
 }
-.wa-float:hover { transform:scale(1.03); background:#1eb854; color:#fff; }
+.wa-float:hover { transform:scale(1.05); background:#1eb854; color:#fff; }
 
 /* Hero Section */
 .hero { 
@@ -78,7 +79,7 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 .hero p { font-size:clamp(15px, 2.5vw, 18px); color:var(--slate-light); max-width:680px; margin:0 auto 32px; font-weight:500; }
 
 .rate-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:16px; max-width:940px; margin:0 auto 32px; }
-.rate-card { background:rgba(255, 255, 255, 0.05); border:1px solid rgba(255, 255, 255, 0.12); backdrop-filter:blur(10px); border-radius:16px; padding:20px; text-align:left; }
+.rate-card { background:rgba(255, 255, 255, 0.05); border:1px solid rgba(255, 255, 255, 0.12); backdrop-filter:blur(10px); border-radius:16px; padding:20px; text-align:left; transition:0.2s; }
 .rate-card h3 { font-size:13px; color:var(--slate-light); font-weight:600; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px; }
 .rate-card .big { font-size:26px; font-weight:800; color:var(--green); }
 .rate-card .sub { font-size:13px; color:#CBD5E1; margin-top:2px; }
@@ -112,7 +113,8 @@ h2::after { content:''; display:block; width:48px; height:4px; background:var(--
 
 .grid-4 { display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:20px; }
 
-.card { background:#fff; padding:20px; border-radius:16px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); display:flex; flex-direction:column; justify-content:space-between; position:relative; }
+.card { background:#fff; padding:20px; border-radius:16px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); transition:all 0.25s ease; display:flex; flex-direction:column; justify-content:space-between; position:relative; }
+.card:hover { transform:translateY(-4px); box-shadow:0 20px 35px -10px rgba(10,25,47,0.12); }
 .card h3 { color:var(--navy); margin-bottom:6px; font-size:16px; font-weight:700; }
 .prod-img { width:100%; height:160px; object-fit:cover; border-radius:10px; margin-bottom:12px; background:#E2E8F0; }
 
@@ -123,7 +125,7 @@ h2::after { content:''; display:block; width:48px; height:4px; background:var(--
 
 /* Tabs & Forms */
 .tabs { display:flex; gap:6px; margin-bottom:24px; border-bottom:2px solid var(--border-color); padding-bottom:2px; flex-wrap:wrap; }
-.tab { padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:700; color:var(--slate); border:none; background:none; font-size:14px; }
+.tab { padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:700; color:var(--slate); border:none; background:none; font-size:14px; transition:0.2s; }
 .tab.active { color:var(--navy); background:#E2E8F0; }
 .tab-content { display:none; }
 .tab-content.active { display:block; }
@@ -132,7 +134,7 @@ h2::after { content:''; display:block; width:48px; height:4px; background:var(--
 .calc-box { background:#fff; border-radius:20px; padding:32px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); max-width:720px; margin:0 auto; }
 .form-group { margin-bottom:18px; }
 label { display:block; margin-bottom:6px; font-weight:700; color:var(--navy); font-size:13px; text-transform:uppercase; letter-spacing:0.3px; }
-input, select, textarea { width:100%; padding:12px 16px; border:1.5px solid #CBD5E1; border-radius:10px; font-size:15px; background:var(--bg-light); color:#0F172A; }
+input, select, textarea { width:100%; padding:12px 16px; border:1.5px solid #CBD5E1; border-radius:10px; font-size:15px; background:var(--bg-light); transition:0.2s; color:#0F172A; }
 input:focus, select:focus, textarea:focus { outline:none; border-color:var(--green); background:#fff; box-shadow:0 0 0 4px var(--green-light); }
 input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 
@@ -145,7 +147,7 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 /* Payment Slot Component */
 .payment-slot-card { background:#F0FDF4; border:2px solid var(--green); border-radius:16px; padding:20px; margin:20px 0; }
 .pay-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:10px; margin-top:10px; }
-.pay-btn { background:#fff; border:1.5px solid #CBD5E1; border-radius:10px; padding:10px; text-align:center; cursor:pointer; font-size:13px; font-weight:700; color:var(--navy); }
+.pay-btn { background:#fff; border:1.5px solid #CBD5E1; border-radius:10px; padding:10px; text-align:center; cursor:pointer; font-size:13px; font-weight:700; color:var(--navy); transition:0.2s; }
 .pay-btn.active { border-color:var(--green); background:var(--green-light); color:var(--green-hover); }
 .pay-details-box { background:#fff; border:1px solid #A7F3D0; border-radius:12px; padding:16px; margin-top:12px; }
 
@@ -158,7 +160,7 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 .addr-section { background:#fff; border-radius:20px; padding:28px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); margin-bottom:24px; }
 .addr-section h3 { color:var(--navy); margin-bottom:18px; padding-bottom:10px; border-bottom:2px solid #F1F5F9; font-size:18px; font-weight:700; }
 .addr-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:20px; }
-.addr-block { background:var(--bg-light); border-radius:14px; padding:22px; border:1px solid var(--border-color); }
+.addr-block { background:var(--bg-light); border-radius:14px; padding:22px; position:relative; border:1px solid var(--border-color); }
 .cn-text-box { background:#FFFFFF; border:1.5px solid #CBD5E1; border-radius:8px; padding:12px; margin:10px 0; font-family:monospace, sans-serif; font-size:14px; color:#0F172A; word-break:break-all; }
 .contact-row { display:flex; justify-content:space-between; align-items:center; background:#fff; padding:10px 14px; border-radius:8px; border:1px solid var(--border-color); margin-bottom:8px; font-size:13px; }
 
@@ -166,14 +168,14 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 .review-card { background:#fff; border-radius:16px; padding:20px; border:1px solid var(--border-color); box-shadow:var(--card-shadow); margin-bottom:16px; }
 
 /* Admin Dashboard Elements */
-.admin-stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-bottom:24px; }
+.admin-stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:24px; }
 .stat-card { background:#fff; padding:20px; border-radius:14px; border:1px solid var(--border-color); box-shadow:var(--card-shadow); }
 .stat-card h4 { font-size:12px; color:var(--slate); text-transform:uppercase; margin-bottom:6px; font-weight:700; }
 .stat-card .val { font-size:24px; font-weight:800; color:var(--navy); }
 
-.admin-layout { display:grid; grid-template-columns:250px 1fr; gap:24px; }
+.admin-layout { display:grid; grid-template-columns:240px 1fr; gap:24px; }
 .admin-sidebar { background:#fff; border-radius:16px; border:1px solid var(--border-color); padding:16px; box-shadow:var(--card-shadow); height:fit-content; }
-.admin-nav-btn { width:100%; text-align:left; padding:12px 16px; border-radius:10px; border:none; background:transparent; font-weight:700; color:var(--slate); cursor:pointer; font-size:14px; margin-bottom:4px; display:block; }
+.admin-nav-btn { width:100%; text-align:left; padding:12px 16px; border-radius:10px; border:none; background:transparent; font-weight:700; color:var(--slate); cursor:pointer; font-size:14px; transition:0.2s; margin-bottom:4px; display:block; }
 .admin-nav-btn.active, .admin-nav-btn:hover { background:var(--navy); color:#fff; }
 
 .admin-table { width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:var(--card-shadow); }
@@ -196,7 +198,7 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 
 /* Toast Notifications */
 .toast-wrap { position:fixed; top:84px; right:20px; z-index:10001; display:flex; flex-direction:column; gap:10px; pointer-events:none; }
-.toast { background:var(--navy); color:#fff; padding:14px 20px; border-radius:12px; font-weight:600; font-size:14px; max-width:340px; opacity:0; transform:translateX(100%); transition:all 0.15s ease; pointer-events:auto; box-shadow:0 10px 25px rgba(0,0,0,0.15); }
+.toast { background:var(--navy); color:#fff; padding:14px 20px; border-radius:12px; font-weight:600; font-size:14px; max-width:340px; opacity:0; transform:translateX(100%); transition:all 0.3s ease; pointer-events:auto; box-shadow:0 10px 25px rgba(0,0,0,0.15); }
 .toast.show { opacity:1; transform:translateX(0); }
 .toast.ok { background:var(--green); }
 .toast.err { background:#EF4444; }
@@ -204,7 +206,7 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 footer { background:var(--navy); color:var(--slate-light); padding:40px 0 24px; margin-top:60px; text-align:center; border-top:1px solid rgba(255,255,255,0.08); }
 footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; }
 
-.spinner { display:inline-block; width:16px; height:16px; border:2.5px solid rgba(255,255,255,0.3); border-top-color:#fff; border-radius:50%; animation:spin .5s linear infinite; }
+.spinner { display:inline-block; width:16px; height:16px; border:2.5px solid rgba(255,255,255,0.3); border-top-color:#fff; border-radius:50%; animation:spin .8s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
 
 @media(max-width:850px) {
@@ -589,7 +591,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       </div>
 
       <!-- SEA CARGO -->
-      <div id="calcSeaContent" class="tab-content active">
+      <div id="calcSea" class="tab-content active">
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:12px;">
           <div class="form-group"><label>Length (cm)</label><input type="number" id="seaL" oninput="calcSea()" placeholder="100"></div>
           <div class="form-group"><label>Width (cm)</label><input type="number" id="seaW" oninput="calcSea()" placeholder="60"></div>
@@ -605,7 +607,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       </div>
 
       <!-- AIR EXPRESS -->
-      <div id="calcAirContent" class="tab-content">
+      <div id="calcAir" class="tab-content">
         <div class="form-group">
           <label>Cargo Type</label>
           <select id="airType" onchange="calcAir()">
@@ -622,7 +624,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       </div>
 
       <!-- COMPARISON -->
-      <div id="calcCompareContent" class="tab-content">
+      <div id="calcCompare" class="tab-content">
         <p style="font-size:13px; font-weight:700; color:var(--navy); margin-bottom:12px;">Enter dimensions & weight to compare Sea Cargo vs Air Express:</p>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:12px;">
           <div class="form-group"><label>Length (cm)</label><input type="number" id="compL" oninput="calcCompare()" placeholder="50"></div>
@@ -745,7 +747,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </form>
       </div>
 
-      <!-- MANDATORY REGISTRATION & TERMS OF SERVICE (UNLIMITED) -->
+      <!-- MANDATORY REGISTRATION & TERMS OF SERVICE -->
       <div id="tReg" class="tab-content">
         <form onsubmit="doReg(event)">
           <div class="form-group"><label>Full Legal Name</label><input type="text" id="rn" required placeholder="e.g. Richmond Wireko"></div>
@@ -811,10 +813,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <div class="val" id="statClientCount">0</div>
       </div>
       <div class="stat-card">
-        <h4>Active Delivery Guys</h4>
-        <div class="val" id="statCourierCount">1</div>
-      </div>
-      <div class="stat-card">
         <h4>Pending Payments</h4>
         <div class="val" id="statOrdersCount" style="color:#D97706;">0</div>
       </div>
@@ -828,14 +826,14 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     <div class="admin-layout">
       <!-- SIDEBAR -->
       <div class="admin-sidebar">
-        <button class="admin-nav-btn active" data-admintab="clients" onclick="adminTab('clients')">Registered Clients (New & Old)</button>
-        <button class="admin-nav-btn" data-admintab="delivery" onclick="adminTab('delivery')">Delivery Guys Management</button>
-        <button class="admin-nav-btn" data-admintab="products" onclick="adminTab('products')">Manage Catalog & Unlimited Uploads</button>
+        <button class="admin-nav-btn active" data-admintab="products" onclick="adminTab('products')">Manage Catalog & Unlimited Uploads</button>
         <button class="admin-nav-btn" data-admintab="payments" onclick="adminTab('payments')">Manage Payments Desk</button>
         <button class="admin-nav-btn" data-admintab="tracking" onclick="adminTab('tracking')">Shipping Tracking & Notifications</button>
         <button class="admin-nav-btn" data-admintab="monitoredchat" onclick="adminTab('monitoredchat')">Secretly Monitor Client-Courier Chats</button>
+        <button class="admin-nav-btn" data-admintab="delivery" onclick="adminTab('delivery')">Delivery Guy Account Setup</button>
         <button class="admin-nav-btn" data-admintab="ads" onclick="adminTab('ads')">Promo / Ad Requests</button>
-        <button class="admin-nav-btn" data-admintab="content" onclick="adminTab('content')">Upload Logo & Portal Settings</button>
+        <button class="admin-nav-btn" data-admintab="clients" onclick="adminTab('clients')">Registered Clients & Referrals</button>
+        <button class="admin-nav-btn" data-admintab="content" onclick="adminTab('content')">Edit Portal & Brand Logo</button>
       </div>
 
       <!-- MAIN WORKSPACE -->
@@ -852,39 +850,11 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           </form>
         </div>
 
-        <!-- 1. REGISTERED CLIENTS TAB (NEW & OLD) -->
-        <div id="adminClients" class="tab-content active">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
-            <h3 style="color:var(--navy); margin:0;">All Registered Clients (New Registrations & Historical)</h3>
-            <button class="btn btn-sm btn-green" onclick="exportClientData()">Export Client List (CSV)</button>
-          </div>
-          <p style="font-size:13px; color:var(--slate); margin-bottom:16px;">Every new individual registration is captured instantly with unlimited storage capacity.</p>
-          <div id="adminClientsList"></div>
-        </div>
-
-        <!-- 2. DELIVERY GUYS MANAGEMENT TAB -->
-        <div id="adminDelivery" class="tab-content">
-          <div class="form-box" style="max-width:100%; margin-bottom:28px;">
-            <h3>Add New Delivery Personnel or Configure Active Courier</h3>
-            <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">You can add multiple delivery guys or update the primary courier login credentials instantly.</p>
-            <form onsubmit="saveDeliveryGuyInfo(event)">
-              <div class="form-group"><label>Delivery Personnel Name</label><input type="text" id="dgName" required placeholder="e.g. Kofi Delivery Express"></div>
-              <div class="form-group"><label>Login Email Address</label><input type="email" id="dgEmail" required placeholder="e.g. delivery@everivault.com"></div>
-              <div class="form-group"><label>Login Password</label><input type="password" id="dgPass" required placeholder="••••••"></div>
-              <div class="form-group"><label>Contact Phone Number</label><input type="tel" id="dgPhone" required placeholder="e.g. 0541234567"></div>
-              <div class="form-group"><label>Delivery Zone / Base Note</label><input type="text" id="dgZone" required placeholder="e.g. Kumasi Metropolis & KNUST Campus"></div>
-              <button class="btn btn-green btn-block" type="submit">Save Courier Credentials Live</button>
-            </form>
-          </div>
-          <h3 style="margin-bottom:16px; color:var(--navy);">All Active Delivery Personnel & Dispatch Accounts</h3>
-          <div id="adminCourierSummaryCard"></div>
-        </div>
-
         <!-- PRODUCTS & UNLIMITED UPLOAD MANAGEMENT TAB -->
-        <div id="adminProducts" class="tab-content">
+        <div id="adminProducts" class="tab-content active">
           <div class="form-box" style="max-width:100%; margin-bottom:30px;">
             <h3>Add New Product to Store Catalog (Unlimited Uploads)</h3>
-            <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">You can add as many products as you want with custom images and pricing. Changes reflect immediately.</p>
+            <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">You can add as many products as you want with custom images and pricing.</p>
             <form onsubmit="doAddProduct(event)">
               <div class="form-group"><label>Product Title</label><input type="text" id="npName" required placeholder="e.g. Smart Watch Ultra 2"></div>
               <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px;">
@@ -954,17 +924,44 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           <div id="adminSecretChatMonitorList"></div>
         </div>
 
+        <!-- DELIVERY GUY ACCOUNT SETUP -->
+        <div id="adminDelivery" class="tab-content">
+          <div class="form-box" style="max-width:100%; margin-bottom:28px;">
+            <h3>Configure Delivery Guy Unique Login & Info</h3>
+            <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">Set login credentials and contact details for the delivery personnel.</p>
+            <form onsubmit="saveDeliveryGuyInfo(event)">
+              <div class="form-group"><label>Delivery Personnel Name</label><input type="text" id="dgName" required placeholder="e.g. Kofi Delivery Express"></div>
+              <div class="form-group"><label>Login Email Address</label><input type="email" id="dgEmail" required placeholder="e.g. delivery@everivault.com"></div>
+              <div class="form-group"><label>Login Password</label><input type="password" id="dgPass" required placeholder="••••••"></div>
+              <div class="form-group"><label>Contact Phone Number</label><input type="tel" id="dgPhone" required placeholder="e.g. 0541234567"></div>
+              <div class="form-group"><label>Delivery Zone / Base Note</label><input type="text" id="dgZone" required placeholder="e.g. Kumasi Metropolis & KNUST Campus"></div>
+              <button class="btn btn-green btn-block" type="submit">Save Courier Credentials Live</button>
+            </form>
+          </div>
+          <h3 style="margin-bottom:16px; color:var(--navy);">Courier Active Status & Info</h3>
+          <div id="adminCourierSummaryCard"></div>
+        </div>
+
         <!-- ADVERTISEMENTS & PROMO REQUESTS TAB -->
         <div id="adminAds" class="tab-content">
           <h3 style="margin-bottom:16px; color:var(--navy);">Submitted Advertisement & Promo Requests</h3>
           <div id="adminAdsList"></div>
         </div>
 
-        <!-- UPLOAD LOGO & PORTAL CONTENT MANAGER -->
+        <!-- REGISTERED CLIENTS TAB -->
+        <div id="adminClients" class="tab-content">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <h3 style="color:var(--navy); margin:0;">All Registered Clients & Referral Tracking</h3>
+            <button class="btn btn-sm btn-green" onclick="exportClientData()">Export Client List (CSV)</button>
+          </div>
+          <div id="adminClientsList"></div>
+        </div>
+
+        <!-- CLIENT PORTAL CONTENT & LOGO EDITOR -->
         <div id="adminContent" class="tab-content">
           <div class="form-box" style="max-width:100%; margin-bottom:28px; border:2px solid var(--green);">
             <h3>Upload Business Logo Image</h3>
-            <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">Upload your company logo photo/file to display live at the top navigation header instantly across all pages.</p>
+            <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">Upload your company logo photo/file to display live at the top navigation header.</p>
             <form onsubmit="saveLogoFile(event)">
               <div class="form-group">
                 <label>Logo Image File</label>
@@ -1079,9 +1076,7 @@ const state = {
   ads: JSON.parse(localStorage.getItem('ev_local_ads') || '[]'),
   orders: JSON.parse(localStorage.getItem('ev_local_orders') || '[]'),
   tracking: JSON.parse(localStorage.getItem('ev_local_tracking') || '{}'), 
-  deliveryGuys: JSON.parse(localStorage.getItem('ev_delivery_guys') || JSON.stringify([
-    { id: 'dg_1', name: 'Kofi Delivery Express', email: 'delivery@everivault.com', pass: 'courier123', phone: '0541234567', zone: 'Kumasi Metropolis & KNUST Campus' }
-  ])),
+  deliveryGuy: JSON.parse(localStorage.getItem('ev_delivery_guy') || '{"name":"Kofi Delivery Express", "email":"delivery@everivault.com", "pass":"courier123", "phone":"0541234567", "zone":"Kumasi Metropolis & KNUST Campus"}'),
   bargainMessages: JSON.parse(localStorage.getItem('ev_bargain_messages') || '{}'), 
   cartMeta: JSON.parse(localStorage.getItem('ev_cart_meta') || '{"items":[], "expiresAt":0}'),
   reviews: JSON.parse(localStorage.getItem('ev_reviews') || 'null') || [
@@ -1121,15 +1116,14 @@ function saveProducts() {
   localStorage.setItem('ev_local_products', JSON.stringify(state.products));
 }
 
-function toast(msg, type = 'info', ms = 2500) {
+function toast(msg, type = 'info', ms = 3500) {
   const wrap = $('toastWrap');
-  if (!wrap) return;
   const el = document.createElement('div');
   el.className = 'toast ' + (type === 'ok' ? 'ok' : type === 'err' ? 'err' : '');
   el.textContent = msg;
   wrap.appendChild(el);
   requestAnimationFrame(() => el.classList.add('show'));
-  setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 250); }, ms);
+  setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 400); }, ms);
 }
 
 function go(page) {
@@ -1166,7 +1160,7 @@ function go(page) {
   if (page === 'payment') loadPaymentPortal();
   if (page === 'reviews') loadReviews();
   if (page === 'admin') loadAdmin();
-  window.scrollTo({ top: 0, behavior: 'auto' });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function toggleMenu() { $('menu').classList.toggle('active'); }
@@ -1178,105 +1172,6 @@ function authTab(tab) {
   $('tReset').classList.toggle('active', tab === 'reset');
 }
 
-/* --- FREIGHT CALCULATOR LOGIC --- */
-function calcMode(mode) {
-  document.querySelectorAll('#p-calc .tab').forEach(b => b.classList.remove('active'));
-  $('calcSeaContent').classList.remove('active');
-  $('calcAirContent').classList.remove('active');
-  $('calcCompareContent').classList.remove('active');
-
-  if (mode === 'sea') {
-    $('tabBtnSea').classList.add('active');
-    $('calcSeaContent').classList.add('active');
-    calcSea();
-  } else if (mode === 'air') {
-    $('tabBtnAir').classList.add('active');
-    $('calcAirContent').classList.add('active');
-    calcAir();
-  } else if (mode === 'compare') {
-    $('tabBtnCompare').classList.add('active');
-    $('calcCompareContent').classList.add('active');
-    calcCompare();
-  }
-}
-
-function calcSea() {
-  const l = parseFloat($('seaL').value) || 0;
-  const w = parseFloat($('seaW').value) || 0;
-  const h = parseFloat($('seaH').value) || 0;
-  const qty = parseInt($('seaQty').value) || 1;
-
-  const cbmSingle = (l * w * h) / 1000000;
-  const totalCbm = cbmSingle * qty;
-  const ratePerCbm = totalCbm >= 1.0 ? 255 : 260;
-  const usdCost = totalCbm * ratePerCbm;
-  const ghsCost = usdCost * 16.0;
-
-  $('seaCbm').textContent = totalCbm.toFixed(3);
-  $('seaUsd').textContent = '$' + usdCost.toFixed(2);
-  $('seaGhs').textContent = fmtGHS(ghsCost);
-}
-
-function calcAir() {
-  const type = $('airType').value;
-  const kg = parseFloat($('airKg').value) || 0;
-
-  let usd = 0;
-  let ghs = 0;
-
-  if (type === 'general') {
-    usd = kg * 17;
-    ghs = usd * 16.0;
-  } else {
-    usd = 31.25;
-    ghs = 500.00;
-  }
-
-  $('airUsd').textContent = '$' + usd.toFixed(2);
-  $('airGhs').textContent = fmtGHS(ghs);
-}
-
-function calcCompare() {
-  const l = parseFloat($('compL').value) || 50;
-  const w = parseFloat($('compW').value) || 40;
-  const h = parseFloat($('compH').value) || 30;
-  const kg = parseFloat($('compKg').value) || 5.0;
-
-  const cbm = (l * w * h) / 1000000;
-  const seaUsd = cbm * (cbm >= 1.0 ? 255 : 260);
-  const seaGhs = seaUsd * 16.0;
-
-  const airUsd = kg * 17;
-  const airGhs = airUsd * 16.0;
-
-  $('compSeaRes').textContent = `${fmtGHS(seaGhs)} (${cbm.toFixed(3)} m³)`;
-  $('compAirRes').textContent = `${fmtGHS(airGhs)} (${kg.toFixed(1)} kg)`;
-}
-
-/* --- ADVERTISEMENT SUBMISSION --- */
-function submitAdvertisement(e) {
-  e.preventDefault();
-  const adObj = {
-    id: 'ad_' + Math.random().toString(36).slice(2, 8),
-    name: $('adName').value.trim(),
-    contact: $('adContact').value.trim(),
-    details: $('adDetails').value.trim(),
-    date: new Date().toLocaleDateString()
-  };
-  state.ads.push(adObj);
-  localStorage.setItem('ev_local_ads', JSON.stringify(state.ads));
-
-  sendAdminGmailNotification(
-    'New Advertisement Request: ' + adObj.name,
-    `New ad submitted by ${adObj.name}\nContact: ${adObj.contact}\nDetails: ${adObj.details}`
-  );
-
-  $('adName').value = '';
-  $('adContact').value = '';
-  $('adDetails').value = '';
-  toast('Advertisement request submitted successfully!', 'ok');
-}
-
 /* --- 24-HOUR CART TIMER LOGIC --- */
 function checkCartExpiration() {
   if (!state.cartMeta.items || !state.cartMeta.items.length) return;
@@ -1284,7 +1179,7 @@ function checkCartExpiration() {
   if (now > state.cartMeta.expiresAt) {
     state.cartMeta = { items: [], expiresAt: 0 };
     localStorage.setItem('ev_cart_meta', JSON.stringify(state.cartMeta));
-    toast('Your shopping cart expired after 24 hours. Please re-add items.', 'err', 4000);
+    toast('Your shopping cart expired after 24 hours of inactivity. Please re-add items.', 'err', 6000);
   }
 }
 
@@ -1321,17 +1216,7 @@ function addToCart(prodId) {
   if (existing) { existing.qty += 1; } 
   else { items.push({ id: p.id, name: p.name, price: p.price, type: p.type || 'preorder', image: p.image || '', qty: 1 }); }
   saveCartItems(items);
-  toast('Added ' + p.name + ' to cart', 'ok');
-}
-
-function adminAddToCart(prodId) {
-  addToCart(prodId);
-  loadAdmin();
-}
-
-function adminRemoveFromCart(prodId) {
-  removeFromCart(prodId);
-  loadAdmin();
+  toast('Added ' + p.name + ' to cart (24h timer active)', 'ok');
 }
 
 function updateCartQty(prodId, delta) {
@@ -1394,7 +1279,7 @@ function renderCart() {
   $('cartGrandTotal').textContent = fmtGHS(total);
 }
 
-/* --- UNLIMITED REGISTRATION & LOGIN --- */
+/* --- UNIFIED LOGIN ROUTING FOR ADMIN, CLIENT, AND DELIVERY GUY --- */
 async function doUniversalLogin(e) {
   e.preventDefault();
   const btn = $('uniLoginBtn');
@@ -1403,6 +1288,7 @@ async function doUniversalLogin(e) {
   const identifier = $('uniIdent').value.trim().toLowerCase();
   const password = $('uniPw').value;
 
+  // 1. Check Admin Match (richmonwireko@gmail.com or admin email)
   const isAdminEmail = identifier.includes('admin') || identifier === 'richmonwireko@gmail.com';
   if (isAdminEmail) {
     state.user = {
@@ -1421,15 +1307,16 @@ async function doUniversalLogin(e) {
     return;
   }
 
-  const matchedCourier = state.deliveryGuys.find(d => d.email.toLowerCase() === identifier || d.name.toLowerCase().includes(identifier));
-  if (matchedCourier) {
-    if (password === matchedCourier.pass || password === 'courier123') {
+  // 2. Check Delivery Guy Match (delivery@everivault.com or delivery guy email/pass)
+  const dg = state.deliveryGuy;
+  if (identifier === dg.email.toLowerCase() || identifier === 'delivery' || identifier === 'delivery guy') {
+    if (password === dg.pass) {
       state.user = {
-        id: matchedCourier.id,
-        name: matchedCourier.name,
-        email: matchedCourier.email,
+        id: 'courier_active',
+        name: dg.name,
+        email: dg.email,
         role: 'delivery',
-        mark: 'COURIER-' + matchedCourier.name.toUpperCase().slice(0,3),
+        mark: 'COURIER-PARTNER',
         type: 'Delivery Personnel'
       };
       localStorage.setItem('ev_active_user', JSON.stringify(state.user));
@@ -1445,6 +1332,7 @@ async function doUniversalLogin(e) {
     }
   }
 
+  // 3. Check Client Match (Gmail or Shipping ID)
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
   const allKnownClients = [...defaultHistoricalClients, ...localClients];
   const matchedClient = allKnownClients.find(c => 
@@ -1472,6 +1360,7 @@ async function doUniversalLogin(e) {
     return;
   }
 
+  // If not found in existing records, treat as new client login / auto-create
   const generatedMark = generateShippingMark(identifier.split('@')[0], '0543155883');
   state.user = {
     id: 'usr_' + Math.random().toString(36).slice(2, 8),
@@ -1482,8 +1371,7 @@ async function doUniversalLogin(e) {
     mark: generatedMark,
     location: 'Kumasi',
     referredBy: 'None (Direct)',
-    type: 'Newly Registered Client',
-    dateRegistered: new Date().toLocaleDateString()
+    type: 'Registered Client'
   };
   localClients.push(state.user);
   localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
@@ -1534,8 +1422,11 @@ async function doReg(e) {
   };
   
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
-  localClients.push(state.user);
-  localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
+  if (!localClients.some(c => c.email.toLowerCase() === email)) {
+    localClients.push(state.user);
+    localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
+  }
+  
   localStorage.setItem('ev_active_user', JSON.stringify(state.user));
 
   sendAdminGmailNotification(
@@ -1544,14 +1435,33 @@ async function doReg(e) {
   );
 
   applyUserState();
-  toast('Account Created Successfully! Shipping Mark: ' + generatedMark, 'ok', 4000);
+  toast('Account Created Successfully! Shipping Mark: ' + generatedMark, 'ok', 6000);
   go('store');
 }
 
+/* --- UNIVERSAL PASSWORD RESET FOR ADMIN, CLIENT, & DELIVERY GUY --- */
 async function doUniversalReset(e) {
   e.preventDefault();
   const ident = $('resetIdent').value.trim().toLowerCase();
-  toast('Password reset instructions successfully sent to Gmail address linked with ' + ident, 'ok', 4000);
+  
+  // Check if it matches admin, delivery, or client
+  let targetName = 'User';
+  if (ident.includes('admin') || ident === 'richmonwireko@gmail.com') {
+    targetName = 'Master Admin (Richmond Wireko Brobbey)';
+  } else if (ident === state.deliveryGuy.email.toLowerCase() || ident.includes('delivery')) {
+    targetName = 'Delivery Personnel (' + state.deliveryGuy.name + ')';
+  } else {
+    const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
+    const allKnown = [...defaultHistoricalClients, ...localClients];
+    const found = allKnown.find(c => c.email.toLowerCase() === ident || (c.mark && c.mark.toLowerCase() === ident));
+    if (found) {
+      targetName = found.name + ' (' + found.mark + ')';
+    } else {
+      targetName = 'Account ID: ' + ident;
+    }
+  }
+
+  toast('Password reset instructions successfully sent to Gmail address linked with ' + targetName, 'ok', 6000);
 }
 
 function doSignOut() {
@@ -1710,12 +1620,12 @@ function loadClientTrackingAndBargain() {
     </div>
   `;
 
-  const activeCourier = state.deliveryGuys[0] || { name: 'Kofi Delivery Express', phone: '0541234567', zone: 'Kumasi' };
-  $('deliveryGuyInfoCard').innerHTML = `Assigned Courier: <strong>${esc(activeCourier.name)}</strong> — Phone: ${esc(activeCourier.phone)} (${esc(activeCourier.zone)})`;
+  const dg = state.deliveryGuy;
+  $('deliveryGuyInfoCard').innerHTML = `Assigned Courier: <strong>${esc(dg.name)}</strong> — Phone: ${esc(dg.phone)} (${esc(dg.zone)})`;
 
   const chatContainer = $('bargainChatBox');
   const msgs = state.bargainMessages[userId] || [
-    { sender: 'Delivery Guy', text: `Hello! I am ${activeCourier.name}. Your delivery is ready. Let's agree on price and duration.`, time: 'System' }
+    { sender: 'Delivery Guy', text: `Hello! I am ${dg.name}. Your delivery is ready. Let's agree on price and duration.`, time: 'System' }
   ];
 
   chatContainer.innerHTML = msgs.map(m => {
@@ -1855,7 +1765,7 @@ function renderProducts() {
       : '<span class="badge-available">Available In Stock</span><span class="shipping-note" style="color:var(--slate);">Local Warehouse Stock</span>';
     
     const actionBtn = state.user?.role === 'client'
-      ? '<button class="btn btn-sm btn-green btn-block" onclick="addToCart(\'' + p.id + \')">Add to Cart</button>'
+      ? '<button class="btn btn-sm btn-green btn-block" onclick="addToCart(\'' + p.id + '\')">Add to Cart</button>'
       : '<button class="btn btn-sm btn-navy btn-block" onclick="go(\'auth\')">Sign In as Client to Buy</button>';
 
     return '<div class="card">' + imgHtml + '<div><span style="font-size:11px; font-weight:800; color:var(--green); text-transform:uppercase;">' + esc(p.category || 'GENERAL') + '</span><br>' + badgeHtml + '<h3>' + esc(p.name) + '</h3><p style="font-weight:800; color:var(--navy); font-size:18px; margin:6px 0 12px;">' + fmtGHS(p.price) + '</p></div>' + actionBtn + '</div>';
@@ -1875,14 +1785,6 @@ function renderProducts() {
   }
 }
 
-function handleImageFile(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(evt) { state.uploadedProdBase64 = evt.target.result; toast('Product image attached', 'ok'); };
-  reader.readAsDataURL(file);
-}
-
 function doAddProduct(e) {
   e.preventDefault();
   const productObj = { 
@@ -1899,7 +1801,7 @@ function doAddProduct(e) {
   $('npName').value = ''; $('npCat').value = ''; $('npPrice').value = ''; $('npImgUrl').value = '';
   state.uploadedProdBase64 = '';
   
-  toast('Published new product to online store instantly', 'ok');
+  toast('Published new product to online store successfully', 'ok');
   renderProducts();
   if (state.user?.role === 'admin') loadAdmin();
 }
@@ -1912,30 +1814,6 @@ function deleteCatalogProduct(prodId) {
   loadAdmin();
 }
 
-/* --- LOGO & BRANDING UPLOAD --- */
-function handleLogoFileSelect(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(evt) {
-    state.tempLogoBase64 = evt.target.result;
-    toast('Logo image loaded successfully', 'ok');
-  };
-  reader.readAsDataURL(file);
-}
-
-function saveLogoFile(e) {
-  e.preventDefault();
-  if (!state.tempLogoBase64) {
-    toast('Please select a logo image file first', 'err');
-    return;
-  }
-  state.settings.logoUrl = state.tempLogoBase64;
-  localStorage.setItem('ev_portal_settings', JSON.stringify(state.settings));
-  applyPortalSettings();
-  toast('Business logo updated successfully and applied live across all pages!', 'ok');
-}
-
 /* --- ADMIN DASHBOARD --- */
 function loadAdmin() {
   if (!state.user || state.user.role !== 'admin') return;
@@ -1944,7 +1822,6 @@ function loadAdmin() {
   const allClientsCombined = [...defaultHistoricalClients, ...localClients];
   
   $('statClientCount').textContent = allClientsCombined.length;
-  $('statCourierCount').textContent = state.deliveryGuys.length;
   $('statOrdersCount').textContent = state.orders.filter(o => o.status === 'Pending Verification').length;
   $('statProdCount').textContent = state.products.length;
 
@@ -1953,22 +1830,7 @@ function loadAdmin() {
     trackSel.innerHTML = allClientsCombined.map(c => `<option value="${c.id}">${c.name} (${c.mark}) - Loc: ${c.location || 'Kumasi'}</option>`).join('');
   }
 
-  // Registered Clients (New & Old)
-  $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Email / Phone</th><th>Location</th><th>Shipping Mark ID</th><th>Referred By</th><th>Account Status</th></tr></thead><tbody>' + (allClientsCombined.length ? allClientsCombined.map(c => '<tr><td><strong>' + esc(c.name) + '</strong></td><td>' + esc(c.email) + '<br>' + esc(c.phone) + '</td><td>' + esc(c.location || 'Kumasi') + '</td><td><code>' + esc(c.mark) + '</code></td><td><code style="color:var(--green-hover);">' + esc(c.referredBy || 'None (Direct)') + '</code></td><td><span class="pill ' + (c.type?.includes('Historical') ? 'pill-type' : 'pill-verified') + '">' + esc(c.type || 'Registered Client') + '</span></td></tr>').join('') : '<tr><td colspan="6" style="text-align:center; color:var(--slate);">No clients registered yet.</td></tr>') + '</tbody></table></div>';
-
-  // Delivery Guys Management
-  $('adminCourierSummaryCard').innerHTML = '<div style="display:flex; flex-direction:column; gap:12px;">' + state.deliveryGuys.map((dg, idx) => `
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-        <h4 style="color:var(--navy); font-size:16px;">${esc(dg.name)}</h4>
-        <span class="pill pill-verified">Active Courier #${idx+1}</span>
-      </div>
-      <p style="font-size:14px; color:var(--navy);"><strong>Login Email:</strong> ${esc(dg.email)}</p>
-      <p style="font-size:14px; color:var(--navy);"><strong>Phone:</strong> ${esc(dg.phone)}</p>
-      <p style="font-size:14px; color:var(--navy);"><strong>Zone:</strong> ${esc(dg.zone)}</p>
-      <button class="btn btn-sm btn-danger" style="margin-top:10px; width:fit-content;" onclick="deleteDeliveryGuy('${dg.id}')">Remove Courier Account</button>
-    </div>
-  `).join('') + '</div>';
+  $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Email / Phone</th><th>Location</th><th>Shipping Mark ID</th><th>Referred By</th><th>Type</th></tr></thead><tbody>' + (allClientsCombined.length ? allClientsCombined.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.email) + ' / ' + esc(c.phone) + '</td><td>' + esc(c.location || 'Kumasi') + '</td><td><code>' + esc(c.mark) + '</code></td><td><code style="color:var(--green-hover);">' + esc(c.referredBy || 'None (Direct)') + '</code></td><td><span class="pill ' + (c.type?.includes('Old') ? 'pill-type' : 'pill-verified') + '">' + esc(c.type || 'Registered Client') + '</span></td></tr>').join('') : '<tr><td colspan="6" style="text-align:center; color:var(--slate);">No clients recorded.</td></tr>') + '</tbody></table></div>';
 
   $('adminAdsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Business / Client</th><th>Contact</th><th>Promo / Ad Details</th><th>Date Submitted</th></tr></thead><tbody>' + (state.ads.length ? state.ads.map(a => '<tr><td>' + esc(a.name) + '</td><td>' + esc(a.contact) + '</td><td>' + esc(a.details) + '</td><td>' + esc(a.date) + '</td></tr>').join('') : '<tr><td colspan="4" style="text-align:center; color:var(--slate);">No advertisement requests submitted yet.</td></tr>') + '</tbody></table></div>';
 
@@ -1993,13 +1855,29 @@ function loadAdmin() {
   }).join('');
   $('adminSecretChatMonitorList').innerHTML = secretChatList || '<p style="color:var(--slate);">No client-courier chat logs recorded yet.</p>';
 
+  $('dgName').value = state.deliveryGuy.name;
+  $('dgEmail').value = state.deliveryGuy.email;
+  $('dgPass').value = state.deliveryGuy.pass;
+  $('dgPhone').value = state.deliveryGuy.phone;
+  $('dgZone').value = state.deliveryGuy.zone;
+
+  $('adminCourierSummaryCard').innerHTML = `
+    <div class="card">
+      <h4>Active Courier Account</h4>
+      <p style="font-size:14px; color:var(--navy); margin-top:6px;"><strong>Name:</strong> ${esc(state.deliveryGuy.name)}</p>
+      <p style="font-size:14px; color:var(--navy);"><strong>Login Email / ID:</strong> ${esc(state.deliveryGuy.email)}</p>
+      <p style="font-size:14px; color:var(--navy);"><strong>Phone:</strong> ${esc(state.deliveryGuy.phone)}</p>
+      <p style="font-size:14px; color:var(--navy);"><strong>Zone:</strong> ${esc(state.deliveryGuy.zone)}</p>
+    </div>
+  `;
+
   $('adminProductsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Product</th><th>Category</th><th>Type</th><th>Price</th><th>Cart Action</th><th>Catalog Action</th></tr></thead><tbody>' + state.products.map(p => {
     const items = getCartItems();
     const inCart = items.some(i => String(i.id) === String(p.id));
     const cartBtn = inCart 
       ? '<button class="btn btn-sm btn-danger" onclick="adminRemoveFromCart(\'' + p.id + '\')">Remove from Cart</button>'
       : '<button class="btn btn-sm btn-green" onclick="adminAddToCart(\'' + p.id + '\')">Add to Cart</button>';
-    return '<tr><td>' + esc(p.name) + '</td><td>' + esc(p.category) + '</td><td><span class="pill ' + (p.type === 'preorder' ? 'pill-pending' : 'pill-verified') + '">' + (p.type === 'preorder' ? 'Pre-Order' : 'Available') + '</span></td><td>' + fmtGHS(p.price) + '</td><td>' + cartBtn + '</td><td><button class="btn btn-sm btn-outline" onclick="deleteCatalogProduct(\'' + p.id + '\')">Delete Product</button></td></tr>';
+    return '<tr><td>' + esc(p.name) + '</td><td>' + esc(p.category) + '</td><td><span class="pill ' + (p.type === 'preorder' ? 'pill-pending' : 'pill-verified') + '">' + (p.type === 'preorder' ? 'Pre-Order (No Ship Fee)' : 'Available') + '</span></td><td>' + fmtGHS(p.price) + '</td><td>' + cartBtn + '</td><td><button class="btn btn-sm btn-outline" onclick="deleteCatalogProduct(\'' + p.id + '\')">Delete Product</button></td></tr>';
   }).join('') + '</tbody></table></div>';
 
   $('cfgHeroTitle').value = state.settings.heroTitle;
@@ -2024,36 +1902,21 @@ function adminUpdateTracking(e) {
   };
   localStorage.setItem('ev_local_tracking', JSON.stringify(state.tracking));
 
-  toast('Client tracking update saved and delivery guy notified!', 'ok');
+  toast('Client tracking update saved and delivery guy notified if out for delivery!', 'ok');
   loadAdmin();
 }
 
 function saveDeliveryGuyInfo(e) {
   e.preventDefault();
-  const dgObj = {
-    id: 'dg_' + Math.random().toString(36).slice(2, 8),
+  state.deliveryGuy = {
     name: $('dgName').value.trim(),
     email: $('dgEmail').value.trim(),
     pass: $('dgPass').value.trim(),
     phone: $('dgPhone').value.trim(),
     zone: $('dgZone').value.trim()
   };
-  state.deliveryGuys.push(dgObj);
-  localStorage.setItem('ev_delivery_guys', JSON.stringify(state.deliveryGuys));
-
-  $('dgName').value = ''; $('dgEmail').value = ''; $('dgPass').value = ''; $('dgPhone').value = ''; $('dgZone').value = '';
-  toast('New delivery guy added successfully! Effective immediately.', 'ok');
-  loadAdmin();
-}
-
-function deleteDeliveryGuy(dgId) {
-  if (state.deliveryGuys.length <= 1) {
-    toast('You must keep at least one delivery guy account', 'err');
-    return;
-  }
-  state.deliveryGuys = state.deliveryGuys.filter(d => d.id !== dgId);
-  localStorage.setItem('ev_delivery_guys', JSON.stringify(state.deliveryGuys));
-  toast('Delivery guy account removed', 'ok');
+  localStorage.setItem('ev_delivery_guy', JSON.stringify(state.deliveryGuy));
+  toast('Delivery guy unique login credentials and info updated live!', 'ok');
   loadAdmin();
 }
 
@@ -2070,7 +1933,7 @@ function exportClientData() {
   a.setAttribute('href', url);
   a.setAttribute('download', 'everivault_clients_and_referrals.csv');
   a.click();
-  toast('Client and referral archive exported to CSV', 'ok');
+  toast('Client and referral archive exported to CSV successfully', 'ok');
 }
 
 function toggleOrderVerify(id) {
@@ -2084,13 +1947,13 @@ function toggleOrderVerify(id) {
 
 function adminTab(tab) {
   document.querySelectorAll('.admin-nav-btn').forEach(t => t.classList.toggle('active', t.dataset.admintab === tab));
-  $('adminClients').classList.toggle('active', tab === 'clients');
-  $('adminDelivery').classList.toggle('active', tab === 'delivery');
   $('adminProducts').classList.toggle('active', tab === 'products');
   $('adminPayments').classList.toggle('active', tab === 'payments');
   $('adminTracking').classList.toggle('active', tab === 'tracking');
   $('adminMonitoredChat').classList.toggle('active', tab === 'monitoredchat');
+  $('adminDelivery').classList.toggle('active', tab === 'delivery');
   $('adminAds').classList.toggle('active', tab === 'ads');
+  $('adminClients').classList.toggle('active', tab === 'clients');
   $('adminContent').classList.toggle('active', tab === 'content');
 }
 
@@ -2106,7 +1969,7 @@ function savePortalSettings(e) {
   
   localStorage.setItem('ev_portal_settings', JSON.stringify(state.settings));
   applyPortalSettings();
-  toast('Client Portal Settings Updated Live!', 'ok');
+  toast('Client Portal Content Updated Live!', 'ok');
 }
 
 function applyPortalSettings() {
@@ -2184,18 +2047,7 @@ function applyUserState() {
   }
 }
 
-Object.assign(window, { 
-  go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, 
-  handleImageFile, handleLogoFileSelect, saveLogoFile, addToCart, adminAddToCart, adminRemoveFromCart, 
-  updateCartQty, removeFromCart, clearCart, goToPaymentPortal, 
-  setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, 
-  doSubmitReview, copyText, adminTab, toggleOrderVerify, doUniversalLogin, 
-  doReg, doUniversalReset, doSignOut, doAddProduct, deleteCatalogProduct, 
-  openAdminPasswordModal, doAdminChangePassword, savePortalSettings, 
-  submitAdvertisement, renderProducts, exportClientData, adminUpdateTracking, 
-  saveDeliveryGuyInfo, deleteDeliveryGuy, sendBargainMessage, loadCourierChat, 
-  sendCourierMessage 
-});
+Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, handleLogoFileSelect, saveLogoFile, addToCart, updateCartQty, removeFromCart, clearCart, goToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, doSubmitReview, copyText, adminTab, toggleOrderVerify, doUniversalLogin, doReg, doUniversalReset, doSignOut, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts, exportClientData, adminUpdateTracking, saveDeliveryGuyInfo, sendBargainMessage, loadCourierChat, sendCourierMessage });
 
 (function init() {
   applyPortalSettings();
