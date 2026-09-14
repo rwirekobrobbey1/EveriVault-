@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>EveriVault Logistics — China to Ghana Supply Chain</title>
+<title>EveriVault Enterprise — China to Ghana Supply Chain</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -32,11 +32,11 @@ body { background:#F1F5F9; color:#0F172A; line-height:1.6; }
 
 /* Navigation */
 nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-bottom:1px solid rgba(255,255,255,0.08); backdrop-filter:blur(12px); }
-.nav-wrap { display:flex; justify-content:space-between; align-items:center; height:72px; }
+.nav-wrap { display:flex; justify-content:space-between; align-items:center; height:76px; }
 .logo-area { display:flex; align-items:center; gap:12px; text-decoration:none; cursor:pointer; }
-.logo-img { width:42px; height:42px; border-radius:8px; object-fit:cover; background:#233554; border:1px solid rgba(255,255,255,0.2); }
-.logo { font-size:20px; font-weight:800; color:#FFFFFF; letter-spacing:0.5px; display:flex; align-items:center; gap:8px; }
-.logo span { color:var(--green); }
+.logo-img { width:46px; height:46px; border-radius:8px; object-fit:cover; background:#FFFFFF; border:1px solid rgba(255,255,255,0.2); }
+.logo { font-size:18px; font-weight:800; color:#FFFFFF; letter-spacing:0.5px; display:flex; flex-direction:column; line-height:1.2; }
+.logo span { color:var(--green); font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:1px; }
 .nav-links { display:flex; gap:4px; list-style:none; align-items:center; flex-wrap:wrap; }
 .nav-links a { color:var(--slate-light); text-decoration:none; padding:8px 14px; border-radius:8px; font-weight:600; font-size:14px; cursor:pointer; transition:all 0.2s ease; display:flex; align-items:center; gap:6px; }
 .nav-links a:hover, .nav-links a.active { color:#FFFFFF; background:rgba(255,255,255,0.08); }
@@ -208,8 +208,8 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
 <nav>
   <div class="container nav-wrap">
     <a class="logo-area" onclick="go('home')">
-      <img id="navBrandLogo" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=120&q=80" class="logo-img" alt="EveriVault Logo">
-      <div class="logo">EVERIVAULT <span>LOGISTICS</span></div>
+      <img id="navBrandLogo" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=" class="logo-img" alt="EveriVault Logo">
+      <div class="logo">EVERIVAULT <span>ENTERPRISE</span></div>
     </a>
     <ul class="nav-links" id="menu">
       <li><a class="plink active" data-p="home" onclick="go('home')">Home</a></li>
@@ -243,7 +243,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     <div class="container">
       <div class="badge">Ghana Central Hub — KNUST Ayeduase New Site, Kumasi</div>
       <h1 id="dynHeroTitle">China to Ghana <span>Commercial Freight & Supply</span></h1>
-      <p id="dynHeroSub">Direct Factory Sourcing • Sea & Air Freight Cargo • Real-Time Tracking • Mandatory Shipping Marks</p>
+      <p id="dynHeroSub">Trusted service. Swift results. • Direct Factory Sourcing • Sea & Air Freight Cargo • Real-Time Tracking</p>
       
       <div class="rate-grid">
         <div class="rate-card">
@@ -276,7 +276,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   <div class="why-section">
     <div class="container">
       <h2>Why Choose EveriVault Enterprise?</h2>
-      <p class="subtitle">Your trusted supply chain partner bridging factories in China directly to your doorstep in Ghana.</p>
+      <p class="subtitle">Trusted service. Swift results. Bridging factories in China directly to your doorstep in Ghana.</p>
       <div class="why-grid">
         <div class="why-card">
           <h3>⚡ Direct Factory Sourcing</h3>
@@ -944,8 +944,8 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
 
 <footer>
   <div class="container">
-    <h3>EVERIVAULT LOGISTICS EXECUTIVE SUITE</h3>
-    <p>China to Ghana Commercial Freight Forwarding</p>
+    <h3>EVERIVAULT ENTERPRISE</h3>
+    <p>Trusted service. Swift results. • China to Ghana Commercial Freight Forwarding</p>
     <p style="margin-top:8px;">
       Admin Email Inbox: <strong style="color:var(--green);">richmonwireko@gmail.com</strong> | 
       WhatsApp Management: <a href="https://wa.me/13095194647" target="_blank" style="color:var(--green); font-weight:700;">+1 (309) 519-4647</a>
@@ -979,12 +979,12 @@ const defaultProducts = [
 
 const defaultSettings = {
   heroTitle: 'China to Ghana Commercial Freight & Supply',
-  heroSub: 'Direct Factory Sourcing • Sea & Air Freight Cargo • Real-Time Tracking • Mandatory Shipping Marks',
+  heroSub: 'Trusted service. Swift results. • Direct Factory Sourcing • Sea & Air Freight Cargo • Real-Time Tracking',
   seaRate1: '$260 / m³',
   seaRate2: '$255 / m³',
   airRate1: '$17 / kg',
   airRate2: 'GHS 500 Flat Rate',
-  bannerMsg: 'Refer new commercial clients or business partners to EveriVault Logistics and receive a FREE GIFT on your next freight shipment arrival!',
+  bannerMsg: 'Refer new commercial clients or business partners to EveriVault Enterprise and receive a FREE GIFT on your next freight shipment arrival!',
   logoUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=120&q=80'
 };
 
@@ -1005,7 +1005,7 @@ const state = {
   bargainMessages: JSON.parse(localStorage.getItem('ev_bargain_messages') || '{}'), 
   cartMeta: JSON.parse(localStorage.getItem('ev_cart_meta') || '{"items":[], "expiresAt":0}'),
   reviews: JSON.parse(localStorage.getItem('ev_reviews') || 'null') || [
-    { name: 'Kofi Mensah', mark: 'GH001K-KM-0541234567', rating: 5, comment: 'Received my 1688 cargo from Foshan in under 3 weeks. Very reliable service!' },
+    { name: 'Kofi Mensah', mark: 'GH001K-KM-0541234567', rating: 5, comment: 'Received my 1688 cargo from Foshan in under 3 weeks. Trusted service. Swift results.' },
     { name: 'Abena Osei', mark: 'GH001K-AO-0249876543', rating: 5, comment: 'Air express phones flat rate is unbeatable. Kumasi delivery was fast.' }
   ],
   uploadedProdBase64: '',
@@ -1348,7 +1348,7 @@ async function doReg(e) {
 
   sendAdminGmailNotification(
     'New Client Registration: ' + name + ' (' + generatedMark + ')',
-    `A new client has successfully registered on EveriVault Logistics.\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nLocation: ${location}\nShipping Mark: ${generatedMark}\nReferred By: ${verifiedReferrer}\nDate: ${state.user.dateRegistered}`
+    `A new client has successfully registered on EveriVault Enterprise.\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nLocation: ${location}\nShipping Mark: ${generatedMark}\nReferred By: ${verifiedReferrer}\nDate: ${state.user.dateRegistered}`
   );
 
   applyUserState();
