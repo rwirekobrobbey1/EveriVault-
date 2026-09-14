@@ -218,13 +218,15 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       EVERIVAULT <span>LOGISTICS</span>
     </a>
     <ul class="nav-links" id="menu">
-      <li class="nav-client-item"><a class="plink active" data-p="home" onclick="go('home')">Home</a></li>
-      <li class="nav-client-item"><a class="plink" data-p="store" onclick="go('store')">Store Catalog</a></li>
-      <li class="nav-client-item"><a class="plink" data-p="cart" onclick="go('cart')">Cart <span class="cart-badge" id="cartBadgeCount">0</span></a></li>
-      <li class="nav-client-item"><a class="plink" data-p="calc" onclick="go('calc')">Freight Calculator</a></li>
-      <li class="nav-client-item"><a class="plink" data-p="address" onclick="go('address')">Warehouses</a></li>
-      <li class="nav-client-item"><a class="plink" data-p="reviews" onclick="go('reviews')">Reviews</a></li>
-      <li class="nav-client-item auth-only" style="display:none;"><a class="plink" data-p="payment" onclick="go('payment')">Payment Portal</a></li>
+      <li><a class="plink active" data-p="home" onclick="go('home')">Home</a></li>
+      <li><a class="plink" data-p="store" onclick="go('store')">Store Catalog</a></li>
+      <li><a class="plink" data-p="cart" onclick="go('cart')">Cart <span class="cart-badge" id="cartBadgeCount">0</span></a></li>
+      <li><a class="plink" data-p="calc" onclick="go('calc')">Freight Calculator</a></li>
+      <li><a class="plink" data-p="address" onclick="go('address')">Warehouses</a></li>
+      <li><a class="plink" data-p="reviews" onclick="go('reviews')">Reviews</a></li>
+      
+      <!-- PAYMENT PORTAL NAV LINK (VISIBLE TO LOGGED IN CLIENTS ONLY) -->
+      <li class="auth-only" style="display:none;"><a class="plink" data-p="payment" onclick="go('payment')">Payment Portal</a></li>
       
       <li id="adminLink" style="display:none;"><a class="plink" data-p="admin" onclick="go('admin')">Master Admin Suite</a></li>
       
@@ -1484,19 +1486,12 @@ function applyUserState() {
   const isLoggedIn = !!state.user;
   const isAdmin = state.user?.role === 'admin';
 
-  document.querySelectorAll('.nav-client-item').forEach(el => {
-    if (el.classList.contains('auth-only')) {
-      el.style.display = (isLoggedIn && !isAdmin) ? 'block' : 'none';
-    } else {
-      el.style.display = isAdmin ? 'none' : 'block';
-    }
-  });
+  document.querySelectorAll('.auth-only').forEach(el => el.classList.toggle('show', isLoggedIn && !isAdmin));
 
   $('adminLink').style.display = isAdmin ? 'block' : 'none';
   $('signOutNav').style.display = isLoggedIn ? 'block' : 'none';
   $('authNav').style.display = isLoggedIn ? 'none' : 'block';
 
-  document.querySelectorAll('.auth-only').forEach(el => el.classList.toggle('show', isLoggedIn));
   document.querySelectorAll('.admin-only').forEach(el => el.classList.toggle('show', isAdmin));
 
   if (isLoggedIn && !isAdmin && $('userShippingMarkDisplay')) {
