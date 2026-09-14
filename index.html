@@ -1251,6 +1251,7 @@ function addToCart(prodId) {
   else { state.cart.push({ id: p.id, name: p.name, price: p.price, type: p.type || 'preorder', image: p.image || '', qty: 1 }); }
   updateCartBadge();
   toast('Added ' + p.name + ' to cart', 'ok');
+  if (state.user?.role === 'admin') loadAdmin();
 }
 
 function updateCartQty(prodId, delta) {
@@ -1262,6 +1263,7 @@ function updateCartQty(prodId, delta) {
   }
   updateCartBadge();
   renderCart();
+  if (state.user?.role === 'admin') loadAdmin();
 }
 
 function removeFromCart(id) {
@@ -1269,6 +1271,7 @@ function removeFromCart(id) {
   updateCartBadge();
   renderCart();
   toast('Item removed from cart', 'ok');
+  if (state.user?.role === 'admin') loadAdmin();
 }
 
 function clearCart() { 
@@ -1276,6 +1279,22 @@ function clearCart() {
   updateCartBadge(); 
   renderCart(); 
   toast('Cart cleared', 'ok');
+  if (state.user?.role === 'admin') loadAdmin();
+}
+
+/* ADMIN CART MANAGEMENT FUNCTIONS */
+function adminAddToCart(prodId) {
+  addToCart(prodId);
+  loadAdmin();
+  toast('Admin added item to cart', 'ok');
+}
+
+function adminRemoveFromCart(prodId) {
+  state.cart = state.cart.filter(i => String(i.id) !== String(prodId));
+  updateCartBadge();
+  renderCart();
+  loadAdmin();
+  toast('Admin removed item from cart', 'ok');
 }
 
 function renderCart() {
@@ -1399,7 +1418,13 @@ function loadAdmin() {
 
   $('adminAdsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Business / Client</th><th>Contact</th><th>Promo / Ad Details</th><th>Date Submitted</th></tr></thead><tbody>' + (state.ads.length ? state.ads.map(a => '<tr><td>' + esc(a.name) + '</td><td>' + esc(a.contact) + '</td><td>' + esc(a.details) + '</td><td>' + esc(a.date) + '</td></tr>').join('') : '<tr><td colspan="4" style="text-align:center; color:var(--slate);">No advertisement requests submitted yet.</td></tr>') + '</tbody></table></div>';
 
-  $('adminProductsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Product</th><th>Category</th><th>Type</th><th>Price</th><th>Action</th></tr></thead><tbody>' + state.products.map(p => '<tr><td>' + esc(p.name) + '</td><td>' + esc(p.category) + '</td><td><span class="pill ' + (p.type === 'preorder' ? 'pill-pending' : 'pill-verified') + '">' + (p.type === 'preorder' ? 'Pre-Order (No Ship Fee)' : 'Available') + '</span></td><td>' + fmtGHS(p.price) + '</td><td><button class="btn btn-sm btn-danger" onclick="deleteCatalogProduct(\'' + p.id + '\')">Remove Item</button></td></tr>').join('') + '</tbody></table></div>';
+  $('adminProductsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Product</th><th>Category</th><th>Type</th><th>Price</th><th>Cart Action</th><th>Catalog Action</th></tr></thead><tbody>' + state.products.map(p => {
+    const inCart = state.cart.some(i => String(i.id) === String(p.id));
+    const cartBtn = inCart 
+      ? '<button class="btn btn-sm btn-danger" onclick="adminRemoveFromCart(\'' + p.id + '\')">Remove from Cart</button>'
+      : '<button class="btn btn-sm btn-green" onclick="adminAddToCart(\'' + p.id + '\')">Add to Cart</button>';
+    return '<tr><td>' + esc(p.name) + '</td><td>' + esc(p.category) + '</td><td><span class="pill ' + (p.type === 'preorder' ? 'pill-pending' : 'pill-verified') + '">' + (p.type === 'preorder' ? 'Pre-Order (No Ship Fee)' : 'Available') + '</span></td><td>' + fmtGHS(p.price) + '</td><td>' + cartBtn + '</td><td><button class="btn btn-sm btn-outline" onclick="deleteCatalogProduct(\'' + p.id + '\')">Delete Product</button></td></tr>';
+  }).join('') + '</tbody></table></div>';
 
   $('cfgHeroTitle').value = state.settings.heroTitle;
   $('cfgHeroSub').value = state.settings.heroSub;
@@ -1505,7 +1530,7 @@ function applyUserState() {
   }
 }
 
-Object.assign(window, { go, toggleMenu, authTab, redirectToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, calcMode, calcSea, calcAir, calcCompare, handleImageFile, addToCart, updateCartQty, removeFromCart, clearCart, doSubmitReview, copyText, adminTab, toggleVerifyOrder, doLogin, doReg, doResetPassword, doSignOut, doAdmin, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts });
+Object.assign(window, { go, toggleMenu, authTab, redirectToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, calcMode, calcSea, calcAir, calcCompare, handleImageFile, addToCart, updateCartQty, removeFromCart, clearCart, adminAddToCart, adminRemoveFromCart, doSubmitReview, copyText, adminTab, toggleVerifyOrder, doLogin, doReg, doResetPassword, doSignOut, doAdmin, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts });
 
 (function init() {
   applyPortalSettings();
