@@ -1123,6 +1123,7 @@ function saveProducts() {
 
 function toast(msg, type = 'info', ms = 2500) {
   const wrap = $('toastWrap');
+  if (!wrap) return;
   const el = document.createElement('div');
   el.className = 'toast ' + (type === 'ok' ? 'ok' : type === 'err' ? 'err' : '');
   el.textContent = msg;
@@ -1209,7 +1210,7 @@ function calcSea() {
   const totalCbm = cbmSingle * qty;
   const ratePerCbm = totalCbm >= 1.0 ? 255 : 260;
   const usdCost = totalCbm * ratePerCbm;
-  const ghsCost = usdCost * 16.0; // Exchange rate approx 16 GHS/USD
+  const ghsCost = usdCost * 16.0;
 
   $('seaCbm').textContent = totalCbm.toFixed(3);
   $('seaUsd').textContent = '$' + usdCost.toFixed(2);
@@ -1227,7 +1228,7 @@ function calcAir() {
     usd = kg * 17;
     ghs = usd * 16.0;
   } else {
-    usd = 31.25; // approx 500 GHS
+    usd = 31.25;
     ghs = 500.00;
   }
 
@@ -1323,6 +1324,16 @@ function addToCart(prodId) {
   toast('Added ' + p.name + ' to cart', 'ok');
 }
 
+function adminAddToCart(prodId) {
+  addToCart(prodId);
+  loadAdmin();
+}
+
+function adminRemoveFromCart(prodId) {
+  removeFromCart(prodId);
+  loadAdmin();
+}
+
 function updateCartQty(prodId, delta) {
   const items = getCartItems();
   const item = items.find(x => String(x.id) === String(prodId));
@@ -1392,7 +1403,6 @@ async function doUniversalLogin(e) {
   const identifier = $('uniIdent').value.trim().toLowerCase();
   const password = $('uniPw').value;
 
-  // 1. Check Admin Match
   const isAdminEmail = identifier.includes('admin') || identifier === 'richmonwireko@gmail.com';
   if (isAdminEmail) {
     state.user = {
@@ -1411,7 +1421,6 @@ async function doUniversalLogin(e) {
     return;
   }
 
-  // 2. Check Delivery Guys Match (Unlimited delivery accounts)
   const matchedCourier = state.deliveryGuys.find(d => d.email.toLowerCase() === identifier || d.name.toLowerCase().includes(identifier));
   if (matchedCourier) {
     if (password === matchedCourier.pass || password === 'courier123') {
@@ -1436,7 +1445,6 @@ async function doUniversalLogin(e) {
     }
   }
 
-  // 3. Check Client Match (Unlimited clients)
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
   const allKnownClients = [...defaultHistoricalClients, ...localClients];
   const matchedClient = allKnownClients.find(c => 
@@ -1464,7 +1472,6 @@ async function doUniversalLogin(e) {
     return;
   }
 
-  // If not found, auto-register as new client instantly (Unlimited)
   const generatedMark = generateShippingMark(identifier.split('@')[0], '0543155883');
   state.user = {
     id: 'usr_' + Math.random().toString(36).slice(2, 8),
@@ -2179,7 +2186,7 @@ function applyUserState() {
 
 Object.assign(window, { 
   go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, 
-  handleImageFile, handleLogoFileSelect, saveLogoFile, addToCart, 
+  handleImageFile, handleLogoFileSelect, saveLogoFile, addToCart, adminAddToCart, adminRemoveFromCart, 
   updateCartQty, removeFromCart, clearCart, goToPaymentPortal, 
   setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, 
   doSubmitReview, copyText, adminTab, toggleOrderVerify, doUniversalLogin, 
