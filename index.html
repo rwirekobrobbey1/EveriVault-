@@ -698,7 +698,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
 
       <div id="tLogin" class="tab-content active">
         <p style="font-size:13px; color:var(--slate); margin-bottom:16px;">
-          Sign in below using your <strong>Gmail address, unique Shipping ID, or Courier access</strong>. The system automatically routes you to your respective portal (Admin, Client, or Delivery Guy).
+          Sign in below using your <strong>Gmail address, unique Shipping ID, or Courier access</strong>. You will remain signed in securely until you opt to log out.
         </p>
         <form onsubmit="doUniversalLogin(event)">
           <div class="form-group"><label>Gmail / Shipping ID / Courier Login</label><input type="text" id="uniIdent" required placeholder="e.g. client@gmail.com, GH001K-KM-0541234567, or delivery@everivault.com"></div>
@@ -708,12 +708,14 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       </div>
 
       <div id="tReg" class="tab-content">
-        <form onsubmit="doReg(event)">
+        <!-- STEP 1: Registration Form -->
+        <form id="regFormMain" onsubmit="initiateRegistrationOtp(event)">
           <div class="form-group"><label>Full Legal Name</label><input type="text" id="rn" required placeholder="e.g. Richmond Wireko"></div>
-          <div class="form-group"><label>Gmail / Email Address</label><input type="email" id="rem" required placeholder="e.g. richmond@gmail.com"></div>
+          <div class="form-group"><label>Gmail / Email Address (Unique)</label><input type="email" id="rem" required placeholder="e.g. richmond@gmail.com"></div>
           <div class="form-group"><label>Phone Number (Used in Shipping Mark ID)</label><input type="tel" id="rp" required placeholder="e.g. 0543155883"></div>
           <div class="form-group"><label>Delivery / Location Address in Ghana</label><input type="text" id="rloc" required placeholder="e.g. KNUST Ayeduase New Site, Kumasi"></div>
           <div class="form-group"><label>Password</label><input type="password" id="rpw" required minlength="6"></div>
+          <div class="form-group"><label>Confirm Password</label><input type="password" id="rpwConfirm" required minlength="6" placeholder="Re-enter password"></div>
           <div class="form-group">
             <label>Referral Shipping Mark (Optional)</label>
             <input type="text" id="regRefMark" placeholder="e.g. GH001K-KM-0541234567 (If referred by an existing client)">
@@ -735,8 +737,22 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
             </label>
           </div>
 
-          <button class="btn btn-green btn-block" type="submit" id="regBtn">Accept Terms & Register</button>
+          <button class="btn btn-green btn-block" type="submit" id="regBtn">Continue & Send Gmail OTP</button>
         </form>
+
+        <!-- STEP 2: OTP Verification Box (Initially hidden) -->
+        <div id="otpVerifyBox" style="display:none; margin-top:20px; background:#F8FAFC; border:2px solid var(--green); padding:20px; border-radius:12px;">
+          <h3 style="color:var(--navy); font-size:16px; margin-bottom:6px;">🛡️ Gmail Human Verification (OTP)</h3>
+          <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">We have sent a 6-digit verification code to <strong id="otpTargetEmail"></strong> to confirm you are human and not an AI bot.</p>
+          <div class="form-group">
+            <label>Enter 6-Digit OTP Code</label>
+            <input type="text" id="otpCodeInput" maxlength="6" placeholder="e.g. 849201" style="font-size:18px; font-weight:800; letter-spacing:2px; text-align:center;">
+          </div>
+          <div style="background:#FFFBEB; border:1px solid #FCD34D; border-radius:8px; padding:8px; font-size:12px; color:#92400E; margin-bottom:14px;">
+            💡 <em>Demo Note:</em> Your mock OTP code is displayed in the success alert popup for your testing convenience.
+          </div>
+          <button class="btn btn-green btn-block" type="button" onclick="verifyOtpAndRegister()">Verify OTP & Complete Registration</button>
+        </div>
       </div>
 
       <div id="tReset" class="tab-content">
@@ -895,7 +911,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
 
         <div id="adminClients" class="tab-content">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
-            <h3 style="color:var(--navy); margin:0;">All Registered Clients (Unlimited View) & Referrals</h3>
+            <h3 style="color:var(--navy); margin:0;">All Registered Clients (Instant Backend Sync) & Referrals</h3>
             <button class="btn btn-sm btn-green" onclick="exportClientData()">Export All to CSV</button>
           </div>
           <div id="adminClientsList"></div>
@@ -1029,7 +1045,9 @@ const state = {
   paymentProofBase64: '',
   selectedPaymentSlot: 'momo',
   paymentCategory: 'goods',
-  uploadedLogoBase64: ''
+  uploadedLogoBase64: '',
+  pendingRegData: null,
+  activeGeneratedOtp: null
 };
 
 const $ = id => document.getElementById(id);
@@ -1274,6 +1292,12 @@ async function doUniversalLogin(e) {
   );
 
   if (matchedClient) {
+    if (matchedClient.password && matchedClient.password !== password) {
+      btn.disabled = false; btn.textContent = 'Sign In to Portal';
+      toast('Invalid password for this account', 'err');
+      return;
+    }
+
     state.user = {
       id: matchedClient.id,
       email: matchedClient.email,
@@ -1294,36 +1318,12 @@ async function doUniversalLogin(e) {
     return;
   }
 
-  // Quick auto-registration on sign-in if client doesn't exist yet
-  const generatedMark = generateShippingMark(identifier.split('@')[0], '0543155883');
-  const newClientObj = {
-    id: 'usr_' + Math.random().toString(36).slice(2, 8),
-    email: identifier.includes('@') ? identifier : identifier + '@client.com',
-    name: identifier.split('@')[0],
-    phone: '0543155883',
-    role: 'client',
-    mark: generatedMark,
-    location: 'Kumasi',
-    referredBy: 'None (Direct)',
-    type: 'Registered Client',
-    dateRegistered: new Date().toLocaleDateString()
-  };
-  
-  localClients.unshift(newClientObj);
-  localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
-  window.dispatchEvent(new Event('storage'));
-
-  state.user = newClientObj;
-  localStorage.setItem('ev_active_user', JSON.stringify(state.user));
-
   btn.disabled = false; btn.textContent = 'Sign In to Portal';
-  applyUserState();
-  
-  toast(`🎉 Welcome to EveriVault Enterprise, ${state.user.name}! Shipping Mark: ${generatedMark}`, 'ok', 6000);
-  go('store');
+  toast('Account not found. Please register first using your unique Gmail.', 'err', 5000);
 }
 
-async function doReg(e) {
+// STEP 1: Initiate Registration & send Gmail OTP for human verification
+function initiateRegistrationOtp(e) {
   e.preventDefault();
   const tcChecked = $('tcCheck').checked;
   if (!tcChecked) {
@@ -1335,13 +1335,27 @@ async function doReg(e) {
   const email = $('rem').value.trim().toLowerCase();
   const phone = $('rp').value.trim();
   const location = $('rloc').value.trim();
+  const password = $('rpw').value;
+  const passwordConfirm = $('rpwConfirm').value;
   const refInput = $('regRefMark').value.trim();
-  const generatedMark = generateShippingMark(name, phone);
 
+  if (password !== passwordConfirm) {
+    toast('Passwords do not match. Please confirm your password correctly.', 'err');
+    return;
+  }
+
+  // Check if Gmail already exists (Enforce only one Gmail and password)
+  const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
+  const allKnown = [...localClients, ...defaultHistoricalClients];
+  if (allKnown.some(c => c.email && c.email.toLowerCase() === email)) {
+    toast('An account with this Gmail address already exists! Please Sign In instead.', 'err', 6000);
+    return;
+  }
+
+  const generatedMark = generateShippingMark(name, phone);
+  
   let verifiedReferrer = 'None (Direct)';
   if (refInput) {
-    const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
-    const allKnown = [...localClients, ...defaultHistoricalClients];
     const refFound = allKnown.find(c => c.mark.toLowerCase() === refInput.toLowerCase());
     if (refFound) {
       verifiedReferrer = refFound.mark + ' (' + refFound.name + ')';
@@ -1350,9 +1364,13 @@ async function doReg(e) {
     }
   }
 
-  const newClientObj = {
+  // Generate 6-digit OTP code for Gmail human verification
+  const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+  state.activeGeneratedOtp = otpCode;
+  
+  state.pendingRegData = {
     id: 'usr_' + Math.random().toString(36).slice(2, 8),
-    name, email, phone, location,
+    name, email, phone, location, password,
     role: 'client',
     mark: generatedMark,
     referredBy: verifiedReferrer,
@@ -1360,25 +1378,46 @@ async function doReg(e) {
     acceptedTerms: true,
     dateRegistered: new Date().toLocaleDateString()
   };
-  
-  const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
-  if (!localClients.some(c => c.email.toLowerCase() === email)) {
-    localClients.unshift(newClientObj); // Unshifted immediately for unlimited instant admin view
-    localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
-    window.dispatchEvent(new Event('storage'));
+
+  // Switch UI to OTP step
+  $('regFormMain').style.display = 'none';
+  $('otpVerifyBox').style.display = 'block';
+  $('otpTargetEmail').textContent = email;
+
+  toast(`📧 OTP Code sent to ${email}. Verification Code: ${otpCode}`, 'ok', 9000);
+}
+
+// STEP 2: Verify OTP and finalize registration
+function verifyOtpAndRegister() {
+  const enteredOtp = $('otpCodeInput').value.trim();
+  if (enteredOtp !== state.activeGeneratedOtp) {
+    toast('Invalid OTP code. Please enter the correct code sent to your Gmail.', 'err');
+    return;
   }
-  
+
+  const newClientObj = state.pendingRegData;
+  if (!newClientObj) {
+    toast('Registration session expired. Please restart.', 'err');
+    return;
+  }
+
+  const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
+  localClients.unshift(newClientObj); // Added immediately for instant admin view
+  localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
+  window.dispatchEvent(new Event('storage'));
+
+  // Keep client logged in until they opt to log out
   state.user = newClientObj;
   localStorage.setItem('ev_active_user', JSON.stringify(state.user));
 
   sendAdminGmailNotification(
-    'New Client Registration: ' + name + ' (' + generatedMark + ')',
-    `A new client has successfully registered on EveriVault Enterprise.\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nLocation: ${location}\nShipping Mark: ${generatedMark}\nReferred By: ${verifiedReferrer}\nDate: ${newClientObj.dateRegistered}`
+    'New Client Registration & Verified Human: ' + newClientObj.name + ' (' + newClientObj.mark + ')',
+    `A new client has successfully registered and passed Gmail human verification on EveriVault Enterprise.\n\nName: ${newClientObj.name}\nEmail: ${newClientObj.email}\nPhone: ${newClientObj.phone}\nLocation: ${newClientObj.location}\nShipping Mark: ${newClientObj.mark}\nReferred By: ${newClientObj.referredBy}\nDate: ${newClientObj.dateRegistered}`
   );
 
   applyUserState();
   
-  toast(`🎉 Welcome to EveriVault Enterprise, ${name}! Your Shipping Mark is ${generatedMark}`, 'ok', 7000);
+  toast(`🎉 Welcome to EveriVault Enterprise, ${newClientObj.name}! Shipping Mark: ${newClientObj.mark}`, 'ok', 8000);
   go('store');
 }
 
@@ -1784,7 +1823,7 @@ function loadAdmin() {
     trackSel.innerHTML = allClientsCombined.map(c => `<option value="${c.id}">${c.name} (${c.mark}) - Loc: ${c.location || 'Kumasi'}</option>`).join('');
   }
 
-  // UNLIMITED VIEW & FULL DETAILS TABLE FOR ADMIN
+  // INSTANT BACKEND SYNC VIEW FOR ADMIN
   $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Full Name</th><th>Gmail / Email</th><th>Phone Number</th><th>Delivery Location</th><th>Shipping Mark ID</th><th>Referred By</th><th>Account Type</th><th>Date Registered</th></tr></thead><tbody>' + (allClientsCombined.length ? allClientsCombined.map(c => '<tr><td><strong>' + esc(c.name) + '</strong></td><td>' + esc(c.email) + '</td><td>' + esc(c.phone) + '</td><td>' + esc(c.location || 'Kumasi') + '</td><td><code>' + esc(c.mark) + '</code></td><td><code style="color:var(--green-hover);">' + esc(c.referredBy || 'None (Direct)') + '</code></td><td><span class="pill ' + (c.type?.includes('Old') ? 'pill-type' : 'pill-verified') + '">' + esc(c.type || 'Registered Client') + '</span></td><td>' + esc(c.dateRegistered || 'N/A') + '</td></tr>').join('') : '<tr><td colspan="8" style="text-align:center; color:var(--slate);">No clients recorded.</td></tr>') + '</tbody></table></div>';
 
   $('adminAdsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Business / Client</th><th>Contact</th><th>Promo / Ad Details</th><th>Date Submitted</th></tr></thead><tbody>' + (state.ads.length ? state.ads.map(a => '<tr><td>' + esc(a.name) + '</td><td>' + esc(a.contact) + '</td><td>' + esc(a.details) + '</td><td>' + esc(a.date) + '</td></tr>').join('') : '<tr><td colspan="4" style="text-align:center; color:var(--slate);">No advertisement requests submitted yet.</td></tr>') + '</tbody></table></div>';
@@ -2117,7 +2156,7 @@ window.addEventListener('storage', () => {
   if (document.getElementById('p-admin').classList.contains('active')) loadAdmin();
 });
 
-Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, handleLogoFileSelect, saveLogoFile, addToCart, updateCartQty, removeFromCart, clearCart, goToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, doSubmitReview, copyText, adminTab, toggleOrderVerify, doUniversalLogin, doReg, doUniversalReset, doSignOut, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts, exportClientData, adminUpdateTracking, saveDeliveryGuyInfo, sendBargainMessage, loadCourierChat, sendCourierMessage });
+Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, handleLogoFileSelect, saveLogoFile, addToCart, updateCartQty, removeFromCart, clearCart, goToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, doSubmitReview, copyText, adminTab, toggleOrderVerify, doUniversalLogin, initiateRegistrationOtp, verifyOtpAndRegister, doUniversalReset, doSignOut, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts, exportClientData, adminUpdateTracking, saveDeliveryGuyInfo, sendBargainMessage, loadCourierChat, sendCourierMessage });
 
 (function init() {
   applyPortalSettings();
