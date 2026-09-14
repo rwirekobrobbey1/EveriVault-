@@ -29,7 +29,6 @@ html { scroll-behavior:smooth; }
 body { background:#F1F5F9; color:#0F172A; line-height:1.6; }
 
 .container { max-width:1200px; margin:0 auto; padding:0 20px; }
-.icon { display:inline-block; width:18px; height:18px; fill:currentColor; vertical-align:middle; }
 
 /* Navigation */
 nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-bottom:1px solid rgba(255,255,255,0.08); backdrop-filter:blur(12px); }
@@ -79,7 +78,7 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 .hero p { font-size:clamp(15px, 2.5vw, 18px); color:var(--slate-light); max-width:680px; margin:0 auto 32px; font-weight:500; }
 
 .rate-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:16px; max-width:940px; margin:0 auto 32px; }
-.rate-card { background:rgba(255, 255, 255, 0.05); border:1px solid rgba(255, 255, 255, 0.12); backdrop-filter:blur(10px); border-radius:16px; padding:20px; text-align:left; transition:0.2s; }
+.rate-card { background:rgba(255, 255, 255, 0.05); border:1px solid rgba(255, 255, 255, 0.12); backdrop-filter:blur(10px); border-radius:16px; padding:20px; text-align:left; }
 .rate-card h3 { font-size:13px; color:var(--slate-light); font-weight:600; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px; }
 .rate-card .big { font-size:26px; font-weight:800; color:var(--green); }
 .rate-card .sub { font-size:13px; color:#CBD5E1; margin-top:2px; }
@@ -88,24 +87,21 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 .why-section { background:#fff; padding:60px 0; border-bottom:1px solid var(--border-color); }
 .why-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:24px; margin-top:30px; }
 .why-card { background:var(--bg-light); border:1px solid var(--border-color); border-radius:16px; padding:24px; text-align:left; }
-.why-card h3 { color:var(--navy); font-size:18px; margin-bottom:8px; font-weight:800; display:flex; align-items:center; gap:8px; }
+.why-card h3 { color:var(--navy); font-size:18px; margin-bottom:8px; font-weight:800; }
 .why-card p { color:var(--slate); font-size:14px; }
 
 /* Referral Banner */
 .referral-banner { background:linear-gradient(135deg, #059669 0%, #10B981 100%); color:#fff; border-radius:16px; padding:24px; margin:30px auto; max-width:940px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; box-shadow:0 10px 25px rgba(16,185,129,0.25); }
 .referral-banner h3 { font-size:20px; font-weight:800; margin-bottom:4px; }
 
-/* Public Preview Store Section on Home */
 .public-store-section { background:#F8FAFC; padding:60px 0; border-top:1px solid var(--border-color); border-bottom:1px solid var(--border-color); }
 
-/* Advertisement Form Section on Home */
 .ad-form-box { background:var(--navy); color:#fff; border-radius:20px; padding:40px; max-width:800px; margin:50px auto 0; box-shadow:var(--card-shadow); }
 .ad-form-box h3 { font-size:24px; color:var(--green); margin-bottom:8px; font-weight:800; text-align:center; }
 .ad-form-box p { color:var(--slate-light); text-align:center; font-size:14px; margin-bottom:24px; }
 .ad-form-box label { color:#fff; }
 .ad-form-box input, .ad-form-box textarea, .ad-form-box select { background:#112240; border-color:#233554; color:#fff; }
 
-/* Cards & Layout */
 section { padding:60px 0; }
 h2 { text-align:center; font-size:28px; color:var(--navy); margin-bottom:8px; font-weight:800; }
 h2::after { content:''; display:block; width:48px; height:4px; background:var(--green); margin:12px auto 0; border-radius:2px; }
@@ -113,19 +109,16 @@ h2::after { content:''; display:block; width:48px; height:4px; background:var(--
 
 .grid-4 { display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:20px; }
 
-.card { background:#fff; padding:20px; border-radius:16px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); transition:all 0.25s ease; display:flex; flex-direction:column; justify-content:space-between; position:relative; }
-.card:hover { transform:translateY(-4px); box-shadow:0 20px 35px -10px rgba(10,25,47,0.12); }
+.card { background:#fff; padding:20px; border-radius:16px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); display:flex; flex-direction:column; justify-content:space-between; position:relative; }
 .card h3 { color:var(--navy); margin-bottom:6px; font-size:16px; font-weight:700; }
 .prod-img { width:100%; height:160px; object-fit:cover; border-radius:10px; margin-bottom:12px; background:#E2E8F0; }
 
-/* Status Badges on Cards */
 .badge-preorder { background:#FEF3C7; color:#92400E; font-size:11px; font-weight:800; padding:3px 8px; border-radius:6px; display:inline-block; margin-bottom:6px; }
 .badge-available { background:#D1FAE5; color:#166534; font-size:11px; font-weight:800; padding:3px 8px; border-radius:6px; display:inline-block; margin-bottom:6px; }
 .shipping-note { font-size:11px; color:#059669; font-weight:700; margin-bottom:8px; display:block; }
 
-/* Tabs & Forms */
 .tabs { display:flex; gap:6px; margin-bottom:24px; border-bottom:2px solid var(--border-color); padding-bottom:2px; flex-wrap:wrap; }
-.tab { padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:700; color:var(--slate); border:none; background:none; font-size:14px; transition:0.2s; }
+.tab { padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:700; color:var(--slate); border:none; background:none; font-size:14px; }
 .tab.active { color:var(--navy); background:#E2E8F0; }
 .tab-content { display:none; }
 .tab-content.active { display:block; }
@@ -134,40 +127,32 @@ h2::after { content:''; display:block; width:48px; height:4px; background:var(--
 .calc-box { background:#fff; border-radius:20px; padding:32px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); max-width:720px; margin:0 auto; }
 .form-group { margin-bottom:18px; }
 label { display:block; margin-bottom:6px; font-weight:700; color:var(--navy); font-size:13px; text-transform:uppercase; letter-spacing:0.3px; }
-input, select, textarea { width:100%; padding:12px 16px; border:1.5px solid #CBD5E1; border-radius:10px; font-size:15px; background:var(--bg-light); transition:0.2s; color:#0F172A; }
-input:focus, select:focus, textarea:focus { outline:none; border-color:var(--green); background:#fff; box-shadow:0 0 0 4px var(--green-light); }
+input, select, textarea { width:100%; padding:12px 16px; border:1.5px solid #CBD5E1; border-radius:10px; font-size:15px; background:var(--bg-light); color:#0F172A; }
 input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 
-/* Terms & Policy Component */
-.terms-box { background:#FFFBEB; border:1.5px solid #FCD34D; border-radius:12px; padding:16px; margin-bottom:18px; font-size:13px; color:#78350F; max-height:160px; overflow-y:auto; line-height:1.5; }
+.terms-box { background:#FFFBEB; border:1.5px solid #FCD34D; border-radius:12px; padding:16px; margin-bottom:18px; font-size:13px; color:#78350F; max-height:160px; overflow-y:auto; }
 .terms-box h4 { font-weight:800; color:#92400E; margin-bottom:8px; text-transform:uppercase; font-size:12px; }
 .terms-box ul { padding-left:18px; margin-top:6px; }
 .terms-box li { margin-bottom:6px; }
 
-/* Payment Slot Component */
 .payment-slot-card { background:#F0FDF4; border:2px solid var(--green); border-radius:16px; padding:20px; margin:20px 0; }
 .pay-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:10px; margin-top:10px; }
-.pay-btn { background:#fff; border:1.5px solid #CBD5E1; border-radius:10px; padding:10px; text-align:center; cursor:pointer; font-size:13px; font-weight:700; color:var(--navy); transition:0.2s; }
+.pay-btn { background:#fff; border:1.5px solid #CBD5E1; border-radius:10px; padding:10px; text-align:center; cursor:pointer; font-size:13px; font-weight:700; color:var(--navy); }
 .pay-btn.active { border-color:var(--green); background:var(--green-light); color:var(--green-hover); }
 .pay-details-box { background:#fff; border:1px solid #A7F3D0; border-radius:12px; padding:16px; margin-top:12px; }
 
-/* Cart Item Styling */
 .cart-item-row { display:flex; justify-content:space-between; align-items:center; padding:16px; background:#fff; border-radius:12px; margin-bottom:12px; border:1px solid var(--border-color); flex-wrap:wrap; gap:12px; }
 .qty-btn { width:28px; height:28px; border-radius:6px; border:1px solid #CBD5E1; background:#F8FAFC; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
-.qty-btn:hover { background:#E2E8F0; }
 
-/* Chinese Address Component */
 .addr-section { background:#fff; border-radius:20px; padding:28px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); margin-bottom:24px; }
 .addr-section h3 { color:var(--navy); margin-bottom:18px; padding-bottom:10px; border-bottom:2px solid #F1F5F9; font-size:18px; font-weight:700; }
 .addr-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:20px; }
-.addr-block { background:var(--bg-light); border-radius:14px; padding:22px; position:relative; border:1px solid var(--border-color); }
+.addr-block { background:var(--bg-light); border-radius:14px; padding:22px; border:1px solid var(--border-color); }
 .cn-text-box { background:#FFFFFF; border:1.5px solid #CBD5E1; border-radius:8px; padding:12px; margin:10px 0; font-family:monospace, sans-serif; font-size:14px; color:#0F172A; word-break:break-all; }
 .contact-row { display:flex; justify-content:space-between; align-items:center; background:#fff; padding:10px 14px; border-radius:8px; border:1px solid var(--border-color); margin-bottom:8px; font-size:13px; }
 
-/* Review Portal Styles */
 .review-card { background:#fff; border-radius:16px; padding:20px; border:1px solid var(--border-color); box-shadow:var(--card-shadow); margin-bottom:16px; }
 
-/* Admin Dashboard Elements */
 .admin-stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:24px; }
 .stat-card { background:#fff; padding:20px; border-radius:14px; border:1px solid var(--border-color); box-shadow:var(--card-shadow); }
 .stat-card h4 { font-size:12px; color:var(--slate); text-transform:uppercase; margin-bottom:6px; font-weight:700; }
@@ -175,11 +160,11 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 
 .admin-layout { display:grid; grid-template-columns:240px 1fr; gap:24px; }
 .admin-sidebar { background:#fff; border-radius:16px; border:1px solid var(--border-color); padding:16px; box-shadow:var(--card-shadow); height:fit-content; }
-.admin-nav-btn { width:100%; text-align:left; padding:12px 16px; border-radius:10px; border:none; background:transparent; font-weight:700; color:var(--slate); cursor:pointer; font-size:14px; transition:0.2s; margin-bottom:4px; display:block; }
+.admin-nav-btn { width:100%; text-align:left; padding:12px 16px; border-radius:10px; border:none; background:transparent; font-weight:700; color:var(--slate); cursor:pointer; font-size:14px; margin-bottom:4px; display:block; }
 .admin-nav-btn.active, .admin-nav-btn:hover { background:var(--navy); color:#fff; }
 
 .admin-table { width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:var(--card-shadow); }
-.admin-table th { background:var(--navy); color:#fff; padding:14px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:0.5px; }
+.admin-table th { background:var(--navy); color:#fff; padding:14px; text-align:left; font-size:12px; text-transform:uppercase; }
 .admin-table td { padding:14px; border-bottom:1px solid var(--border-color); font-size:14px; }
 
 .pill { display:inline-block; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:700; }
@@ -196,7 +181,6 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 .delivery-only { display:none !important; }
 .delivery-only.show { display:block !important; }
 
-/* Toast Notifications */
 .toast-wrap { position:fixed; top:84px; right:20px; z-index:10001; display:flex; flex-direction:column; gap:10px; pointer-events:none; }
 .toast { background:var(--navy); color:#fff; padding:14px 20px; border-radius:12px; font-weight:600; font-size:14px; max-width:340px; opacity:0; transform:translateX(100%); transition:all 0.3s ease; pointer-events:auto; box-shadow:0 10px 25px rgba(0,0,0,0.15); }
 .toast.show { opacity:1; transform:translateX(0); }
@@ -216,7 +200,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   .nav-links.active { display:flex; }
   .nav-links a { width:100%; padding:12px; text-align:left; }
   .wa-float { bottom:16px; right:16px; padding:10px 16px; font-size:12px; }
-  .form-box, .calc-box { padding:20px; border-radius:16px; }
 }
 </style>
 </head>
@@ -231,7 +214,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     <ul class="nav-links" id="menu">
       <li><a class="plink active" data-p="home" onclick="go('home')">Home</a></li>
       
-      <!-- CLIENT NAV -->
       <li class="client-only"><a class="plink" data-p="store" onclick="go('store')">Store Catalog</a></li>
       <li class="client-only"><a class="plink" data-p="cart" onclick="go('cart')">Cart <span class="cart-badge" id="cartBadgeCount">0</span></a></li>
       <li class="client-only"><a class="plink" data-p="tracking" onclick="go('tracking')">Tracking & Messages</a></li>
@@ -240,10 +222,8 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       <li class="client-only"><a class="plink" data-p="reviews" onclick="go('reviews')">Reviews</a></li>
       <li class="client-only"><a class="plink" data-p="payment" onclick="go('payment')">Payment Portal</a></li>
       
-      <!-- DELIVERY GUY NAV -->
       <li class="delivery-only"><a class="plink" data-p="deliveryportal" onclick="go('deliveryportal')">Delivery Guy Portal</a></li>
 
-      <!-- ADMIN NAV -->
       <li id="adminLink" style="display:none;"><a class="plink" data-p="admin" onclick="go('admin')">Master Admin Suite</a></li>
       
       <li id="authNav"><a class="nav-cta plink" data-p="auth" onclick="go('auth')">Sign In & Portals</a></li>
@@ -253,13 +233,11 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </nav>
 
-<!-- FLOATING WHATSAPP CONTACT WIDGET -->
 <a href="https://wa.me/13095194647?text=Hello%20EveriVault%20Management%2C%20I%20want%20to%20request%20cargo%20consolidation%20%2F%20inquire%20about%20my%20shipment" target="_blank" class="wa-float">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
   DM Management (+1 309 519 4647)
 </a>
 
-<!-- HOME PAGE -->
 <section id="p-home" class="page active">
   <div class="hero">
     <div class="container">
@@ -295,7 +273,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     </div>
   </div>
 
-  <!-- WHY CHOOSE EVERIVAULT ENTERPRISE -->
   <div class="why-section">
     <div class="container">
       <h2>Why Choose EveriVault Enterprise?</h2>
@@ -321,7 +298,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     </div>
   </div>
 
-  <!-- PUBLIC STORE CATALOG PREVIEW -->
   <div class="public-store-section">
     <div class="container">
       <h2>Online Store Catalog Preview</h2>
@@ -333,7 +309,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     </div>
   </div>
 
-  <!-- REFERRAL BANNER -->
   <div class="container auth-only" style="display:none;" id="referralBannerBox">
     <div class="referral-banner">
       <div>
@@ -345,7 +320,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     </div>
   </div>
 
-  <!-- ADVERTISEMENT FORM -->
   <div class="container">
     <div class="ad-form-box">
       <h3>Submit Advertisement or Promo Request</h3>
@@ -369,7 +343,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- STORE PAGE (CLIENT ONLY) -->
 <section id="p-store" class="page">
   <div class="container">
     <h2>Commercial Catalog Store (Expanded Inventory)</h2>
@@ -389,7 +362,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- CART PAGE (CLIENT ONLY WITH 24-HOUR TIMER) -->
 <section id="p-cart" class="page">
   <div class="container">
     <h2>Shopping Cart & 24-Hour Settlement Timer</h2>
@@ -419,21 +391,17 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- TRACKING & MESSAGING PORTAL (CLIENT ONLY) -->
 <section id="p-tracking" class="page">
   <div class="container">
     <h2>Shipment Tracking & Delivery Bargaining Portal</h2>
     <p class="subtitle">Track your logistics status live and negotiate delivery rates directly. <strong>Note: Delivery payment must be made to admin payment address, NEVER send money directly to delivery personnel.</strong></p>
 
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:24px; max-width:1000px; margin:0 auto;">
-      
-      <!-- SHIPMENT STATUS TRACKER -->
       <div class="form-box" style="margin:0;">
         <h3 style="color:var(--navy); font-size:18px; margin-bottom:14px;">Live Shipment Status</h3>
         <div id="clientTrackingDetails"></div>
       </div>
 
-      <!-- DELIVERY BARGAINING CHAT (MONITORED SECRETLY BY ADMIN) -->
       <div class="form-box" style="margin:0; border:2px solid var(--green);">
         <h3 style="color:var(--green-hover); font-size:18px; margin-bottom:6px;">Delivery Guy Bargaining Desk</h3>
         <p style="font-size:13px; color:var(--slate); margin-bottom:14px;" id="deliveryGuyInfoCard">Loading delivery personnel...</p>
@@ -451,20 +419,16 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           </div>
         </form>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- DELIVERY GUY PORTAL -->
 <section id="p-deliveryportal" class="page delivery-only">
   <div class="container">
     <h2>Courier / Delivery Personnel Portal</h2>
     <p class="subtitle">Review assigned delivery notifications, client locations, estimated durations, and bargain delivery prices with clients.</p>
 
     <div style="max-width:900px; margin:0 auto;">
-      
-      <!-- TERMS & CONDITIONS BOX (5% MAINTENANCE FEE) -->
       <div class="terms-box" style="max-height:none; margin-bottom:24px; border:2px solid #F59E0B;">
         <h4 style="font-size:14px; color:#B45309;">Courier Terms & Conditions (5% Website Maintenance Fee)</h4>
         <p style="margin-top:6px; font-size:13px;">
@@ -472,13 +436,11 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </p>
       </div>
 
-      <!-- ASSIGNED DELIVERIES NOTIFICATIONS -->
       <div class="card" style="margin-bottom:24px;">
         <h3 style="color:var(--navy); margin-bottom:14px;">📦 Assigned Delivery Notifications & Client Locations</h3>
         <div id="courierDeliveriesList"></div>
       </div>
 
-      <!-- COURIER BARGAINING DISPATCH DESK -->
       <div class="card">
         <h3 style="color:var(--navy); margin-bottom:14px;">💬 Client Bargaining & Duration Dispatch Desk</h3>
         <div class="form-group">
@@ -495,20 +457,16 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           </div>
         </form>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- PAYMENT PORTAL PAGE (CLIENT ONLY) -->
 <section id="p-payment" class="page">
   <div class="container">
     <h2>EveriVault Secure Payment Portal</h2>
     <p class="subtitle">Settle store purchases or shipping costs securely below.</p>
 
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:24px; max-width:1050px; margin:0 auto;">
-      
-      <!-- PAYMENT FORM -->
       <div class="form-box" style="margin:0;">
         <div style="margin-bottom:20px; text-align:center;">
           <label style="font-size:14px; margin-bottom:10px;">Select Settlement Category</label>
@@ -567,17 +525,14 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </form>
       </div>
 
-      <!-- MY PAYMENTS HISTORY -->
       <div>
         <h3 style="margin-bottom:14px; color:var(--navy);">My Payment Settlements & History</h3>
         <div id="myPaymentsList"></div>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- FREIGHT COST CALCULATOR (CLIENT ONLY) -->
 <section id="p-calc" class="page">
   <div class="container">
     <h2>Freight Cost Calculator</h2>
@@ -590,7 +545,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <button class="tab" id="tabBtnCompare" onclick="calcMode('compare')">Compare Both</button>
       </div>
 
-      <!-- SEA CARGO -->
       <div id="calcSea" class="tab-content active">
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:12px;">
           <div class="form-group"><label>Length (cm)</label><input type="number" id="seaL" oninput="calcSea()" placeholder="100"></div>
@@ -606,7 +560,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </div>
       </div>
 
-      <!-- AIR EXPRESS -->
       <div id="calcAir" class="tab-content">
         <div class="form-group">
           <label>Cargo Type</label>
@@ -623,7 +576,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </div>
       </div>
 
-      <!-- COMPARISON -->
       <div id="calcCompare" class="tab-content">
         <p style="font-size:13px; font-weight:700; color:var(--navy); margin-bottom:12px;">Enter dimensions & weight to compare Sea Cargo vs Air Express:</p>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:12px;">
@@ -647,12 +599,10 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           <button class="btn btn-green" onclick="goToPaymentPortal('shipping')">Proceed to Payment Portal</button>
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- CHINA WAREHOUSES & CONTACTS (CLIENT ONLY) -->
 <section id="p-address" class="page">
   <div class="container">
     <h2>China Receiving Warehouses & Contacts</h2>
@@ -661,8 +611,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     <div class="addr-section">
       <h3>China Receiving Hubs & Direct Contacts</h3>
       <div class="addr-grid">
-        
-        <!-- Foshan Sea Cargo -->
         <div class="addr-block" style="border-left:5px solid var(--navy);">
           <h4>Sea Cargo Hub — Foshan (佛山海运仓)</h4>
           <label>Chinese Address (中文地址):</label>
@@ -682,20 +630,17 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           </div>
         </div>
 
-        <!-- Guangzhou Air Cargo -->
         <div class="addr-block" style="border-left:5px solid var(--green);">
           <h4>Air Express Hub — Guangzhou (广州空运仓)</h4>
           <label>Chinese Address (中文地址):</label>
           <div class="cn-text-box" id="cnAirAddress">广东省广州市越秀区广园西路99号99商务中心510室</div>
           <button class="btn btn-sm btn-green" onclick="copyText($('cnAirAddress').innerText)">Copy Chinese Address</button>
         </div>
-
       </div>
     </div>
   </div>
 </section>
 
-<!-- REVIEW PORTAL PAGE (CLIENT ONLY) -->
 <section id="p-reviews" class="page">
   <div class="container">
     <h2>Client Review Portal</h2>
@@ -724,7 +669,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- UNIFIED ACCOUNT AUTHENTICATION PORTAL -->
 <section id="p-auth" class="page">
   <div class="container">
     <h2>Account Authentication Portal</h2>
@@ -735,7 +679,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <button class="tab" data-authtab="reset" onclick="authTab('reset')">Reset Password</button>
       </div>
 
-      <!-- UNIFIED SIGN IN (ADMIN, CLIENT, DELIVERY GUY) -->
       <div id="tLogin" class="tab-content active">
         <p style="font-size:13px; color:var(--slate); margin-bottom:16px;">
           Sign in below using your <strong>Gmail address, unique Shipping ID, or Courier access</strong>. The system automatically routes you to your respective portal (Admin, Client, or Delivery Guy).
@@ -747,7 +690,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </form>
       </div>
 
-      <!-- MANDATORY REGISTRATION & TERMS OF SERVICE -->
       <div id="tReg" class="tab-content">
         <form onsubmit="doReg(event)">
           <div class="form-group"><label>Full Legal Name</label><input type="text" id="rn" required placeholder="e.g. Richmond Wireko"></div>
@@ -780,7 +722,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </form>
       </div>
 
-      <!-- UNIFIED PASSWORD RESET (ADMIN, CLIENT, DELIVERY GUY) -->
       <div id="tReset" class="tab-content">
         <p style="font-size:13px; color:var(--slate); margin-bottom:16px;">
           Enter your registered <strong>Gmail address</strong> or <strong>automatic Shipping ID</strong>. Password recovery instructions will be sent instantly.
@@ -790,12 +731,10 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           <button class="btn btn-navy btn-block" type="submit">Send Password Reset Instructions</button>
         </form>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- MASTER ADMIN SUITE -->
 <section id="p-admin" class="page admin-only">
   <div class="container">
     <div style="background:var(--navy); color:#fff; padding:24px; border-radius:16px; margin-bottom:28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
@@ -806,7 +745,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       <button class="btn btn-sm btn-outline" style="color:#fff; border-color:#fff;" onclick="openAdminPasswordModal()">Change Admin Password</button>
     </div>
 
-    <!-- QUICK STATS OVERVIEW -->
     <div class="admin-stats-grid">
       <div class="stat-card">
         <h4>Total Registered Clients</h4>
@@ -822,9 +760,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       </div>
     </div>
 
-    <!-- ADMIN WORKSPACE LAYOUT WITH SIDEBAR -->
     <div class="admin-layout">
-      <!-- SIDEBAR -->
       <div class="admin-sidebar">
         <button class="admin-nav-btn active" data-admintab="products" onclick="adminTab('products')">Manage Catalog & Unlimited Uploads</button>
         <button class="admin-nav-btn" data-admintab="payments" onclick="adminTab('payments')">Manage Payments Desk</button>
@@ -836,9 +772,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <button class="admin-nav-btn" data-admintab="content" onclick="adminTab('content')">Edit Portal & Brand Logo</button>
       </div>
 
-      <!-- MAIN WORKSPACE -->
       <div>
-        <!-- ADMIN CHANGE PASSWORD MODAL -->
         <div id="adminPwBox" class="form-box" style="display:none; max-width:100%; margin-bottom:28px; border:2px solid var(--green);">
           <h3>Update Master Admin Password</h3>
           <form onsubmit="doAdminChangePassword(event)">
@@ -850,7 +784,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           </form>
         </div>
 
-        <!-- PRODUCTS & UNLIMITED UPLOAD MANAGEMENT TAB -->
         <div id="adminProducts" class="tab-content active">
           <div class="form-box" style="max-width:100%; margin-bottom:30px;">
             <h3>Add New Product to Store Catalog (Unlimited Uploads)</h3>
@@ -880,13 +813,11 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           <div id="adminProductsList"></div>
         </div>
 
-        <!-- MANAGE PAYMENTS DESK TAB -->
         <div id="adminPayments" class="tab-content">
           <h3 style="margin-bottom:16px; color:var(--navy);">Client Payment Verification Desk</h3>
           <div id="adminPaymentsList"></div>
         </div>
 
-        <!-- SHIPPING TRACKING & NOTIFICATIONS TAB -->
         <div id="adminTracking" class="tab-content">
           <div class="form-box" style="max-width:100%; margin-bottom:28px;">
             <h3>Update Client Shipping Status & Notify Delivery Guy</h3>
@@ -917,14 +848,12 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           <div id="adminTrackingRecordsList"></div>
         </div>
 
-        <!-- SECRETLY MONITOR CHATS TAB -->
         <div id="adminMonitoredChat" class="tab-content">
           <h3 style="margin-bottom:8px; color:var(--navy);">Secretly Monitored Client-Courier Communications</h3>
           <p style="font-size:13px; color:var(--slate); margin-bottom:16px;">Admin can view all messages exchanged between clients and the delivery guy without either party noticing monitoring.</p>
           <div id="adminSecretChatMonitorList"></div>
         </div>
 
-        <!-- DELIVERY GUY ACCOUNT SETUP -->
         <div id="adminDelivery" class="tab-content">
           <div class="form-box" style="max-width:100%; margin-bottom:28px;">
             <h3>Configure Delivery Guy Unique Login & Info</h3>
@@ -942,13 +871,11 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           <div id="adminCourierSummaryCard"></div>
         </div>
 
-        <!-- ADVERTISEMENTS & PROMO REQUESTS TAB -->
         <div id="adminAds" class="tab-content">
           <h3 style="margin-bottom:16px; color:var(--navy);">Submitted Advertisement & Promo Requests</h3>
           <div id="adminAdsList"></div>
         </div>
 
-        <!-- REGISTERED CLIENTS TAB -->
         <div id="adminClients" class="tab-content">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
             <h3 style="color:var(--navy); margin:0;">All Registered Clients & Referral Tracking</h3>
@@ -957,11 +884,10 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           <div id="adminClientsList"></div>
         </div>
 
-        <!-- CLIENT PORTAL CONTENT & LOGO EDITOR -->
         <div id="adminContent" class="tab-content">
           <div class="form-box" style="max-width:100%; margin-bottom:28px; border:2px solid var(--green);">
             <h3>Upload Business Logo Image</h3>
-            <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">Upload your company logo photo/file to display live at the top navigation header.</p>
+            <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">Upload your company logo photo/file to display live at the top navigation header instantly across all browser sessions.</p>
             <form onsubmit="saveLogoFile(event)">
               <div class="form-group">
                 <label>Logo Image File</label>
@@ -1011,7 +937,6 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
             </form>
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -1106,11 +1031,6 @@ function sendAdminGmailNotification(subject, body) {
   localStorage.setItem('ev_admin_gmail_inbox', JSON.stringify(emailLog));
 }
 
-function saveProducts() {
-  localStorage.setItem('ev_local_products', JSON.stringify(state.products));
-  window.dispatchEvent(new Event('storage'));
-}
-
 function toast(msg, type = 'info', ms = 3500) {
   const wrap = $('toastWrap');
   if (!wrap) return;
@@ -1168,7 +1088,6 @@ function authTab(tab) {
   $('tReset').classList.toggle('active', tab === 'reset');
 }
 
-/* --- 24-HOUR CART TIMER LOGIC --- */
 function checkCartExpiration() {
   if (!state.cartMeta.items || !state.cartMeta.items.length) return;
   const now = Date.now();
@@ -1275,7 +1194,6 @@ function renderCart() {
   $('cartGrandTotal').textContent = fmtGHS(total);
 }
 
-/* --- UNIFIED LOGIN ROUTING FOR ADMIN, CLIENT, AND DELIVERY GUY --- */
 async function doUniversalLogin(e) {
   e.preventDefault();
   const btn = $('uniLoginBtn');
@@ -1464,7 +1382,6 @@ function doSignOut() {
   go('home');
 }
 
-/* --- PAYMENT & ORDER SUBMISSION --- */
 function goToPaymentPortal(type = 'goods') {
   setPaymentType(type);
 
@@ -1597,7 +1514,6 @@ function loadPaymentPortal() {
   }).join('');
 }
 
-/* --- TRACKING & BARGAINING PORTAL (CLIENT & COURIER) --- */
 function loadClientTrackingAndBargain() {
   if (!state.user || state.user.role !== 'client') return;
   const userId = state.user.id;
@@ -1654,7 +1570,6 @@ function sendBargainMessage(e) {
   toast('Message sent', 'ok');
 }
 
-/* --- COURIER PORTAL --- */
 function loadCourierPortal() {
   if (!state.user || state.user.role !== 'delivery') return;
 
@@ -1731,7 +1646,6 @@ function sendCourierMessage(e) {
   toast('Message sent to client', 'ok');
 }
 
-/* --- CATALOG & HOME SHOWCASE --- */
 function renderProducts() {
   const grid = $('prodGrid');
   const homeGrid = $('homeCatalogGrid');
@@ -1809,7 +1723,6 @@ function deleteCatalogProduct(prodId) {
   loadAdmin();
 }
 
-/* --- ADMIN DASHBOARD --- */
 function loadAdmin() {
   if (!state.user || state.user.role !== 'admin') return;
 
@@ -1989,7 +1902,6 @@ function doAdminChangePassword(e) {
   openAdminPasswordModal(false);
 }
 
-/* --- LOGO & IMAGE FILE HANDLERS --- */
 function handleLogoFileSelect(e) {
   const file = e.target.files[0];
   if (!file) return;
@@ -2037,7 +1949,6 @@ function submitAdvertisement(e) {
   toast('Advertisement request submitted successfully', 'ok');
 }
 
-/* --- REVIEWS & UTILS --- */
 function loadReviews() {
   $('reviewsList').innerHTML = state.reviews.map(r => '<div class="review-card"><div><strong style="color:var(--navy);">' + esc(r.name) + '</strong> <code style="font-size:12px;">' + esc(r.mark || 'VERIFIED CLIENT') + '</code></div><p>' + esc(r.comment) + '</p></div>').join('');
 }
@@ -2090,7 +2001,6 @@ function applyUserState() {
   }
 }
 
-/* --- FREIGHT CALCULATOR FUNCTIONS --- */
 function calcMode(mode) {
   document.getElementById('tabBtnSea').classList.toggle('active', mode === 'sea');
   document.getElementById('tabBtnAir').classList.toggle('active', mode === 'air');
@@ -2147,7 +2057,6 @@ function calcCompare() {
   document.getElementById('compAirRes').textContent = fmtGHS(airGhs) + ' (' + kg.toFixed(1) + ' kg)';
 }
 
-// REAL-TIME SYNC LISTENER ACROSS ALL TABS / BROWSERS
 window.addEventListener('storage', () => {
   state.products = JSON.parse(localStorage.getItem('ev_local_products') || 'null') || defaultProducts;
   state.settings = JSON.parse(localStorage.getItem('ev_portal_settings') || 'null') || defaultSettings;
