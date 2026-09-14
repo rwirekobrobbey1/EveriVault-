@@ -208,7 +208,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
 <nav>
   <div class="container nav-wrap">
     <a class="logo-area" onclick="go('home')">
-      <img id="navBrandLogo" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=" class="logo-img" alt="EveriVault Enterprise Logo">
+      <img id="navBrandLogo" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=" class="logo-img" alt="EveriVault Logo">
       <div class="logo">EVERIVAULT <span>ENTERPRISE</span></div>
     </a>
     <ul class="nav-links" id="menu">
@@ -426,7 +426,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
 <section id="p-deliveryportal" class="page delivery-only">
   <div class="container">
     <h2>Courier / Delivery Personnel Portal</h2>
-    <p class="subtitle">Review assigned delivery notifications, client locations, estimated durations, and bargain delivery prices with clients.</p>
+    <p class="subtitle">Review assigned delivery notifications, newly registered clients, client locations, and bargain delivery prices.</p>
 
     <div style="max-width:900px; margin:0 auto;">
       <div class="terms-box" style="max-height:none; margin-bottom:24px; border:2px solid #F59E0B;">
@@ -439,6 +439,24 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       <div class="card" style="margin-bottom:24px;">
         <h3 style="color:var(--navy); margin-bottom:14px;">📦 Assigned Delivery Notifications & Client Locations</h3>
         <div id="courierDeliveriesList"></div>
+      </div>
+
+      <!-- NEWLY ADDED: Delivery Guy view for Newly Registered Clients with pagination & limit -->
+      <div class="card" style="margin-bottom:24px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+          <h3 style="color:var(--navy); margin:0;">🆕 Newly Registered Clients (Delivery Directory)</h3>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <label style="font-size:12px; margin:0; text-transform:none;">Show limit:</label>
+            <select id="courierLimitSelect" onchange="changeCourierLimit()" style="padding:6px 10px; font-size:13px; width:80px;">
+              <option value="5">5</option>
+              <option value="10" selected>10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+            </select>
+          </div>
+        </div>
+        <div id="courierNewClientsList"></div>
+        <div id="courierPaginationControls" style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; padding-top:10px; border-top:1px solid var(--border-color);"></div>
       </div>
 
       <div class="card">
@@ -877,11 +895,23 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </div>
 
         <div id="adminClients" class="tab-content">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-            <h3 style="color:var(--navy); margin:0;">All Registered Clients & Referral Tracking</h3>
-            <button class="btn btn-sm btn-green" onclick="exportClientData()">Export Client List (CSV)</button>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
+            <h3 style="color:var(--navy); margin:0;">Registered Clients & Referral Tracking</h3>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="display:flex; align-items:center; gap:6px;">
+                <label style="font-size:12px; margin:0; text-transform:none;">Per page:</label>
+                <select id="adminLimitSelect" onchange="changeAdminLimit()" style="padding:6px 10px; font-size:13px; width:70px;">
+                  <option value="5">5</option>
+                  <option value="10" selected>10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
+              <button class="btn btn-sm btn-green" onclick="exportClientData()">Export CSV</button>
+            </div>
           </div>
           <div id="adminClientsList"></div>
+          <div id="adminClientsPagination" style="display:flex; justify-content:space-between; align-items:center; margin-top:16px;"></div>
         </div>
 
         <div id="adminContent" class="tab-content">
@@ -985,13 +1015,13 @@ const defaultSettings = {
   airRate1: '$17 / kg',
   airRate2: 'GHS 500 Flat Rate',
   bannerMsg: 'Refer new commercial clients or business partners to EveriVault Enterprise and receive a FREE GIFT on your next freight shipment arrival!',
-  logoUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=120&q=80'
+  logoUrl: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA='
 };
 
 const defaultHistoricalClients = [
-  { id: 'old_1', name: 'Kofi Mensah', email: 'kofi.mensah@gmail.com', phone: '0541234567', location: 'Ayeduase New Site, Kumasi', mark: 'GH001K-KM-0541234567', referredBy: 'None (Direct)', type: 'Historical Client (Old)' },
-  { id: 'old_2', name: 'Abena Osei', email: 'abena.osei@gmail.com', phone: '0249876543', location: 'Asafo Market, Kumasi', mark: 'GH001K-AO-0249876543', referredBy: 'GH001K-KM-0541234567', type: 'Historical Client (Old)' },
-  { id: 'old_3', name: 'Yaw Boateng', email: 'yaw.boateng@yahoo.com', phone: '0201112233', location: 'Tech Junction, Kumasi', mark: 'GH001K-YB-0201112233', referredBy: 'None (Direct)', type: 'Historical Client (Old)' }
+  { id: 'old_1', name: 'Kofi Mensah', email: 'kofi.mensah@gmail.com', phone: '0541234567', location: 'Ayeduase New Site, Kumasi', mark: 'GH001K-KM-0541234567', referredBy: 'None (Direct)', type: 'Historical Client (Old)', dateRegistered: '2026-01-10' },
+  { id: 'old_2', name: 'Abena Osei', email: 'abena.osei@gmail.com', phone: '0249876543', location: 'Asafo Market, Kumasi', mark: 'GH001K-AO-0249876543', referredBy: 'GH001K-KM-0541234567', type: 'Historical Client (Old)', dateRegistered: '2026-02-14' },
+  { id: 'old_3', name: 'Yaw Boateng', email: 'yaw.boateng@yahoo.com', phone: '0201112233', location: 'Tech Junction, Kumasi', mark: 'GH001K-YB-0201112233', referredBy: 'None (Direct)', type: 'Historical Client (Old)', dateRegistered: '2026-03-01' }
 ];
 
 const state = { 
@@ -1012,7 +1042,9 @@ const state = {
   paymentProofBase64: '',
   selectedPaymentSlot: 'momo',
   paymentCategory: 'goods',
-  uploadedLogoBase64: ''
+  uploadedLogoBase64: '',
+  adminPagination: { page: 1, limit: 10 },
+  courierPagination: { page: 1, limit: 10 }
 };
 
 const $ = id => document.getElementById(id);
@@ -1286,9 +1318,10 @@ async function doUniversalLogin(e) {
     mark: generatedMark,
     location: 'Kumasi',
     referredBy: 'None (Direct)',
-    type: 'Registered Client'
+    type: 'Registered Client',
+    dateRegistered: new Date().toLocaleDateString()
   };
-  localClients.push(state.user);
+  localClients.unshift(state.user);
   localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
   window.dispatchEvent(new Event('storage'));
   localStorage.setItem('ev_active_user', JSON.stringify(state.user));
@@ -1326,7 +1359,7 @@ async function doReg(e) {
     }
   }
 
-  state.user = {
+  const newClientObj = {
     id: 'usr_' + Math.random().toString(36).slice(2, 8),
     name, email, phone, location,
     role: 'client',
@@ -1339,16 +1372,17 @@ async function doReg(e) {
   
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
   if (!localClients.some(c => c.email.toLowerCase() === email)) {
-    localClients.push(state.user);
+    localClients.unshift(newClientObj);
     localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
     window.dispatchEvent(new Event('storage'));
   }
   
+  state.user = newClientObj;
   localStorage.setItem('ev_active_user', JSON.stringify(state.user));
 
   sendAdminGmailNotification(
     'New Client Registration: ' + name + ' (' + generatedMark + ')',
-    `A new client has successfully registered on EveriVault Enterprise.\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nLocation: ${location}\nShipping Mark: ${generatedMark}\nReferred By: ${verifiedReferrer}\nDate: ${state.user.dateRegistered}`
+    `A new client has successfully registered on EveriVault Enterprise.\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nLocation: ${location}\nShipping Mark: ${generatedMark}\nReferred By: ${verifiedReferrer}\nDate: ${newClientObj.dateRegistered}`
   );
 
   applyUserState();
@@ -1579,7 +1613,7 @@ function loadCourierPortal() {
   if (!state.user || state.user.role !== 'delivery') return;
 
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
-  const allClients = [...defaultHistoricalClients, ...localClients];
+  const allClients = [...localClients, ...defaultHistoricalClients];
 
   const sel = $('courierClientSelect');
   if (sel) {
@@ -1603,7 +1637,63 @@ function loadCourierPortal() {
 
   $('courierDeliveriesList').innerHTML = dispatchList.join('') || '<p style="color:var(--slate);">No active delivery dispatches at the moment. Admin updates status to "Out for Delivery" to trigger notifications here.</p>';
 
+  renderCourierNewClients();
   loadCourierChat();
+}
+
+function changeCourierLimit() {
+  const sel = $('courierLimitSelect');
+  if (sel) {
+    state.courierPagination.limit = parseInt(sel.value) || 10;
+    state.courierPagination.page = 1;
+    renderCourierNewClients();
+  }
+}
+
+function changeCourierPage(dir) {
+  state.courierPagination.page += dir;
+  renderCourierNewClients();
+}
+
+function renderCourierNewClients() {
+  const container = $('courierNewClientsList');
+  const pagControls = $('courierPaginationControls');
+  if (!container) return;
+
+  const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
+  const allClients = [...localClients, ...defaultHistoricalClients];
+
+  const limit = state.courierPagination.limit;
+  const page = state.courierPagination.page;
+  const totalItems = allClients.length;
+  const totalPages = Math.ceil(totalItems / limit) || 1;
+
+  if (page > totalPages) state.courierPagination.page = totalPages;
+  if (state.courierPagination.page < 1) state.courierPagination.page = 1;
+
+  const start = (state.courierPagination.page - 1) * limit;
+  const slicedClients = allClients.slice(start, start + limit);
+
+  if (!slicedClients.length) {
+    container.innerHTML = '<p style="color:var(--slate);">No registered clients found.</p>';
+    if (pagControls) pagControls.innerHTML = '';
+    return;
+  }
+
+  container.innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Shipping Mark</th><th>Phone / Location</th><th>Date Registered</th></tr></thead><tbody>' + slicedClients.map(c => {
+    return `<tr><td><strong>${esc(c.name)}</strong><br><span style="font-size:12px; color:var(--slate);">${esc(c.email)}</span></td><td><code>${esc(c.mark)}</code></td><td>${esc(c.phone)}<br><span style="font-size:12px; color:var(--slate);">${esc(c.location || 'Kumasi')}</span></td><td>${esc(c.dateRegistered || 'N/A')}</td></tr>`;
+  }).join('') + '</tbody></table></div>';
+
+  if (pagControls) {
+    pagControls.innerHTML = `
+      <span style="font-size:13px; color:var(--slate);">Showing ${start + 1} - ${Math.min(start + limit, totalItems)} of ${totalItems} clients (Limit: ${limit})</span>
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn-sm btn-outline" ${state.courierPagination.page <= 1 ? 'disabled' : ''} onclick="changeCourierPage(-1)">Previous</button>
+        <span style="font-size:13px; font-weight:800; display:flex; align-items:center; padding:0 6px;">Page ${state.courierPagination.page} of ${totalPages}</span>
+        <button class="btn btn-sm btn-outline" ${state.courierPagination.page >= totalPages ? 'disabled' : ''} onclick="changeCourierPage(1)">Next</button>
+      </div>
+    `;
+  }
 }
 
 function loadCourierChat() {
@@ -1732,7 +1822,7 @@ function loadAdmin() {
   if (!state.user || state.user.role !== 'admin') return;
 
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
-  const allClientsCombined = [...defaultHistoricalClients, ...localClients];
+  const allClientsCombined = [...localClients, ...defaultHistoricalClients];
   
   $('statClientCount').textContent = allClientsCombined.length;
   $('statOrdersCount').textContent = state.orders.filter(o => o.status === 'Pending Verification').length;
@@ -1743,7 +1833,7 @@ function loadAdmin() {
     trackSel.innerHTML = allClientsCombined.map(c => `<option value="${c.id}">${c.name} (${c.mark}) - Loc: ${c.location || 'Kumasi'}</option>`).join('');
   }
 
-  $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Email / Phone</th><th>Location</th><th>Shipping Mark ID</th><th>Referred By</th><th>Type</th></tr></thead><tbody>' + (allClientsCombined.length ? allClientsCombined.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.email) + ' / ' + esc(c.phone) + '</td><td>' + esc(c.location || 'Kumasi') + '</td><td><code>' + esc(c.mark) + '</code></td><td><code style="color:var(--green-hover);">' + esc(c.referredBy || 'None (Direct)') + '</code></td><td><span class="pill ' + (c.type?.includes('Old') ? 'pill-type' : 'pill-verified') + '">' + esc(c.type || 'Registered Client') + '</span></td></tr>').join('') : '<tr><td colspan="6" style="text-align:center; color:var(--slate);">No clients recorded.</td></tr>') + '</tbody></table></div>';
+  renderAdminClientsList(allClientsCombined);
 
   $('adminAdsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Business / Client</th><th>Contact</th><th>Promo / Ad Details</th><th>Date Submitted</th></tr></thead><tbody>' + (state.ads.length ? state.ads.map(a => '<tr><td>' + esc(a.name) + '</td><td>' + esc(a.contact) + '</td><td>' + esc(a.details) + '</td><td>' + esc(a.date) + '</td></tr>').join('') : '<tr><td colspan="4" style="text-align:center; color:var(--slate);">No advertisement requests submitted yet.</td></tr>') + '</tbody></table></div>';
 
@@ -1797,6 +1887,52 @@ function loadAdmin() {
   $('cfgBannerMsg').value = state.settings.bannerMsg;
 }
 
+function changeAdminLimit() {
+  const sel = $('adminLimitSelect');
+  if (sel) {
+    state.adminPagination.limit = parseInt(sel.value) || 10;
+    state.adminPagination.page = 1;
+    const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
+    renderAdminClientsList([...localClients, ...defaultHistoricalClients]);
+  }
+}
+
+function changeAdminPage(dir) {
+  state.adminPagination.page += dir;
+  const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
+  renderAdminClientsList([...localClients, ...defaultHistoricalClients]);
+}
+
+function renderAdminClientsList(allClientsCombined) {
+  const container = $('adminClientsList');
+  const pagControls = $('adminClientsPagination');
+  if (!container) return;
+
+  const limit = state.adminPagination.limit;
+  const page = state.adminPagination.page;
+  const totalItems = allClientsCombined.length;
+  const totalPages = Math.ceil(totalItems / limit) || 1;
+
+  if (page > totalPages) state.adminPagination.page = totalPages;
+  if (state.adminPagination.page < 1) state.adminPagination.page = 1;
+
+  const start = (state.adminPagination.page - 1) * limit;
+  const sliced = allClientsCombined.slice(start, start + limit);
+
+  container.innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Email / Phone</th><th>Location</th><th>Shipping Mark ID</th><th>Referred By</th><th>Type</th></tr></thead><tbody>' + (sliced.length ? sliced.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.email) + ' / ' + esc(c.phone) + '</td><td>' + esc(c.location || 'Kumasi') + '</td><td><code>' + esc(c.mark) + '</code></td><td><code style="color:var(--green-hover);">' + esc(c.referredBy || 'None (Direct)') + '</code></td><td><span class="pill ' + (c.type?.includes('Old') ? 'pill-type' : 'pill-verified') + '">' + esc(c.type || 'Registered Client') + '</span></td></tr>').join('') : '<tr><td colspan="6" style="text-align:center; color:var(--slate);">No clients recorded.</td></tr>') + '</tbody></table></div>';
+
+  if (pagControls) {
+    pagControls.innerHTML = `
+      <span style="font-size:13px; color:var(--slate);">Showing ${start + 1} - ${Math.min(start + limit, totalItems)} of ${totalItems} clients (Limit: ${limit})</span>
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn-sm btn-outline" ${state.adminPagination.page <= 1 ? 'disabled' : ''} onclick="changeAdminPage(-1)">Previous</button>
+        <span style="font-size:13px; font-weight:800; display:flex; align-items:center; padding:0 6px;">Page ${state.adminPagination.page} of ${totalPages}</span>
+        <button class="btn btn-sm btn-outline" ${state.adminPagination.page >= totalPages ? 'disabled' : ''} onclick="changeAdminPage(1)">Next</button>
+      </div>
+    `;
+  }
+}
+
 function adminUpdateTracking(e) {
   e.preventDefault();
   const clientId = $('admTrackClientSelect').value;
@@ -1832,10 +1968,10 @@ function saveDeliveryGuyInfo(e) {
 
 function exportClientData() {
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
-  const allClients = [...defaultHistoricalClients, ...localClients];
-  let csv = 'Name,Email,Phone,Location,ShippingMark,ReferredBy,Type\n';
+  const allClients = [...localClients, ...defaultHistoricalClients];
+  let csv = 'Name,Email,Phone,Location,ShippingMark,ReferredBy,Type,DateRegistered\n';
   allClients.forEach(c => {
-    csv += `"${c.name}","${c.email}","${c.phone}","${c.location || 'Kumasi'}","${c.mark}","${c.referredBy || 'None'}","${c.type || 'New'}"\n`;
+    csv += `"${c.name}","${c.email}","${c.phone}","${c.location || 'Kumasi'}","${c.mark}","${c.referredBy || 'None'}","${c.type || 'New'}","${c.dateRegistered || 'N/A'}"\n`;
   });
   const blob = new Blob([csv], { type: 'text/csv' });
   const url = window.URL.createObjectURL(blob);
@@ -2075,7 +2211,7 @@ window.addEventListener('storage', () => {
   if (document.getElementById('p-admin').classList.contains('active')) loadAdmin();
 });
 
-Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, handleLogoFileSelect, saveLogoFile, addToCart, updateCartQty, removeFromCart, clearCart, goToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, doSubmitReview, copyText, adminTab, toggleOrderVerify, doUniversalLogin, doReg, doUniversalReset, doSignOut, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts, exportClientData, adminUpdateTracking, saveDeliveryGuyInfo, sendBargainMessage, loadCourierChat, sendCourierMessage });
+Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, handleLogoFileSelect, saveLogoFile, addToCart, updateCartQty, removeFromCart, clearCart, goToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, doSubmitReview, copyText, adminTab, toggleOrderVerify, doUniversalLogin, doReg, doUniversalReset, doSignOut, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts, exportClientData, adminUpdateTracking, saveDeliveryGuyInfo, sendBargainMessage, loadCourierChat, sendCourierMessage, changeAdminLimit, changeAdminPage, changeCourierLimit, changeCourierPage });
 
 (function init() {
   applyPortalSettings();
