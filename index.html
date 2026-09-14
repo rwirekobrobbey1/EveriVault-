@@ -86,8 +86,8 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 .referral-banner { background:linear-gradient(135deg, #059669 0%, #10B981 100%); color:#fff; border-radius:16px; padding:24px; margin:30px auto; max-width:940px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; box-shadow:0 10px 25px rgba(16,185,129,0.25); }
 .referral-banner h3 { font-size:20px; font-weight:800; margin-bottom:4px; }
 
-/* Home Showcase Catalog & Advertisement Form Section */
-.home-showcase-section { background:#fff; padding:60px 0; border-top:1px solid var(--border-color); border-bottom:1px solid var(--border-color); margin-top:40px; }
+/* Public Preview Store Section on Home */
+.public-store-section { background:#fff; padding:60px 0; border-top:1px solid var(--border-color); border-bottom:1px solid var(--border-color); margin-top:40px; }
 
 /* Advertisement Form Section on Home */
 .ad-form-box { background:var(--navy); color:#fff; border-radius:20px; padding:40px; max-width:800px; margin:50px auto 0; box-shadow:var(--card-shadow); }
@@ -215,13 +215,13 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   <div class="container nav-wrap">
     <a class="logo" onclick="go('home')">
       <svg class="icon" style="width:24px; height:24px;" viewBox="0 0 24 24"><path fill="var(--green)" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM12 6c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0 4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
-      EVERIVAULT <span>LOGISTICS (2TB CAPACITY)</span>
+      EVERIVAULT <span>LOGISTICS</span>
     </a>
     <ul class="nav-links" id="menu">
       <!-- ALWAYS VISIBLE UNTIL LOGIN -->
       <li><a class="plink active" data-p="home" onclick="go('home')">Home</a></li>
       
-      <!-- HIDDEN UNTIL LOGGED IN -->
+      <!-- HIDDEN UNTIL LOGGED IN / REGISTERED -->
       <li class="client-only"><a class="plink" data-p="store" onclick="go('store')">Store Catalog</a></li>
       <li class="client-only"><a class="plink" data-p="cart" onclick="go('cart')">Cart <span class="cart-badge" id="cartBadgeCount">0</span></a></li>
       <li class="client-only"><a class="plink" data-p="calc" onclick="go('calc')">Freight Calculator</a></li>
@@ -244,11 +244,11 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   DM Management (+1 309 519 4647)
 </a>
 
-<!-- HOME PAGE (PUBLICLY ACCESSIBLE) -->
+<!-- HOME PAGE (PUBLIC ACCESS + PUBLIC CATALOG PREVIEW WITH IMAGES & PRICES) -->
 <section id="p-home" class="page active">
   <div class="hero">
     <div class="container">
-      <div class="badge">Ghana Central Hub — KNUST Ayeduase New Site, Kumasi (2TB High Capacity Storage)</div>
+      <div class="badge">Ghana Central Hub — KNUST Ayeduase New Site, Kumasi</div>
       <h1 id="dynHeroTitle">China to Ghana <span>Commercial Freight & Supply</span></h1>
       <p id="dynHeroSub">Direct Factory Sourcing • Sea & Air Freight Cargo • Real-Time Tracking • Mandatory Shipping Marks</p>
       
@@ -275,7 +275,19 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       </div>
 
       <div class="hero-actions">
-        <button class="btn btn-green" onclick="go('auth')">Register / Login to Access Store & Portal</button>
+        <button class="btn btn-green" onclick="go('auth')">Register or Login to Add Items to Cart & Shop</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PUBLIC STORE CATALOG PREVIEW (IMAGES & PRICES VISIBLE, BUT REQUIRE LOGIN TO CART/BUY) -->
+  <div class="public-store-section">
+    <div class="container">
+      <h2>Online Store Catalog Preview</h2>
+      <p class="subtitle">Browse our factory-direct inventory below. Please <strong>Register or Login</strong> to add items to your cart and place orders.</p>
+      <div id="homeCatalogGrid" class="grid-4"></div>
+      <div style="text-align:center; margin-top:35px;">
+        <button class="btn btn-navy" onclick="go('auth')">Login / Register to Access Full Store & Portal ➔</button>
       </div>
     </div>
   </div>
@@ -318,7 +330,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
 <!-- STORE PAGE (CLIENT ONLY) -->
 <section id="p-store" class="page">
   <div class="container">
-    <h2>Commercial Catalog Store (2TB Expanded Inventory)</h2>
+    <h2>Commercial Catalog Store (Expanded Inventory)</h2>
     <p class="subtitle">Factory-Direct Pre-Orders (Without Shipping Fee) & Local Warehouse Available Stock</p>
     
     <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-bottom:30px;">
@@ -655,7 +667,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   <div class="container">
     <div style="background:var(--navy); color:#fff; padding:24px; border-radius:16px; margin-bottom:28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
       <div>
-        <h2 style="color:var(--green); text-align:left; margin-bottom:4px;">Master Executive Suite — Control Center (2TB)</h2>
+        <h2 style="color:var(--green); text-align:left; margin-bottom:4px;">Master Executive Suite — Control Center</h2>
         <p style="color:var(--slate-light);">Authorized Director Management Portal: Richmond Wireko Brobbey</p>
       </div>
       <button class="btn btn-sm btn-outline" style="color:#fff; border-color:#fff;" onclick="openAdminPasswordModal()">Change Admin Password</button>
@@ -672,7 +684,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <div class="val" id="statOrdersCount" style="color:#D97706;">0</div>
       </div>
       <div class="stat-card">
-        <h4>Store Catalog Items (2TB)</h4>
+        <h4>Store Catalog Items</h4>
         <div class="val" id="statProdCount">0</div>
       </div>
     </div>
@@ -681,7 +693,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     <div class="admin-layout">
       <!-- SIDEBAR -->
       <div class="admin-sidebar">
-        <button class="admin-nav-btn active" data-admintab="products" onclick="adminTab('products')">Manage Catalog & Cart</button>
+        <button class="admin-nav-btn active" data-admintab="products" onclick="adminTab('products')">Manage Catalog & Unlimited Uploads</button>
         <button class="admin-nav-btn" data-admintab="payments" onclick="adminTab('payments')">Manage Payments Desk</button>
         <button class="admin-nav-btn" data-admintab="ads" onclick="adminTab('ads')">Promo / Ad Requests</button>
         <button class="admin-nav-btn" data-admintab="clients" onclick="adminTab('clients')">Registered Clients (New & Old)</button>
@@ -702,10 +714,11 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           </form>
         </div>
 
-        <!-- PRODUCTS & CART MANAGEMENT TAB -->
+        <!-- PRODUCTS & UNLIMITED UPLOAD MANAGEMENT TAB -->
         <div id="adminProducts" class="tab-content active">
           <div class="form-box" style="max-width:100%; margin-bottom:30px;">
-            <h3>Upload New Product to 2TB Catalog</h3>
+            <h3>Add New Product to Store Catalog (Unlimited Uploads)</h3>
+            <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">You can add as many products as you want with custom images and pricing.</p>
             <form onsubmit="doAddProduct(event)">
               <div class="form-group"><label>Product Title</label><input type="text" id="npName" required placeholder="e.g. Smart Watch Ultra 2"></div>
               <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px;">
@@ -722,9 +735,9 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
               <div class="form-group">
                 <label>Product Photo File / Image URL</label>
                 <input type="file" id="npFile" accept="image/*" onchange="handleImageFile(event)">
-                <input type="url" id="npImgUrl" placeholder="Or Enter Image Web URL" style="margin-top:8px;">
+                <input type="url" id="npImgUrl" placeholder="Or Enter Image Web URL (Unsplash, etc.)" style="margin-top:8px;">
               </div>
-              <button class="btn btn-green btn-block" type="submit" id="addProdBtn">Publish Product to Catalog</button>
+              <button class="btn btn-green btn-block" type="submit" id="addProdBtn">Publish Product to Online Store</button>
             </form>
           </div>
           <h3 style="margin-bottom:16px; color:var(--navy);">Catalog Products & Cart Control</h3>
@@ -802,7 +815,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
 
 <footer>
   <div class="container">
-    <h3>EVERIVAULT LOGISTICS EXECUTIVE SUITE (2TB STORAGE)</h3>
+    <h3>EVERIVAULT LOGISTICS EXECUTIVE SUITE</h3>
     <p>China to Ghana Commercial Freight Forwarding</p>
     <p style="margin-top:8px;">
       WhatsApp Management & Complaints: 
@@ -824,18 +837,16 @@ try {
   });
 } catch(e) {}
 
-// Expanded 2TB high-capacity seed products (supporting thousands of items)
+// Expanded default products for store catalog preview
 const defaultProducts = [
   { id: 'p1', name: 'Smart Watch Ultra 2', category: 'Electronics', price: 450, type: 'preorder', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80' },
   { id: 'p2', name: 'DTF Sticker Printing Roll', category: 'Hardware', price: 1200, type: 'preorder', image: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=400&q=80' },
   { id: 'p3', name: 'Men Streetwear Two-Piece Set', category: 'Apparel', price: 350, type: 'available', image: 'https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=400&q=80' },
-  { id: 'p4', name: 'UV DTF Hat & Cap Heat Press Machine', category: 'Hardware', price: 3800, type: 'preorder', image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80' },
-  { id: 'p5', name: 'Moissanite Luxury Quartz Watch Set', category: 'Accessories', price: 1500, type: 'available', image: 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=400&q=80' },
-  { id: 'p6', name: 'Cargo Pants & Joggers Bundle (10pcs)', category: 'Apparel', price: 2100, type: 'preorder', image: 'https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=400&q=80' }
+  { id: 'p4', name: 'UV DTF Hat & Cap Heat Press Machine', category: 'Hardware', price: 3800, type: 'preorder', image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80' }
 ];
 
 const defaultSettings = {
-  heroTitle: 'China to Ghana Commercial Freight & Supply (2TB Capacity)',
+  heroTitle: 'China to Ghana Commercial Freight & Supply',
   heroSub: 'Direct Factory Sourcing • Sea & Air Freight Cargo • Real-Time Tracking • Mandatory Shipping Marks',
   seaRate1: '$260 / m³',
   seaRate2: '$255 / m³',
@@ -895,7 +906,7 @@ function toast(msg, type = 'info', ms = 3500) {
 function go(page) {
   // If client is not logged in and tries to access restricted pages, force redirect to auth portal
   if (!state.user && page !== 'home' && page !== 'auth') {
-    toast('Please register, login, or reset password to access the client portal features', 'err');
+    toast('Please register, login, or reset password to access the store cart and portal features', 'err');
     go('auth');
     return;
   }
@@ -1041,7 +1052,6 @@ async function doLogin(e) {
     type: 'Newly Registered Client'
   };
 
-  // Ensure new client is saved in local clients storage
   if (!isAdmin && !localClients.some(c => c.email.toLowerCase() === email.toLowerCase())) {
     localClients.push(state.user);
     localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
@@ -1125,18 +1135,22 @@ function doSignOut() {
 function updateCartBadge() {
   const count = state.cart.reduce((sum, item) => sum + item.qty, 0);
   $('cartBadgeCount').textContent = count;
-  // 2TB High Capacity persistence
   localStorage.setItem('ev_cart', JSON.stringify(state.cart));
 }
 
 function addToCart(prodId) {
+  if (!state.user) {
+    toast('Please register or login first to add items to your cart', 'err');
+    go('auth');
+    return;
+  }
   const p = state.products.find(x => String(x.id) === String(prodId));
   if (!p) return;
   const existing = state.cart.find(item => String(item.id) === String(prodId));
   if (existing) { existing.qty += 1; } 
   else { state.cart.push({ id: p.id, name: p.name, price: p.price, type: p.type || 'preorder', image: p.image || '', qty: 1 }); }
   updateCartBadge();
-  toast('Added ' + p.name + ' to 2TB Cart', 'ok');
+  toast('Added ' + p.name + ' to cart', 'ok');
   if (state.user?.role === 'admin') loadAdmin();
 }
 
@@ -1186,7 +1200,7 @@ function renderCart() {
   const container = $('cartItemsContainer');
   if (!container) return;
   if (!state.cart.length) {
-    container.innerHTML = '<div class="card" style="text-align:center; padding:40px;"><p style="color:var(--slate);">Your shopping cart is currently empty (2TB capacity ready).</p></div>';
+    container.innerHTML = '<div class="card" style="text-align:center; padding:40px;"><p style="color:var(--slate);">Your shopping cart is currently empty.</p></div>';
     $('cartGrandTotal').textContent = 'GHS 0.00';
     return;
   }
@@ -1337,6 +1351,7 @@ function handleImageFile(e) {
 /* --- CATALOG & HOME SHOWCASE --- */
 function renderProducts() {
   const grid = $('prodGrid');
+  const homeGrid = $('homeCatalogGrid');
   const search = $('searchInput') ? $('searchInput').value.toLowerCase() : '';
   const cat = $('catFilter') ? $('catFilter').value : 'all';
   const typeFilter = $('typeFilter') ? $('typeFilter').value : 'all';
@@ -1360,7 +1375,13 @@ function renderProducts() {
     const badgeHtml = isPreorder 
       ? '<span class="badge-preorder">Pre-Order Item</span><span class="shipping-note">Without Shipping Fee</span>' 
       : '<span class="badge-available">Available In Stock</span><span class="shipping-note" style="color:var(--slate);">Local Warehouse Stock</span>';
-    return '<div class="card">' + imgHtml + '<div><span style="font-size:11px; font-weight:800; color:var(--green); text-transform:uppercase;">' + esc(p.category || 'GENERAL') + '</span><br>' + badgeHtml + '<h3>' + esc(p.name) + '</h3><p style="font-weight:800; color:var(--navy); font-size:18px; margin:6px 0 12px;">' + fmtGHS(p.price) + '</p></div><button class="btn btn-sm btn-green btn-block" onclick="addToCart(\'' + p.id + '\')">Add to 2TB Cart</button></div>';
+    
+    // If not logged in, prompt registration/login on click
+    const actionBtn = state.user 
+      ? '<button class="btn btn-sm btn-green btn-block" onclick="addToCart(\'' + p.id + '\')">Add to Cart</button>'
+      : '<button class="btn btn-sm btn-navy btn-block" onclick="go(\'auth\')">Login to Buy / Add to Cart</button>';
+
+    return '<div class="card">' + imgHtml + '<div><span style="font-size:11px; font-weight:800; color:var(--green); text-transform:uppercase;">' + esc(p.category || 'GENERAL') + '</span><br>' + badgeHtml + '<h3>' + esc(p.name) + '</h3><p style="font-weight:800; color:var(--navy); font-size:18px; margin:6px 0 12px;">' + fmtGHS(p.price) + '</p></div>' + actionBtn + '</div>';
   };
 
   if (grid) {
@@ -1369,6 +1390,11 @@ function renderProducts() {
     } else {
       grid.innerHTML = filtered.map(getCardHtml).join('');
     }
+  }
+
+  if (homeGrid) {
+    const previewItems = state.products.slice(0, 8); // Display multiple items on home preview with image & price
+    homeGrid.innerHTML = previewItems.map(getCardHtml).join('');
   }
 }
 
@@ -1388,7 +1414,7 @@ function doAddProduct(e) {
   $('npName').value = ''; $('npCat').value = ''; $('npPrice').value = ''; $('npImgUrl').value = '';
   state.uploadedProdBase64 = '';
   
-  toast('Published new catalog item to 2TB storage successfully', 'ok');
+  toast('Published new product to online store successfully', 'ok');
   renderProducts();
   if (state.user?.role === 'admin') loadAdmin();
 }
