@@ -1102,22 +1102,18 @@ const generateShippingMark = (name, phone) => {
 
 function sendAdminGmailNotification(subject, body) {
   const emailLog = JSON.parse(localStorage.getItem('ev_admin_gmail_inbox') || '[]');
-  const notification = {
-    to: 'richmonwireko@gmail.com',
-    subject: subject,
-    body: body,
-    time: new Date().toLocaleString()
-  };
-  emailLog.unshift(notification);
+  emailLog.unshift({ to: 'richmonwireko@gmail.com', subject, body, time: new Date().toLocaleString() });
   localStorage.setItem('ev_admin_gmail_inbox', JSON.stringify(emailLog));
 }
 
 function saveProducts() {
   localStorage.setItem('ev_local_products', JSON.stringify(state.products));
+  window.dispatchEvent(new Event('storage'));
 }
 
 function toast(msg, type = 'info', ms = 3500) {
   const wrap = $('toastWrap');
+  if (!wrap) return;
   const el = document.createElement('div');
   el.className = 'toast ' + (type === 'ok' ? 'ok' : type === 'err' ? 'err' : '');
   el.textContent = msg;
@@ -1288,7 +1284,6 @@ async function doUniversalLogin(e) {
   const identifier = $('uniIdent').value.trim().toLowerCase();
   const password = $('uniPw').value;
 
-  // 1. Check Admin Match (richmonwireko@gmail.com or admin email)
   const isAdminEmail = identifier.includes('admin') || identifier === 'richmonwireko@gmail.com';
   if (isAdminEmail) {
     state.user = {
@@ -1307,7 +1302,6 @@ async function doUniversalLogin(e) {
     return;
   }
 
-  // 2. Check Delivery Guy Match (delivery@everivault.com or delivery guy email/pass)
   const dg = state.deliveryGuy;
   if (identifier === dg.email.toLowerCase() || identifier === 'delivery' || identifier === 'delivery guy') {
     if (password === dg.pass) {
@@ -1332,7 +1326,6 @@ async function doUniversalLogin(e) {
     }
   }
 
-  // 3. Check Client Match (Gmail or Shipping ID)
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
   const allKnownClients = [...defaultHistoricalClients, ...localClients];
   const matchedClient = allKnownClients.find(c => 
@@ -1360,7 +1353,6 @@ async function doUniversalLogin(e) {
     return;
   }
 
-  // If not found in existing records, treat as new client login / auto-create
   const generatedMark = generateShippingMark(identifier.split('@')[0], '0543155883');
   state.user = {
     id: 'usr_' + Math.random().toString(36).slice(2, 8),
@@ -1375,6 +1367,7 @@ async function doUniversalLogin(e) {
   };
   localClients.push(state.user);
   localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
+  window.dispatchEvent(new Event('storage'));
   localStorage.setItem('ev_active_user', JSON.stringify(state.user));
 
   btn.disabled = false; btn.textContent = 'Sign In to Portal';
@@ -1425,6 +1418,7 @@ async function doReg(e) {
   if (!localClients.some(c => c.email.toLowerCase() === email)) {
     localClients.push(state.user);
     localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
+    window.dispatchEvent(new Event('storage'));
   }
   
   localStorage.setItem('ev_active_user', JSON.stringify(state.user));
@@ -1439,7 +1433,6 @@ async function doReg(e) {
   go('store');
 }
 
-/* --- UNIVERSAL PASSWORD RESET FOR ADMIN, CLIENT, & DELIVERY GUY --- */
 async function doUniversalReset(e) {
   e.preventDefault();
   const ident = $('resetIdent').value.trim().toLowerCase();
@@ -1571,6 +1564,7 @@ function submitPayment(e) {
 
   state.orders.unshift(orderObj);
   localStorage.setItem('ev_local_orders', JSON.stringify(state.orders));
+  window.dispatchEvent(new Event('storage'));
   
   sendAdminGmailNotification(
     'New Order Placed / Payment Submitted: ' + orderObj.clientName + ' (' + orderObj.clientMark + ')',
@@ -1654,6 +1648,7 @@ function sendBargainMessage(e) {
   });
 
   localStorage.setItem('ev_bargain_messages', JSON.stringify(state.bargainMessages));
+  window.dispatchEvent(new Event('storage'));
   $('bargainInput').value = '';
   loadClientTrackingAndBargain();
   toast('Message sent', 'ok');
@@ -1730,6 +1725,7 @@ function sendCourierMessage(e) {
   });
 
   localStorage.setItem('ev_bargain_messages', JSON.stringify(state.bargainMessages));
+  window.dispatchEvent(new Event('storage'));
   $('courierInputMsg').value = '';
   loadCourierChat();
   toast('Message sent to client', 'ok');
@@ -1895,6 +1891,7 @@ function adminUpdateTracking(e) {
     time: new Date().toLocaleString()
   };
   localStorage.setItem('ev_local_tracking', JSON.stringify(state.tracking));
+  window.dispatchEvent(new Event('storage'));
 
   toast('Client tracking update saved and delivery guy notified if out for delivery!', 'ok');
   loadAdmin();
@@ -1910,6 +1907,7 @@ function saveDeliveryGuyInfo(e) {
     zone: $('dgZone').value.trim()
   };
   localStorage.setItem('ev_delivery_guy', JSON.stringify(state.deliveryGuy));
+  window.dispatchEvent(new Event('storage'));
   toast('Delivery guy unique login credentials and info updated live!', 'ok');
   loadAdmin();
 }
@@ -1935,6 +1933,7 @@ function toggleOrderVerify(id) {
   if (!o) return;
   o.status = (o.status === 'Verified') ? 'Pending Verification' : 'Verified';
   localStorage.setItem('ev_local_orders', JSON.stringify(state.orders));
+  window.dispatchEvent(new Event('storage'));
   toast('Payment order status updated', 'ok');
   loadAdmin();
 }
@@ -1962,6 +1961,7 @@ function savePortalSettings(e) {
   state.settings.bannerMsg = $('cfgBannerMsg').value.trim();
   
   localStorage.setItem('ev_portal_settings', JSON.stringify(state.settings));
+  window.dispatchEvent(new Event('storage'));
   applyPortalSettings();
   toast('Client Portal Content Updated Live!', 'ok');
 }
@@ -2009,6 +2009,7 @@ function saveLogoFile(e) {
   }
   state.settings.logoUrl = state.uploadedLogoBase64;
   localStorage.setItem('ev_portal_settings', JSON.stringify(state.settings));
+  window.dispatchEvent(new Event('storage'));
   applyPortalSettings();
   toast('Business logo updated live across navigation header!', 'ok');
 }
@@ -2031,6 +2032,7 @@ function submitAdvertisement(e) {
   };
   state.ads.unshift(adObj);
   localStorage.setItem('ev_local_ads', JSON.stringify(state.ads));
+  window.dispatchEvent(new Event('storage'));
   $('adName').value = ''; $('adContact').value = ''; $('adDetails').value = '';
   toast('Advertisement request submitted successfully', 'ok');
 }
@@ -2044,6 +2046,7 @@ function doSubmitReview(e) {
   e.preventDefault();
   state.reviews.unshift({ name: state.user?.name || 'Client', mark: state.user?.mark || 'VERIFIED CLIENT', rating: 5, comment: $('revComment').value.trim() });
   localStorage.setItem('ev_reviews', JSON.stringify(state.reviews));
+  window.dispatchEvent(new Event('storage'));
   $('revComment').value = '';
   toast('Thank you for your review!', 'ok');
   loadReviews();
@@ -2105,7 +2108,7 @@ function calcSea() {
   const cbm = (l * w * h / 1000000) * qty;
   const rateUsd = cbm >= 1.0 ? 255 : 260;
   const usd = cbm * rateUsd;
-  const ghs = usd * 15.5; // conversion factor estimate
+  const ghs = usd * 15.5;
   document.getElementById('seaCbm').textContent = cbm.toFixed(3);
   document.getElementById('seaUsd').textContent = '$' + usd.toFixed(2);
   document.getElementById('seaGhs').textContent = fmtGHS(ghs);
@@ -2143,6 +2146,20 @@ function calcCompare() {
   document.getElementById('compSeaRes').textContent = fmtGHS(seaGhs) + ' (' + cbm.toFixed(3) + ' m³)';
   document.getElementById('compAirRes').textContent = fmtGHS(airGhs) + ' (' + kg.toFixed(1) + ' kg)';
 }
+
+// REAL-TIME SYNC LISTENER ACROSS ALL TABS / BROWSERS
+window.addEventListener('storage', () => {
+  state.products = JSON.parse(localStorage.getItem('ev_local_products') || 'null') || defaultProducts;
+  state.settings = JSON.parse(localStorage.getItem('ev_portal_settings') || 'null') || defaultSettings;
+  state.tracking = JSON.parse(localStorage.getItem('ev_local_tracking') || '{}');
+  state.orders = JSON.parse(localStorage.getItem('ev_local_orders') || '[]');
+  state.bargainMessages = JSON.parse(localStorage.getItem('ev_bargain_messages') || '{}');
+  
+  applyPortalSettings();
+  renderProducts();
+  if (document.getElementById('p-tracking').classList.contains('active')) loadClientTrackingAndBargain();
+  if (document.getElementById('p-admin').classList.contains('active')) loadAdmin();
+});
 
 Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, handleLogoFileSelect, saveLogoFile, addToCart, updateCartQty, removeFromCart, clearCart, goToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, doSubmitReview, copyText, adminTab, toggleOrderVerify, doUniversalLogin, doReg, doUniversalReset, doSignOut, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts, exportClientData, adminUpdateTracking, saveDeliveryGuyInfo, sendBargainMessage, loadCourierChat, sendCourierMessage });
 
