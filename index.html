@@ -135,6 +135,13 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 .terms-box ul { padding-left:18px; margin-top:6px; }
 .terms-box li { margin-bottom:6px; }
 
+/* Payment Slot Component */
+.payment-slot-card { background:#F0FDF4; border:2px solid var(--green); border-radius:16px; padding:20px; margin:20px 0; }
+.pay-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:10px; margin-top:10px; }
+.pay-btn { background:#fff; border:1.5px solid #CBD5E1; border-radius:10px; padding:10px; text-align:center; cursor:pointer; font-size:13px; font-weight:700; color:var(--navy); transition:0.2s; }
+.pay-btn.active { border-color:var(--green); background:var(--green-light); color:var(--green-hover); }
+.pay-details-box { background:#fff; border:1px solid #A7F3D0; border-radius:12px; padding:16px; margin-top:12px; }
+
 /* Cart Item Styling */
 .cart-item-row { display:flex; justify-content:space-between; align-items:center; padding:16px; background:#fff; border-radius:12px; margin-bottom:12px; border:1px solid var(--border-color); flex-wrap:wrap; gap:12px; }
 .qty-btn { width:28px; height:28px; border-radius:6px; border:1px solid #CBD5E1; background:#F8FAFC; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
@@ -360,9 +367,57 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </div>
         <div style="display:flex; gap:12px; justify-content:flex-end; flex-wrap:wrap;">
           <button class="btn btn-outline" onclick="clearCart()">Clear Cart</button>
-          <button class="btn btn-green" onclick="toast('Please contact management via WhatsApp or visit our physical desk to complete payment', 'ok')">Request Order & Checkout</button>
+          <button class="btn btn-green" onclick="goToPaymentFromCart()">Proceed to Payment</button>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAYMENT PORTAL (MANAGED BY ADMIN / ACCESSED BY CLIENTS FOR CHECKOUT) -->
+<section id="p-payment" class="page">
+  <div class="container">
+    <h2>Secure Payment Portal</h2>
+    <p class="subtitle">Submit your MoMo or Bank transfer payment reference for verification by EveriVault Management.</p>
+    
+    <div class="form-box" style="max-width:650px;">
+      <form onsubmit="submitPaymentOrder(event)">
+        <div class="form-group">
+          <label>Order / Items Summary</label>
+          <input type="text" id="paySummaryInput" readonly style="background:#E2E8F0;">
+        </div>
+        <div class="form-group">
+          <label>Total Amount (GHS)</label>
+          <input type="text" id="payAmountInput" readonly style="background:#E2E8F0; font-weight:800; color:var(--navy);">
+        </div>
+
+        <div class="payment-slot-card">
+          <label style="color:var(--navy); font-weight:800;">Select Approved Payment Channel</label>
+          <div class="pay-grid">
+            <div class="pay-btn active" id="pbtn-momo" onclick="selectPaySlot('momo')">MTN MoMo</div>
+            <div class="pay-btn" id="pbtn-telecel" onclick="selectPaySlot('telecel')">Telecel Cash</div>
+            <div class="pay-btn" id="pbtn-bank" onclick="selectPaySlot('bank')">GTBank Direct</div>
+          </div>
+
+          <div class="pay-details-box" id="paySlotInfo">
+            <p style="font-size:13px; font-weight:700; color:var(--navy);">MTN Mobile Money Settlement Account</p>
+            <p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p>
+            <p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Transaction ID / Reference Number</label>
+          <input type="text" id="payTxRef" required placeholder="e.g. TXN-984210928">
+        </div>
+
+        <div class="form-group">
+          <label>Upload Payment Receipt Proof (Screenshot)</label>
+          <input type="file" id="payProofFile" accept="image/*" onchange="handlePaymentProof(event)">
+        </div>
+
+        <button class="btn btn-green btn-block" type="submit">Submit Payment for Admin Verification</button>
+      </form>
     </div>
   </div>
 </section>
@@ -598,8 +653,8 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         <div class="val" id="statClientCount">0</div>
       </div>
       <div class="stat-card">
-        <h4>Promo Requests</h4>
-        <div class="val" id="statAdsCount">0</div>
+        <h4>Pending Payments</h4>
+        <div class="val" id="statOrdersCount" style="color:#D97706;">0</div>
       </div>
       <div class="stat-card">
         <h4>Store Catalog Items</h4>
@@ -612,6 +667,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       <!-- SIDEBAR -->
       <div class="admin-sidebar">
         <button class="admin-nav-btn active" data-admintab="products" onclick="adminTab('products')">Manage Catalog & Cart</button>
+        <button class="admin-nav-btn" data-admintab="payments" onclick="adminTab('payments')">Manage Payments Desk</button>
         <button class="admin-nav-btn" data-admintab="ads" onclick="adminTab('ads')">Promo / Ad Requests</button>
         <button class="admin-nav-btn" data-admintab="clients" onclick="adminTab('clients')">Registered Clients</button>
         <button class="admin-nav-btn" data-admintab="content" onclick="adminTab('content')">Edit Portal Content</button>
@@ -658,6 +714,12 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           </div>
           <h3 style="margin-bottom:16px; color:var(--navy);">Catalog Products & Cart Control</h3>
           <div id="adminProductsList"></div>
+        </div>
+
+        <!-- MANAGE PAYMENTS DESK TAB -->
+        <div id="adminPayments" class="tab-content">
+          <h3 style="margin-bottom:16px; color:var(--navy);">Client Payment Verification Desk</h3>
+          <div id="adminPaymentsList"></div>
         </div>
 
         <!-- ADVERTISEMENTS & PROMO REQUESTS TAB -->
@@ -765,12 +827,15 @@ const state = {
   products: JSON.parse(localStorage.getItem('ev_local_products') || 'null') || defaultProducts, 
   settings: JSON.parse(localStorage.getItem('ev_portal_settings') || 'null') || defaultSettings,
   ads: JSON.parse(localStorage.getItem('ev_local_ads') || '[]'),
+  orders: JSON.parse(localStorage.getItem('ev_local_orders') || '[]'),
   reviews: JSON.parse(localStorage.getItem('ev_reviews') || 'null') || [
     { name: 'Kofi Mensah', mark: 'GH001K-KM-0541234567', rating: 5, comment: 'Received my 1688 cargo from Foshan in under 3 weeks. Very reliable service!' },
     { name: 'Abena Osei', mark: 'GH001K-AO-0249876543', rating: 5, comment: 'Air express phones flat rate is unbeatable. Kumasi delivery was fast.' }
   ],
   cart: JSON.parse(localStorage.getItem('ev_cart') || '[]'),
-  uploadedProdBase64: ''
+  uploadedProdBase64: '',
+  paymentProofBase64: '',
+  selectedPaymentSlot: 'momo'
 };
 
 const $ = id => document.getElementById(id);
@@ -813,6 +878,7 @@ function go(page) {
   
   if (page === 'store' || page === 'home') renderProducts();
   if (page === 'cart') renderCart();
+  if (page === 'payment') setupPaymentPortalForm();
   if (page === 'reviews') loadReviews();
   if (page === 'admin') loadAdmin();
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1003,7 +1069,7 @@ function doSignOut() {
   go('home');
 }
 
-/* --- CART OPERATIONS --- */
+/* --- CART & PAYMENT PORTAL FLOW --- */
 function updateCartBadge() {
   const count = state.cart.reduce((sum, item) => sum + item.qty, 0);
   $('cartBadgeCount').textContent = count;
@@ -1080,6 +1146,77 @@ function renderCart() {
     return '<div class="cart-item-row"><div style="display:flex; align-items:center; gap:12px;">' + imgHtml + '<div><strong style="color:var(--navy); font-size:15px;">' + esc(item.name) + '</strong><br><span style="color:var(--green); font-weight:700;">' + fmtGHS(item.price) + '</span> each' + shippingBadge + '</div></div><div style="display:flex; align-items:center; gap:10px;"><button class="qty-btn" onclick="updateCartQty(\'' + item.id + '\', -1)">-</button><span style="font-weight:800; min-width:20px; text-align:center;">' + item.qty + '</span><button class="qty-btn" onclick="updateCartQty(\'' + item.id + '\', 1)">+</button></div><div style="text-align:right;"><span style="font-weight:800; color:var(--navy);">' + fmtGHS(itemTotal) + '</span><br><button class="btn btn-sm btn-danger" style="margin-top:4px; padding:4px 8px; font-size:11px;" onclick="removeFromCart(\'' + item.id + '\')">Remove</button></div></div>';
   }).join('');
   $('cartGrandTotal').textContent = fmtGHS(total);
+}
+
+function goToPaymentFromCart() {
+  if (!state.user) {
+    toast('Please sign in or register to proceed to payment', 'err');
+    go('auth');
+    return;
+  }
+  if (!state.cart.length) {
+    toast('Your cart is empty', 'err');
+    return;
+  }
+  go('payment');
+}
+
+function setupPaymentPortalForm() {
+  const summary = state.cart.map(i => i.name + ' (x' + i.qty + ')').join(', ');
+  const total = state.cart.reduce((s, i) => s + (i.price * i.qty), 0);
+  $('paySummaryInput').value = summary;
+  $('payAmountInput').value = fmtGHS(total);
+}
+
+function selectPaySlot(slot) {
+  state.selectedPaymentSlot = slot;
+  document.querySelectorAll('.pay-btn').forEach(b => b.classList.remove('active'));
+  const btn = $('pbtn-' + slot);
+  if (btn) btn.classList.add('active');
+
+  const infoBox = $('paySlotInfo');
+  if (slot === 'momo') {
+    infoBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">MTN Mobile Money Settlement Account</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p><p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>';
+  } else if (slot === 'telecel') {
+    infoBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">Telecel Cash Settlement Account</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p><p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>';
+  } else if (slot === 'bank') {
+    infoBox.innerHTML = '<p style="font-size:13px; font-weight:700; color:var(--navy);">GTBank Direct Settlement Account</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Account Number: 1304001024705</p><p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey (GTBank)</p>';
+  }
+}
+
+function handlePaymentProof(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt) { state.paymentProofBase64 = evt.target.result; toast('Receipt attached successfully', 'ok'); };
+  reader.readAsDataURL(file);
+}
+
+function submitPaymentOrder(e) {
+  e.preventDefault();
+  if (!state.user) return;
+  const total = state.cart.reduce((s, i) => s + (i.price * i.qty), 0);
+  const orderObj = {
+    id: 'ord_' + Math.random().toString(36).slice(2, 8),
+    clientName: state.user.name,
+    clientEmail: state.user.email,
+    clientMark: state.user.mark,
+    summary: $('paySummaryInput').value,
+    total: total,
+    slot: state.selectedPaymentSlot,
+    txRef: $('payTxRef').value.trim(),
+    proof: state.paymentProofBase64,
+    status: 'Pending Verification',
+    date: new Date().toLocaleDateString()
+  };
+
+  state.orders.unshift(orderObj);
+  localStorage.setItem('ev_local_orders', JSON.stringify(state.orders));
+  state.paymentProofBase64 = '';
+  $('payTxRef').value = '';
+  clearCart();
+  toast('Payment submitted successfully for admin verification!', 'ok');
+  go('home');
 }
 
 /* --- FILE PROOF --- */
@@ -1171,12 +1308,20 @@ function loadAdmin() {
   const clients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
   
   $('statClientCount').textContent = clients.length;
-  $('statAdsCount').textContent = state.ads.length;
+  $('statOrdersCount').textContent = state.orders.filter(o => o.status === 'Pending Verification').length;
   $('statProdCount').textContent = state.products.length;
 
   $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Email / Phone</th><th>Shipping Mark ID</th></tr></thead><tbody>' + (clients.length ? clients.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.email) + ' / ' + esc(c.phone) + '</td><td><code>' + esc(c.mark) + '</code></td></tr>').join('') : '<tr><td colspan="3" style="text-align:center; color:var(--slate);">No clients registered yet.</td></tr>') + '</tbody></table></div>';
 
   $('adminAdsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Business / Client</th><th>Contact</th><th>Promo / Ad Details</th><th>Date Submitted</th></tr></thead><tbody>' + (state.ads.length ? state.ads.map(a => '<tr><td>' + esc(a.name) + '</td><td>' + esc(a.contact) + '</td><td>' + esc(a.details) + '</td><td>' + esc(a.date) + '</td></tr>').join('') : '<tr><td colspan="4" style="text-align:center; color:var(--slate);">No advertisement requests submitted yet.</td></tr>') + '</tbody></table></div>';
+
+  $('adminPaymentsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Shipping Mark</th><th>Summary</th><th>Total</th><th>Slot / TxRef</th><th>Status / Action</th></tr></thead><tbody>' + (state.orders.length ? state.orders.map(o => {
+    const proofLink = o.proof ? '<a href="' + o.proof + '" target="_blank" style="color:var(--green); font-weight:700;">View Receipt</a>' : 'No Receipt';
+    const verifyBtn = o.status === 'Verified' 
+      ? '<span class="pill pill-verified">Verified</span> <button class="btn btn-sm btn-outline" onclick="toggleOrderVerify(\'' + o.id + '\')">Unverify</button>' 
+      : '<span class="pill pill-pending">Pending</span> <button class="btn btn-sm btn-green" onclick="toggleOrderVerify(\'' + o.id + '\')">Verify Payment</button>';
+    return '<tr><td>' + esc(o.clientName) + '</td><td><code>' + esc(o.clientMark) + '</code></td><td>' + esc(o.summary) + '</td><td>' + fmtGHS(o.total) + '</td><td>' + esc(o.slot) + '<br><code>' + esc(o.txRef) + '</code><br>' + proofLink + '</td><td>' + verifyBtn + '</td></tr>';
+  }).join('') : '<tr><td colspan="6" style="text-align:center; color:var(--slate);">No payment orders submitted yet.</td></tr>') + '</tbody></table></div>';
 
   $('adminProductsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Product</th><th>Category</th><th>Type</th><th>Price</th><th>Cart Action</th><th>Catalog Action</th></tr></thead><tbody>' + state.products.map(p => {
     const inCart = state.cart.some(i => String(i.id) === String(p.id));
@@ -1195,9 +1340,19 @@ function loadAdmin() {
   $('cfgBannerMsg').value = state.settings.bannerMsg;
 }
 
+function toggleOrderVerify(id) {
+  const o = state.orders.find(x => String(x.id) === String(id));
+  if (!o) return;
+  o.status = (o.status === 'Verified') ? 'Pending Verification' : 'Verified';
+  localStorage.setItem('ev_local_orders', JSON.stringify(state.orders));
+  toast('Payment order status updated', 'ok');
+  loadAdmin();
+}
+
 function adminTab(tab) {
   document.querySelectorAll('.admin-nav-btn').forEach(t => t.classList.toggle('active', t.dataset.admintab === tab));
   $('adminProducts').classList.toggle('active', tab === 'products');
+  $('adminPayments').classList.toggle('active', tab === 'payments');
   $('adminAds').classList.toggle('active', tab === 'ads');
   $('adminClients').classList.toggle('active', tab === 'clients');
   $('adminContent').classList.toggle('active', tab === 'content');
@@ -1281,7 +1436,7 @@ function applyUserState() {
   }
 }
 
-Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, addToCart, updateCartQty, removeFromCart, clearCart, adminAddToCart, adminRemoveFromCart, doSubmitReview, copyText, adminTab, doLogin, doReg, doResetPassword, doSignOut, doAdmin, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts });
+Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, addToCart, updateCartQty, removeFromCart, clearCart, adminAddToCart, adminRemoveFromCart, goToPaymentFromCart, selectPaySlot, handlePaymentProof, submitPaymentOrder, doSubmitReview, copyText, adminTab, toggleOrderVerify, doLogin, doReg, doResetPassword, doSignOut, doAdmin, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts });
 
 (function init() {
   applyPortalSettings();
