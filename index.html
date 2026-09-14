@@ -161,6 +161,7 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 .pill { display:inline-block; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:700; }
 .pill-pending { background:#FEF3C7; color:#92400E; }
 .pill-verified { background:#D1FAE5; color:#166534; }
+.pill-type { background:#E0F2FE; color:#0369A1; }
 
 .page { display:none; }
 .page.active { display:block; }
@@ -207,7 +208,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       <li><a class="plink" data-p="calc" onclick="go('calc')">Freight Calculator</a></li>
       <li><a class="plink" data-p="address" onclick="go('address')">Warehouses</a></li>
       <li><a class="plink" data-p="reviews" onclick="go('reviews')">Reviews</a></li>
-      <li id="clientLink" style="display:none;"><a class="plink" data-p="payment" onclick="go('payment')">Payment & Orders Portal</a></li>
+      <li id="clientLink" style="display:none;"><a class="plink" data-p="payment" onclick="go('payment')">Payment Portal</a></li>
       <li id="adminLink" style="display:none;"><a class="plink" data-p="admin" onclick="go('admin')">Master Admin Suite</a></li>
       <li id="authNav"><a class="nav-cta plink" data-p="auth" onclick="go('auth')">Client Portal</a></li>
       <li id="signOutNav" style="display:none;"><a class="btn btn-sm btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.4);" onclick="doSignOut()">Sign Out</a></li>
@@ -307,7 +308,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </div>
         <div style="display:flex; gap:12px; justify-content:flex-end; flex-wrap:wrap;">
           <button class="btn btn-outline" onclick="clearCart()">Clear Cart</button>
-          <button class="btn btn-green" onclick="proceedToPayment()">Proceed to Payment Portal</button>
+          <button class="btn btn-green" onclick="proceedToPayment('goods')">Pay for Goods in Cart</button>
         </div>
       </div>
     </div>
@@ -527,23 +528,62 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   </div>
 </section>
 
-<!-- SINGLE UNIFIED CLIENT PAYMENT & ORDERS PORTAL -->
+<!-- DEDICATED CLIENT PAYMENT PORTAL FOR GOODS & SHIPPING -->
 <section id="p-payment" class="page auth-only">
   <div class="container">
-    <h2>Client Payment & Orders Portal</h2>
-    <p class="subtitle">Complete payment settlements and track order status in one location.</p>
+    <h2>Client Payment Portal</h2>
+    <p class="subtitle">Pay for your purchased goods or settle freight & shipping costs directly.</p>
 
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:24px; max-width:1000px; margin:0 auto;">
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:24px; max-width:1050px; margin:0 auto;">
       
-      <!-- SUBMIT PAYMENT SETTLEMENT -->
+      <!-- PAYMENT FORM: GOODS VS SHIPPING -->
       <div class="form-box" style="margin:0;">
-        <h3>Complete Order Payment</h3>
+        <div style="margin-bottom:20px; text-align:center;">
+          <label style="font-size:14px; margin-bottom:10px;">Select What You Are Paying For</label>
+          <div style="display:flex; gap:10px;">
+            <button class="btn btn-block btn-green" id="payTypeBtnGoods" type="button" onclick="setPaymentType('goods')">📦 Pay for Goods</button>
+            <button class="btn btn-block btn-outline" id="payTypeBtnShipping" type="button" onclick="setPaymentType('shipping')">🚢✈️ Pay for Shipping</button>
+          </div>
+        </div>
+
         <form onsubmit="submitOrder(event)">
-          <div class="form-group"><label>Items Summary</label><input type="text" id="oItem" placeholder="e.g. Smart Watch (x1)" required></div>
-          <div class="form-group"><label>Total Payable Amount (GHS)</label><input type="number" id="oTotal" step="0.01" required style="font-size:20px; font-weight:800; color:var(--navy);"></div>
+          <!-- DYNAMIC HEADING BASED ON SELECTION -->
+          <h3 id="payFormHeading" style="color:var(--navy); font-size:18px; margin-bottom:16px;">Pay for Purchased Goods / Orders</h3>
+
+          <!-- GOODS SPECIFIC FIELDS -->
+          <div id="goodsFields">
+            <div class="form-group">
+              <label>Purchased Goods / Cart Summary</label>
+              <input type="text" id="oItem" placeholder="e.g. Smart Watch Ultra (x1), DTF Rolls (x2)" required>
+            </div>
+          </div>
+
+          <!-- SHIPPING SPECIFIC FIELDS -->
+          <div id="shippingFields" style="display:none;">
+            <div class="form-group">
+              <label>Shipping / Freight Description</label>
+              <input type="text" id="shipDesc" placeholder="e.g. Sea Freight Cargo for 2 Cartons (0.45 CBM)">
+            </div>
+            <div class="form-group">
+              <label>Tracking Ref / Waybill / Shipping Mark</label>
+              <input type="text" id="shipRef" placeholder="e.g. GH001K-RICH-A1B2 or Waybill #883920">
+            </div>
+            <div class="form-group">
+              <label>Freight Mode</label>
+              <select id="shipMode">
+                <option value="Sea Cargo Freight">Sea Cargo Freight ($260/m³)</option>
+                <option value="Air Express Freight">Air Express Freight ($17/kg)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Total Amount to Pay (GHS)</label>
+            <input type="number" id="oTotal" step="0.01" required placeholder="0.00" style="font-size:20px; font-weight:800; color:var(--navy);">
+          </div>
           
           <div class="payment-slot-card">
-            <label style="color:var(--navy); font-weight:800;">Select Instant Settlement Option</label>
+            <label style="color:var(--navy); font-weight:800;">Select Instant Settlement Channel</label>
             <div class="pay-grid">
               <div class="pay-btn active" id="pbtn-momo" onclick="selectPaymentSlot('momo')">MTN MoMo</div>
               <div class="pay-btn" id="pbtn-telecel" onclick="selectPaymentSlot('telecel')">Telecel Cash</div>
@@ -557,14 +597,14 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
             </div>
           </div>
 
-          <div class="form-group"><label>MoMo Tx ID / Ref Number</label><input type="text" id="payTxRef" placeholder="e.g. 20491823901" required></div>
-          <div class="form-group"><label>Upload Payment Proof Receipt (Screenshot)</label><input type="file" id="payProofFile" accept="image/*" onchange="handleProofFile(event)"></div>
+          <div class="form-group"><label>MoMo Tx ID / Payment Ref Number</label><input type="text" id="payTxRef" placeholder="e.g. 20491823901" required></div>
+          <div class="form-group"><label>Upload Screenshot Receipt Proof</label><input type="file" id="payProofFile" accept="image/*" onchange="handleProofFile(event)"></div>
 
-          <button class="btn btn-green btn-block" type="submit" id="orderBtn">Submit Order & Payment Proof</button>
+          <button class="btn btn-green btn-block" type="submit" id="orderBtn">Submit Payment Verification</button>
         </form>
       </div>
 
-      <!-- RECENT CLIENT ORDERS & CONSOLIDATION DESK -->
+      <!-- RECENT CLIENT PAYMENTS HISTORY & CONSOLIDATION DESK -->
       <div>
         <div class="card" style="margin-bottom:16px; background:#FFFBEB; border:1px solid #FCD34D;">
           <h3 style="color:#92400E;">Cargo Consolidation & Support Desk</h3>
@@ -574,7 +614,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           </a>
         </div>
 
-        <h3 style="margin-bottom:14px; color:var(--navy);">My Submitted Payments & Orders</h3>
+        <h3 style="margin-bottom:14px; color:var(--navy);">My Submitted Payments & History</h3>
         <div id="ordersList"></div>
       </div>
 
@@ -607,7 +647,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     
     <div class="tabs">
       <button class="tab active" data-admintab="clients" onclick="adminTab('clients')">Registered Clients Roster</button>
-      <button class="tab" data-admintab="orders" onclick="adminTab('orders')">Payment Proof Verification</button>
+      <button class="tab" data-admintab="orders" onclick="adminTab('orders')">Payment Verification Desk</button>
       <button class="tab" data-admintab="products" onclick="adminTab('products')">Upload & Manage Catalog</button>
     </div>
 
@@ -617,9 +657,9 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       <div id="adminClientsList"></div>
     </div>
 
-    <!-- ORDER PAYMENT VERIFICATION TAB -->
+    <!-- ORDER & SHIPPING PAYMENT VERIFICATION TAB -->
     <div id="adminOrders" class="tab-content">
-      <h3 style="margin-bottom:16px; color:var(--navy);">Payment Proof Verification</h3>
+      <h3 style="margin-bottom:16px; color:var(--navy);">Payment Proof Verification (Goods & Shipping)</h3>
       <div id="adminOrdersList"></div>
     </div>
 
@@ -689,7 +729,8 @@ const state = {
   cart: JSON.parse(localStorage.getItem('ev_cart') || '[]'),
   paymentProofBase64: '',
   uploadedProdBase64: '',
-  selectedPaymentSlot: 'momo'
+  selectedPaymentSlot: 'momo',
+  paymentCategory: 'goods' // 'goods' or 'shipping'
 };
 
 const $ = id => document.getElementById(id);
@@ -741,6 +782,34 @@ function authTab(tab) {
   $('tReg').classList.toggle('active', tab === 'reg');
   $('tReset').classList.toggle('active', tab === 'reset');
   $('tAdmin').classList.toggle('active', tab === 'admin');
+}
+
+/* --- PAYMENT CATEGORY SELECTOR (GOODS VS SHIPPING) --- */
+function setPaymentType(type) {
+  state.paymentCategory = type;
+  const btnGoods = $('payTypeBtnGoods');
+  const btnShipping = $('payTypeBtnShipping');
+  const goodsFields = $('goodsFields');
+  const shippingFields = $('shippingFields');
+  const heading = $('payFormHeading');
+
+  if (type === 'goods') {
+    btnGoods.className = 'btn btn-block btn-green';
+    btnShipping.className = 'btn btn-block btn-outline';
+    goodsFields.style.display = 'block';
+    shippingFields.style.display = 'none';
+    heading.textContent = 'Pay for Purchased Goods / Orders';
+    $('oItem').required = true;
+    if ($('shipDesc')) $('shipDesc').required = false;
+  } else {
+    btnGoods.className = 'btn btn-block btn-outline';
+    btnShipping.className = 'btn btn-block btn-green';
+    goodsFields.style.display = 'none';
+    shippingFields.style.display = 'block';
+    heading.textContent = 'Pay for Freight & Shipping Costs';
+    $('oItem').required = false;
+    if ($('shipDesc')) $('shipDesc').required = true;
+  }
 }
 
 /* --- FREIGHT CALCULATOR FUNCTIONS --- */
@@ -907,7 +976,7 @@ function doSignOut() {
   go('home');
 }
 
-/* --- CART OPERATIONS (BOTH CLIENT & ADMIN) --- */
+/* --- CART OPERATIONS --- */
 function updateCartBadge() {
   const count = state.cart.reduce((sum, item) => sum + item.qty, 0);
   $('cartBadgeCount').textContent = count;
@@ -967,11 +1036,15 @@ function renderCart() {
   $('cartGrandTotal').textContent = fmtGHS(total) + ' GHS';
 }
 
-function proceedToPayment() {
-  if (!state.cart.length) { toast('Your cart is empty', 'err'); return; }
-  if (!state.user) { toast('Please log in to proceed to payment portal', 'err'); go('auth'); return; }
-  $('oItem').value = state.cart.map(i => i.name + ' (x' + i.qty + ')').join(', ');
-  $('oTotal').value = state.cart.reduce((s, i) => s + (i.price * i.qty), 0).toFixed(2);
+function proceedToPayment(type = 'goods') {
+  if (type === 'goods' && !state.cart.length) { toast('Your cart is empty', 'err'); return; }
+  if (!state.user) { toast('Please log in to access payment portal', 'err'); go('auth'); return; }
+  
+  setPaymentType(type);
+  if (type === 'goods') {
+    $('oItem').value = state.cart.map(i => i.name + ' (x' + i.qty + ')').join(', ');
+    $('oTotal').value = state.cart.reduce((s, i) => s + (i.price * i.qty), 0).toFixed(2);
+  }
   go('payment');
 }
 
@@ -992,16 +1065,23 @@ function handleImageFile(e) {
   reader.readAsDataURL(file);
 }
 
-/* --- ORDER & PAYMENT SUBMISSION --- */
+/* --- ORDER & PAYMENT SUBMISSION (GOODS OR SHIPPING) --- */
 async function submitOrder(e) {
   e.preventDefault();
   if (!state.user) return;
+
+  const isShipping = state.paymentCategory === 'shipping';
+  const itemSummary = isShipping 
+    ? $('shipDesc').value.trim() + ' (' + $('shipMode').value + ') [Ref: ' + ($('shipRef').value.trim() || 'N/A') + ']'
+    : $('oItem').value.trim();
+
   const order = {
     id: 'ord_' + Math.random().toString(36).slice(2, 8),
     user_id: state.user.id,
     user_email: state.user.email,
     user_name: state.user.name,
-    item: $('oItem').value,
+    type: isShipping ? 'Shipping / Freight' : 'Goods Purchased',
+    item: itemSummary,
     total: parseFloat($('oTotal').value),
     payment_slot: state.selectedPaymentSlot,
     status: 'Pending Verification',
@@ -1013,8 +1093,9 @@ async function submitOrder(e) {
   localOrders.unshift(order);
   localStorage.setItem('ev_local_orders', JSON.stringify(localOrders));
 
-  clearCart(); state.paymentProofBase64 = '';
-  toast('Payment Settlement Submitted for Verification!', 'ok');
+  if (!isShipping) clearCart();
+  state.paymentProofBase64 = '';
+  toast((isShipping ? 'Shipping Payment' : 'Goods Payment') + ' Submitted for Verification!', 'ok');
   loadOrders();
 }
 
@@ -1028,7 +1109,7 @@ function loadOrders() {
     container.innerHTML = '<div class="card"><p style="color:var(--slate);">No previous payment records found.</p></div>';
     return;
   }
-  container.innerHTML = myOrders.map(o => '<div class="card" style="margin-bottom:12px;"><h3>' + esc(o.item) + '</h3><p style="font-weight:800; color:var(--green);">' + fmtGHS(o.total) + ' | Slot: ' + esc(o.payment_slot) + '</p><p>Status: <span class="pill ' + (o.verified ? 'pill-verified' : 'pill-pending') + '">' + esc(o.status) + '</span></p></div>').join('');
+  container.innerHTML = myOrders.map(o => '<div class="card" style="margin-bottom:12px;"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;"><span class="pill pill-type">' + esc(o.type || 'Payment') + '</span><span class="pill ' + (o.verified ? 'pill-verified' : 'pill-pending') + '">' + esc(o.status) + '</span></div><h3>' + esc(o.item) + '</h3><p style="font-weight:800; color:var(--green);">' + fmtGHS(o.total) + ' | Slot: ' + esc(o.payment_slot) + '</p></div>').join('');
 }
 
 /* --- UNLIMITED PRODUCTS & CATALOG MANAGEMENT --- */
@@ -1038,7 +1119,6 @@ function renderProducts() {
   const search = $('searchInput') ? $('searchInput').value.toLowerCase() : '';
   const cat = $('catFilter') ? $('catFilter').value : 'all';
 
-  // Update categories dropdown
   const catFilter = $('catFilter');
   if (catFilter) {
     const categories = ['all', ...new Set(state.products.map(p => p.category || 'General'))];
@@ -1102,11 +1182,11 @@ function loadAdmin() {
   $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client Name</th><th>Email / Phone</th><th>Shipping Mark Ref</th></tr></thead><tbody>' + clients.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.email) + '</td><td><code>' + esc(c.mark) + '</code></td></tr>').join('') + '</tbody></table></div>';
 
   const orders = JSON.parse(localStorage.getItem('ev_local_orders') || '[]');
-  $('adminOrdersList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Items</th><th>Total</th><th>Proof</th><th>Status</th><th>Action</th></tr></thead><tbody>' + orders.map(o => {
+  $('adminOrdersList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Type</th><th>Details</th><th>Total</th><th>Proof</th><th>Status</th><th>Action</th></tr></thead><tbody>' + orders.map(o => {
     const proofView = o.proof_data && o.proof_data.startsWith('data:image') 
       ? '<a href="' + o.proof_data + '" target="_blank" style="color:var(--green); font-weight:700;">View Receipt Image</a>' 
       : (o.proof_data ? '<code>' + esc(o.proof_data) + '</code>' : 'No Proof');
-    return '<tr><td>' + esc(o.user_name) + '</td><td>' + esc(o.item) + '</td><td>' + fmtGHS(o.total) + '</td><td>' + proofView + '</td><td><span class="pill ' + (o.verified ? 'pill-verified' : 'pill-pending') + '">' + (o.verified ? 'Verified' : 'Pending') + '</span></td><td><button class="btn btn-sm btn-green" onclick="toggleVerifyOrder(\'' + o.id + '\', ' + !o.verified + ')">' + (o.verified ? 'Unverify' : 'Verify Payment') + '</button></td></tr>';
+    return '<tr><td>' + esc(o.user_name) + '</td><td><span class="pill pill-type">' + esc(o.type || 'Goods') + '</span></td><td>' + esc(o.item) + '</td><td>' + fmtGHS(o.total) + '</td><td>' + proofView + '</td><td><span class="pill ' + (o.verified ? 'pill-verified' : 'pill-pending') + '">' + (o.verified ? 'Verified' : 'Pending') + '</span></td><td><button class="btn btn-sm btn-green" onclick="toggleVerifyOrder(\'' + o.id + '\', ' + !o.verified + ')">' + (o.verified ? 'Unverify' : 'Verify Payment') + '</button></td></tr>';
   }).join('') + '</tbody></table></div>';
 
   $('adminProductsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Action</th></tr></thead><tbody>' + state.products.map(p => '<tr><td>' + esc(p.name) + '</td><td>' + esc(p.category) + '</td><td>' + fmtGHS(p.price) + '</td><td><button class="btn btn-sm btn-danger" onclick="deleteCatalogProduct(\'' + p.id + '\')">Remove Item</button></td></tr>').join('') + '</tbody></table></div>';
@@ -1167,7 +1247,7 @@ function applyUserState() {
   document.querySelectorAll('.admin-only').forEach(el => el.classList.toggle('show', isAdmin));
 }
 
-Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, selectPaymentSlot, handleProofFile, handleImageFile, addToCart, updateCartQty, removeFromCart, clearCart, proceedToPayment, submitOrder, doSubmitReview, copyText, adminTab, toggleVerifyOrder, doLogin, doReg, doResetPassword, doSignOut, doAdmin, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, renderProducts });
+Object.assign(window, { go, toggleMenu, authTab, setPaymentType, calcMode, calcSea, calcAir, calcCompare, selectPaymentSlot, handleProofFile, handleImageFile, addToCart, updateCartQty, removeFromCart, clearCart, proceedToPayment, submitOrder, doSubmitReview, copyText, adminTab, toggleVerifyOrder, doLogin, doReg, doResetPassword, doSignOut, doAdmin, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, renderProducts });
 
 (function init() {
   updateCartBadge(); applyUserState(); go('home');
