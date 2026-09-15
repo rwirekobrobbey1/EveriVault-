@@ -1377,7 +1377,7 @@ function initiateRegistrationOtp(e) {
   toast(`📧 OTP Code sent to ${email}. Verification Code: ${otpCode}`, 'ok', 9000);
 }
 
-// STEP 2: Verify OTP and finalize registration with instant backend sync for admin
+// STEP 2: Verify OTP and safely append client to localStorage directory
 function verifyOtpAndRegister() {
   const enteredOtp = $('otpCodeInput').value.trim();
   if (enteredOtp !== state.activeGeneratedOtp) {
@@ -1391,8 +1391,17 @@ function verifyOtpAndRegister() {
     return;
   }
 
+  // Safely pull existing clients and append the new registration
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
-  localClients.unshift(newClientObj); // Instant backend sync
+  
+  // Prevent duplicate entries if same email tries to re-register
+  const existingIdx = localClients.findIndex(c => c.email.toLowerCase() === newClientObj.email.toLowerCase());
+  if (existingIdx >= 0) {
+    localClients[existingIdx] = newClientObj; // update if exists
+  } else {
+    localClients.unshift(newClientObj); // add to top
+  }
+
   localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
   window.dispatchEvent(new Event('storage'));
 
