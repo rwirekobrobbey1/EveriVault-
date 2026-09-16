@@ -4,3 +4,7 @@ everivaultenterprise/
 ├── server.js
 └── public/
     └── index.html
+    ├── manifest.json
+    ├── sw.js
+    ├── icon-192x192.png
+    └── icon-512x512.png

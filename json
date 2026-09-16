@@ -1,0 +1,25 @@
+{
+  "name": "EveriVault Enterprise — China to Ghana Supply Chain",
+  "short_name": "EveriVault",
+  "description": "Factory-direct wholesale group-buying hub with sea & air cargo to Ghana.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0A192F",
+  "theme_color": "#0A192F",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
