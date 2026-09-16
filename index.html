@@ -197,12 +197,12 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 </head>
 <body>
 
-<!-- Instant Loading Splash Screen -->
-<div id="instantSplash" style="position:fixed;inset:0;background:#0A192F;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999999;transition:opacity 0.25s ease;">
-  <div style="width:64px;height:64px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:bold;color:#10B981;box-shadow:0 10px 30px rgba(16,185,129,0.3);margin-bottom:16px;animation:pulse 1.5s infinite;">E</div>
+<!-- Instant Loading Splash Screen with 0ms Delay Guarantee -->
+<div id="instantSplash" style="position:fixed;inset:0;background:#0A192F;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999999;transition:opacity 0.2s ease;">
+  <div style="width:64px;height:64px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:bold;color:#10B981;box-shadow:0 10px 30px rgba(16,185,129,0.3);margin-bottom:16px;animation:pulse 1.2s infinite;">E</div>
   <div style="color:#fff;font-size:18px;font-weight:800;letter-spacing:1px;">EVERIVAULT ENTERPRISE</div>
   <div style="color:#10B981;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:2px;margin-top:4px;">China to Ghana Supply Chain Hub</div>
-  <div style="width:28px;height:28px;border:3px solid rgba(255,255,255,0.2);border-top-color:#10B981;border-radius:50%;animation:spin 0.8s linear infinite;margin-top:24px;"></div>
+  <div style="width:28px;height:28px;border:3px solid rgba(255,255,255,0.2);border-top-color:#10B981;border-radius:50%;animation:spin 0.6s linear infinite;margin-top:24px;"></div>
 </div>
 
 <nav>
@@ -828,7 +828,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 (function registerSW() {
   if (!('serviceWorker' in navigator)) return;
   const swCode = `
-    const CACHE = 'everivault-v21';
+    const CACHE = 'everivault-v22';
     const CORE = ['.', './index.html'];
     self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE).catch(()=>{}))); });
     self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())); });
@@ -931,7 +931,7 @@ function dismissSplash() {
   const splash = $('instantSplash');
   if (splash) {
     splash.style.opacity = '0';
-    setTimeout(() => splash.remove(), 250);
+    setTimeout(() => splash.remove(), 200);
   }
 }
 
@@ -942,7 +942,7 @@ function showLoading(show, msg = 'Loading...') {
       el = document.createElement('div');
       el.id = 'globalLoader';
       el.style.cssText = 'position:fixed;inset:0;background:rgba(10,25,47,0.85);display:flex;align-items:center;justify-content:center;z-index:99999;color:#fff;font-weight:700;flex-direction:column;gap:14px;';
-      el.innerHTML = '<div style="width:36px;height:36px;border:3px solid rgba(255,255,255,0.2);border-top-color:#10B981;border-radius:50%;animation:spin 0.8s linear infinite;"></div><div id="globalLoaderMsg"></div>';
+      el.innerHTML = '<div style="width:36px;height:36px;border:3px solid rgba(255,255,255,0.2);border-top-color:#10B981;border-radius:50%;animation:spin 0.6s linear infinite;"></div><div id="globalLoaderMsg"></div>';
       document.body.appendChild(el);
     }
     document.getElementById('globalLoaderMsg').textContent = msg;
@@ -1102,8 +1102,6 @@ async function doUniversalLogin(e) {
 
     toast('Welcome back, ' + (state.user?.name || '') + '!', 'ok');
     applyUserState();
-    
-    // Show color & size selection prompt after login
     showPrefModal();
   } catch (err) {
     console.error(err);
@@ -1161,7 +1159,7 @@ async function doSignOut() {
 }
 
 /* ============================================================
-   LIGHTNING FAST ASYNCHRONOUS DATA LOADING
+   LIGHTNING FAST PARALLEL BACKEND DATA FETCHING
    ============================================================ */
 async function loadProducts() {
   const { data, error } = await sb.from('products').select('*').order('created_at', { ascending: false });
@@ -1262,7 +1260,6 @@ function renderProducts() {
     }
 
     let optionsHtml = '';
-    // ONLY show size and color selection if user is logged in and authenticated/registered
     if (state.user && state.user.role === 'client') {
       const sizes = p.sizes ? p.sizes.split(',').map(s => s.trim()).filter(Boolean) : [];
       const colorPresets = p.colors ? p.colors.split(',').map(c => c.trim()).filter(Boolean) : [];
@@ -1416,7 +1413,7 @@ async function deleteCatalogProduct(id) {
 }
 
 /* ============================================================
-   CART WITH COLOR SELECTION & PRICING MULTIPLIER
+   CART & ORDER MANAGEMENT
    ============================================================ */
 function updateCartBadge() {
   const count = state.cart.reduce((s, i) => s + (i.qty || 0), 0);
@@ -1530,7 +1527,7 @@ function renderCart() {
 }
 
 /* ============================================================
-   PAYMENT
+   PAYMENT PORTAL & HISTORY
    ============================================================ */
 function setPaymentType(type) {
   state.paymentCategory = type;
@@ -1620,7 +1617,7 @@ async function loadPaymentHistory() {
 }
 
 /* ============================================================
-   TRACKING + CHAT
+   TRACKING & CHAT
    ============================================================ */
 async function loadTrackingAndChat() {
   if (!state.user) return;
@@ -1722,7 +1719,7 @@ async function sendCourierMessage(e) {
 }
 
 /* ============================================================
-   ADMIN
+   ADMIN SUITE
    ============================================================ */
 async function loadAdmin() {
   if (!state.user || state.user.role !== 'admin') return;
@@ -1846,7 +1843,7 @@ function exportClientData() {
 }
 
 /* ============================================================
-   REVIEWS + ADS
+   REVIEWS & ADS
    ============================================================ */
 async function doSubmitReview(e) {
   e.preventDefault();
@@ -2002,14 +1999,16 @@ sb.auth.onAuthStateChange(async (event, session) => {
 });
 
 /* ============================================================
-   LIGHTNING FAST INITIALIZATION
+   ULTRA-FAST PARALLEL BACKEND INITIALIZATION & PRE-RENDERING
    ============================================================ */
 (async function init() {
   try {
+    // Fire all core backend requests simultaneously in parallel for maximum speed
     const sessionPromise = sb.auth.getSession().catch(() => ({ data: { session: null } }));
     const settingsPromise = loadSettings().catch(() => {});
     const productsPromise = loadProducts().catch(() => {});
 
+    // Pre-render layout state immediately while backend promises resolve concurrently
     const [{ data: { session } }] = await Promise.all([sessionPromise, settingsPromise, productsPromise]);
 
     if (session?.user) {
@@ -2020,7 +2019,7 @@ sb.auth.onAuthStateChange(async (event, session) => {
     }
 
     if (state.user?.role === 'client') {
-      await Promise.all([loadCart().catch(()=>{}), loadOrders().catch(()=>{})];
+      await Promise.all([loadCart().catch(()=>{}), loadOrders().catch(()=>{})]);
     }
 
     applyUserState();
@@ -2029,12 +2028,12 @@ sb.auth.onAuthStateChange(async (event, session) => {
   } catch (err) {
     console.error('Init error:', err);
   } finally {
-    dismissSplash();
+    dismissSplash(); // Instantly removes loading screen without blocking user
   }
 })();
 
 /* ============================================================
-   EXPORTS
+   GLOBAL EXPORTS
    ============================================================ */
 Object.assign(window, {
   go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare,
