@@ -779,7 +779,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 (function registerSW() {
   if (!('serviceWorker' in navigator)) return;
   const swCode = `
-    const CACHE = 'everivault-v5';
+    const CACHE = 'everivault-v6';
     const CORE = ['.', './index.html'];
     self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE).catch(()=>{}))); });
     self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())); });
@@ -935,7 +935,7 @@ function authTab(tab) {
 }
 
 /* ============================================================
-   AUTH & REGISTRATION (INSTANT LOGIN)
+   AUTH & REGISTRATION (INSTANT LOGIN & ADMIN FIX)
    ============================================================ */
 async function doRegister(e) {
   e.preventDefault();
@@ -966,7 +966,8 @@ async function doRegister(e) {
 
     const { error: profErr } = await sb.from('profiles').insert({
       id: userId, email, name, phone, location,
-      mark, role: 'client', referred_by: refMark || null,
+      mark, role: email === 'richmonwireko@gmail.com' ? 'admin' : 'client', 
+      referred_by: refMark || null,
       date_registered: new Date().toLocaleDateString()
     });
     
@@ -984,7 +985,7 @@ async function doRegister(e) {
     await loadOrders();
 
     toast(`🎉 Welcome to EveriVault, ${name}! Mark: ${mark}`, 'ok', 5000);
-    go('store');
+    go(state.user?.role === 'admin' ? 'admin' : 'store');
   } catch (err) {
     console.error(err);
     toast(err.message || 'Registration failed.', 'err', 6000);
@@ -1021,6 +1022,12 @@ async function doUniversalLogin(e) {
     if (error) throw error;
 
     await loadUserProfile(data.user.id);
+
+    if (email === 'richmonwireko@gmail.com' && state.user.role !== 'admin') {
+      await sb.from('profiles').update({ role: 'admin' }).eq('id', data.user.id);
+      state.user.role = 'admin';
+    }
+
     toast('Welcome back, ' + (state.user?.name || '') + '!', 'ok');
     applyUserState();
     go(state.user?.role === 'admin' ? 'admin' : 'store');
