@@ -70,7 +70,7 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 .rate-card .big { font-size:24px; font-weight:800; color:var(--green); }
 .rate-card .sub { font-size:12px; color:#CBD5E1; margin-top:2px; }
 
-.grid-pdd { display:grid; grid-template-columns:repeat(auto-fill, minmax(210px, 1fr)); gap:14px; }
+.grid-pdd { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:14px; }
 .pdd-card { background:#fff; border-radius:12px; overflow:hidden; border:1px solid var(--border-color); display:flex; flex-direction:column; justify-content:space-between; transition:all 0.2s; box-shadow:var(--card-shadow); }
 .pdd-card:hover { transform:translateY(-2px); box-shadow:0 12px 25px rgba(10,25,47,0.1); }
 .pdd-img-wrap { width:100%; height:170px; background:#E2E8F0; position:relative; overflow:hidden; }
@@ -643,7 +643,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
               <div class="form-group"><label>Product Title</label><input type="text" id="npName" required></div>
               <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:10px;">
                 <div class="form-group"><label>Category</label><input type="text" id="npCat" required placeholder="e.g. clothing, apparel"></div>
-                <div class="form-group"><label>Price (GHS)</label><input type="number" id="npPrice" step="0.01" required></div>
+                <div class="form-group"><label>Price per Unit / Color (GHS)</label><input type="number" id="npPrice" step="0.01" required></div>
               </div>
               <div class="form-group"><label>Item Type</label>
                 <select id="npType" required>
@@ -790,7 +790,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 (function registerSW() {
   if (!('serviceWorker' in navigator)) return;
   const swCode = `
-    const CACHE = 'everivault-v15';
+    const CACHE = 'everivault-v16';
     const CORE = ['.', './index.html'];
     self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE).catch(()=>{}))); });
     self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())); });
@@ -1104,7 +1104,6 @@ async function loadProducts() {
   const { data, error } = await sb.from('products').select('*').order('created_at', { ascending: false });
   if (error) { 
     console.warn('Backend schema cache notice (products):', error.message);
-    // Fallback: load using raw select if schema cache is out of sync
     const { data: fallbackData } = await sb.from('products').select('id, name, price, category, type, image, created_at');
     state.products = (fallbackData || []).map(p => ({
       ...p,
@@ -1115,7 +1114,6 @@ async function loadProducts() {
     return;
   }
   state.products = (data || []).map(p => {
-    // Merge any local fallback data if server returned empty
     let colors = p.colors || localStorage.getItem('prod_colors_'+p.id) || '';
     let sizes = p.sizes || localStorage.getItem('prod_sizes_'+p.id) || '';
     let images = p.images || localStorage.getItem('prod_images_'+p.id) || '';
@@ -1163,7 +1161,7 @@ async function loadReviews() {
 }
 
 /* ============================================================
-   PRODUCTS, COLORS, GALLERY & SIZES
+   PRODUCTS, MULTI-COLORS, GALLERY & SIZES
    ============================================================ */
 function renderProducts() {
   const grid = $('prodGrid'), homeGrid = $('homeCatalogGrid');
@@ -1209,12 +1207,17 @@ function renderProducts() {
     const colors = p.colors ? p.colors.split(',').map(c => c.trim()).filter(Boolean) : [];
 
     if (sizes.length > 0 || colors.length > 0) {
-      optionsHtml += '<div style="margin:8px 0; font-size:11px; display:flex; flex-direction:column; gap:4px;">';
+      optionsHtml += '<div style="margin:8px 0; font-size:11px; display:flex; flex-direction:column; gap:6px;">';
       if (sizes.length > 0) {
-        optionsHtml += '<div style="display:flex; align-items:center; gap:4px;"><span style="font-weight:700; color:var(--slate); min-width:35px;">Size:</span><select id="size-'+p.id+'" style="padding:2px 4px; font-size:11px; border-radius:4px; height:24px; flex:1;">' + sizes.map(s => '<option value="'+esc(s)+'">'+esc(s)+'</option>').join('') + '</select></div>';
+        optionsHtml += '<div style="display:flex; align-items:center; gap:4px;"><span style="font-weight:700; color:var(--slate); min-width:40px;">Size:</span><select id="size-'+p.id+'" style="padding:2px 4px; font-size:11px; border-radius:4px; height:24px; flex:1;">' + sizes.map(s => '<option value="'+esc(s)+'">'+esc(s)+'</option>').join('') + '</select></div>';
       }
       if (colors.length > 0) {
-        optionsHtml += '<div style="display:flex; align-items:center; gap:4px;"><span style="font-weight:700; color:var(--slate); min-width:35px;">Color:</span><select id="color-'+p.id+'" style="padding:2px 4px; font-size:11px; border-radius:4px; height:24px; flex:1;">' + colors.map(c => '<option value="'+esc(c)+'">'+esc(c)+'</option>').join('') + '</select></div>';
+        optionsHtml += '<div><span style="font-weight:700; color:var(--slate); display:block; margin-bottom:3px;">Select Color(s) — Each color priced individually:</span>';
+        optionsHtml += '<div style="display:flex; flex-wrap:wrap; gap:6px; background:#F8FAFC; padding:6px; border-radius:6px; border:1px solid #CBD5E1; max-height:80px; overflow-y:auto;" id="color-group-'+p.id+'">';
+        colors.forEach(c => {
+          optionsHtml += '<label style="display:inline-flex; align-items:center; gap:3px; font-size:11px; font-weight:600; cursor:pointer;"><input type="checkbox" name="color-chk-'+p.id+'" value="'+esc(c)+'" style="width:13px; height:13px;"> '+esc(c)+'</label>';
+        });
+        optionsHtml += '</div></div>';
       }
       optionsHtml += '</div>';
     }
@@ -1228,7 +1231,7 @@ function renderProducts() {
       btn = '<button class="btn btn-sm btn-green btn-block" onclick="addToCart(\''+p.id+'\')">Join Group Buy</button>';
     }
 
-    return '<div class="pdd-card"><div class="pdd-img-wrap">'+imgHtml+'<span class="pdd-tag-deal">'+tag+'</span></div>'+thumbsHtml+'<div class="pdd-content"><div><div class="pdd-title">'+esc(p.name)+'</div>'+optionsHtml+'</div><div class="pdd-footer-row"><div><div class="pdd-price">'+fmtGHS(p.price)+'</div></div></div><div style="margin-top:8px;">'+btn+'</div></div></div>';
+    return '<div class="pdd-card"><div class="pdd-img-wrap">'+imgHtml+'<span class="pdd-tag-deal">'+tag+'</span></div>'+thumbsHtml+'<div class="pdd-content"><div><div class="pdd-title">'+esc(p.name)+'</div>'+optionsHtml+'</div><div class="pdd-footer-row"><div><div class="pdd-price">'+fmtGHS(p.price)+' <span style="font-size:10px; color:var(--slate); font-weight:normal;">/unit</span></div></div></div><div style="margin-top:8px;">'+btn+'</div></div></div>';
   };
 
   if (grid) grid.innerHTML = filtered.length ? filtered.map(card).join('') : '<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--slate);">No items found.</div>';
@@ -1269,13 +1272,11 @@ async function doSaveProduct(e) {
 
   showLoading(true, 'Saving product with backend fallback...');
 
-  // Backend Robust Saving with Schema Cache Fallback
   let saveErr = null;
   if (editId) {
     const { error } = await sb.from('products').update(prod).eq('id', editId);
     saveErr = error;
     if (error && error.message.includes('column')) {
-      // Retry without colors/sizes/images columns if schema cache lacks them yet
       const { error: err2 } = await sb.from('products').update({
         name: prod.name, category: prod.category, price: prod.price, type: prod.type, image: prod.image
       }).eq('id', editId);
@@ -1288,7 +1289,6 @@ async function doSaveProduct(e) {
     const { data: inserted, error } = await sb.from('products').insert(prod).select().single();
     saveErr = error;
     if (error && error.message.includes('column')) {
-      // Retry minimal insert
       const { data: inserted2, error: err2 } = await sb.from('products').insert({
         name: prod.name, category: prod.category, price: prod.price, type: prod.type, image: prod.image
       }).select().single();
@@ -1378,7 +1378,7 @@ async function deleteCatalogProduct(id) {
 }
 
 /* ============================================================
-   CART
+   CART WITH MULTI-COLOR PRICING MULTIPLIER
    ============================================================ */
 function updateCartBadge() {
   const count = state.cart.reduce((s, i) => s + (i.qty || 0), 0);
@@ -1391,33 +1391,49 @@ async function addToCart(prodId) {
   if (!p) return;
 
   const sizeSel = $('size-' + prodId);
-  const colorSel = $('color-' + prodId);
   const selectedSize = sizeSel ? sizeSel.value : null;
-  const selectedColor = colorSel ? colorSel.value : null;
 
-  const existing = state.cart.find(c => c.product_id === prodId && c.size === selectedSize && c.color === selectedColor);
-  if (existing) {
-    await sb.from('cart_items').update({ qty: existing.qty + 1 }).eq('id', existing.id).catch(()=>{});
-  } else {
-    let primaryImg = p.image;
-    try {
-      const arr = typeof p.images === 'string' ? JSON.parse(p.images) : p.images;
-      if (arr && arr.length) primaryImg = arr[0];
-    } catch(e) {}
-
-    await sb.from('cart_items').insert({
-      user_id: state.user.id, product_id: p.id, product_name: p.name,
-      price: p.price, type: p.type, image: primaryImg, qty: 1,
-      size: selectedSize, color: selectedColor
-    }).catch(async () => {
-      // Fallback if size/color columns missing in cart_items table
-      await sb.from('cart_items').insert({
-        user_id: state.user.id, product_id: p.id, product_name: (p.name + (selectedColor?' ['+selectedColor+']':'')),
-        price: p.price, type: p.type, image: primaryImg, qty: 1
-      });
-    });
+  // Gather all checked colors
+  const checkedColors = Array.from(document.querySelectorAll('input[name="color-chk-'+prodId+'"]:checked')).map(cb => cb.value);
+  
+  // If no checkboxes were ticked or found, check single dropdown or default
+  if (checkedColors.length === 0) {
+    const singleColorSel = $('color-' + prodId);
+    if (singleColorSel && singleColorSel.value) {
+      checkedColors.push(singleColorSel.value);
+    }
   }
-  toast('Added to cart', 'ok');
+
+  if (checkedColors.length === 0) {
+    return toast('Please select at least one color option', 'err');
+  }
+
+  // Each selected color acts as a separate color line item with its own price unit multiplier
+  for (const color of checkedColors) {
+    const existing = state.cart.find(c => c.product_id === prodId && c.size === selectedSize && c.color === color);
+    if (existing) {
+      await sb.from('cart_items').update({ qty: existing.qty + 1 }).eq('id', existing.id).catch(()=>{});
+    } else {
+      let primaryImg = p.image;
+      try {
+        const arr = typeof p.images === 'string' ? JSON.parse(p.images) : p.images;
+        if (arr && arr.length) primaryImg = arr[0];
+      } catch(e) {}
+
+      await sb.from('cart_items').insert({
+        user_id: state.user.id, product_id: p.id, product_name: p.name,
+        price: p.price, type: p.type, image: primaryImg, qty: 1,
+        size: selectedSize, color: color
+      }).catch(async () => {
+        await sb.from('cart_items').insert({
+          user_id: state.user.id, product_id: p.id, product_name: (p.name + ' ['+color+']'),
+          price: p.price, type: p.type, image: primaryImg, qty: 1
+        });
+      });
+    }
+  }
+
+  toast(`Added ${checkedColors.length} color variant(s) to cart!`, 'ok');
   await loadCart();
 }
 
@@ -1461,10 +1477,10 @@ function renderCart() {
     const img = item.image ? '<img src="'+esc(item.image)+'" style="width:45px;height:45px;object-fit:cover;border-radius:6px;">' : '';
     let optStr = '';
     if (item.size) optStr += 'Size: ' + esc(item.size) + ' ';
-    if (item.color) optStr += 'Color: ' + esc(item.color);
+    if (item.color) optStr += 'Color Variant: <strong style="color:var(--navy);">'+esc(item.color)+'</strong>';
     const optsBadge = optStr ? '<br><span style="color:var(--slate); font-size:11px;">'+optStr+'</span>' : '';
     const badge = item.type === 'preorder' ? '<br><span style="color:var(--green); font-size:11px; font-weight:700;">✓ Pre-Order</span>' : '';
-    return '<div class="cart-item-row"><div style="display:flex;align-items:center;gap:10px;">'+img+'<div><strong style="color:var(--navy);font-size:14px;">'+esc(item.product_name)+'</strong><br><span style="color:var(--green);font-weight:700;">'+fmtGHS(item.price)+'</span>'+optsBadge+badge+'</div></div><div style="display:flex;align-items:center;gap:8px;"><button class="qty-btn" onclick="updateCartQty(\''+item.id+'\', -1)">-</button><span style="font-weight:800;min-width:18px;text-align:center;">'+item.qty+'</span><button class="qty-btn" onclick="updateCartQty(\''+item.id+'\', 1)">+</button></div><div style="text-align:right;"><span style="font-weight:800;color:var(--navy);">'+fmtGHS(sub)+'</span><br><button class="btn btn-sm btn-danger" style="margin-top:3px;padding:2px 6px;font-size:10px;" onclick="removeFromCart(\''+item.id+'\')">Remove</button></div></div>';
+    return '<div class="cart-item-row"><div style="display:flex;align-items:center;gap:10px;">'+img+'<div><strong style="color:var(--navy);font-size:14px;">'+esc(item.product_name)+'</strong><br><span style="color:var(--green);font-weight:700;">'+fmtGHS(item.price)+' per unit</span>'+optsBadge+badge+'</div></div><div style="display:flex;align-items:center;gap:8px;"><button class="qty-btn" onclick="updateCartQty(\''+item.id+'\', -1)">-</button><span style="font-weight:800;min-width:18px;text-align:center;">'+item.qty+'</span><button class="qty-btn" onclick="updateCartQty(\''+item.id+'\', 1)">+</button></div><div style="text-align:right;"><span style="font-weight:800;color:var(--navy);">'+fmtGHS(sub)+'</span><br><button class="btn btn-sm btn-danger" style="margin-top:3px;padding:2px 6px;font-size:10px;" onclick="removeFromCart(\''+item.id+'\')">Remove</button></div></div>';
   }).join('');
   $('cartGrandTotal').textContent = fmtGHS(total);
   const earliest = state.cart.reduce((min, i) => !min || new Date(i.expires_at) < new Date(min) ? i.expires_at : min, null);
@@ -1495,7 +1511,7 @@ function goToPaymentPortal(type = 'goods') {
   if (state.user) $('payClientName').value = (state.user.mark || 'ADM') + ' — ' + state.user.name + ' (' + (state.user.phone || 'Admin') + ')';
   if (type === 'goods') {
     if (!state.cart.length) return toast('Cart empty', 'err');
-    $('payItemSummary').value = state.cart.map(i => i.product_name + (i.size? ' ['+i.size+']':'') + (i.color? ' ('+i.color+')':'') + ' (x' + i.qty + ')').join(', ');
+    $('payItemSummary').value = state.cart.map(i => i.product_name + (i.size? ' ['+i.size+']':'') + (i.color? ' (Color: '+i.color+')':'') + ' (x' + i.qty + ')').join(', ');
     $('payTotalAmount').value = state.cart.reduce((s, i) => s + i.price * i.qty, 0).toFixed(2);
   } else {
     const seaVal = parseFloat(($('seaGhs').textContent||'').replace(/[^0-9.]/g,'')) || 0;
@@ -1688,7 +1704,7 @@ async function loadAdmin() {
   $('statChatCount').textContent = chatCount;
 
   const { data: prods } = await sb.from('products').select('*').order('created_at', { ascending: false });
-  $('adminProductsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Product</th><th>Price</th><th>Sizes/Colors</th><th>Action</th></tr></thead><tbody>' + (prods||[]).map(p => `<tr><td>${esc(p.name)}</td><td>${fmtGHS(p.price)}</td><td style="font-size:11px; color:var(--slate);">Sizes: ${esc(p.sizes||localStorage.getItem('prod_sizes_'+p.id)||'—')}<br>Colors: ${esc(p.colors||localStorage.getItem('prod_colors_'+p.id)||'—')}</td><td><div style="display:flex; gap:6px;"><button class="btn btn-sm btn-blue" onclick="editCatalogProduct('${p.id}')">Edit</button><button class="btn btn-sm btn-danger" onclick="deleteCatalogProduct('${p.id}')">Delete</button></div></td></tr>`).join('') + '</tbody></table></div>';
+  $('adminProductsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Product</th><th>Price/Unit</th><th>Sizes/Colors</th><th>Action</th></tr></thead><tbody>' + (prods||[]).map(p => `<tr><td>${esc(p.name)}</td><td>${fmtGHS(p.price)}</td><td style="font-size:11px; color:var(--slate);">Sizes: ${esc(p.sizes||localStorage.getItem('prod_sizes_'+p.id)||'—')}<br>Colors: ${esc(p.colors||localStorage.getItem('prod_colors_'+p.id)||'—')}</td><td><div style="display:flex; gap:6px;"><button class="btn btn-sm btn-blue" onclick="editCatalogProduct('${p.id}')">Edit</button><button class="btn btn-sm btn-danger" onclick="deleteCatalogProduct('${p.id}')">Delete</button></div></td></tr>`).join('') + '</tbody></table></div>';
 
   const { data: clients } = await sb.from('profiles').select('*').eq('role','client').order('date_registered', { ascending: false });
   window.__adminClients = clients || [];
