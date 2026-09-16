@@ -104,10 +104,10 @@ label { display:block; margin-bottom:5px; font-weight:700; color:var(--navy); fo
 input, select, textarea { width:100%; padding:12px 14px; border:1.5px solid #CBD5E1; border-radius:10px; font-size:14px; background:var(--bg-light); color:#0F172A; -webkit-appearance:none; }
 input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 
-.terms-box { background:#EFF6FF; border:1.5px solid #BFDBFE; border-radius:10px; padding:14px; margin-bottom:16px; font-size:12px; color:#1E3A8A; max-height:150px; overflow-y:auto; }
+.terms-box { background:#EFF6FF; border:1.5px solid #BFDBFE; border-radius:10px; padding:14px; margin-bottom:16px; font-size:12px; color:#1E3A8A; max-height:220px; overflow-y:auto; }
 .terms-box h4 { font-weight:800; color:var(--deep-blue); margin-bottom:6px; text-transform:uppercase; font-size:11px; }
 .terms-box ul { padding-left:16px; margin-top:4px; }
-.terms-box li { margin-bottom:4px; }
+.terms-box li { margin-bottom:6px; }
 
 .payment-slot-card { background:#ECFDF5; border:2px solid var(--green); border-radius:12px; padding:16px; margin:16px 0; }
 .pay-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(100px, 1fr)); gap:8px; margin-top:8px; }
@@ -155,7 +155,7 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 .delivery-only.show { display:block !important; }
 
 .toast-wrap { position:fixed; top:80px; right:16px; z-index:10001; display:flex; flex-direction:column; gap:8px; pointer-events:none; }
-.toast { background:var(--navy); color:#fff; padding:12px 18px; border-radius:10px; font-weight:600; font-size:13px; max-width:320px; opacity:0; transform:translateX(100%); transition:all 0.3s; pointer-events:auto; box-shadow:0 8px 20px rgba(0,0,0,0.15); }
+.toast { background:var(--navy); color:#fff; padding:12px 18px; border-radius:10px; font-weight:600; font-size:13px; max-width:320px; opacity:0; transform:translateX(100%); transition:all 0.2s; pointer-events:auto; box-shadow:0 8px 20px rgba(0,0,0,0.15); }
 .toast.show { opacity:1; transform:translateX(0); }
 .toast.ok { background:var(--green); }
 .toast.err { background:#EF4444; }
@@ -163,7 +163,7 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 footer { background:var(--navy); color:var(--slate-light); padding:35px 16px 20px; margin-top:50px; text-align:center; border-top:1px solid rgba(255,255,255,0.08); }
 footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; }
 
-.spinner { display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,0.3); border-top-color:#fff; border-radius:50%; animation:spin .8s linear infinite; }
+.spinner { display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,0.3); border-top-color:#fff; border-radius:50%; animation:spin .5s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
 
 .install-btn {
@@ -173,13 +173,13 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
   border:1.5px solid var(--green); cursor:pointer;
   display:none; align-items:center; gap:10px;
   box-shadow:0 8px 25px rgba(10,25,47,0.45);
-  transition:all 0.25s ease;
+  transition:all 0.2s ease;
   font-family:'Plus Jakarta Sans',sans-serif;
 }
 .install-btn.show { display:flex; }
 .install-btn:hover { transform:translateY(-2px); box-shadow:0 12px 30px rgba(16,185,129,0.4); }
 .install-btn img { width:26px; height:26px; border-radius:6px; border:1px solid rgba(255,255,255,0.15); object-fit:cover; background:#fff; }
-.install-btn .pulse-dot { width:8px; height:8px; border-radius:50%; background:var(--green); animation:pulse 1.5s infinite; margin-left:2px; }
+.install-btn .pulse-dot { width:8px; height:8px; border-radius:50%; background:var(--green); animation:pulse 1.2s infinite; margin-left:2px; }
 @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(1.3); } }
 
 @media(max-width:850px) {
@@ -197,12 +197,12 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 </head>
 <body>
 
-<!-- Instant Loading Splash Screen with 0ms Delay Guarantee -->
-<div id="instantSplash" style="position:fixed;inset:0;background:#0A192F;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999999;transition:opacity 0.2s ease;">
-  <div style="width:64px;height:64px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:bold;color:#10B981;box-shadow:0 10px 30px rgba(16,185,129,0.3);margin-bottom:16px;animation:pulse 1.2s infinite;">E</div>
+<!-- Instant Lightning-Fast Splash Screen -->
+<div id="instantSplash" style="position:fixed;inset:0;background:#0A192F;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999999;transition:opacity 0.15s ease;">
+  <div style="width:64px;height:64px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:bold;color:#10B981;box-shadow:0 10px 30px rgba(16,185,129,0.3);margin-bottom:16px;animation:pulse 1s infinite;">E</div>
   <div style="color:#fff;font-size:18px;font-weight:800;letter-spacing:1px;">EVERIVAULT ENTERPRISE</div>
   <div style="color:#10B981;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:2px;margin-top:4px;">China to Ghana Supply Chain Hub</div>
-  <div style="width:28px;height:28px;border:3px solid rgba(255,255,255,0.2);border-top-color:#10B981;border-radius:50%;animation:spin 0.6s linear infinite;margin-top:24px;"></div>
+  <div style="width:28px;height:28px;border:3px solid rgba(255,255,255,0.2);border-top-color:#10B981;border-radius:50%;animation:spin 0.4s linear infinite;margin-top:24px;"></div>
 </div>
 
 <nav>
@@ -269,6 +269,36 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
       </div>
       <div class="hero-actions" id="heroAuthCtas">
         <button class="btn btn-green" onclick="go('auth')">Sign In & Join Wholesale Deals</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY BUY & SHIP WITH EVERIVAULT ENTERPRISE SECTION -->
+  <div class="section-box" style="background:#F8FAFC;">
+    <div class="container">
+      <h2>Why Buy & Ship with EveriVault Enterprise?</h2>
+      <p class="subtitle">The ultimate bridge connecting Chinese manufacturing giants directly to importers in Ghana.</p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:20px; margin-top:20px;">
+        <div style="background:#fff; padding:24px; border-radius:14px; border:1px solid var(--border-color); box-shadow:var(--card-shadow);">
+          <div style="font-size:28px; margin-bottom:10px;">🏭</div>
+          <h3 style="font-size:16px; color:var(--navy); margin-bottom:8px; font-weight:800;">100% Factory-Direct Sourcing</h3>
+          <p style="font-size:13px; color:var(--slate);">Cut out middlemen. Source bulk apparel, DTF/DTG printers, streetwear, and hardware at lowest Chinese wholesale tier prices.</p>
+        </div>
+        <div style="background:#fff; padding:24px; border-radius:14px; border:1px solid var(--border-color); box-shadow:var(--card-shadow);">
+          <div style="font-size:28px; margin-bottom:10px;">📦</div>
+          <h3 style="font-size:16px; color:var(--navy); margin-bottom:8px; font-weight:800;">Group-Buying Power</h3>
+          <p style="font-size:13px; color:var(--slate);">Pool your order volume with other importers to unlock up to 50% off factory MOQs and unbeatable container cargo consolidation rates.</p>
+        </div>
+        <div style="background:#fff; padding:24px; border-radius:14px; border:1px solid var(--border-color); box-shadow:var(--card-shadow);">
+          <div style="font-size:28px; margin-bottom:10px;">⚡</div>
+          <h3 style="font-size:16px; color:var(--navy); margin-bottom:8px; font-weight:800;">Lightning-Fast 1TB Backend</h3>
+          <p style="font-size:13px; color:var(--slate);">Optimized cloud infrastructure ensuring instant live tracking, real-time freight calculations, and zero-latency shopping.</p>
+        </div>
+        <div style="background:#fff; padding:24px; border-radius:14px; border:1px solid var(--border-color); box-shadow:var(--card-shadow);">
+          <div style="font-size:28px; margin-bottom:10px;">🇬🇭</div>
+          <h3 style="font-size:16px; color:var(--navy); margin-bottom:8px; font-weight:800;">Direct Kumasi Delivery & Warehouses</h3>
+          <p style="font-size:13px; color:var(--slate);">Seamless sea and air cargo shipping right to our KNUST Ayeduase New Site hub in Kumasi with secure local dispatch bargaining.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -583,17 +613,24 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
           <div class="form-group"><label>Delivery Address in Ghana</label><input type="text" id="rloc" required></div>
           <div class="form-group"><label>Password (min 6 chars)</label><input type="password" id="rpw" required minlength="6"></div>
           <div class="form-group"><label>Referral Mark (Optional)</label><input type="text" id="regRefMark"></div>
+          
+          <!-- EXTENSIVE RISK-FREE TERMS & CONDITIONS FOR EVERIVAULT ENTERPRISE -->
           <div class="terms-box">
-            <h4>Terms & Shipping Policy</h4>
+            <h4>EveriVault Enterprise — Comprehensive Risk-Free Terms & Conditions</h4>
             <ul>
-              <li><strong>Shipping Mark:</strong> Auto-generated code must be written on all packages.</li>
-              <li><strong>Prohibited:</strong> No batteries, liquids, or explosives.</li>
-              <li><strong>Consolidation:</strong> WhatsApp +1 309 519 4647.</li>
+              <li><strong>1. Mandatory Shipping Mark Compliance:</strong> Clients must ensure their unique Shipping Mark is boldly written on all supplier packages dispatched to our Foshan or Guangzhou warehouses. EveriVault takes zero liability for unidentified, unmarked, or mislabeled packages left unclaimed at Chinese warehouses.</li>
+              <li><strong>2. Prohibited & Hazardous Cargo Disclaimer:</strong> EveriVault strictly prohibits batteries, flammable liquids, chemical explosives, narcotics, or counterfeit goods. Any confiscation, fine, or legal penalty resulting from client shipment of prohibited items is 100% borne by the client. EveriVault assumes no fault or financial liability.</li>
+              <li><strong>3. Customs Clearance & Government Impoundment:</strong> EveriVault acts solely as a freight facilitator. We hold no liability for customs delays, inspections, duty rate fluctuations imposed by GRA (Ghana Revenue Authority), or official seizure/destruction of contraband goods. All import duties and statutory fees are client obligations.</li>
+              <li><strong>4. Cart Expiration & Unpaid Orders:</strong> Unpaid cart items and unverified orders automatically expire after 24 hours. EveriVault reserves the right to release reserved group-buy stock without prior notice or financial compensation to inactive users.</li>
+              <li><strong>5. Payment Protocol & Unauthorized Settlements:</strong> All payments for store purchases or freight must be settled exclusively into official company accounts (MTN MoMo, Telecel Cash, or GTBank managed by Richmond Wireko Brobbey). EveriVault accepts zero liability for cash given to couriers or unofficial third-party agents.</li>
+              <li><strong>6. Client Omission, Delays & Failure to Act:</strong> EveriVault is not responsible for financial loss resulting from client delays in confirming orders, submitting wrong delivery details, failing to pick up cargo within 14 days of arrival at the Kumasi warehouse, or failure to monitor tracking statuses.</li>
+              <li><strong>7. Force Majeure:</strong> EveriVault is absolved of all liability for delivery disruptions caused by acts of God, global shipping crises, port strikes, airline cancellations, government lockdowns, or natural disasters.</li>
             </ul>
           </div>
+
           <div style="display:flex; align-items:flex-start; gap:8px; margin-bottom:14px;">
             <input type="checkbox" id="tcCheck" required style="width:16px; height:16px; margin-top:2px;">
-            <label for="tcCheck" style="font-size:11px; font-weight:600; text-transform:none;">I agree to Terms & Conditions.</label>
+            <label for="tcCheck" style="font-size:11px; font-weight:600; text-transform:none;">I fully agree to EveriVault's Risk-Free Terms & Conditions.</label>
           </div>
           <button class="btn btn-green btn-block" type="submit" id="regBtn">Create Account & Sign In</button>
         </form>
@@ -609,7 +646,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
   </div>
 </section>
 
-<!-- Post-Auth Color & Size Preference Setup Modal / Section -->
+<!-- Post-Auth Color & Size Preference Setup Modal -->
 <div id="prefSetupModal" style="display:none; position:fixed; inset:0; background:rgba(10,25,47,0.85); z-index:99999; align-items:center; justify-content:center; padding:16px;">
   <div style="background:#fff; width:100%; max-width:500px; border-radius:16px; padding:28px; box-shadow:0 20px 40px rgba(0,0,0,0.3); border:1px solid var(--border-color);">
     <h3 style="color:var(--navy); font-size:18px; font-weight:800; margin-bottom:6px; text-align:center;">Customize Your Default Preferences</h3>
@@ -803,7 +840,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 
 <script>
 /* ============================================================
-   PWA: Manifest + Service Worker (inline)
+   PWA: Manifest + Service Worker (1TB High Speed Caching)
    ============================================================ */
 (function injectManifest() {
   const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="96" fill="#0A192F"/><text x="256" y="345" font-size="320" font-family="Arial,sans-serif" font-weight="bold" fill="#10B981" text-anchor="middle">E</text></svg>`;
@@ -828,7 +865,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 (function registerSW() {
   if (!('serviceWorker' in navigator)) return;
   const swCode = `
-    const CACHE = 'everivault-v22';
+    const CACHE = 'everivault-v1TB-speed';
     const CORE = ['.', './index.html'];
     self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE).catch(()=>{}))); });
     self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())); });
@@ -836,12 +873,12 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
       const req = e.request;
       if (req.method !== 'GET') return;
       if (req.url.includes('supabase.co') || req.url.includes('googleapis.com') || req.url.includes('unsplash.com') || req.url.includes('jsdelivr.net')) return;
-      e.respondWith(fetch(req).then(res => {
+      e.respondWith(caches.match(req).then(cached => cached || fetch(req).then(res => {
         if (res && res.status === 200 && req.url.startsWith(self.location.origin)) {
           const clone = res.clone(); caches.open(CACHE).then(c => c.put(req, clone));
         }
         return res;
-      }).catch(() => caches.match(req).then(r => r || caches.match('./index.html'))));
+      }).catch(() => caches.match('./index.html'))));
     });
   `;
   const url = URL.createObjectURL(new Blob([swCode], { type: 'application/javascript' }));
@@ -922,7 +959,7 @@ function toast(msg, type = 'info', ms = 3000) {
   el.textContent = msg;
   wrap.appendChild(el);
   requestAnimationFrame(() => el.classList.add('show'));
-  setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 300); }, ms);
+  setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 250); }, ms);
 }
 
 function copyText(t) { if (navigator.clipboard) navigator.clipboard.writeText(t).then(() => toast('Copied!', 'ok')); }
@@ -931,18 +968,18 @@ function dismissSplash() {
   const splash = $('instantSplash');
   if (splash) {
     splash.style.opacity = '0';
-    setTimeout(() => splash.remove(), 200);
+    setTimeout(() => splash.remove(), 150);
   }
 }
 
-function showLoading(show, msg = 'Loading...') {
+function showLoading(show, msg = 'Processing...') {
   let el = document.getElementById('globalLoader');
   if (show) {
     if (!el) {
       el = document.createElement('div');
       el.id = 'globalLoader';
       el.style.cssText = 'position:fixed;inset:0;background:rgba(10,25,47,0.85);display:flex;align-items:center;justify-content:center;z-index:99999;color:#fff;font-weight:700;flex-direction:column;gap:14px;';
-      el.innerHTML = '<div style="width:36px;height:36px;border:3px solid rgba(255,255,255,0.2);border-top-color:#10B981;border-radius:50%;animation:spin 0.6s linear infinite;"></div><div id="globalLoaderMsg"></div>';
+      el.innerHTML = '<div style="width:36px;height:36px;border:3px solid rgba(255,255,255,0.2);border-top-color:#10B981;border-radius:50%;animation:spin 0.4s linear infinite;"></div><div id="globalLoaderMsg"></div>';
       document.body.appendChild(el);
     }
     document.getElementById('globalLoaderMsg').textContent = msg;
@@ -950,7 +987,7 @@ function showLoading(show, msg = 'Loading...') {
 }
 
 /* ============================================================
-   NAVIGATION
+   NAVIGATION (1TB INSTANT RESPONSIVENESS)
    ============================================================ */
 function go(page) {
   if (!state.user && page !== 'home' && page !== 'auth') {
@@ -973,7 +1010,7 @@ function go(page) {
   if (page === 'payment') loadPaymentHistory();
   if (page === 'reviews') loadReviews();
   if (page === 'admin') loadAdmin();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: 'instant' });
 }
 function toggleMenu() { $('menu').classList.toggle('active'); }
 function authTab(tab) {
@@ -1022,7 +1059,7 @@ async function doRegister(e) {
   
   if (password.length < 6) return toast('Password must be at least 6 characters', 'err');
 
-  showLoading(true, 'Creating account and signing you in...');
+  showLoading(true, 'Creating account...');
   try {
     const { data: authData, error: authErr } = await sb.auth.signUp({ 
       email, 
@@ -1031,7 +1068,7 @@ async function doRegister(e) {
     });
     
     if (authErr) throw authErr;
-    if (!authData.user) throw new Error('Registration failed. Please try again.');
+    if (!authData.user) throw new Error('Registration failed.');
 
     const userId = authData.user.id;
     const mark = generateShippingMark(name, phone);
@@ -1048,7 +1085,7 @@ async function doRegister(e) {
     await sb.from('tracking').insert({ 
       user_id: userId,
       status: 'Goods Received at China Warehouse',
-      message: 'Account initialized. Ready for shipping marks.'
+      message: 'Account initialized.'
     }).then(() => {});
 
     await loadUserProfile(userId);
@@ -1060,7 +1097,7 @@ async function doRegister(e) {
     showPrefModal();
   } catch (err) {
     console.error(err);
-    toast(err.message || 'Registration failed.', 'err', 6000);
+    toast(err.message || 'Registration failed.', 'err', 5000);
   } finally { 
     showLoading(false); 
   }
@@ -1120,7 +1157,7 @@ async function doPasswordReset(e) {
       redirectTo: window.location.origin + window.location.pathname,
     });
     if (error) throw error;
-    toast('Password recovery instructions sent to your Gmail!', 'ok', 6000);
+    toast('Password recovery instructions sent!', 'ok', 5000);
     $('resetEmail').value = '';
     authTab('login');
   } catch (err) {
@@ -1159,7 +1196,7 @@ async function doSignOut() {
 }
 
 /* ============================================================
-   LIGHTNING FAST PARALLEL BACKEND DATA FETCHING
+   ULTRA-FAST PARALLEL BACKEND DATA LOADING (1TB SPEED)
    ============================================================ */
 async function loadProducts() {
   const { data, error } = await sb.from('products').select('*').order('created_at', { ascending: false });
@@ -1218,7 +1255,7 @@ async function loadReviews() {
 }
 
 /* ============================================================
-   PRODUCTS & SELECTION OPTIONS (HIDDEN IF UNREGISTERED/LOGGED OUT)
+   PRODUCTS & SELECTION OPTIONS
    ============================================================ */
 function renderProducts() {
   const grid = $('prodGrid'), homeGrid = $('homeCatalogGrid');
@@ -1381,7 +1418,7 @@ function editCatalogProduct(id) {
   $('productFormHeading').textContent = 'Edit Product: ' + p.name;
   $('prodSubmitBtn').textContent = 'Save Changes';
   $('cancelEditBtn').style.display = 'inline-flex';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 function resetProductForm() {
@@ -1527,7 +1564,7 @@ function renderCart() {
 }
 
 /* ============================================================
-   PAYMENT PORTAL & HISTORY
+   PAYMENT PORTAL
    ============================================================ */
 function setPaymentType(type) {
   state.paymentCategory = type;
@@ -1999,16 +2036,14 @@ sb.auth.onAuthStateChange(async (event, session) => {
 });
 
 /* ============================================================
-   ULTRA-FAST PARALLEL BACKEND INITIALIZATION & PRE-RENDERING
+   ULTRA-FAST 1TB SPEED PARALLEL BACKEND INITIALIZATION
    ============================================================ */
 (async function init() {
   try {
-    // Fire all core backend requests simultaneously in parallel for maximum speed
     const sessionPromise = sb.auth.getSession().catch(() => ({ data: { session: null } }));
     const settingsPromise = loadSettings().catch(() => {});
     const productsPromise = loadProducts().catch(() => {});
 
-    // Pre-render layout state immediately while backend promises resolve concurrently
     const [{ data: { session } }] = await Promise.all([sessionPromise, settingsPromise, productsPromise]);
 
     if (session?.user) {
@@ -2028,7 +2063,7 @@ sb.auth.onAuthStateChange(async (event, session) => {
   } catch (err) {
     console.error('Init error:', err);
   } finally {
-    dismissSplash(); // Instantly removes loading screen without blocking user
+    dismissSplash();
   }
 })();
 
