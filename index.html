@@ -779,7 +779,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 (function registerSW() {
   if (!('serviceWorker' in navigator)) return;
   const swCode = `
-    const CACHE = 'everivault-v6';
+    const CACHE = 'everivault-v7';
     const CORE = ['.', './index.html'];
     self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE).catch(()=>{}))); });
     self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())); });
@@ -1061,7 +1061,20 @@ async function doPasswordReset(e) {
 
 async function loadUserProfile(uid) {
   const { data, error } = await sb.from('profiles').select('*').eq('id', uid).single();
-  if (error) throw error;
+  if (error) {
+    // If profile row doesn't exist yet for admin, create it on the fly
+    if (uid) {
+      const { data: authUser } = await sb.auth.getUser();
+      const userEmail = authUser?.user?.email || '';
+      if (userEmail === 'richmonwireko@gmail.com') {
+        const newProf = { id: uid, email: userEmail, name: 'Richmond Wireko', role: 'admin', mark: 'GH001K-ADM-0543', date_registered: new Date().toLocaleDateString() };
+        await sb.from('profiles').upsert(newProf);
+        state.user = newProf;
+        return;
+      }
+    }
+    throw error;
+  }
   state.user = data;
 }
 
@@ -1275,7 +1288,7 @@ function setPaymentType(type) {
 
 function goToPaymentPortal(type = 'goods') {
   setPaymentType(type);
-  if (state.user) $('payClientName').value = state.user.mark + ' — ' + state.user.name + ' (' + state.user.phone + ')';
+  if (state.user) $('payClientName').value = (state.user.mark || 'ADM') + ' — ' + state.user.name + ' (' + (state.user.phone || 'Admin') + ')';
   if (type === 'goods') {
     if (!state.cart.length) return toast('Cart empty', 'err');
     $('payItemSummary').value = state.cart.map(i => i.product_name + ' (x' + i.qty + ')').join(', ');
@@ -1316,7 +1329,7 @@ async function submitPayment(e) {
   const order = {
     user_id: state.user.id,
     client_name: state.user.name,
-    client_mark: state.user.mark,
+    client_mark: state.user.mark || 'ADM',
     type: isShipping ? 'Shipping Cost' : 'Cart Goods',
     summary: isShipping ? $('payShipDesc').value.trim() : $('payItemSummary').value.trim(),
     total: parseFloat($('payTotalAmount').value) || 0,
@@ -1480,7 +1493,7 @@ async function loadAdmin() {
   $('admTrackClientSelect').innerHTML = (clients||[]).map(c => `<option value="${c.id}">${esc(c.name)} (${esc(c.mark)})</option>`).join('');
 
   const { data: tracks } = await sb.from('tracking').select('*, profiles(name, mark)').order('updated_at', { ascending: false });
-  $('adminTrackingRecordsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Status</th><th>Note</th><th>Updated</th></tr></thead><tbody>' + (tracks||[]).map(t => `<tr><td>${esc(t.profiles?.name||'')}<br><code style="font-size:11px;">${esc(t.profiles?.mark||'')}</code></td><td><span class="pill pill-verified">${esc(t.status)}</span></td><td>${esc(t.message)}</td><td style="font-size:11px;">${new Date(t.updated_at).toLocaleString()}</td></tr>`).join('') + '</tbody></table></div>';
+  $('adminTrackingRecordsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Status</th><th>Note</th><th>Updated</th></tr></thead><tbody>' + (tracks||[]).map(t => `<tr><td>${esc(t.profiles?.name||'Client')}<br><code style="font-size:11px;">${esc(t.profiles?.mark||'')}</code></td><td><span class="pill pill-verified">${esc(t.status)}</span></td><td>${esc(t.message)}</td><td style="font-size:11px;">${new Date(t.updated_at).toLocaleString()}</td></tr>`).join('') + '</tbody></table></div>';
 
   const { data: orders } = await sb.from('orders').select('*').order('created_at', { ascending: false });
   $('adminPaymentsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Summary</th><th>Total</th><th>Status</th></tr></thead><tbody>' + (orders||[]).map(o => {
@@ -1586,7 +1599,7 @@ async function doSubmitReview(e) {
   const { error } = await sb.from('reviews').insert({
     user_id: state.user.id,
     name: state.user.name,
-    mark: state.user.mark,
+    mark: state.user.mark || 'ADM',
     rating: parseInt($('revRating').value),
     comment: $('revComment').value.trim()
   });
