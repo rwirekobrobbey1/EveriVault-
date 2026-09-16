@@ -184,7 +184,6 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 .spinner { display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,0.3); border-top-color:#fff; border-radius:50%; animation:spin .8s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
 
-/* Mobile Adaptability Queries */
 @media(max-width:850px) {
   .admin-layout { grid-template-columns:1fr; }
   .menu-toggle { display:block; }
@@ -888,10 +887,8 @@ const defaultSettings = {
   logoUrl: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA='
 };
 
-localStorage.removeItem('ev_active_user');
-
 const state = { 
-  user: null, 
+  user: JSON.parse(localStorage.getItem('ev_active_user') || 'null'), 
   products: JSON.parse(localStorage.getItem('ev_local_products') || 'null') || defaultProducts, 
   settings: JSON.parse(localStorage.getItem('ev_portal_settings') || 'null') || defaultSettings,
   ads: JSON.parse(localStorage.getItem('ev_local_ads') || '[]'),
@@ -924,7 +921,6 @@ const generateShippingMark = (name, phone) => {
 
 function saveProducts() {
   localStorage.setItem('ev_local_products', JSON.stringify(state.products));
-  window.dispatchEvent(new Event('storage'));
 }
 
 function sendAdminGmailNotification(subject, body) {
@@ -1210,7 +1206,6 @@ function verifyOtpAndRegister() {
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
   localClients.unshift(newClientObj);
   localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
-  window.dispatchEvent(new Event('storage'));
 
   state.user = newClientObj;
   localStorage.setItem('ev_active_user', JSON.stringify(state.user));
@@ -1306,7 +1301,6 @@ function submitPayment(e) {
 
   state.orders.unshift(orderObj);
   localStorage.setItem('ev_local_orders', JSON.stringify(state.orders));
-  window.dispatchEvent(new Event('storage'));
   
   sendAdminGmailNotification('Payment Submitted: ' + orderObj.clientMark, `Amount: GHS ${orderObj.total}`);
   state.paymentProofBase64 = '';
@@ -1643,10 +1637,6 @@ function applyUserState() {
     $('referralBannerBox').style.display = isClient ? 'block' : 'none';
     if (isClient) $('userReferralLinkDisplay').textContent = 'https://www.everivault.com/?ref=' + state.user.mark;
   }
-
-  if (isAdmin && !document.getElementById('p-admin').classList.contains('active')) go('admin');
-  else if (isDelivery && !document.getElementById('p-deliveryportal').classList.contains('active')) go('deliveryportal');
-  else if (isClient && document.getElementById('p-admin').classList.contains('active')) go('home');
 }
 
 function calcMode(mode) {
@@ -1682,14 +1672,20 @@ function calcCompare() {
   $('compAirRes').textContent = fmtGHS(airGhs) + ` (${kg.toFixed(1)} kg)`;
 }
 
-window.addEventListener('storage', () => {
+// Global Storage Listener for real-time cross-browser synchronization
+window.addEventListener('storage', (e) => {
+  state.user = JSON.parse(localStorage.getItem('ev_active_user') || 'null');
   state.products = JSON.parse(localStorage.getItem('ev_local_products') || 'null') || defaultProducts;
   state.settings = JSON.parse(localStorage.getItem('ev_portal_settings') || 'null') || defaultSettings;
   state.tracking = JSON.parse(localStorage.getItem('ev_local_tracking') || '{}');
   state.orders = JSON.parse(localStorage.getItem('ev_local_orders') || '[]');
   state.bargainMessages = JSON.parse(localStorage.getItem('ev_bargain_messages') || '{}');
+  
   applyPortalSettings();
+  applyUserState();
   renderProducts();
+  if (document.getElementById('p-admin').classList.contains('active')) loadAdmin();
+  if (document.getElementById('p-deliveryportal').classList.contains('active')) loadCourierPortal();
 });
 
 Object.assign(window, { go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare, handleImageFile, handleLogoFileSelect, saveLogoFile, addToCart, updateCartQty, removeFromCart, clearCart, goToPaymentPortal, setPaymentType, selectPaymentSlot, handleProofFile, submitPayment, doSubmitReview, copyText, adminTab, toggleOrderVerify, doUniversalLogin, initiateRegistrationOtp, verifyOtpAndRegister, doUniversalReset, doSignOut, doAddProduct, deleteCatalogProduct, openAdminPasswordModal, doAdminChangePassword, savePortalSettings, submitAdvertisement, renderProducts, exportClientData, adminUpdateTracking, saveDeliveryGuyInfo, sendBargainMessage, loadCourierChat, sendCourierMessage, promptAdminMessageClient });
