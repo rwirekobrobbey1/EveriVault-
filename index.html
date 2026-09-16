@@ -828,7 +828,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 (function registerSW() {
   if (!('serviceWorker' in navigator)) return;
   const swCode = `
-    const CACHE = 'everivault-v20';
+    const CACHE = 'everivault-v21';
     const CORE = ['.', './index.html'];
     self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE).catch(()=>{}))); });
     self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())); });
@@ -1220,7 +1220,7 @@ async function loadReviews() {
 }
 
 /* ============================================================
-   PRODUCTS & SELECTION OPTIONS
+   PRODUCTS & SELECTION OPTIONS (HIDDEN IF UNREGISTERED/LOGGED OUT)
    ============================================================ */
 function renderProducts() {
   const grid = $('prodGrid'), homeGrid = $('homeCatalogGrid');
@@ -1262,25 +1262,28 @@ function renderProducts() {
     }
 
     let optionsHtml = '';
-    const sizes = p.sizes ? p.sizes.split(',').map(s => s.trim()).filter(Boolean) : [];
-    const colorPresets = p.colors ? p.colors.split(',').map(c => c.trim()).filter(Boolean) : [];
+    // ONLY show size and color selection if user is logged in and authenticated/registered
+    if (state.user && state.user.role === 'client') {
+      const sizes = p.sizes ? p.sizes.split(',').map(s => s.trim()).filter(Boolean) : [];
+      const colorPresets = p.colors ? p.colors.split(',').map(c => c.trim()).filter(Boolean) : [];
 
-    optionsHtml += '<div style="margin:8px 0; font-size:11px; display:flex; flex-direction:column; gap:6px;">';
-    if (sizes.length > 0) {
-      optionsHtml += '<div style="display:flex; align-items:center; gap:4px;"><span style="font-weight:700; color:var(--slate); min-width:40px;">Size:</span><select id="size-'+p.id+'" style="padding:2px 4px; font-size:11px; border-radius:4px; height:24px; flex:1;">' + sizes.map(s => '<option value="'+esc(s)+'">'+esc(s)+'</option>').join('') + '</select></div>';
+      optionsHtml += '<div style="margin:8px 0; font-size:11px; display:flex; flex-direction:column; gap:6px;">';
+      if (sizes.length > 0) {
+        optionsHtml += '<div style="display:flex; align-items:center; gap:4px;"><span style="font-weight:700; color:var(--slate); min-width:40px;">Size:</span><select id="size-'+p.id+'" style="padding:2px 4px; font-size:11px; border-radius:4px; height:24px; flex:1;">' + sizes.map(s => '<option value="'+esc(s)+'">'+esc(s)+'</option>').join('') + '</select></div>';
+      }
+      
+      if (colorPresets.length > 0) {
+        optionsHtml += '<div><span style="font-weight:700; color:var(--slate); display:block; margin-bottom:3px;">Select Color(s):</span>';
+        optionsHtml += '<div style="display:flex; flex-wrap:wrap; gap:6px; background:#F8FAFC; padding:6px; border-radius:6px; border:1px solid #CBD5E1; max-height:80px; overflow-y:auto;" id="color-group-'+p.id+'">';
+        colorPresets.forEach(c => {
+          optionsHtml += '<label style="display:inline-flex; align-items:center; gap:3px; font-size:11px; font-weight:600; cursor:pointer;"><input type="checkbox" name="color-chk-'+p.id+'" value="'+esc(c)+'" style="width:13px; height:13px;"> '+esc(c)+'</label>';
+        });
+        optionsHtml += '</div></div>';
+      } else {
+        optionsHtml += '<div><span style="font-weight:700; color:var(--slate); display:block; margin-bottom:3px;">Select Color:</span><select id="color-sel-'+p.id+'" style="padding:2px 4px; font-size:11px; border-radius:4px; height:24px; width:100%;"><option value="Assorted / Default">Assorted / Default</option><option value="Black">Black</option><option value="White">White</option><option value="Navy Blue">Navy Blue</option><option value="Grey">Grey</option><option value="Red">Red</option><option value="Blue">Blue</option></select></div>';
+      }
+      optionsHtml += '</div>';
     }
-    
-    if (colorPresets.length > 0) {
-      optionsHtml += '<div><span style="font-weight:700; color:var(--slate); display:block; margin-bottom:3px;">Select Color(s) — Each color priced individually:</span>';
-      optionsHtml += '<div style="display:flex; flex-wrap:wrap; gap:6px; background:#F8FAFC; padding:6px; border-radius:6px; border:1px solid #CBD5E1; max-height:80px; overflow-y:auto;" id="color-group-'+p.id+'">';
-      colorPresets.forEach(c => {
-        optionsHtml += '<label style="display:inline-flex; align-items:center; gap:3px; font-size:11px; font-weight:600; cursor:pointer;"><input type="checkbox" name="color-chk-'+p.id+'" value="'+esc(c)+'" style="width:13px; height:13px;"> '+esc(c)+'</label>';
-      });
-      optionsHtml += '</div></div>';
-    } else {
-      optionsHtml += '<div><span style="font-weight:700; color:var(--slate); display:block; margin-bottom:3px;">Select Color:</span><select id="color-sel-'+p.id+'" style="padding:2px 4px; font-size:11px; border-radius:4px; height:24px; width:100%;"><option value="Assorted / Default">Assorted / Default</option><option value="Black">Black</option><option value="White">White</option><option value="Navy Blue">Navy Blue</option><option value="Grey">Grey</option><option value="Red">Red</option><option value="Blue">Blue</option></select></div>';
-    }
-    optionsHtml += '</div>';
 
     let btn = '';
     if (!state.user) {
@@ -1977,7 +1980,7 @@ sb.auth.onAuthStateChange(async (event, session) => {
     try { 
       await loadUserProfile(session.user.id); 
       applyUserState(); 
-      showPrefModal(); // Also trigger preference selector on session resume / recovery completion
+      showPrefModal(); 
     } catch(e) {}
   } else if (event === 'PASSWORD_RECOVERY') {
     go('auth');
@@ -1988,7 +1991,7 @@ sb.auth.onAuthStateChange(async (event, session) => {
       if (!error) {
         toast('Password updated successfully! Please sign in.', 'ok', 5000);
         authTab('login');
-        showPrefModal(); // Show color and size selections after reset
+        showPrefModal(); 
       } else {
         toast('Error updating password: ' + error.message, 'err');
       }
@@ -2017,7 +2020,7 @@ sb.auth.onAuthStateChange(async (event, session) => {
     }
 
     if (state.user?.role === 'client') {
-      await Promise.all([loadCart().catch(()=>{}), loadOrders().catch(()=>{})]);
+      await Promise.all([loadCart().catch(()=>{}), loadOrders().catch(()=>{})];
     }
 
     applyUserState();
