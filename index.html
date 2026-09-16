@@ -638,7 +638,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
             <form onsubmit="doAddProduct(event)">
               <div class="form-group"><label>Product Title</label><input type="text" id="npName" required></div>
               <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:10px;">
-                <div class="form-group"><label>Category</label><input type="text" id="npCat" required></div>
+                <div class="form-group"><label>Category</label><input type="text" id="npCat" required placeholder="e.g. clothing, apparel"></div>
                 <div class="form-group"><label>Price (GHS)</label><input type="number" id="npPrice" step="0.01" required></div>
               </div>
               <div class="form-group"><label>Item Type</label>
@@ -646,6 +646,10 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
                   <option value="preorder">Pre-Order</option>
                   <option value="available">Available</option>
                 </select>
+              </div>
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:10px;">
+                <div class="form-group"><label>Available Sizes (comma separated)</label><input type="text" id="npSizes" placeholder="e.g. S, M, L, XL"></div>
+                <div class="form-group"><label>Available Colors (comma separated)</label><input type="text" id="npColors" placeholder="e.g. Black, White, Navy"></div>
               </div>
               <div class="form-group">
                 <label>Product Image</label>
@@ -779,7 +783,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 (function registerSW() {
   if (!('serviceWorker' in navigator)) return;
   const swCode = `
-    const CACHE = 'everivault-v8';
+    const CACHE = 'everivault-v9';
     const CORE = ['.', './index.html'];
     self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE).catch(()=>{}))); });
     self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())); });
@@ -826,7 +830,7 @@ window.addEventListener('appinstalled', () => {
 });
 
 /* ============================================================
-   SUPABASE CLIENT (Updated with your exact project URL)
+   SUPABASE CLIENT
    ============================================================ */
 const SUPABASE_URL = 'https://admgkiewiwziifesbpey.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_ZdxSIdlfrMQStQkt8Zq3oQ_0wIrkxIF';
@@ -935,7 +939,7 @@ function authTab(tab) {
 }
 
 /* ============================================================
-   AUTH & REGISTRATION (INSTANT LOGIN & ADMIN FIX)
+   AUTH & REGISTRATION
    ============================================================ */
 async function doRegister(e) {
   e.preventDefault();
@@ -1132,7 +1136,7 @@ async function loadReviews() {
 }
 
 /* ============================================================
-   PRODUCTS
+   PRODUCTS & SIZES/COLORS
    ============================================================ */
 function renderProducts() {
   const grid = $('prodGrid'), homeGrid = $('homeCatalogGrid');
@@ -1156,10 +1160,28 @@ function renderProducts() {
   const card = p => {
     const img = p.image ? '<img src="'+esc(p.image)+'" class="pdd-img" alt="">' : '<div class="pdd-img" style="display:flex;align-items:center;justify-content:center;color:var(--slate);">No Image</div>';
     const tag = p.type === 'preorder' ? 'Pre-Order' : 'In Stock';
+    
+    // Parse sizes and colors if provided
+    let optionsHtml = '';
+    const sizes = p.sizes ? p.sizes.split(',').map(s => s.trim()).filter(Boolean) : [];
+    const colors = p.colors ? p.colors.split(',').map(c => c.trim()).filter(Boolean) : [];
+
+    if (sizes.length > 0 || colors.length > 0) {
+      optionsHtml += '<div style="margin:8px 0; font-size:11px; display:flex; flex-direction:column; gap:4px;">';
+      if (sizes.length > 0) {
+        optionsHtml += '<div style="display:flex; align-items:center; gap:4px;"><span style="font-weight:700; color:var(--slate);">Size:</span><select id="size-'+p.id+'" style="padding:2px 4px; font-size:11px; border-radius:4px; height:24px;">' + sizes.map(s => '<option value="'+esc(s)+'">'+esc(s)+'</option>').join('') + '</select></div>';
+      }
+      if (colors.length > 0) {
+        optionsHtml += '<div style="display:flex; align-items:center; gap:4px;"><span style="font-weight:700; color:var(--slate);">Color:</span><select id="color-'+p.id+'" style="padding:2px 4px; font-size:11px; border-radius:4px; height:24px;">' + colors.map(c => '<option value="'+esc(c)+'">'+esc(c)+'</option>').join('') + '</select></div>';
+      }
+      optionsHtml += '</div>';
+    }
+
     const btn = state.user?.role === 'client'
       ? '<button class="btn btn-sm btn-green btn-block" onclick="addToCart(\''+p.id+'\')">Join Group Buy</button>'
       : '<button class="btn btn-sm btn-blue btn-block" onclick="go(\'auth\')">Sign In to Buy</button>';
-    return '<div class="pdd-card"><div class="pdd-img-wrap">'+img+'<span class="pdd-tag-deal">'+tag+'</span></div><div class="pdd-content"><div class="pdd-title">'+esc(p.name)+'</div><div class="pdd-footer-row"><div><div class="pdd-price">'+fmtGHS(p.price)+'</div><div class="pdd-sold">'+esc(p.sold||'')+'</div></div></div><div style="margin-top:8px;">'+btn+'</div></div></div>';
+
+    return '<div class="pdd-card"><div class="pdd-img-wrap">'+img+'<span class="pdd-tag-deal">'+tag+'</span></div><div class="pdd-content"><div><div class="pdd-title">'+esc(p.name)+'</div>'+optionsHtml+'</div><div class="pdd-footer-row"><div><div class="pdd-price">'+fmtGHS(p.price)+'</div></div></div><div style="margin-top:8px;">'+btn+'</div></div></div>';
   };
 
   if (grid) grid.innerHTML = filtered.length ? filtered.map(card).join('') : '<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--slate);">No items found.</div>';
@@ -1173,12 +1195,14 @@ async function doAddProduct(e) {
     category: $('npCat').value.trim(),
     price: parseFloat($('npPrice').value) || 0,
     type: $('npType').value,
+    sizes: $('npSizes').value.trim() || null,
+    colors: $('npColors').value.trim() || null,
     image: state.uploadedProdBase64 || $('npImgUrl').value.trim() || null
   };
   const { error } = await sb.from('products').insert(prod);
   if (error) return toast(error.message, 'err');
-  toast('Product published', 'ok');
-  $('npName').value = ''; $('npCat').value = ''; $('npPrice').value = ''; $('npImgUrl').value = '';
+  toast('Product published with options', 'ok');
+  $('npName').value = ''; $('npCat').value = ''; $('npPrice').value = ''; $('npImgUrl').value = ''; $('npSizes').value = ''; $('npColors').value = '';
   state.uploadedProdBase64 = '';
   await loadProducts();
   renderProducts();
@@ -1207,13 +1231,20 @@ async function addToCart(prodId) {
   if (!state.user || state.user.role !== 'client') { toast('Sign in first', 'err'); return go('auth'); }
   const p = state.products.find(x => x.id === prodId);
   if (!p) return;
-  const existing = state.cart.find(c => c.product_id === prodId);
+
+  const sizeSel = $('size-' + prodId);
+  const colorSel = $('color-' + prodId);
+  const selectedSize = sizeSel ? sizeSel.value : null;
+  const selectedColor = colorSel ? colorSel.value : null;
+
+  const existing = state.cart.find(c => c.product_id === prodId && c.size === selectedSize && c.color === selectedColor);
   if (existing) {
     await sb.from('cart_items').update({ qty: existing.qty + 1 }).eq('id', existing.id);
   } else {
     await sb.from('cart_items').insert({
       user_id: state.user.id, product_id: p.id, product_name: p.name,
-      price: p.price, type: p.type, image: p.image, qty: 1
+      price: p.price, type: p.type, image: p.image, qty: 1,
+      size: selectedSize, color: selectedColor
     });
   }
   toast('Added to cart', 'ok');
@@ -1258,8 +1289,12 @@ function renderCart() {
     const sub = item.price * item.qty;
     total += sub;
     const img = item.image ? '<img src="'+esc(item.image)+'" style="width:45px;height:45px;object-fit:cover;border-radius:6px;">' : '';
+    let optStr = '';
+    if (item.size) optStr += 'Size: ' + esc(item.size) + ' ';
+    if (item.color) optStr += 'Color: ' + esc(item.color);
+    const optsBadge = optStr ? '<br><span style="color:var(--slate); font-size:11px;">'+optStr+'</span>' : '';
     const badge = item.type === 'preorder' ? '<br><span style="color:var(--green); font-size:11px; font-weight:700;">✓ Pre-Order</span>' : '';
-    return '<div class="cart-item-row"><div style="display:flex;align-items:center;gap:10px;">'+img+'<div><strong style="color:var(--navy);font-size:14px;">'+esc(item.product_name)+'</strong><br><span style="color:var(--green);font-weight:700;">'+fmtGHS(item.price)+'</span>'+badge+'</div></div><div style="display:flex;align-items:center;gap:8px;"><button class="qty-btn" onclick="updateCartQty(\''+item.id+'\', -1)">-</button><span style="font-weight:800;min-width:18px;text-align:center;">'+item.qty+'</span><button class="qty-btn" onclick="updateCartQty(\''+item.id+'\', 1)">+</button></div><div style="text-align:right;"><span style="font-weight:800;color:var(--navy);">'+fmtGHS(sub)+'</span><br><button class="btn btn-sm btn-danger" style="margin-top:3px;padding:2px 6px;font-size:10px;" onclick="removeFromCart(\''+item.id+'\')">Remove</button></div></div>';
+    return '<div class="cart-item-row"><div style="display:flex;align-items:center;gap:10px;">'+img+'<div><strong style="color:var(--navy);font-size:14px;">'+esc(item.product_name)+'</strong><br><span style="color:var(--green);font-weight:700;">'+fmtGHS(item.price)+'</span>'+optsBadge+badge+'</div></div><div style="display:flex;align-items:center;gap:8px;"><button class="qty-btn" onclick="updateCartQty(\''+item.id+'\', -1)">-</button><span style="font-weight:800;min-width:18px;text-align:center;">'+item.qty+'</span><button class="qty-btn" onclick="updateCartQty(\''+item.id+'\', 1)">+</button></div><div style="text-align:right;"><span style="font-weight:800;color:var(--navy);">'+fmtGHS(sub)+'</span><br><button class="btn btn-sm btn-danger" style="margin-top:3px;padding:2px 6px;font-size:10px;" onclick="removeFromCart(\''+item.id+'\')">Remove</button></div></div>';
   }).join('');
   $('cartGrandTotal').textContent = fmtGHS(total);
   const earliest = state.cart.reduce((min, i) => !min || new Date(i.expires_at) < new Date(min) ? i.expires_at : min, null);
@@ -1290,7 +1325,7 @@ function goToPaymentPortal(type = 'goods') {
   if (state.user) $('payClientName').value = (state.user.mark || 'ADM') + ' — ' + state.user.name + ' (' + (state.user.phone || 'Admin') + ')';
   if (type === 'goods') {
     if (!state.cart.length) return toast('Cart empty', 'err');
-    $('payItemSummary').value = state.cart.map(i => i.product_name + ' (x' + i.qty + ')').join(', ');
+    $('payItemSummary').value = state.cart.map(i => i.product_name + (i.size? ' ['+i.size+']':'') + (i.color? ' ('+i.color+')':'') + ' (x' + i.qty + ')').join(', ');
     $('payTotalAmount').value = state.cart.reduce((s, i) => s + i.price * i.qty, 0).toFixed(2);
   } else {
     const seaVal = parseFloat(($('seaGhs').textContent||'').replace(/[^0-9.]/g,'')) || 0;
@@ -1483,7 +1518,7 @@ async function loadAdmin() {
   $('statChatCount').textContent = chatCount;
 
   const { data: prods } = await sb.from('products').select('*').order('created_at', { ascending: false });
-  $('adminProductsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Product</th><th>Price</th><th>Action</th></tr></thead><tbody>' + (prods||[]).map(p => `<tr><td>${esc(p.name)}</td><td>${fmtGHS(p.price)}</td><td><button class="btn btn-sm btn-danger" onclick="deleteCatalogProduct('${p.id}')">Delete</button></td></tr>`).join('') + '</tbody></table></div>';
+  $('adminProductsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Product</th><th>Price</th><th>Sizes/Colors</th><th>Action</th></tr></thead><tbody>' + (prods||[]).map(p => `<tr><td>${esc(p.name)}</td><td>${fmtGHS(p.price)}</td><td style="font-size:11px; color:var(--slate);">Sizes: ${esc(p.sizes||'—')}<br>Colors: ${esc(p.colors||'—')}</td><td><button class="btn btn-sm btn-danger" onclick="deleteCatalogProduct('${p.id}')">Delete</button></td></tr>`).join('') + '</tbody></table></div>';
 
   const { data: clients } = await sb.from('profiles').select('*').eq('role','client').order('date_registered', { ascending: false });
   window.__adminClients = clients || [];
