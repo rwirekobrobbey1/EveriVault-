@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 <title>EveriVault Enterprise — China to Ghana Supply Chain</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,28 +27,29 @@
   --card-shadow: 0 10px 30px -5px rgba(10, 25, 47, 0.08);
 }
 
-* { margin:0; padding:0; box-sizing:border-box; font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; }
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
 html { scroll-behavior:smooth; }
-body { background:var(--bg-light); color:#0F172A; line-height:1.6; }
+body { background:var(--bg-light); color:#0F172A; line-height:1.6; text-rendering:optimizeLegibility; -webkit-font-smoothing:antialiased; }
 
-.container { max-width:1200px; margin:0 auto; padding:0 20px; }
+.container { width:100%; max-width:1200px; margin:0 auto; padding:0 16px; }
 
-/* Navigation */
-nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-bottom:1px solid rgba(255,255,255,0.08); backdrop-filter:blur(12px); }
-.nav-wrap { display:flex; justify-content:space-between; align-items:center; height:76px; }
-.logo-area { display:flex; align-items:center; gap:12px; text-decoration:none; cursor:pointer; }
-.logo-img { width:46px; height:46px; border-radius:8px; object-fit:cover; background:#FFFFFF; border:1px solid rgba(255,255,255,0.2); }
-.logo { font-size:18px; font-weight:800; color:#FFFFFF; letter-spacing:0.5px; display:flex; flex-direction:column; line-height:1.2; }
-.logo span { color:var(--green); font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:1px; }
-.nav-links { display:flex; gap:4px; list-style:none; align-items:center; flex-wrap:wrap; }
-.nav-links a { color:var(--slate-light); text-decoration:none; padding:8px 14px; border-radius:8px; font-weight:600; font-size:14px; cursor:pointer; transition:all 0.2s ease; display:flex; align-items:center; gap:6px; }
+/* Responsive Navigation Bar */
+nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-bottom:1px solid rgba(255,255,255,0.08); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); }
+.nav-wrap { display:flex; justify-content:space-between; align-items:center; height:72px; }
+.logo-area { display:flex; align-items:center; gap:10px; text-decoration:none; cursor:pointer; }
+.logo-img { width:42px; height:42px; border-radius:8px; object-fit:cover; background:#FFFFFF; border:1px solid rgba(255,255,255,0.2); }
+.logo { font-size:16px; font-weight:800; color:#FFFFFF; letter-spacing:0.5px; display:flex; flex-direction:column; line-height:1.2; }
+.logo span { color:var(--green); font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:1px; }
+
+.nav-links { display:flex; gap:2px; list-style:none; align-items:center; flex-wrap:wrap; }
+.nav-links a { color:var(--slate-light); text-decoration:none; padding:8px 12px; border-radius:8px; font-weight:600; font-size:13px; cursor:pointer; transition:all 0.2s ease; display:flex; align-items:center; gap:5px; white-space:nowrap; }
 .nav-links a:hover, .nav-links a.active { color:#FFFFFF; background:rgba(255,255,255,0.08); }
 .nav-cta { background:var(--green) !important; color:#FFFFFF !important; font-weight:700 !important; }
-.cart-badge { background:#EF4444; color:#fff; border-radius:50px; padding:2px 8px; font-size:11px; font-weight:800; }
-.menu-toggle { display:none; color:#fff; font-size:26px; cursor:pointer; background:none; border:none; padding:6px; }
+.cart-badge { background:#EF4444; color:#fff; border-radius:50px; padding:2px 7px; font-size:10px; font-weight:800; }
+.menu-toggle { display:none; color:#fff; font-size:24px; cursor:pointer; background:none; border:none; padding:8px; }
 
-/* Buttons & UI Controls */
-.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 22px; border-radius:10px; font-weight:700; border:none; cursor:pointer; font-size:14px; text-decoration:none; transition:all 0.2s ease; white-space:nowrap; }
+/* Buttons & Controls */
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 20px; border-radius:10px; font-weight:700; border:none; cursor:pointer; font-size:14px; text-decoration:none; transition:all 0.2s ease; white-space:nowrap; -webkit-appearance:none; }
 .btn:active { transform:scale(0.98); }
 .btn:disabled { opacity:0.5; cursor:not-allowed; }
 .btn-green { background:var(--green); color:#FFFFFF; }
@@ -56,109 +57,108 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 .btn-blue { background:var(--deep-blue); color:#FFFFFF; }
 .btn-blue:hover { background:var(--deep-blue-hover); }
 .btn-navy { background:var(--navy); color:#FFFFFF; }
-.btn-navy:hover { background:var(--navy-surface); }
 .btn-outline { border:1.5px solid var(--navy); background:transparent; color:var(--navy); }
-.btn-sm { padding:8px 14px; font-size:13px; border-radius:8px; }
+.btn-sm { padding:8px 12px; font-size:12px; border-radius:8px; }
 .btn-danger { background:#EF4444; color:#fff; }
 .btn-block { width:100%; }
 
-/* Floating WhatsApp Contact Widget */
+/* Floating WhatsApp Widget */
 .wa-float {
-  position:fixed; bottom:24px; right:24px; z-index:10000;
-  background:var(--wa-green); color:#FFFFFF; padding:14px 22px; border-radius:50px;
-  font-weight:800; font-size:14px; text-decoration:none; display:flex; align-items:center; gap:10px;
-  box-shadow:0 10px 25px rgba(37,211,102,0.4); transition:all 0.3s ease;
+  position:fixed; bottom:20px; right:20px; z-index:10000;
+  background:var(--wa-green); color:#FFFFFF; padding:12px 18px; border-radius:50px;
+  font-weight:800; font-size:13px; text-decoration:none; display:flex; align-items:center; gap:8px;
+  box-shadow:0 8px 25px rgba(37,211,102,0.4); transition:all 0.3s ease;
 }
 .wa-float:hover { transform:scale(1.05); background:#1eb854; color:#fff; }
 
 /* Hero Section */
 .hero { 
-  background: linear-gradient(180deg, rgba(10,25,47,0.9) 0%, rgba(30,58,138,0.95) 100%), 
+  background: linear-gradient(180deg, rgba(10,25,47,0.92) 0%, rgba(30,58,138,0.96) 100%), 
               url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat; 
-  color:#fff; padding:80px 0 90px; text-align:center; position:relative; overflow:hidden; 
+  color:#fff; padding:60px 16px 70px; text-align:center; position:relative; overflow:hidden; 
 }
-.badge { display:inline-flex; align-items:center; gap:8px; background:var(--green-light); border:1px solid rgba(16,185,129,0.4); color:var(--green); padding:6px 16px; border-radius:50px; font-weight:700; margin-bottom:20px; font-size:13px; }
-.hero h1 { font-size:clamp(30px, 5vw, 52px); margin-bottom:16px; font-weight:800; letter-spacing:-0.5px; }
+.badge { display:inline-flex; align-items:center; gap:6px; background:var(--green-light); border:1px solid rgba(16,185,129,0.4); color:var(--green); padding:6px 14px; border-radius:50px; font-weight:700; margin-bottom:16px; font-size:12px; }
+.hero h1 { font-size:clamp(26px, 4.5vw, 46px); margin-bottom:14px; font-weight:800; letter-spacing:-0.5px; }
 .hero h1 span { color:var(--green); }
-.hero p { font-size:clamp(15px, 2.5vw, 18px); color:var(--slate-light); max-width:680px; margin:0 auto 32px; font-weight:500; }
+.hero p { font-size:clamp(14px, 2vw, 16px); color:var(--slate-light); max-width:650px; margin:0 auto 28px; font-weight:500; }
 
-.rate-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:16px; max-width:940px; margin:0 auto 32px; }
-.rate-card { background:rgba(255, 255, 255, 0.06); border:1px solid rgba(255, 255, 255, 0.15); backdrop-filter:blur(10px); border-radius:16px; padding:20px; text-align:left; }
-.rate-card h3 { font-size:13px; color:var(--slate-light); font-weight:600; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px; }
-.rate-card .big { font-size:26px; font-weight:800; color:var(--green); }
-.rate-card .sub { font-size:13px; color:#CBD5E1; margin-top:2px; }
+.rate-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px; max-width:920px; margin:0 auto 28px; text-align:left; }
+.rate-card { background:rgba(255, 255, 255, 0.06); border:1px solid rgba(255, 255, 255, 0.15); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-radius:14px; padding:16px; }
+.rate-card h3 { font-size:12px; color:var(--slate-light); font-weight:600; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px; }
+.rate-card .big { font-size:24px; font-weight:800; color:var(--green); }
+.rate-card .sub { font-size:12px; color:#CBD5E1; margin-top:2px; }
 
-/* Pinduoduo-Style Store Grid */
-.grid-pdd { display:grid; grid-template-columns:repeat(auto-fill, minmax(230px, 1fr)); gap:16px; }
+/* Responsive Store Grid */
+.grid-pdd { display:grid; grid-template-columns:repeat(auto-fill, minmax(210px, 1fr)); gap:14px; }
 .pdd-card { background:#FFFFFF; border-radius:12px; overflow:hidden; border:1px solid var(--border-color); display:flex; flex-direction:column; justify-content:space-between; transition:all 0.2s; box-shadow:var(--card-shadow); }
-.pdd-card:hover { transform:translateY(-3px); box-shadow:0 12px 25px rgba(10,25,47,0.1); }
-.pdd-img-wrap { width:100%; height:180px; background:#E2E8F0; position:relative; overflow:hidden; }
+.pdd-card:hover { transform:translateY(-2px); box-shadow:0 12px 25px rgba(10,25,47,0.1); }
+.pdd-img-wrap { width:100%; height:170px; background:#E2E8F0; position:relative; overflow:hidden; }
 .pdd-img { width:100%; height:100%; object-fit:cover; }
-.pdd-tag-deal { position:absolute; top:10px; left:10px; background:var(--deep-blue); color:#fff; font-size:11px; font-weight:800; padding:3px 8px; border-radius:6px; }
+.pdd-tag-deal { position:absolute; top:8px; left:8px; background:var(--deep-blue); color:#fff; font-size:10px; font-weight:800; padding:2px 6px; border-radius:4px; }
 
-.pdd-content { padding:14px; display:flex; flex-direction:column; flex:1; justify-content:space-between; }
-.pdd-title { font-size:14px; font-weight:700; color:var(--navy); margin-bottom:8px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; height:40px; line-height:1.4; }
-.pdd-footer-row { display:flex; justify-content:space-between; align-items:flex-end; margin-top:10px; }
-.pdd-price { font-size:18px; font-weight:800; color:var(--green); }
-.pdd-sold { font-size:12px; color:var(--slate); }
+.pdd-content { padding:12px; display:flex; flex-direction:column; flex:1; justify-content:space-between; }
+.pdd-title { font-size:13px; font-weight:700; color:var(--navy); margin-bottom:6px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; height:38px; line-height:1.3; }
+.pdd-footer-row { display:flex; justify-content:space-between; align-items:flex-end; margin-top:8px; }
+.pdd-price { font-size:16px; font-weight:800; color:var(--green); }
+.pdd-sold { font-size:11px; color:var(--slate); }
 
-section { padding:60px 0; }
-.section-box { background:#FFFFFF; padding:60px 0; border-bottom:1px solid var(--border-color); }
-h2 { text-align:center; font-size:28px; color:var(--navy); margin-bottom:8px; font-weight:800; }
-h2::after { content:''; display:block; width:48px; height:4px; background:var(--green); margin:12px auto 0; border-radius:2px; }
-.subtitle { text-align:center; color:var(--slate); margin-bottom:36px; font-size:15px; font-weight:500; }
+section { padding:45px 0; }
+.section-box { background:#FFFFFF; padding:45px 0; border-bottom:1px solid var(--border-color); }
+h2 { text-align:center; font-size:24px; color:var(--navy); margin-bottom:6px; font-weight:800; }
+h2::after { content:''; display:block; width:40px; height:3px; background:var(--green); margin:10px auto 0; border-radius:2px; }
+.subtitle { text-align:center; color:var(--slate); margin-bottom:28px; font-size:14px; font-weight:500; }
 
-.tabs { display:flex; gap:6px; margin-bottom:24px; border-bottom:2px solid var(--border-color); padding-bottom:2px; flex-wrap:wrap; }
-.tab { padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:700; color:var(--slate); border:none; background:none; font-size:14px; }
+.tabs { display:flex; gap:6px; margin-bottom:20px; border-bottom:2px solid var(--border-color); padding-bottom:2px; flex-wrap:wrap; }
+.tab { padding:8px 16px; border-radius:8px; cursor:pointer; font-weight:700; color:var(--slate); border:none; background:none; font-size:13px; }
 .tab.active { color:var(--navy); background:#E2E8F0; }
 .tab-content { display:none; }
 .tab-content.active { display:block; }
 
-.form-box { max-width:580px; margin:0 auto; background:#fff; padding:32px; border-radius:20px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); }
-.calc-box { background:#fff; border-radius:20px; padding:32px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); max-width:720px; margin:0 auto; }
-.form-group { margin-bottom:18px; }
-label { display:block; margin-bottom:6px; font-weight:700; color:var(--navy); font-size:13px; text-transform:uppercase; letter-spacing:0.3px; }
-input, select, textarea { width:100%; padding:12px 16px; border:1.5px solid #CBD5E1; border-radius:10px; font-size:15px; background:var(--bg-light); color:#0F172A; }
+.form-box { width:100%; max-width:540px; margin:0 auto; background:#fff; padding:28px; border-radius:16px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); }
+.calc-box { width:100%; background:#fff; border-radius:16px; padding:28px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); max-width:700px; margin:0 auto; }
+.form-group { margin-bottom:16px; }
+label { display:block; margin-bottom:5px; font-weight:700; color:var(--navy); font-size:12px; text-transform:uppercase; letter-spacing:0.3px; }
+input, select, textarea { width:100%; padding:12px 14px; border:1.5px solid #CBD5E1; border-radius:10px; font-size:14px; background:var(--bg-light); color:#0F172A; -webkit-appearance:none; }
 input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 
-.terms-box { background:#EFF6FF; border:1.5px solid #BFDBFE; border-radius:12px; padding:16px; margin-bottom:18px; font-size:13px; color:#1E3A8A; max-height:160px; overflow-y:auto; }
-.terms-box h4 { font-weight:800; color:var(--deep-blue); margin-bottom:8px; text-transform:uppercase; font-size:12px; }
-.terms-box ul { padding-left:18px; margin-top:6px; }
-.terms-box li { margin-bottom:6px; }
+.terms-box { background:#EFF6FF; border:1.5px solid #BFDBFE; border-radius:10px; padding:14px; margin-bottom:16px; font-size:12px; color:#1E3A8A; max-height:150px; overflow-y:auto; }
+.terms-box h4 { font-weight:800; color:var(--deep-blue); margin-bottom:6px; text-transform:uppercase; font-size:11px; }
+.terms-box ul { padding-left:16px; margin-top:4px; }
+.terms-box li { margin-bottom:4px; }
 
-.payment-slot-card { background:#ECFDF5; border:2px solid var(--green); border-radius:16px; padding:20px; margin:20px 0; }
-.pay-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:10px; margin-top:10px; }
-.pay-btn { background:#fff; border:1.5px solid #CBD5E1; border-radius:10px; padding:10px; text-align:center; cursor:pointer; font-size:13px; font-weight:700; color:var(--navy); }
+.payment-slot-card { background:#ECFDF5; border:2px solid var(--green); border-radius:12px; padding:16px; margin:16px 0; }
+.pay-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(100px, 1fr)); gap:8px; margin-top:8px; }
+.pay-btn { background:#fff; border:1.5px solid #CBD5E1; border-radius:8px; padding:8px; text-align:center; cursor:pointer; font-size:12px; font-weight:700; color:var(--navy); }
 .pay-btn.active { border-color:var(--green); background:var(--green-light); color:var(--green-hover); }
-.pay-details-box { background:#fff; border:1px solid #A7F3D0; border-radius:12px; padding:16px; margin-top:12px; }
+.pay-details-box { background:#fff; border:1px solid #A7F3D0; border-radius:10px; padding:12px; margin-top:10px; }
 
-.cart-item-row { display:flex; justify-content:space-between; align-items:center; padding:16px; background:#fff; border-radius:12px; margin-bottom:12px; border:1px solid var(--border-color); flex-wrap:wrap; gap:12px; }
-.qty-btn { width:28px; height:28px; border-radius:6px; border:1px solid #CBD5E1; background:#F8FAFC; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
+.cart-item-row { display:flex; justify-content:space-between; align-items:center; padding:14px; background:#fff; border-radius:10px; margin-bottom:10px; border:1px solid var(--border-color); flex-wrap:wrap; gap:10px; }
+.qty-btn { width:26px; height:26px; border-radius:6px; border:1px solid #CBD5E1; background:#F8FAFC; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
 
-.addr-section { background:#fff; border-radius:20px; padding:28px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); margin-bottom:24px; }
-.addr-section h3 { color:var(--navy); margin-bottom:18px; padding-bottom:10px; border-bottom:2px solid #F1F5F9; font-size:18px; font-weight:700; }
-.addr-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:20px; }
-.addr-block { background:var(--bg-light); border-radius:14px; padding:22px; border:1px solid var(--border-color); }
-.cn-text-box { background:#FFFFFF; border:1.5px solid #CBD5E1; border-radius:8px; padding:12px; margin:10px 0; font-family:monospace, sans-serif; font-size:14px; color:#0F172A; word-break:break-all; }
-.contact-row { display:flex; justify-content:space-between; align-items:center; background:#fff; padding:10px 14px; border-radius:8px; border:1px solid var(--border-color); margin-bottom:8px; font-size:13px; }
+.addr-section { background:#fff; border-radius:16px; padding:24px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); margin-bottom:20px; }
+.addr-section h3 { color:var(--navy); margin-bottom:14px; padding-bottom:8px; border-bottom:2px solid #F1F5F9; font-size:16px; font-weight:700; }
+.addr-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px; }
+.addr-block { background:var(--bg-light); border-radius:12px; padding:18px; border:1px solid var(--border-color); }
+.cn-text-box { background:#FFFFFF; border:1.5px solid #CBD5E1; border-radius:8px; padding:10px; margin:8px 0; font-family:monospace, sans-serif; font-size:13px; color:#0F172A; word-break:break-all; }
+.contact-row { display:flex; justify-content:space-between; align-items:center; background:#fff; padding:8px 12px; border-radius:6px; border:1px solid var(--border-color); margin-bottom:6px; font-size:12px; }
 
-.review-card { background:#fff; border-radius:16px; padding:20px; border:1px solid var(--border-color); box-shadow:var(--card-shadow); margin-bottom:16px; }
+.review-card { background:#fff; border-radius:12px; padding:16px; border:1px solid var(--border-color); box-shadow:var(--card-shadow); margin-bottom:12px; }
 
-.admin-stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:24px; }
-.stat-card { background:#fff; padding:20px; border-radius:14px; border:1px solid var(--border-color); box-shadow:var(--card-shadow); }
-.stat-card h4 { font-size:12px; color:var(--slate); text-transform:uppercase; margin-bottom:6px; font-weight:700; }
-.stat-card .val { font-size:24px; font-weight:800; color:var(--navy); }
+.admin-stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-bottom:20px; }
+.stat-card { background:#fff; padding:16px; border-radius:12px; border:1px solid var(--border-color); box-shadow:var(--card-shadow); }
+.stat-card h4 { font-size:11px; color:var(--slate); text-transform:uppercase; margin-bottom:4px; font-weight:700; }
+.stat-card .val { font-size:22px; font-weight:800; color:var(--navy); }
 
-.admin-layout { display:grid; grid-template-columns:240px 1fr; gap:24px; }
-.admin-sidebar { background:#fff; border-radius:16px; border:1px solid var(--border-color); padding:16px; box-shadow:var(--card-shadow); height:fit-content; }
-.admin-nav-btn { width:100%; text-align:left; padding:12px 16px; border-radius:10px; border:none; background:transparent; font-weight:700; color:var(--slate); cursor:pointer; font-size:14px; margin-bottom:4px; display:block; }
+.admin-layout { display:grid; grid-template-columns:220px 1fr; gap:20px; }
+.admin-sidebar { background:#fff; border-radius:14px; border:1px solid var(--border-color); padding:14px; box-shadow:var(--card-shadow); height:fit-content; }
+.admin-nav-btn { width:100%; text-align:left; padding:10px 14px; border-radius:8px; border:none; background:transparent; font-weight:700; color:var(--slate); cursor:pointer; font-size:13px; margin-bottom:3px; display:block; }
 .admin-nav-btn.active, .admin-nav-btn:hover { background:var(--deep-blue); color:#fff; }
 
-.admin-table { width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:var(--card-shadow); }
-.admin-table th { background:var(--navy); color:#fff; padding:14px; text-align:left; font-size:12px; text-transform:uppercase; }
-.admin-table td { padding:14px; border-bottom:1px solid var(--border-color); font-size:14px; }
+.admin-table { width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; box-shadow:var(--card-shadow); }
+.admin-table th { background:var(--navy); color:#fff; padding:12px; text-align:left; font-size:11px; text-transform:uppercase; }
+.admin-table td { padding:12px; border-bottom:1px solid var(--border-color); font-size:13px; }
 
-.pill { display:inline-block; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:700; }
+.pill { display:inline-block; padding:3px 8px; border-radius:20px; font-size:11px; font-weight:700; }
 .pill-pending { background:#FEF3C7; color:#92400E; }
 .pill-verified { background:#D1FAE5; color:#166534; }
 .pill-type { background:#E0F2FE; color:#0369A1; }
@@ -172,25 +172,27 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 .delivery-only { display:none !important; }
 .delivery-only.show { display:block !important; }
 
-.toast-wrap { position:fixed; top:84px; right:20px; z-index:10001; display:flex; flex-direction:column; gap:10px; pointer-events:none; }
-.toast { background:var(--navy); color:#fff; padding:14px 20px; border-radius:12px; font-weight:600; font-size:14px; max-width:340px; opacity:0; transform:translateX(100%); transition:all 0.3s ease; pointer-events:auto; box-shadow:0 10px 25px rgba(0,0,0,0.15); }
+.toast-wrap { position:fixed; top:80px; right:16px; z-index:10001; display:flex; flex-direction:column; gap:8px; pointer-events:none; }
+.toast { background:var(--navy); color:#fff; padding:12px 18px; border-radius:10px; font-weight:600; font-size:13px; max-width:320px; opacity:0; transform:translateX(100%); transition:all 0.3s ease; pointer-events:auto; box-shadow:0 8px 20px rgba(0,0,0,0.15); }
 .toast.show { opacity:1; transform:translateX(0); }
 .toast.ok { background:var(--green); }
 .toast.err { background:#EF4444; }
 
-footer { background:var(--navy); color:var(--slate-light); padding:40px 0 24px; margin-top:60px; text-align:center; border-top:1px solid rgba(255,255,255,0.08); }
-footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; }
+footer { background:var(--navy); color:var(--slate-light); padding:35px 16px 20px; margin-top:50px; text-align:center; border-top:1px solid rgba(255,255,255,0.08); }
+footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; }
 
-.spinner { display:inline-block; width:16px; height:16px; border:2.5px solid rgba(255,255,255,0.3); border-top-color:#fff; border-radius:50%; animation:spin .8s linear infinite; }
+.spinner { display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,0.3); border-top-color:#fff; border-radius:50%; animation:spin .8s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
 
+/* Mobile Adaptability Queries */
 @media(max-width:850px) {
   .admin-layout { grid-template-columns:1fr; }
   .menu-toggle { display:block; }
-  .nav-links { position:absolute; top:100%; left:0; right:0; background:var(--navy); flex-direction:column; padding:16px; display:none; border-bottom:1px solid rgba(255,255,255,0.1); }
+  .nav-links { position:absolute; top:100%; left:0; right:0; background:var(--navy); flex-direction:column; padding:14px; display:none; border-bottom:1px solid rgba(255,255,255,0.1); box-shadow:0 10px 25px rgba(0,0,0,0.2); }
   .nav-links.active { display:flex; }
-  .nav-links a { width:100%; padding:12px; text-align:left; }
+  .nav-links a { width:100%; padding:10px; text-align:left; }
   .wa-float { bottom:16px; right:16px; padding:10px 16px; font-size:12px; }
+  .hero { padding:45px 12px 55px; }
 }
 </style>
 </head>
@@ -225,7 +227,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
 </nav>
 
 <a href="https://wa.me/13095194647?text=Hello%20EveriVault%20Management%2C%20I%20want%20to%20request%20cargo%20consolidation%20%2F%20inquire%20about%20my%20shipment" target="_blank" class="wa-float">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
   WhatsApp Us
 </a>
 
@@ -241,19 +243,19 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           <h3>Sea Freight Cargo</h3>
           <div class="big" id="dynSeaRate1">$260 / m³</div>
           <div class="sub">Under 1.0 CBM Volume</div>
-          <div class="big" id="dynSeaRate2" style="font-size:20px; margin-top:8px; color:#fff;">$255 / m³</div>
+          <div class="big" id="dynSeaRate2" style="font-size:18px; margin-top:6px; color:#fff;">$255 / m³</div>
           <div class="sub">1.0 CBM & Above Tier</div>
         </div>
         <div class="rate-card">
           <h3>Air Express Freight</h3>
           <div class="big" id="dynAirRate1">$17 / kg</div>
           <div class="sub">General Merchandise</div>
-          <div class="big" id="dynAirRate2" style="font-size:20px; margin-top:8px; color:#fff;">GHS 500 Flat Rate</div>
+          <div class="big" id="dynAirRate2" style="font-size:18px; margin-top:6px; color:#fff;">GHS 500 Flat Rate</div>
           <div class="sub">Phones / Electronics</div>
         </div>
         <div class="rate-card">
           <h3>Group-Buy Deal</h3>
-          <div class="big" style="font-size:18px; color:var(--green);">Up to 50% OFF</div>
+          <div class="big" style="font-size:16px; color:var(--green);">Up to 50% OFF</div>
           <div class="sub">Join Wholesale Packs</div>
         </div>
       </div>
@@ -269,27 +271,27 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       <h2>Featured Wholesale Group Deals</h2>
       <p class="subtitle">Factory-direct wholesale pricing unlocked through group buying and container cargo consolidation.</p>
       <div id="homeCatalogGrid" class="grid-pdd"></div>
-      <div style="text-align:center; margin-top:35px;" id="homeCatalogCtaBox">
+      <div style="text-align:center; margin-top:30px;" id="homeCatalogCtaBox">
         <button class="btn btn-blue" onclick="go('auth')">Sign In to View All Wholesale Items ➔</button>
       </div>
     </div>
   </div>
 
   <div class="container auth-only" style="display:none;" id="referralBannerBox">
-    <div class="referral-banner" style="background:linear-gradient(135deg, #1E3A8A 0%, #0A192F 100%); color:#fff; border-radius:16px; padding:24px; margin:30px auto; max-width:940px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; box-shadow:0 10px 25px rgba(30,58,138,0.25);">
+    <div class="referral-banner" style="background:linear-gradient(135deg, #1E3A8A 0%, #0A192F 100%); color:#fff; border-radius:14px; padding:20px; margin:25px auto; max-width:920px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; box-shadow:0 10px 25px rgba(30,58,138,0.25);">
       <div>
-        <h3 style="font-size:20px; font-weight:800; margin-bottom:4px;">Your Personal Group-Buy Referral Link</h3>
+        <h3 style="font-size:18px; font-weight:800; margin-bottom:4px;">Your Personal Group-Buy Referral Link</h3>
         <p style="font-size:13px; color:#93C5FD;">Share your link on WhatsApp or social media to unlock team discounts:</p>
-        <code id="userReferralLinkDisplay" style="background:#fff; color:var(--navy); padding:6px 12px; border-radius:8px; font-weight:800; display:inline-block; margin-top:6px;">https://www.everivault.com/?ref=GH001K-XXX</code>
+        <code id="userReferralLinkDisplay" style="background:#fff; color:var(--navy); padding:4px 10px; border-radius:6px; font-weight:800; display:inline-block; margin-top:6px; font-size:12px;">https://www.everivault.com/?ref=GH001K-XXX</code>
       </div>
       <button class="btn btn-green" onclick="copyText(document.getElementById('userReferralLinkDisplay').innerText)">Copy Link</button>
     </div>
   </div>
 
   <div class="container">
-    <div class="ad-form-box" style="background:var(--navy); color:#fff; border-radius:20px; padding:40px; max-width:800px; margin:50px auto 0; box-shadow:var(--card-shadow);">
-      <h3 style="font-size:24px; color:var(--green); margin-bottom:8px; font-weight:800; text-align:center;">Submit Sourcing / Ad Request</h3>
-      <p style="color:var(--slate-light); text-align:center; font-size:14px; margin-bottom:24px;">Looking for specific factory goods from China? Send your request for quotation or ad feature.</p>
+    <div class="ad-form-box" style="background:var(--navy); color:#fff; border-radius:16px; padding:30px; max-width:760px; margin:40px auto 0; box-shadow:var(--card-shadow);">
+      <h3 style="font-size:20px; color:var(--green); margin-bottom:6px; font-weight:800; text-align:center;">Submit Sourcing / Ad Request</h3>
+      <p style="color:var(--slate-light); text-align:center; font-size:13px; margin-bottom:20px;">Looking for specific factory goods from China? Send your request for quotation or ad feature.</p>
       <form onsubmit="submitAdvertisement(event)">
         <div class="form-group"><label style="color:#fff;">Your Name / Business</label><input type="text" id="adName" required placeholder="e.g. Kumasi Boutique Store"></div>
         <div class="form-group"><label style="color:#fff;">Contact Number</label><input type="text" id="adContact" required placeholder="e.g. +233 24 000 0000"></div>
@@ -305,10 +307,10 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     <h2>Wholesale Store Catalog</h2>
     <p class="subtitle">Explore factory direct items with group-buy discount tiers and pre-order zero shipping fees.</p>
     
-    <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-bottom:30px;">
-      <input type="search" id="searchInput" placeholder="Search wholesale catalog..." oninput="renderProducts()" style="max-width:280px;">
-      <select id="catFilter" onchange="renderProducts()" style="max-width:180px;"><option value="all">All Categories</option></select>
-      <select id="typeFilter" onchange="renderProducts()" style="max-width:180px;">
+    <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:24px;">
+      <input type="search" id="searchInput" placeholder="Search wholesale catalog..." oninput="renderProducts()" style="max-width:260px;">
+      <select id="catFilter" onchange="renderProducts()" style="max-width:160px;"><option value="all">All Categories</option></select>
+      <select id="typeFilter" onchange="renderProducts()" style="max-width:160px;">
         <option value="all">All Types</option>
         <option value="preorder">Pre-Order (No Shipping Fee)</option>
         <option value="available">Available In Stock</option>
@@ -324,22 +326,22 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     <h2>Shopping Cart & 24-Hour Settlement Timer</h2>
     <p class="subtitle">Review selected group-buy items. <strong>Unpaid cart items expire after 24 hours</strong>.</p>
     
-    <div style="max-width:800px; margin:0 auto;">
-      <div id="cartTimerAlert" class="card" style="background:#EFF6FF; border:1.5px solid #BFDBFE; margin-bottom:16px; padding:16px; display:flex; justify-content:space-between; align-items:center;">
+    <div style="max-width:760px; margin:0 auto;">
+      <div id="cartTimerAlert" class="card" style="background:#EFF6FF; border:1.5px solid #BFDBFE; margin-bottom:14px; padding:14px; display:flex; justify-content:space-between; align-items:center;">
         <div>
-          <strong style="color:var(--deep-blue); font-size:14px;">⏳ Cart Expiration Timer:</strong>
+          <strong style="color:var(--deep-blue); font-size:13px;">⏳ Cart Expiration Timer:</strong>
           <span id="cartCountdownDisplay" style="font-weight:800; color:#1D4ED8; margin-left:6px;">24h 00m 00s</span>
         </div>
-        <span style="font-size:12px; color:#1E40AF;">Auto-expires if unpaid</span>
+        <span style="font-size:11px; color:#1E40AF;">Auto-expires if unpaid</span>
       </div>
 
       <div id="cartItemsContainer"></div>
       
-      <div class="card" style="margin-top:20px; text-align:right;">
-        <div style="font-size:18px; font-weight:800; color:var(--navy); margin-bottom:16px;">
+      <div class="card" style="margin-top:16px; text-align:right;">
+        <div style="font-size:16px; font-weight:800; color:var(--navy); margin-bottom:14px;">
           Cart Subtotal: <span id="cartGrandTotal" style="color:var(--green);">GHS 0.00</span>
         </div>
-        <div style="display:flex; gap:12px; justify-content:flex-end; flex-wrap:wrap;">
+        <div style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
           <button class="btn btn-outline" onclick="clearCart()">Clear Cart</button>
           <button class="btn btn-green" onclick="goToPaymentPortal('goods')">Proceed to Secure Payment</button>
         </div>
@@ -353,26 +355,26 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     <h2>Shipment Tracking & Courier Bargaining Desk</h2>
     <p class="subtitle">Live logistics status and direct chat with delivery personnel. <strong>Pay delivery strictly through admin accounts, never to courier directly.</strong></p>
 
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:24px; max-width:1000px; margin:0 auto;">
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px; max-width:960px; margin:0 auto;">
       <div class="form-box" style="margin:0;">
-        <h3 style="color:var(--navy); font-size:18px; margin-bottom:14px;">Live Shipment Status</h3>
+        <h3 style="color:var(--navy); font-size:16px; margin-bottom:12px;">Live Shipment Status</h3>
         <div id="clientTrackingDetails"></div>
       </div>
 
       <div class="form-box" style="margin:0; border:2px solid var(--deep-blue);">
-        <h3 style="color:var(--deep-blue); font-size:18px; margin-bottom:6px;">Delivery Bargaining Desk</h3>
-        <p style="font-size:13px; color:var(--slate); margin-bottom:14px;" id="deliveryGuyInfoCard">Loading delivery partner...</p>
+        <h3 style="color:var(--deep-blue); font-size:16px; margin-bottom:6px;">Delivery Bargaining Desk</h3>
+        <p style="font-size:12px; color:var(--slate); margin-bottom:12px;" id="deliveryGuyInfoCard">Loading delivery partner...</p>
         
-        <div style="background:#EFF6FF; border:1px solid #BFDBFE; border-radius:8px; padding:10px; font-size:12px; color:#1E3A8A; margin-bottom:12px;">
+        <div style="background:#EFF6FF; border:1px solid #BFDBFE; border-radius:8px; padding:8px; font-size:11px; color:#1E3A8A; margin-bottom:10px;">
           ⚠️ <strong>Notice:</strong> All payments must be made to admin settlement addresses (MoMo/GTBank), <strong>do not pay delivery guy directly</strong>.
         </div>
 
-        <div id="bargainChatBox" style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:12px; padding:14px; height:200px; overflow-y:auto; margin-bottom:14px; display:flex; flex-direction:column; gap:8px;"></div>
+        <div id="bargainChatBox" style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:10px; padding:12px; height:180px; overflow-y:auto; margin-bottom:12px; display:flex; flex-direction:column; gap:6px;"></div>
         
         <form onsubmit="sendBargainMessage(event)">
-          <div style="display:flex; gap:8px;">
-            <input type="text" id="bargainInput" required placeholder="Negotiate delivery fee or time..." style="font-size:14px;">
-            <button class="btn btn-blue" type="submit" style="padding:10px 16px;">Send</button>
+          <div style="display:flex; gap:6px;">
+            <input type="text" id="bargainInput" required placeholder="Negotiate delivery fee or time..." style="font-size:13px;">
+            <button class="btn btn-blue" type="submit" style="padding:8px 14px;">Send</button>
           </div>
         </form>
       </div>
@@ -385,37 +387,37 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     <h2>Courier / Delivery Personnel Portal</h2>
     <p class="subtitle">Review dispatches, client locations, and bargain delivery prices.</p>
 
-    <div style="max-width:900px; margin:0 auto;">
-      <div class="terms-box" style="max-height:none; margin-bottom:24px; border:2px solid var(--deep-blue);">
-        <h4 style="font-size:14px; color:#1E3A8A;">Courier Terms & Conditions (5% Platform Maintenance Fee)</h4>
-        <p style="margin-top:6px; font-size:13px;">
+    <div style="max-width:860px; margin:0 auto;">
+      <div class="terms-box" style="max-height:none; margin-bottom:20px; border:2px solid var(--deep-blue);">
+        <h4 style="font-size:13px; color:#1E3A8A;">Courier Terms & Conditions (5% Platform Maintenance Fee)</h4>
+        <p style="margin-top:4px; font-size:12px;">
           As an authorized EveriVault delivery partner, <strong>5% of any settled delivery fee</strong> is retained toward website maintenance and dispatch coordination.
         </p>
       </div>
 
-      <div class="card" style="margin-bottom:24px;">
-        <h3 style="color:var(--navy); margin-bottom:14px;">📦 Assigned Delivery Notifications</h3>
+      <div class="card" style="margin-bottom:20px;">
+        <h3 style="color:var(--navy); margin-bottom:12px;">📦 Assigned Delivery Notifications</h3>
         <div id="courierDeliveriesList"></div>
       </div>
 
-      <div class="card" style="margin-bottom:24px;">
-        <h3 style="color:var(--navy); margin-bottom:14px;">🆕 Newly Registered Clients Directory</h3>
+      <div class="card" style="margin-bottom:20px;">
+        <h3 style="color:var(--navy); margin-bottom:12px;">🆕 Newly Registered Clients Directory</h3>
         <div id="courierNewClientsList"></div>
       </div>
 
       <div class="card">
-        <h3 style="color:var(--navy); margin-bottom:14px;">💬 Client Bargaining & Dispatch Desk</h3>
+        <h3 style="color:var(--navy); margin-bottom:12px;">💬 Client Bargaining & Dispatch Desk</h3>
         <div class="form-group">
           <label>Select Client</label>
-          <select id="courierClientSelect" onchange="loadCourierChat()" style="margin-bottom:12px;"></select>
+          <select id="courierClientSelect" onchange="loadCourierChat()" style="margin-bottom:10px;"></select>
         </div>
         
-        <div id="courierChatBox" style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:12px; padding:14px; height:220px; overflow-y:auto; margin-bottom:14px; display:flex; flex-direction:column; gap:8px;"></div>
+        <div id="courierChatBox" style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:10px; padding:12px; height:200px; overflow-y:auto; margin-bottom:12px; display:flex; flex-direction:column; gap:6px;"></div>
 
         <form onsubmit="sendCourierMessage(event)">
-          <div style="display:flex; gap:8px;">
-            <input type="text" id="courierInputMsg" required placeholder="State delivery duration or price response..." style="font-size:14px;">
-            <button class="btn btn-blue" type="submit" style="padding:10px 16px;">Send to Client</button>
+          <div style="display:flex; gap:6px;">
+            <input type="text" id="courierInputMsg" required placeholder="State delivery duration or price response..." style="font-size:13px;">
+            <button class="btn btn-blue" type="submit" style="padding:8px 14px;">Send to Client</button>
           </div>
         </form>
       </div>
@@ -428,18 +430,18 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     <h2>Secure Payment Portal</h2>
     <p class="subtitle">Settle store purchases or shipping costs securely.</p>
 
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:24px; max-width:1050px; margin:0 auto;">
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px; max-width:1000px; margin:0 auto;">
       <div class="form-box" style="margin:0;">
-        <div style="margin-bottom:20px; text-align:center;">
-          <label style="font-size:14px; margin-bottom:10px;">Settlement Category</label>
-          <div style="display:flex; gap:10px;">
+        <div style="margin-bottom:16px; text-align:center;">
+          <label style="font-size:13px; margin-bottom:8px;">Settlement Category</label>
+          <div style="display:flex; gap:8px;">
             <button class="btn btn-block btn-green" id="payTypeBtnGoods" type="button" onclick="setPaymentType('goods')">Pay for Cart Goods</button>
             <button class="btn btn-block btn-outline" id="payTypeBtnShipping" type="button" onclick="setPaymentType('shipping')">Pay Shipping Cost</button>
           </div>
         </div>
 
         <form onsubmit="submitPayment(event)">
-          <h3 id="payFormHeading" style="color:var(--navy); font-size:18px; margin-bottom:16px;">Store Goods Settlement</h3>
+          <h3 id="payFormHeading" style="color:var(--navy); font-size:16px; margin-bottom:14px;">Store Goods Settlement</h3>
 
           <div class="form-group">
             <label>Shipping Mark & Name</label>
@@ -462,7 +464,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
 
           <div class="form-group">
             <label>Total Amount (GHS)</label>
-            <input type="number" id="payTotalAmount" step="0.01" required placeholder="0.00" style="font-size:20px; font-weight:800; color:var(--navy);">
+            <input type="number" id="payTotalAmount" step="0.01" required placeholder="0.00" style="font-size:18px; font-weight:800; color:var(--navy);">
           </div>
           
           <div class="payment-slot-card">
@@ -474,9 +476,9 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
             </div>
 
             <div class="pay-details-box" id="paySlotInfo">
-              <p style="font-size:13px; font-weight:700; color:var(--navy);">MTN Mobile Money Account</p>
-              <p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p>
-              <p style="font-size:12px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>
+              <p style="font-size:12px; font-weight:700; color:var(--navy);">MTN Mobile Money Account</p>
+              <p style="font-size:13px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p>
+              <p style="font-size:11px; color:var(--slate);">Account Name: Richmond Wireko Brobbey</p>
             </div>
           </div>
 
@@ -488,7 +490,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       </div>
 
       <div>
-        <h3 style="margin-bottom:14px; color:var(--navy);">Payment Settlements History</h3>
+        <h3 style="margin-bottom:12px; color:var(--navy);">Payment Settlements History</h3>
         <div id="myPaymentsList"></div>
       </div>
     </div>
@@ -508,17 +510,17 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       </div>
 
       <div id="calcSea" class="tab-content active">
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:12px;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(110px, 1fr)); gap:10px;">
           <div class="form-group"><label>Length (cm)</label><input type="number" id="seaL" oninput="calcSea()" placeholder="100"></div>
           <div class="form-group"><label>Width (cm)</label><input type="number" id="seaW" oninput="calcSea()" placeholder="60"></div>
           <div class="form-group"><label>Height (cm)</label><input type="number" id="seaH" oninput="calcSea()" placeholder="50"></div>
         </div>
         <div class="form-group"><label>Quantity</label><input type="number" id="seaQty" value="1" min="1" oninput="calcSea()"></div>
-        <div class="card" style="background:#ECFDF5; border:1px solid #A7F3D0; margin-top:16px;">
+        <div class="card" style="background:#ECFDF5; border:1px solid #A7F3D0; margin-top:14px;">
           <p>Calculated Volume: <span id="seaCbm" style="font-weight:800;">0.000</span> m³</p>
-          <p style="font-size:14px; color:var(--slate); margin-top:4px;">USD Cost: <span id="seaUsd" style="font-weight:700;">$0.00</span></p>
-          <p style="font-size:18px; margin-top:6px;">Estimated Total: <strong id="seaGhs" style="color:var(--green);">GHS 0.00</strong></p>
-          <button class="btn btn-sm btn-green" style="margin-top:12px;" onclick="goToPaymentPortal('shipping')">Pay Shipping Cost</button>
+          <p style="font-size:13px; color:var(--slate); margin-top:3px;">USD Cost: <span id="seaUsd" style="font-weight:700;">$0.00</span></p>
+          <p style="font-size:16px; margin-top:5px;">Estimated Total: <strong id="seaGhs" style="color:var(--green);">GHS 0.00</strong></p>
+          <button class="btn btn-sm btn-green" style="margin-top:10px;" onclick="goToPaymentPortal('shipping')">Pay Shipping Cost</button>
         </div>
       </div>
 
@@ -532,32 +534,32 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </div>
         <div class="form-group"><label>Weight (kg)</label><input type="number" id="airKg" step="0.1" oninput="calcAir()" placeholder="1.5"></div>
         <div class="card" style="background:#EFF6FF; border:1px solid #BFDBFE;">
-          <p style="font-size:14px; color:var(--slate);">USD Cost: <span id="airUsd" style="font-weight:700;">$0.00</span></p>
-          <p style="font-size:18px; margin-top:6px;">Estimated Air Freight: <strong id="airGhs" style="color:var(--navy);">GHS 0.00</strong></p>
-          <button class="btn btn-sm btn-green" style="margin-top:12px;" onclick="goToPaymentPortal('shipping')">Pay Shipping Cost</button>
+          <p style="font-size:13px; color:var(--slate);">USD Cost: <span id="airUsd" style="font-weight:700;">$0.00</span></p>
+          <p style="font-size:16px; margin-top:5px;">Estimated Air Freight: <strong id="airGhs" style="color:var(--navy);">GHS 0.00</strong></p>
+          <button class="btn btn-sm btn-green" style="margin-top:10px;" onclick="goToPaymentPortal('shipping')">Pay Shipping Cost</button>
         </div>
       </div>
 
       <div id="calcCompare" class="tab-content">
-        <p style="font-size:13px; font-weight:700; color:var(--navy); margin-bottom:12px;">Compare Sea vs Air:</p>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:12px;">
+        <p style="font-size:12px; font-weight:700; color:var(--navy); margin-bottom:10px;">Compare Sea vs Air:</p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(100px, 1fr)); gap:10px;">
           <div class="form-group"><label>Length (cm)</label><input type="number" id="compL" oninput="calcCompare()" placeholder="50"></div>
           <div class="form-group"><label>Width (cm)</label><input type="number" id="compW" oninput="calcCompare()" placeholder="40"></div>
           <div class="form-group"><label>Height (cm)</label><input type="number" id="compH" oninput="calcCompare()" placeholder="30"></div>
           <div class="form-group"><label>Weight (kg)</label><input type="number" id="compKg" oninput="calcCompare()" placeholder="5.0"></div>
         </div>
         
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-top:16px;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-top:14px;">
           <div class="card" style="background:#ECFDF5; border:1px solid #A7F3D0;">
             <h4 style="color:var(--green-hover);">Sea Cargo</h4>
-            <p style="font-size:18px; font-weight:800; color:var(--green);" id="compSeaRes">GHS 0.00 (0.000 m³)</p>
+            <p style="font-size:16px; font-weight:800; color:var(--green);" id="compSeaRes">GHS 0.00 (0.000 m³)</p>
           </div>
           <div class="card" style="background:#EFF6FF; border:1px solid #BFDBFE;">
             <h4 style="color:var(--navy);">Air Express</h4>
-            <p style="font-size:18px; font-weight:800; color:var(--navy);" id="compAirRes">GHS 0.00 (0.0 kg)</p>
+            <p style="font-size:16px; font-weight:800; color:var(--navy);" id="compAirRes">GHS 0.00 (0.0 kg)</p>
           </div>
         </div>
-        <div style="text-align:center; margin-top:16px;">
+        <div style="text-align:center; margin-top:14px;">
           <button class="btn btn-green" onclick="goToPaymentPortal('shipping')">Pay Shipping Cost</button>
         </div>
       </div>
@@ -573,13 +575,13 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     <div class="addr-section">
       <h3>China Receiving Hubs</h3>
       <div class="addr-grid">
-        <div class="addr-block" style="border-left:5px solid var(--navy);">
+        <div class="addr-block" style="border-left:4px solid var(--navy);">
           <h4>Sea Cargo Hub — Foshan (佛山海运仓)</h4>
           <label>Chinese Address:</label>
           <div class="cn-text-box" id="cnSeaAddress">广东省佛山市南海区狮山镇新浦西路88号博汇五期</div>
           <button class="btn btn-sm btn-green" onclick="copyText($('cnSeaAddress').innerText)">Copy Address</button>
           
-          <div style="margin-top:16px;">
+          <div style="margin-top:14px;">
             <label>Manager Contacts:</label>
             <div class="contact-row">
               <span>Mr. Zhang: <strong>+86 181 2571 7488</strong></span>
@@ -592,7 +594,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
           </div>
         </div>
 
-        <div class="addr-block" style="border-left:5px solid var(--green);">
+        <div class="addr-block" style="border-left:4px solid var(--green);">
           <h4>Air Express Hub — Guangzhou (广州空运仓)</h4>
           <label>Chinese Address:</label>
           <div class="cn-text-box" id="cnAirAddress">广东省广州市越秀区广园西路99号99商务中心510室</div>
@@ -608,7 +610,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
     <h2>Client Review Portal</h2>
     <p class="subtitle">Verified feedback from group-buy importers across Ghana.</p>
 
-    <div class="form-box" style="margin-bottom:36px; border:2px solid var(--green);">
+    <div class="form-box" style="margin-bottom:28px; border:2px solid var(--green);">
       <h3>Write a Review</h3>
       <form onsubmit="doSubmitReview(event)">
         <div class="form-group">
@@ -623,7 +625,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       </form>
     </div>
 
-    <div id="reviewsList" style="max-width:800px; margin:0 auto;"></div>
+    <div id="reviewsList" style="max-width:760px; margin:0 auto;"></div>
   </div>
 </section>
 
@@ -638,7 +640,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       </div>
 
       <div id="tLogin" class="tab-content active">
-        <p style="font-size:13px; color:var(--slate); margin-bottom:16px;">Sign in using your <strong>Gmail address, unique Shipping ID, or Courier login</strong>.</p>
+        <p style="font-size:12px; color:var(--slate); margin-bottom:14px;">Sign in using your <strong>Gmail address, unique Shipping ID, or Courier login</strong>.</p>
         <form onsubmit="doUniversalLogin(event)">
           <div class="form-group"><label>Gmail / Shipping ID / Courier Login</label><input type="text" id="uniIdent" required placeholder="e.g. client@gmail.com or GH001K-KM-..."></div>
           <div class="form-group"><label>Password</label><input type="password" id="uniPw" required placeholder="••••••"></div>
@@ -665,24 +667,24 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
             </ul>
           </div>
 
-          <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:18px;">
-            <input type="checkbox" id="tcCheck" required style="width:18px; height:18px; margin-top:2px;">
-            <label for="tcCheck" style="font-size:12px; font-weight:600; text-transform:none; color:#334155;">I agree to the Terms and Conditions and compliance rules.</label>
+          <div style="display:flex; align-items:flex-start; gap:8px; margin-bottom:14px;">
+            <input type="checkbox" id="tcCheck" required style="width:16px; height:16px; margin-top:2px;">
+            <label for="tcCheck" style="font-size:11px; font-weight:600; text-transform:none; color:#334155;">I agree to the Terms and Conditions and compliance rules.</label>
           </div>
 
           <button class="btn btn-green btn-block" type="submit">Continue & Send Gmail OTP</button>
         </form>
 
-        <div id="otpVerifyBox" style="display:none; margin-top:20px; background:#F8FAFC; border:2px solid var(--green); padding:20px; border-radius:12px;">
-          <h3 style="color:var(--navy); font-size:16px; margin-bottom:6px;">🛡️ Gmail Human Verification (OTP)</h3>
-          <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">Code sent to <strong id="otpTargetEmail"></strong>.</p>
-          <div class="form-group"><label>Enter 6-Digit OTP</label><input type="text" id="otpCodeInput" maxlength="6" placeholder="849201" style="font-size:18px; font-weight:800; letter-spacing:2px; text-align:center;"></div>
+        <div id="otpVerifyBox" style="display:none; margin-top:16px; background:#F8FAFC; border:2px solid var(--green); padding:16px; border-radius:10px;">
+          <h3 style="color:var(--navy); font-size:14px; margin-bottom:4px;">🛡️ Gmail Human Verification (OTP)</h3>
+          <p style="font-size:12px; color:var(--slate); margin-bottom:10px;">Code sent to <strong id="otpTargetEmail"></strong>.</p>
+          <div class="form-group"><label>Enter 6-Digit OTP</label><input type="text" id="otpCodeInput" maxlength="6" placeholder="849201" style="font-size:16px; font-weight:800; letter-spacing:2px; text-align:center;"></div>
           <button class="btn btn-green btn-block" type="button" onclick="verifyOtpAndRegister()">Verify OTP & Complete Registration</button>
         </div>
       </div>
 
       <div id="tReset" class="tab-content">
-        <p style="font-size:13px; color:var(--slate); margin-bottom:16px;">Enter your registered <strong>Gmail</strong> or <strong>Shipping ID</strong>.</p>
+        <p style="font-size:12px; color:var(--slate); margin-bottom:14px;">Enter your registered <strong>Gmail</strong> or <strong>Shipping ID</strong>.</p>
         <form onsubmit="doUniversalReset(event)">
           <div class="form-group"><label>Gmail or Shipping ID</label><input type="text" id="resetIdent" required placeholder="e.g. richmonwireko@gmail.com"></div>
           <button class="btn btn-navy btn-block" type="submit">Send Reset Instructions</button>
@@ -694,10 +696,10 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
 
 <section id="p-admin" class="page admin-only">
   <div class="container">
-    <div style="background:var(--navy); color:#fff; padding:24px; border-radius:16px; margin-bottom:28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+    <div style="background:var(--navy); color:#fff; padding:20px; border-radius:14px; margin-bottom:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
       <div>
-        <h2 style="color:var(--green); text-align:left; margin-bottom:4px;">Master Executive Suite</h2>
-        <p style="color:var(--slate-light);">Authorized Director: Richmond Wireko Brobbey (richmonwireko@gmail.com)</p>
+        <h2 style="color:var(--green); text-align:left; margin-bottom:2px;">Master Executive Suite</h2>
+        <p style="color:var(--slate-light); font-size:12px;">Authorized Director: Richmond Wireko Brobbey (richmonwireko@gmail.com)</p>
       </div>
       <button class="btn btn-sm btn-outline" style="color:#fff; border-color:#fff;" onclick="openAdminPasswordModal()">Change Password</button>
     </div>
@@ -721,20 +723,20 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
       </div>
 
       <div>
-        <div id="adminPwBox" class="form-box" style="display:none; max-width:100%; margin-bottom:28px; border:2px solid var(--green);">
+        <div id="adminPwBox" class="form-box" style="display:none; max-width:100%; margin-bottom:24px; border:2px solid var(--green);">
           <h3>Update Admin Password</h3>
           <form onsubmit="doAdminChangePassword(event)">
             <div class="form-group"><label>New Password</label><input type="password" id="aNewPw" required minlength="6"></div>
-            <div style="display:flex; gap:10px;"><button class="btn btn-green btn-block" type="submit">Update</button><button class="btn btn-outline" type="button" onclick="openAdminPasswordModal(false)">Cancel</button></div>
+            <div style="display:flex; gap:8px;"><button class="btn btn-green btn-block" type="submit">Update</button><button class="btn btn-outline" type="button" onclick="openAdminPasswordModal(false)">Cancel</button></div>
           </form>
         </div>
 
         <div id="adminProducts" class="tab-content active">
-          <div class="form-box" style="max-width:100%; margin-bottom:30px;">
+          <div class="form-box" style="max-width:100%; margin-bottom:24px;">
             <h3>Add Wholesale Deal / Product</h3>
             <form onsubmit="doAddProduct(event)">
               <div class="form-group"><label>Product Title</label><input type="text" id="npName" required placeholder="e.g. Smart Watch Ultra 2 (Group Deal)"></div>
-              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px;">
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:10px;">
                 <div class="form-group"><label>Category</label><input type="text" id="npCat" required placeholder="Electronics"></div>
                 <div class="form-group"><label>Price (GHS)</label><input type="number" id="npPrice" step="0.01" required placeholder="450.00"></div>
               </div>
@@ -748,22 +750,22 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
               <div class="form-group">
                 <label>Product Image File / URL</label>
                 <input type="file" id="npFile" accept="image/*" onchange="handleImageFile(event)">
-                <input type="url" id="npImgUrl" placeholder="Or Image Web URL" style="margin-top:8px;">
+                <input type="url" id="npImgUrl" placeholder="Or Image Web URL" style="margin-top:6px;">
               </div>
               <button class="btn btn-green btn-block" type="submit">Publish Product</button>
             </form>
           </div>
-          <h3 style="margin-bottom:16px; color:var(--navy);">Catalog Inventory</h3>
+          <h3 style="margin-bottom:12px; color:var(--navy);">Catalog Inventory</h3>
           <div id="adminProductsList"></div>
         </div>
 
         <div id="adminPayments" class="tab-content">
-          <h3 style="margin-bottom:16px; color:var(--navy);">Payment Verification Desk</h3>
+          <h3 style="margin-bottom:12px; color:var(--navy);">Payment Verification Desk</h3>
           <div id="adminPaymentsList"></div>
         </div>
 
         <div id="adminTracking" class="tab-content">
-          <div class="form-box" style="max-width:100%; margin-bottom:28px;">
+          <div class="form-box" style="max-width:100%; margin-bottom:24px;">
             <h3>Update Client Tracking & Notify Courier</h3>
             <form onsubmit="adminUpdateTracking(event)">
               <div class="form-group"><label>Select Client</label><select id="admTrackClientSelect" required></select></div>
@@ -777,21 +779,21 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
                   <option value="Delivered Successfully">Delivered Successfully</option>
                 </select>
               </div>
-              <div class="form-group"><label>Status Note</label><textarea id="admTrackMsg" rows="3" required placeholder="Container clearing customs..."></textarea></div>
+              <div class="form-group"><label>Status Note</label><textarea id="admTrackMsg" rows="2" required placeholder="Container clearing customs..."></textarea></div>
               <button class="btn btn-green btn-block" type="submit">Update Tracking</button>
             </form>
           </div>
-          <h3 style="margin-bottom:16px; color:var(--navy);">All Tracking Records</h3>
+          <h3 style="margin-bottom:12px; color:var(--navy);">All Tracking Records</h3>
           <div id="adminTrackingRecordsList"></div>
         </div>
 
         <div id="adminMonitoredChat" class="tab-content">
-          <h3 style="margin-bottom:8px; color:var(--navy);">Monitored Client Chats</h3>
+          <h3 style="margin-bottom:6px; color:var(--navy);">Monitored Client Chats</h3>
           <div id="adminSecretChatMonitorList"></div>
         </div>
 
         <div id="adminDelivery" class="tab-content">
-          <div class="form-box" style="max-width:100%; margin-bottom:28px;">
+          <div class="form-box" style="max-width:100%; margin-bottom:24px;">
             <h3>Configure Courier Account</h3>
             <form onsubmit="saveDeliveryGuyInfo(event)">
               <div class="form-group"><label>Courier Name</label><input type="text" id="dgName" required></div>
@@ -806,12 +808,12 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </div>
 
         <div id="adminAds" class="tab-content">
-          <h3 style="margin-bottom:16px; color:var(--navy);">Sourcing / Ad Requests</h3>
+          <h3 style="margin-bottom:12px; color:var(--navy);">Sourcing / Ad Requests</h3>
           <div id="adminAdsList"></div>
         </div>
 
         <div id="adminClients" class="tab-content">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
             <h3 style="color:var(--navy); margin:0;">Registered Clients Directory & Referrals</h3>
             <button class="btn btn-sm btn-green" onclick="exportClientData()">Export CSV</button>
           </div>
@@ -819,7 +821,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
         </div>
 
         <div id="adminContent" class="tab-content">
-          <div class="form-box" style="max-width:100%; margin-bottom:28px; border:2px solid var(--green);">
+          <div class="form-box" style="max-width:100%; margin-bottom:24px; border:2px solid var(--green);">
             <h3>Upload Brand Logo</h3>
             <form onsubmit="saveLogoFile(event)">
               <div class="form-group"><label>Logo File</label><input type="file" id="logoFileInput" accept="image/*" required onchange="handleLogoFileSelect(event)"></div>
@@ -845,7 +847,7 @@ footer h3 { color:#FFFFFF; margin-bottom:12px; font-size:20px; font-weight:800; 
   <div class="container">
     <h3>EVERIVAULT ENTERPRISE & WHOLESALE HUB</h3>
     <p>Factory-Direct Sourcing • Sea & Air Cargo to Ghana</p>
-    <p style="margin-top:8px; font-size:13px;">
+    <p style="margin-top:6px; font-size:12px;">
       Admin Email: <strong style="color:var(--green);">richmonwireko@gmail.com</strong> | WhatsApp: <a href="https://wa.me/13095194647" target="_blank" style="color:var(--wa-green); font-weight:700;">+1 (309) 519-4647</a>
     </p>
   </div>
@@ -931,7 +933,7 @@ function sendAdminGmailNotification(subject, body) {
   localStorage.setItem('ev_admin_gmail_inbox', JSON.stringify(emailLog));
 }
 
-function toast(msg, type = 'info', ms = 3500) {
+function toast(msg, type = 'info', ms = 3000) {
   const wrap = $('toastWrap');
   if (!wrap) return;
   const el = document.createElement('div');
@@ -939,7 +941,7 @@ function toast(msg, type = 'info', ms = 3500) {
   el.textContent = msg;
   wrap.appendChild(el);
   requestAnimationFrame(() => el.classList.add('show'));
-  setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 400); }, ms);
+  setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 300); }, ms);
 }
 
 function go(page) {
@@ -992,7 +994,7 @@ function checkCartExpiration() {
   if (now > state.cartMeta.expiresAt) {
     state.cartMeta = { items: [], expiresAt: 0 };
     localStorage.setItem('ev_cart_meta', JSON.stringify(state.cartMeta));
-    toast('Cart expired after 24 hours of inactivity.', 'err', 6000);
+    toast('Cart expired after 24 hours of inactivity.', 'err', 5000);
   }
 }
 
@@ -1077,7 +1079,7 @@ function renderCart() {
   }
 
   if (!items.length) {
-    container.innerHTML = '<div class="card" style="text-align:center; padding:40px;"><p style="color:var(--slate);">Your shopping cart is empty.</p></div>';
+    container.innerHTML = '<div class="card" style="text-align:center; padding:30px;"><p style="color:var(--slate);">Your shopping cart is empty.</p></div>';
     $('cartGrandTotal').textContent = 'GHS 0.00';
     return;
   }
@@ -1085,9 +1087,9 @@ function renderCart() {
   container.innerHTML = items.map(item => {
     const itemTotal = item.price * item.qty;
     total += itemTotal;
-    const imgHtml = item.image ? '<img src="' + esc(item.image) + '" style="width:50px; height:50px; object-fit:cover; border-radius:8px;">' : '';
-    const badge = item.type === 'preorder' ? '<br><span style="color:var(--green); font-size:12px; font-weight:700;">✓ Pre-Order (No Shipping Fee)</span>' : '';
-    return '<div class="cart-item-row"><div style="display:flex; align-items:center; gap:12px;">' + imgHtml + '<div><strong style="color:var(--navy); font-size:15px;">' + esc(item.name) + '</strong><br><span style="color:var(--green); font-weight:700;">' + fmtGHS(item.price) + '</span>' + badge + '</div></div><div style="display:flex; align-items:center; gap:10px;"><button class="qty-btn" onclick="updateCartQty(\'' + item.id + '\', -1)">-</button><span style="font-weight:800; min-width:20px; text-align:center;">' + item.qty + '</span><button class="qty-btn" onclick="updateCartQty(\'' + item.id + '\', 1)">+</button></div><div style="text-align:right;"><span style="font-weight:800; color:var(--navy);">' + fmtGHS(itemTotal) + '</span><br><button class="btn btn-sm btn-danger" style="margin-top:4px; padding:4px 8px; font-size:11px;" onclick="removeFromCart(\'' + item.id + '\')">Remove</button></div></div>';
+    const imgHtml = item.image ? '<img src="' + esc(item.image) + '" style="width:45px; height:45px; object-fit:cover; border-radius:6px;">' : '';
+    const badge = item.type === 'preorder' ? '<br><span style="color:var(--green); font-size:11px; font-weight:700;">✓ Pre-Order (No Shipping Fee)</span>' : '';
+    return '<div class="cart-item-row"><div style="display:flex; align-items:center; gap:10px;">' + imgHtml + '<div><strong style="color:var(--navy); font-size:14px;">' + esc(item.name) + '</strong><br><span style="color:var(--green); font-weight:700;">' + fmtGHS(item.price) + '</span>' + badge + '</div></div><div style="display:flex; align-items:center; gap:8px;"><button class="qty-btn" onclick="updateCartQty(\'' + item.id + '\', -1)">-</button><span style="font-weight:800; min-width:18px; text-align:center;">' + item.qty + '</span><button class="qty-btn" onclick="updateCartQty(\'' + item.id + '\', 1)">+</button></div><div style="text-align:right;"><span style="font-weight:800; color:var(--navy);">' + fmtGHS(itemTotal) + '</span><br><button class="btn btn-sm btn-danger" style="margin-top:3px; padding:2px 6px; font-size:10px;" onclick="removeFromCart(\'' + item.id + '\')">Remove</button></div></div>';
   }).join('');
   $('cartGrandTotal').textContent = fmtGHS(total);
 }
@@ -1193,7 +1195,7 @@ function initiateRegistrationOtp(e) {
   $('otpVerifyBox').style.display = 'block';
   $('otpTargetEmail').textContent = email;
 
-  toast(`📧 OTP Code: ${otpCode}`, 'ok', 9000);
+  toast(`📧 OTP Code: ${otpCode}`, 'ok', 7000);
 }
 
 function verifyOtpAndRegister() {
@@ -1206,10 +1208,7 @@ function verifyOtpAndRegister() {
   if (!newClientObj) { toast('Session expired', 'err'); return; }
 
   const localClients = JSON.parse(localStorage.getItem('ev_local_clients') || '[]');
-  const existingIdx = localClients.findIndex(c => c.email.toLowerCase() === newClientObj.email.toLowerCase());
-  if (existingIdx >= 0) localClients[existingIdx] = newClientObj;
-  else localClients.unshift(newClientObj);
-
+  localClients.unshift(newClientObj);
   localStorage.setItem('ev_local_clients', JSON.stringify(localClients));
   window.dispatchEvent(new Event('storage'));
 
@@ -1222,7 +1221,7 @@ function verifyOtpAndRegister() {
   );
 
   applyUserState();
-  toast(`🎉 Welcome, ${newClientObj.name}! Mark: ${newClientObj.mark}`, 'ok', 8000);
+  toast(`🎉 Welcome, ${newClientObj.name}! Mark: ${newClientObj.mark}`, 'ok', 6000);
   go('store');
 }
 
@@ -1273,9 +1272,9 @@ function selectPaymentSlot(slot) {
   $('pbtn-' + slot).classList.add('active');
   const info = $('paySlotInfo');
   if (slot === 'momo' || slot === 'telecel') {
-    info.innerHTML = `<p style="font-size:13px; font-weight:700; color:var(--navy);">Mobile Money Account</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p><p style="font-size:12px; color:var(--slate);">Name: Richmond Wireko Brobbey</p>`;
+    info.innerHTML = `<p style="font-size:12px; font-weight:700; color:var(--navy);">Mobile Money Account</p><p style="font-size:13px; color:var(--green-hover); font-weight:800;">Number: 0543155883</p><p style="font-size:11px; color:var(--slate);">Name: Richmond Wireko Brobbey</p>`;
   } else {
-    info.innerHTML = `<p style="font-size:13px; font-weight:700; color:var(--navy);">GTBank Account</p><p style="font-size:14px; color:var(--green-hover); font-weight:800;">Account: 1304001024705</p><p style="font-size:12px; color:var(--slate);">Name: Richmond Wireko Brobbey</p>`;
+    info.innerHTML = `<p style="font-size:12px; font-weight:700; color:var(--navy);">GTBank Account</p><p style="font-size:13px; color:var(--green-hover); font-weight:800;">Account: 1304001024705</p><p style="font-size:11px; color:var(--slate);">Name: Richmond Wireko Brobbey</p>`;
   }
 }
 
@@ -1327,7 +1326,7 @@ function loadPaymentPortal() {
   container.innerHTML = myOrders.map(o => {
     const proofLink = o.proof ? '<a href="' + o.proof + '" target="_blank" style="color:var(--green); font-weight:700;">View Receipt</a>' : 'No Receipt';
     const statusClass = o.status === 'Verified' ? 'pill-verified' : 'pill-pending';
-    return '<div class="card" style="margin-bottom:12px;"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;"><span class="pill pill-type">' + esc(o.type) + '</span><span class="pill ' + statusClass + '">' + esc(o.status) + '</span></div><h3 style="font-size:15px;">' + esc(o.summary) + '</h3><p style="font-weight:800; color:var(--green); margin-top:4px;">' + fmtGHS(o.total) + ' | ' + esc(o.slot) + '</p><div style="font-size:12px; color:var(--slate); margin-top:6px;">Ref: <code>' + esc(o.txRef) + '</code> | ' + proofLink + '</div></div>';
+    return '<div class="card" style="margin-bottom:10px;"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;"><span class="pill pill-type">' + esc(o.type) + '</span><span class="pill ' + statusClass + '">' + esc(o.status) + '</span></div><h3 style="font-size:14px;">' + esc(o.summary) + '</h3><p style="font-weight:800; color:var(--green); font-size:13px; margin-top:2px;">' + fmtGHS(o.total) + ' | ' + esc(o.slot) + '</p><div style="font-size:11px; color:var(--slate); margin-top:4px;">Ref: <code>' + esc(o.txRef) + '</code> | ' + proofLink + '</div></div>';
   }).join('');
 }
 
@@ -1337,10 +1336,10 @@ function loadClientTrackingAndBargain() {
   const tData = state.tracking[userId] || { status: 'Goods Received at China Warehouse', message: 'Items checked into Foshan/Guangzhou warehouse.', time: 'Initial' };
   
   $('clientTrackingDetails').innerHTML = `
-    <div style="background:var(--bg-light); border-radius:12px; padding:16px; border:1px solid var(--border-color); margin-bottom:16px;">
-      <span class="pill pill-verified" style="font-size:13px; margin-bottom:8px; display:inline-block;">Status: ${esc(tData.status)}</span>
-      <p style="font-size:14px; color:var(--navy); font-weight:600;">${esc(tData.message)}</p>
-      <p style="font-size:11px; color:var(--slate); margin-top:6px;">Updated: ${esc(tData.time)}</p>
+    <div style="background:var(--bg-light); border-radius:10px; padding:14px; border:1px solid var(--border-color); margin-bottom:12px;">
+      <span class="pill pill-verified" style="font-size:12px; margin-bottom:6px; display:inline-block;">Status: ${esc(tData.status)}</span>
+      <p style="font-size:13px; color:var(--navy); font-weight:600;">${esc(tData.message)}</p>
+      <p style="font-size:10px; color:var(--slate); margin-top:4px;">Updated: ${esc(tData.time)}</p>
     </div>
   `;
 
@@ -1352,7 +1351,7 @@ function loadClientTrackingAndBargain() {
 
   chatContainer.innerHTML = msgs.map(m => {
     const isMe = m.sender === 'Client';
-    return `<div style="background:${isMe ? '#D1FAE5' : '#EFF6FF'}; color:${isMe ? '#065F46' : '#1E3A8A'}; padding:10px 14px; border-radius:10px; max-width:85%; ${isMe ? 'margin-left:auto;' : ''} font-size:13px; margin-bottom:6px;"><strong>${esc(m.sender)}:</strong> ${esc(m.text)}</div>`;
+    return `<div style="background:${isMe ? '#D1FAE5' : '#EFF6FF'}; color:${isMe ? '#065F46' : '#1E3A8A'}; padding:8px 12px; border-radius:8px; max-width:85%; ${isMe ? 'margin-left:auto;' : ''} font-size:12px; margin-bottom:4px;"><strong>${esc(m.sender)}:</strong> ${esc(m.text)}</div>`;
   }).join('');
   chatContainer.scrollTop = chatContainer.scrollHeight;
 }
@@ -1379,7 +1378,7 @@ function loadCourierPortal() {
   Object.entries(state.tracking).forEach(([uid, t]) => {
     if (t.status === 'Out for Delivery') {
       const cli = localClients.find(c => c.id === uid) || { name: 'Client', mark: uid, location: 'Kumasi', phone: '0540000000' };
-      dispatchList.push(`<div style="background:#ECFDF5; border:1px solid #A7F3D0; border-radius:12px; padding:14px; margin-bottom:10px; font-size:13px;"><strong>Deliver to:</strong> ${esc(cli.name)} (${esc(cli.mark)})<br>📍 <strong>Location:</strong> ${esc(cli.location)} | 📞 ${esc(cli.phone)}</div>`);
+      dispatchList.push(`<div style="background:#ECFDF5; border:1px solid #A7F3D0; border-radius:10px; padding:12px; margin-bottom:8px; font-size:12px;"><strong>Deliver to:</strong> ${esc(cli.name)} (${esc(cli.mark)})<br>📍 <strong>Location:</strong> ${esc(cli.location)} | 📞 ${esc(cli.phone)}</div>`);
     }
   });
   $('courierDeliveriesList').innerHTML = dispatchList.join('') || '<p style="color:var(--slate);">No active dispatches.</p>';
@@ -1388,7 +1387,7 @@ function loadCourierPortal() {
 }
 
 function renderCourierNewClients(localClients) {
-  $('courierNewClientsList').innerHTML = localClients.length ? '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Mark</th><th>Phone / Loc</th></tr></thead><tbody>' + localClients.map(c => `<tr><td><strong>${esc(c.name)}</strong></td><td><code>${esc(c.mark)}</code></td><td>${esc(c.phone)}<br><span style="font-size:12px; color:var(--slate);">${esc(c.location)}</span></td></tr>`).join('') + '</tbody></table></div>' : '<p style="color:var(--slate);">No registered clients.</p>';
+  $('courierNewClientsList').innerHTML = localClients.length ? '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Client</th><th>Mark</th><th>Phone / Loc</th></tr></thead><tbody>' + localClients.map(c => `<tr><td><strong>${esc(c.name)}</strong></td><td><code>${esc(c.mark)}</code></td><td>${esc(c.phone)}<br><span style="font-size:11px; color:var(--slate);">${esc(c.location)}</span></td></tr>`).join('') + '</tbody></table></div>' : '<p style="color:var(--slate);">No registered clients.</p>';
 }
 
 function loadCourierChat() {
@@ -1396,7 +1395,7 @@ function loadCourierChat() {
   if (!clientId) return;
   const chatBox = $('courierChatBox');
   const msgs = state.bargainMessages[clientId] || [{ sender: 'System', text: 'Start conversation.', time: 'System' }];
-  chatBox.innerHTML = msgs.map(m => `<div style="background:${m.sender === 'Courier' ? '#D1FAE5' : '#EFF6FF'}; padding:10px 14px; border-radius:10px; max-width:85%; ${m.sender === 'Courier' ? 'margin-left:auto;' : ''} font-size:13px; margin-bottom:6px;"><strong>${esc(m.sender)}:</strong> ${esc(m.text)}</div>`).join('');
+  chatBox.innerHTML = msgs.map(m => `<div style="background:${m.sender === 'Courier' ? '#D1FAE5' : '#EFF6FF'}; padding:8px 12px; border-radius:8px; max-width:85%; ${m.sender === 'Courier' ? 'margin-left:auto;' : ''} font-size:12px; margin-bottom:4px;"><strong>${esc(m.sender)}:</strong> ${esc(m.text)}</div>`).join('');
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
@@ -1440,10 +1439,10 @@ function renderProducts() {
       ? '<button class="btn btn-sm btn-green btn-block" onclick="addToCart(\'' + p.id + '\')">Join Group Buy</button>'
       : '<button class="btn btn-sm btn-blue btn-block" onclick="go(\'auth\')">Sign In to Buy</button>';
 
-    return '<div class="pdd-card"><div class="pdd-img-wrap">' + imgHtml + '<span class="pdd-tag-deal">' + tagLabel + '</span></div><div class="pdd-content"><div class="pdd-title">' + esc(p.name) + '</div><div class="pdd-footer-row"><div><div class="pdd-price">' + fmtGHS(p.price) + '</div><div class="pdd-sold">' + esc(p.sold || '500+ sold') + '</div></div></div><div style="margin-top:10px;">' + actionBtn + '</div></div></div>';
+    return '<div class="pdd-card"><div class="pdd-img-wrap">' + imgHtml + '<span class="pdd-tag-deal">' + tagLabel + '</span></div><div class="pdd-content"><div class="pdd-title">' + esc(p.name) + '</div><div class="pdd-footer-row"><div><div class="pdd-price">' + fmtGHS(p.price) + '</div><div class="pdd-sold">' + esc(p.sold || '500+ sold') + '</div></div></div><div style="margin-top:8px;">' + actionBtn + '</div></div></div>';
   };
 
-  if (grid) grid.innerHTML = filtered.length ? filtered.map(getPddCardHtml).join('') : '<div style="grid-column:1/-1; text-align:center; padding:40px;"><p style="color:var(--slate);">No items found.</p></div>';
+  if (grid) grid.innerHTML = filtered.length ? filtered.map(getPddCardHtml).join('') : '<div style="grid-column:1/-1; text-align:center; padding:30px;"><p style="color:var(--slate);">No items found.</p></div>';
   if (homeGrid) homeGrid.innerHTML = state.products.slice(0, 8).map(getPddCardHtml).join('');
 }
 
@@ -1494,7 +1493,7 @@ function loadAdmin() {
 
   $('adminSecretChatMonitorList').innerHTML = Object.entries(state.bargainMessages).map(([uid, msgs]) => {
     const cli = localClients.find(c => c.id === uid) || { name: 'Client', mark: uid };
-    return `<div class="card" style="margin-bottom:12px;"><h4 style="font-size:14px; color:var(--navy); margin-bottom:8px;">Chat with ${esc(cli.name)} (${esc(cli.mark)})</h4><div style="background:#F8FAFC; padding:10px; border-radius:8px; max-height:140px; overflow-y:auto; font-size:12px;">${msgs.map(m => `<div><strong>${esc(m.sender)}:</strong> ${esc(m.text)}</div>`).join('')}</div></div>`;
+    return `<div class="card" style="margin-bottom:10px;"><h4 style="font-size:13px; color:var(--navy); margin-bottom:6px;">Chat with ${esc(cli.name)} (${esc(cli.mark)})</h4><div style="background:#F8FAFC; padding:8px; border-radius:6px; max-height:120px; overflow-y:auto; font-size:11px;">${msgs.map(m => `<div><strong>${esc(m.sender)}:</strong> ${esc(m.text)}</div>`).join('')}</div></div>`;
   }).join('') || '<p style="color:var(--slate);">No chat logs.</p>';
 
   $('dgName').value = state.deliveryGuy.name;
@@ -1609,7 +1608,7 @@ function submitAdvertisement(e) {
 }
 
 function loadReviews() {
-  $('reviewsList').innerHTML = state.reviews.map(r => '<div class="review-card"><strong>' + esc(r.name) + '</strong> <code style="font-size:12px;">' + esc(r.mark) + '</code><p style="font-size:14px; margin-top:6px;">' + esc(r.comment) + '</p></div>').join('');
+  $('reviewsList').innerHTML = state.reviews.map(r => '<div class="review-card"><strong>' + esc(r.name) + '</strong> <code style="font-size:11px;">' + esc(r.mark) + '</code><p style="font-size:13px; margin-top:4px;">' + esc(r.comment) + '</p></div>').join('');
 }
 
 function doSubmitReview(e) {
