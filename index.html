@@ -779,7 +779,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 (function registerSW() {
   if (!('serviceWorker' in navigator)) return;
   const swCode = `
-    const CACHE = 'everivault-v7';
+    const CACHE = 'everivault-v8';
     const CORE = ['.', './index.html'];
     self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE).catch(()=>{}))); });
     self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())); });
@@ -826,9 +826,9 @@ window.addEventListener('appinstalled', () => {
 });
 
 /* ============================================================
-   SUPABASE CLIENT
+   SUPABASE CLIENT (Updated with your exact project URL)
    ============================================================ */
-const SUPABASE_URL = 'https://admgkiewiwzllfesbpey.supabase.co';
+const SUPABASE_URL = 'https://admgkiewiwziifesbpey.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_ZdxSIdlfrMQStQkt8Zq3oQ_0wIrkxIF';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
@@ -1062,7 +1062,6 @@ async function doPasswordReset(e) {
 async function loadUserProfile(uid) {
   const { data, error } = await sb.from('profiles').select('*').eq('id', uid).single();
   if (error) {
-    // If profile row doesn't exist yet for admin, create it on the fly
     if (uid) {
       const { data: authUser } = await sb.auth.getUser();
       const userEmail = authUser?.user?.email || '';
