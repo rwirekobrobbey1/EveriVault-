@@ -554,6 +554,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
       <div class="tabs">
         <button class="tab active" data-authtab="login" onclick="authTab('login')">Sign In</button>
         <button class="tab" data-authtab="reg" onclick="authTab('reg')">Register</button>
+        <button class="tab" data-authtab="reset" onclick="authTab('reset')">Reset Password</button>
       </div>
       <div id="tLogin" class="tab-content active">
         <p style="font-size:12px; color:var(--slate); margin-bottom:14px;">Use your <strong>Gmail</strong>, <strong>Shipping ID</strong>, or <strong>Courier login</strong>.</p>
@@ -583,7 +584,14 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
             <input type="checkbox" id="tcCheck" required style="width:16px; height:16px; margin-top:2px;">
             <label for="tcCheck" style="font-size:11px; font-weight:600; text-transform:none;">I agree to Terms & Conditions.</label>
           </div>
-          <button class="btn btn-green btn-block" type="submit" id="regBtn">Create Account</button>
+          <button class="btn btn-green btn-block" type="submit" id="regBtn">Create Account & Sign In</button>
+        </form>
+      </div>
+      <div id="tReset" class="tab-content">
+        <p style="font-size:12px; color:var(--slate); margin-bottom:14px;">Enter your registered <strong>Gmail address</strong> to receive a password recovery link.</p>
+        <form onsubmit="doPasswordReset(event)">
+          <div class="form-group"><label>Gmail Address</label><input type="email" id="resetEmail" required placeholder="e.g. yourname@gmail.com"></div>
+          <button class="btn btn-navy btn-block" type="submit" id="resetBtn">Send Reset Instructions</button>
         </form>
       </div>
     </div>
@@ -763,7 +771,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 (function registerSW() {
   if (!('serviceWorker' in navigator)) return;
   const swCode = `
-    const CACHE = 'everivault-v3';
+    const CACHE = 'everivault-v4';
     const CORE = ['.', './index.html'];
     self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE).catch(()=>{}))); });
     self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())); });
@@ -907,45 +915,66 @@ function authTab(tab) {
   document.querySelectorAll('[data-authtab]').forEach(t => t.classList.toggle('active', t.dataset.authtab === tab));
   $('tLogin').classList.toggle('active', tab === 'login');
   $('tReg').classList.toggle('active', tab === 'reg');
+  $('tReset').classList.toggle('active', tab === 'reset');
 }
 
 /* ============================================================
-   AUTH
+   AUTH & REGISTRATION (INSTANT LOGIN)
    ============================================================ */
 async function doRegister(e) {
   e.preventDefault();
-  if (!$('tcCheck').checked) return toast('Accept Terms', 'err');
+  if (!$('tcCheck').checked) return toast('Accept Terms & Conditions', 'err');
+  
   const name = $('rn').value.trim();
   const email = $('rem').value.trim().toLowerCase();
   const phone = $('rp').value.trim();
   const location = $('rloc').value.trim();
   const password = $('rpw').value;
   const refMark = $('regRefMark').value.trim();
-  if (password.length < 6) return toast('Password too short', 'err');
+  
+  if (password.length < 6) return toast('Password must be at least 6 characters', 'err');
 
-  showLoading(true, 'Creating account...');
+  showLoading(true, 'Creating account and signing you in...');
   try {
-    const { data: authData, error: authErr } = await sb.auth.signUp({ email, password });
-    if (authErr) throw authErr;
-    if (!authData.user) throw new Error('Signup failed — try signing in instead');
-
-    const mark = generateShippingMark(name, phone);
-    const { error: profErr } = await sb.from('profiles').insert({
-      id: authData.user.id, email, name, phone, location,
-      mark, role: 'client', referred_by: refMark || null
+    const { data: authData, error: authErr } = await sb.auth.signUp({ 
+      email, 
+      password,
+      options: { data: { name, phone } }
     });
+    
+    if (authErr) throw authErr;
+    if (!authData.user) throw new Error('Registration failed. Please try again.');
+
+    const userId = authData.user.id;
+    const mark = generateShippingMark(name, phone);
+
+    const { error: profErr } = await sb.from('profiles').insert({
+      id: userId, email, name, phone, location,
+      mark, role: 'client', referred_by: refMark || null,
+      date_registered: new Date().toLocaleDateString()
+    });
+    
     if (profErr) throw profErr;
 
-    await sb.from('tracking').insert({ user_id: authData.user.id }).then(() => {});
+    await sb.from('tracking').insert({ 
+      user_id: userId,
+      status: 'Goods Received at China Warehouse',
+      message: 'Account initialized. Ready for shipping marks.'
+    }).then(() => {});
 
-    toast('Account created! 🎉', 'ok');
-    await loadUserProfile(authData.user.id);
+    await loadUserProfile(userId);
     applyUserState();
+    await loadCart();
+    await loadOrders();
+
+    toast(`🎉 Welcome to EveriVault, ${name}! Mark: ${mark}`, 'ok', 5000);
     go('store');
   } catch (err) {
     console.error(err);
-    toast(err.message || 'Registration failed', 'err', 5000);
-  } finally { showLoading(false); }
+    toast(err.message || 'Registration failed.', 'err', 6000);
+  } finally { 
+    showLoading(false); 
+  }
 }
 
 async function doUniversalLogin(e) {
@@ -983,6 +1012,28 @@ async function doUniversalLogin(e) {
     console.error(err);
     toast(err.message || 'Sign in failed', 'err', 5000);
   } finally { btn.disabled = false; btn.textContent = 'Sign In'; }
+}
+
+async function doPasswordReset(e) {
+  e.preventDefault();
+  const email = $('resetEmail').value.trim().toLowerCase();
+  const btn = $('resetBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Sending...';
+
+  try {
+    const { error } = await sb.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + window.location.pathname,
+    });
+    if (error) throw error;
+    toast('Password recovery instructions sent to your Gmail!', 'ok', 6000);
+    $('resetEmail').value = '';
+    authTab('login');
+  } catch (err) {
+    console.error(err);
+    toast(err.message || 'Failed to send reset email', 'err', 5000);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Send Reset Instructions';
+  }
 }
 
 async function loadUserProfile(uid) {
@@ -1088,7 +1139,8 @@ async function doAddProduct(e) {
     price: parseFloat($('npPrice').value) || 0,
     type: $('npType').value,
     image: state.uploadedProdBase64 || $('npImgUrl').value.trim() || null
-  };const { error } = await sb.from('products').insert(prod);
+  };
+  const { error } = await sb.from('products').insert(prod);
   if (error) return toast(error.message, 'err');
   toast('Product published', 'ok');
   $('npName').value = ''; $('npCat').value = ''; $('npPrice').value = ''; $('npImgUrl').value = '';
@@ -1613,7 +1665,7 @@ function applyPortalSettings() {
 }
 
 /* ============================================================
-   AUTH STATE LISTENER
+   AUTH STATE & RECOVERY LISTENERS
    ============================================================ */
 sb.auth.onAuthStateChange(async (event, session) => {
   if (event === 'SIGNED_OUT') {
@@ -1623,6 +1675,21 @@ sb.auth.onAuthStateChange(async (event, session) => {
     applyUserState();
   } else if (session?.user && !state.user) {
     try { await loadUserProfile(session.user.id); applyUserState(); } catch(e) {}
+  } else if (event === 'PASSWORD_RECOVERY') {
+    go('auth');
+    authTab('reset');
+    const newPassword = prompt('Enter your new password (minimum 6 characters):');
+    if (newPassword && newPassword.length >= 6) {
+      const { error } = await sb.auth.updateUser({ password: newPassword });
+      if (!error) {
+        toast('Password updated successfully! Please sign in.', 'ok', 5000);
+        authTab('login');
+      } else {
+        toast('Error updating password: ' + error.message, 'err');
+      }
+    } else {
+      toast('Password must be at least 6 characters.', 'err');
+    }
   }
 });
 
@@ -1660,7 +1727,7 @@ sb.auth.onAuthStateChange(async (event, session) => {
 })();
 
 /* ============================================================
-   EXPORTS (so inline onclick can reach them)
+   EXPORTS
    ============================================================ */
 Object.assign(window, {
   go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare,
@@ -1668,7 +1735,7 @@ Object.assign(window, {
   addToCart, updateCartQty, removeFromCart, clearCart,
   goToPaymentPortal, setPaymentType, selectPaymentSlot,
   handleProofFile, submitPayment, doSubmitReview, copyText,
-  adminTab, toggleOrderVerify, doUniversalLogin, doRegister, doSignOut,
+  adminTab, toggleOrderVerify, doUniversalLogin, doRegister, doPasswordReset, doSignOut,
   doAddProduct, deleteCatalogProduct, savePortalSettings,
   submitAdvertisement, renderProducts, exportClientData,
   adminUpdateTracking, saveDeliveryGuyInfo,
