@@ -75,12 +75,15 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 .pdd-card:hover { transform:translateY(-2px); box-shadow:0 12px 25px rgba(10,25,47,0.1); }
 .pdd-img-wrap { width:100%; height:170px; background:#E2E8F0; position:relative; overflow:hidden; }
 .pdd-img { width:100%; height:100%; object-fit:cover; }
-.pdd-tag-deal { position:absolute; top:8px; left:8px; background:var(--deep-blue); color:#fff; font-size:10px; font-weight:800; padding:2px 6px; border-radius:4px; }
+.pdd-tag-deal { position:absolute; top:8px; left:8px; background:var(--deep-blue); color:#fff; font-size:10px; font-weight:800; padding:2px 6px; border-radius:4px; z-index:2; }
+.gallery-thumbs { display:flex; gap:4px; padding:4px 8px; background:rgba(0,0,0,0.03); overflow-x:auto; }
+.gallery-thumb { width:32px; height:32px; border-radius:4px; object-fit:cover; cursor:pointer; border:1.5px solid transparent; opacity:0.7; }
+.gallery-thumb.active { border-color:var(--green); opacity:1; }
+
 .pdd-content { padding:12px; display:flex; flex-direction:column; flex:1; justify-content:space-between; }
 .pdd-title { font-size:13px; font-weight:700; color:var(--navy); margin-bottom:6px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; height:38px; line-height:1.3; }
 .pdd-footer-row { display:flex; justify-content:space-between; align-items:flex-end; margin-top:8px; }
 .pdd-price { font-size:16px; font-weight:800; color:var(--green); }
-.pdd-sold { font-size:11px; color:var(--slate); }
 
 section { padding:45px 0; }
 .section-box { background:#fff; padding:45px 0; border-bottom:1px solid var(--border-color); }
@@ -653,9 +656,9 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
                 <div class="form-group"><label>Available Colors (comma separated)</label><input type="text" id="npColors" placeholder="e.g. Black, White, Navy"></div>
               </div>
               <div class="form-group">
-                <label>Product Image</label>
-                <input type="file" id="npFile" accept="image/*" onchange="handleImageFile(event)">
-                <input type="url" id="npImgUrl" placeholder="Or Image URL" style="margin-top:6px;">
+                <label>Product Images (Upload or Multiple URLs)</label>
+                <input type="file" id="npFile" accept="image/*" multiple onchange="handleImageFiles(event)">
+                <textarea id="npImgUrls" rows="2" placeholder="Or paste multiple image URLs separated by commas" style="margin-top:6px;"></textarea>
               </div>
               <div style="display:flex; gap:10px;">
                 <button class="btn btn-green btn-block" type="submit" id="prodSubmitBtn">Publish Product</button>
@@ -787,7 +790,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 (function registerSW() {
   if (!('serviceWorker' in navigator)) return;
   const swCode = `
-    const CACHE = 'everivault-v10';
+    const CACHE = 'everivault-v12';
     const CORE = ['.', './index.html'];
     self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE).catch(()=>{}))); });
     self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())); });
@@ -855,7 +858,7 @@ const state = {
   reviews: [],
   ads: [],
   settings: { heroTitle: '', heroSub: '', logoUrl: '', deliveryGuy: {} },
-  uploadedProdBase64: '',
+  uploadedImagesBase64: [],
   paymentProofBase64: '',
   selectedPaymentSlot: 'momo',
   paymentCategory: 'goods',
@@ -1140,7 +1143,7 @@ async function loadReviews() {
 }
 
 /* ============================================================
-   PRODUCTS, SIZES/COLORS & EDITING
+   PRODUCTS, MULTI-IMAGE GALLERY & SIZES/COLORS
    ============================================================ */
 function renderProducts() {
   const grid = $('prodGrid'), homeGrid = $('homeCatalogGrid');
@@ -1162,9 +1165,26 @@ function renderProducts() {
   );
 
   const card = p => {
-    const img = p.image ? '<img src="'+esc(p.image)+'" class="pdd-img" alt="">' : '<div class="pdd-img" style="display:flex;align-items:center;justify-content:center;color:var(--slate);">No Image</div>';
+    // Parse images: can be JSON array string or comma separated URLs
+    let imgList = [];
+    try {
+      if (p.images) {
+        imgList = typeof p.images === 'string' ? JSON.parse(p.images) : p.images;
+      }
+    } catch(e) {
+      imgList = p.images ? p.images.split(',').map(s => s.trim()).filter(Boolean) : [];
+    }
+    if (!imgList.length && p.image) imgList = [p.image];
+
+    const mainImg = imgList[0] || '';
+    const imgHtml = mainImg ? '<img id="main-img-'+p.id+'" src="'+esc(mainImg)+'" class="pdd-img" alt="">' : '<div class="pdd-img" style="display:flex;align-items:center;justify-content:center;color:var(--slate);">No Image</div>';
     const tag = p.type === 'preorder' ? 'Pre-Order' : 'In Stock';
     
+    let thumbsHtml = '';
+    if (imgList.length > 1) {
+      thumbsHtml = '<div class="gallery-thumbs">' + imgList.map((im, idx) => '<img src="'+esc(im)+'" class="gallery-thumb'+(idx===0?' active':'')+'" onclick="switchProductImage(\''+p.id+'\', \''+esc(im)+'\', this)">').join('') + '</div>';
+    }
+
     let optionsHtml = '';
     const sizes = p.sizes ? p.sizes.split(',').map(s => s.trim()).filter(Boolean) : [];
     const colors = p.colors ? p.colors.split(',').map(c => c.trim()).filter(Boolean) : [];
@@ -1180,20 +1200,41 @@ function renderProducts() {
       optionsHtml += '</div>';
     }
 
-    const btn = state.user?.role === 'client'
-      ? '<button class="btn btn-sm btn-green btn-block" onclick="addToCart(\''+p.id+'\')">Join Group Buy</button>'
-      : '<button class="btn btn-sm btn-blue btn-block" onclick="go(\'auth\')">Sign In to Buy</button>';
+    let btn = '';
+    if (!state.user) {
+      btn = '<button class="btn btn-sm btn-blue btn-block" onclick="go(\'auth\')">Sign In to Buy</button>';
+    } else if (state.user.role === 'admin') {
+      btn = '<button class="btn btn-sm btn-navy btn-block" onclick="go(\'admin\'); adminTab(\'products\');">Manage Item</button>';
+    } else {
+      btn = '<button class="btn btn-sm btn-green btn-block" onclick="addToCart(\''+p.id+'\')">Join Group Buy</button>';
+    }
 
-    return '<div class="pdd-card"><div class="pdd-img-wrap">'+img+'<span class="pdd-tag-deal">'+tag+'</span></div><div class="pdd-content"><div><div class="pdd-title">'+esc(p.name)+'</div>'+optionsHtml+'</div><div class="pdd-footer-row"><div><div class="pdd-price">'+fmtGHS(p.price)+'</div></div></div><div style="margin-top:8px;">'+btn+'</div></div></div>';
+    return '<div class="pdd-card"><div class="pdd-img-wrap">'+imgHtml+'<span class="pdd-tag-deal">'+tag+'</span></div>'+thumbsHtml+'<div class="pdd-content"><div><div class="pdd-title">'+esc(p.name)+'</div>'+optionsHtml+'</div><div class="pdd-footer-row"><div><div class="pdd-price">'+fmtGHS(p.price)+'</div></div></div><div style="margin-top:8px;">'+btn+'</div></div></div>';
   };
 
   if (grid) grid.innerHTML = filtered.length ? filtered.map(card).join('') : '<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--slate);">No items found.</div>';
   if (homeGrid) homeGrid.innerHTML = state.products.slice(0, 8).map(card).join('');
 }
 
+function switchProductImage(prodId, imgUrl, thumbEl) {
+  const mainImg = $('main-img-' + prodId);
+  if (mainImg) mainImg.src = imgUrl;
+  if (thumbEl && thumbEl.parentNode) {
+    thumbEl.parentNode.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+    thumbEl.classList.add('active');
+  }
+}
+
 async function doSaveProduct(e) {
   e.preventDefault();
   const editId = $('editingProdId').value;
+  
+  // Compile image list from uploaded base64 array and text area URLs
+  let urls = $('npImgUrls').value.split(',').map(s => s.trim()).filter(Boolean);
+  if (state.uploadedImagesBase64.length > 0) {
+    urls = [...state.uploadedImagesBase64, ...urls];
+  }
+
   const prod = {
     name: $('npName').value.trim(),
     category: $('npCat').value.trim(),
@@ -1201,11 +1242,12 @@ async function doSaveProduct(e) {
     type: $('npType').value,
     sizes: $('npSizes').value.trim() || null,
     colors: $('npColors').value.trim() || null,
-    image: state.uploadedProdBase64 || $('npImgUrl').value.trim() || null
+    images: JSON.stringify(urls),
+    image: urls[0] || null // backward compatibility primary image
   };
 
   if (editId) {
-    if (!prod.image) delete prod.image; // Keep existing image if not replaced
+    if (!urls.length) delete prod.images; delete prod.image;
     const { error } = await sb.from('products').update(prod).eq('id', editId);
     if (error) return toast(error.message, 'err');
     toast('Product updated successfully!', 'ok');
@@ -1231,8 +1273,17 @@ function editCatalogProduct(id) {
   $('npType').value = p.type || 'preorder';
   $('npSizes').value = p.sizes || '';
   $('npColors').value = p.colors || '';
-  $('npImgUrl').value = p.image || '';
-  state.uploadedProdBase64 = '';
+  
+  let imgList = [];
+  try {
+    if (p.images) imgList = typeof p.images === 'string' ? JSON.parse(p.images) : p.images;
+  } catch(e) {
+    imgList = p.images ? p.images.split(',').map(s => s.trim()).filter(Boolean) : [];
+  }
+  if (!imgList.length && p.image) imgList = [p.image];
+
+  $('npImgUrls').value = imgList.join(', ');
+  state.uploadedImagesBase64 = [];
   $('productFormHeading').textContent = 'Edit Product: ' + p.name;
   $('prodSubmitBtn').textContent = 'Save Changes';
   $('cancelEditBtn').style.display = 'inline-flex';
@@ -1247,9 +1298,9 @@ function resetProductForm() {
   $('npType').value = 'preorder';
   $('npSizes').value = '';
   $('npColors').value = '';
-  $('npImgUrl').value = '';
+  $('npImgUrls').value = '';
   $('npFile').value = '';
-  state.uploadedProdBase64 = '';
+  state.uploadedImagesBase64 = [];
   $('productFormHeading').textContent = 'Add Product';
   $('prodSubmitBtn').textContent = 'Publish Product';
   $('cancelEditBtn').style.display = 'none';
@@ -1287,9 +1338,15 @@ async function addToCart(prodId) {
   if (existing) {
     await sb.from('cart_items').update({ qty: existing.qty + 1 }).eq('id', existing.id);
   } else {
+    let primaryImg = p.image;
+    try {
+      const arr = typeof p.images === 'string' ? JSON.parse(p.images) : p.images;
+      if (arr && arr.length) primaryImg = arr[0];
+    } catch(e) {}
+
     await sb.from('cart_items').insert({
       user_id: state.user.id, product_id: p.id, product_name: p.name,
-      price: p.price, type: p.type, image: p.image, qty: 1,
+      price: p.price, type: p.type, image: primaryImg, qty: 1,
       size: selectedSize, color: selectedColor
     });
   }
@@ -1704,12 +1761,23 @@ async function submitAdvertisement(e) {
 /* ============================================================
    FILE HANDLERS
    ============================================================ */
-function handleImageFile(e) {
-  const f = e.target.files[0]; if (!f) return;
-  const r = new FileReader();
-  r.onload = ev => { state.uploadedProdBase64 = ev.target.result; };
-  r.readAsDataURL(f);
+function handleImageFiles(e) {
+  const files = e.target.files; if (!files || !files.length) return;
+  state.uploadedImagesBase64 = [];
+  let processed = 0;
+  for (let i = 0; i < files.length; i++) {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      state.uploadedImagesBase64.push(ev.target.result);
+      processed++;
+      if (processed === files.length) {
+        toast(files.length + ' image(s) attached successfully!', 'ok');
+      }
+    };
+    reader.readAsDataURL(files[i]);
+  }
 }
+
 function handleLogoFileSelect(e) {
   const f = e.target.files[0]; if (!f) return;
   const r = new FileReader();
@@ -1771,6 +1839,7 @@ function applyUserState() {
     $('referralBannerBox').style.display = isClient ? 'block' : 'none';
     if (isClient) $('userReferralLinkDisplay').textContent = location.origin + '/?ref=' + state.user.mark;
   }
+  renderProducts();
 }
 
 function applyPortalSettings() {
@@ -1846,7 +1915,7 @@ sb.auth.onAuthStateChange(async (event, session) => {
    ============================================================ */
 Object.assign(window, {
   go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare,
-  handleImageFile, handleLogoFileSelect, saveLogoFile,
+  handleImageFiles, handleLogoFileSelect, saveLogoFile,
   addToCart, updateCartQty, removeFromCart, clearCart,
   goToPaymentPortal, setPaymentType, selectPaymentSlot,
   handleProofFile, submitPayment, doSubmitReview, copyText,
@@ -1855,6 +1924,7 @@ Object.assign(window, {
   submitAdvertisement, renderProducts, exportClientData,
   adminUpdateTracking, saveDeliveryGuyInfo,
   sendBargainMessage, loadCourierChat, sendCourierMessage,
+  switchProductImage,
   installPWA, toast
 });
 </script>
