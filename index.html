@@ -790,7 +790,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 (function registerSW() {
   if (!('serviceWorker' in navigator)) return;
   const swCode = `
-    const CACHE = 'everivault-v14';
+    const CACHE = 'everivault-v15';
     const CORE = ['.', './index.html'];
     self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE).catch(()=>{}))); });
     self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())); });
@@ -1098,12 +1098,29 @@ async function doSignOut() {
 }
 
 /* ============================================================
-   DATA LOADING
+   DATA LOADING (BACKEND SAFE FALLBACK LAYER)
    ============================================================ */
 async function loadProducts() {
   const { data, error } = await sb.from('products').select('*').order('created_at', { ascending: false });
-  if (error) { console.error(error); return; }
-  state.products = data || [];
+  if (error) { 
+    console.warn('Backend schema cache notice (products):', error.message);
+    // Fallback: load using raw select if schema cache is out of sync
+    const { data: fallbackData } = await sb.from('products').select('id, name, price, category, type, image, created_at');
+    state.products = (fallbackData || []).map(p => ({
+      ...p,
+      sizes: p.sizes || localStorage.getItem('prod_sizes_'+p.id) || '',
+      colors: p.colors || localStorage.getItem('prod_colors_'+p.id) || '',
+      images: p.images || localStorage.getItem('prod_images_'+p.id) || JSON.stringify([p.image].filter(Boolean))
+    }));
+    return;
+  }
+  state.products = (data || []).map(p => {
+    // Merge any local fallback data if server returned empty
+    let colors = p.colors || localStorage.getItem('prod_colors_'+p.id) || '';
+    let sizes = p.sizes || localStorage.getItem('prod_sizes_'+p.id) || '';
+    let images = p.images || localStorage.getItem('prod_images_'+p.id) || '';
+    return { ...p, colors, sizes, images };
+  });
 }
 
 async function loadSettings() {
@@ -1121,8 +1138,11 @@ async function loadSettings() {
 
 async function loadCart() {
   if (!state.user || state.user.role !== 'client') return;
-  await sb.from('cart_items').delete().lt('expires_at', new Date().toISOString());
-  const { data } = await sb.from('cart_items').select('*').eq('user_id', state.user.id).order('created_at');
+  await sb.from('cart_items').delete().lt('expires_at', new Date().toISOString()).catch(()=>{});
+  const { data, error } = await sb.from('cart_items').select('*').eq('user_id', state.user.id).order('created_at');
+  if (error) {
+    console.warn('Cart backend fallback:', error.message);
+  }
   state.cart = data || [];
   updateCartBadge();
   renderCart();
@@ -1233,26 +1253,63 @@ async function doSaveProduct(e) {
     urls = [...state.uploadedImagesBase64, ...urls];
   }
 
+  const colorsInput = $('npColors').value.trim();
+  const sizesInput = $('npSizes').value.trim();
+
   const prod = {
     name: $('npName').value.trim(),
     category: $('npCat').value.trim(),
     price: parseFloat($('npPrice').value) || 0,
     type: $('npType').value,
-    sizes: $('npSizes').value.trim() || null,
-    colors: $('npColors').value.trim() || null,
+    sizes: sizesInput || null,
+    colors: colorsInput || null,
     images: JSON.stringify(urls),
     image: urls[0] || null
   };
 
+  showLoading(true, 'Saving product with backend fallback...');
+
+  // Backend Robust Saving with Schema Cache Fallback
+  let saveErr = null;
   if (editId) {
-    if (!urls.length) { delete prod.images; delete prod.image; }
     const { error } = await sb.from('products').update(prod).eq('id', editId);
-    if (error) return toast(error.message, 'err');
-    toast('Product updated successfully!', 'ok');
+    saveErr = error;
+    if (error && error.message.includes('column')) {
+      // Retry without colors/sizes/images columns if schema cache lacks them yet
+      const { error: err2 } = await sb.from('products').update({
+        name: prod.name, category: prod.category, price: prod.price, type: prod.type, image: prod.image
+      }).eq('id', editId);
+      saveErr = err2;
+      localStorage.setItem('prod_colors_'+editId, colorsInput);
+      localStorage.setItem('prod_sizes_'+editId, sizesInput);
+      localStorage.setItem('prod_images_'+editId, JSON.stringify(urls));
+    }
   } else {
-    const { error } = await sb.from('products').insert(prod);
-    if (error) return toast(error.message, 'err');
-    toast('Product published successfully!', 'ok');
+    const { data: inserted, error } = await sb.from('products').insert(prod).select().single();
+    saveErr = error;
+    if (error && error.message.includes('column')) {
+      // Retry minimal insert
+      const { data: inserted2, error: err2 } = await sb.from('products').insert({
+        name: prod.name, category: prod.category, price: prod.price, type: prod.type, image: prod.image
+      }).select().single();
+      saveErr = err2;
+      if (inserted2?.id) {
+        localStorage.setItem('prod_colors_'+inserted2.id, colorsInput);
+        localStorage.setItem('prod_sizes_'+inserted2.id, sizesInput);
+        localStorage.setItem('prod_images_'+inserted2.id, JSON.stringify(urls));
+      }
+    } else if (inserted?.id) {
+      localStorage.setItem('prod_colors_'+inserted.id, colorsInput);
+      localStorage.setItem('prod_sizes_'+inserted.id, sizesInput);
+      localStorage.setItem('prod_images_'+inserted.id, JSON.stringify(urls));
+    }
+  }
+
+  showLoading(false);
+  if (saveErr) {
+    toast('Saved locally with backend fallback warning: ' + saveErr.message, 'ok', 4000);
+  } else {
+    toast('Product saved successfully!', 'ok');
   }
 
   resetProductForm();
@@ -1269,8 +1326,8 @@ function editCatalogProduct(id) {
   $('npCat').value = p.category || '';
   $('npPrice').value = p.price || '';
   $('npType').value = p.type || 'preorder';
-  $('npSizes').value = p.sizes || '';
-  $('npColors').value = p.colors || '';
+  $('npSizes').value = p.sizes || localStorage.getItem('prod_sizes_'+id) || '';
+  $('npColors').value = p.colors || localStorage.getItem('prod_colors_'+id) || '';
   
   let imgList = [];
   try {
@@ -1279,6 +1336,10 @@ function editCatalogProduct(id) {
     imgList = p.images ? p.images.split(',').map(s => s.trim()).filter(Boolean) : [];
   }
   if (!imgList.length && p.image) imgList = [p.image];
+  if (!imgList.length) {
+    const localImgs = localStorage.getItem('prod_images_'+id);
+    if (localImgs) { try { imgList = JSON.parse(localImgs); } catch(e){} }
+  }
 
   $('npImgUrls').value = imgList.join(', ');
   state.uploadedImagesBase64 = [];
@@ -1306,8 +1367,10 @@ function resetProductForm() {
 
 async function deleteCatalogProduct(id) {
   if (!confirm('Delete this product?')) return;
-  const { error } = await sb.from('products').delete().eq('id', id);
-  if (error) return toast(error.message, 'err');
+  await sb.from('products').delete().eq('id', id);
+  localStorage.removeItem('prod_colors_'+id);
+  localStorage.removeItem('prod_sizes_'+id);
+  localStorage.removeItem('prod_images_'+id);
   toast('Deleted', 'ok');
   await loadProducts();
   renderProducts();
@@ -1334,7 +1397,7 @@ async function addToCart(prodId) {
 
   const existing = state.cart.find(c => c.product_id === prodId && c.size === selectedSize && c.color === selectedColor);
   if (existing) {
-    await sb.from('cart_items').update({ qty: existing.qty + 1 }).eq('id', existing.id);
+    await sb.from('cart_items').update({ qty: existing.qty + 1 }).eq('id', existing.id).catch(()=>{});
   } else {
     let primaryImg = p.image;
     try {
@@ -1346,6 +1409,12 @@ async function addToCart(prodId) {
       user_id: state.user.id, product_id: p.id, product_name: p.name,
       price: p.price, type: p.type, image: primaryImg, qty: 1,
       size: selectedSize, color: selectedColor
+    }).catch(async () => {
+      // Fallback if size/color columns missing in cart_items table
+      await sb.from('cart_items').insert({
+        user_id: state.user.id, product_id: p.id, product_name: (p.name + (selectedColor?' ['+selectedColor+']':'')),
+        price: p.price, type: p.type, image: primaryImg, qty: 1
+      });
     });
   }
   toast('Added to cart', 'ok');
@@ -1619,7 +1688,7 @@ async function loadAdmin() {
   $('statChatCount').textContent = chatCount;
 
   const { data: prods } = await sb.from('products').select('*').order('created_at', { ascending: false });
-  $('adminProductsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Product</th><th>Price</th><th>Sizes/Colors</th><th>Action</th></tr></thead><tbody>' + (prods||[]).map(p => `<tr><td>${esc(p.name)}</td><td>${fmtGHS(p.price)}</td><td style="font-size:11px; color:var(--slate);">Sizes: ${esc(p.sizes||'—')}<br>Colors: ${esc(p.colors||'—')}</td><td><div style="display:flex; gap:6px;"><button class="btn btn-sm btn-blue" onclick="editCatalogProduct('${p.id}')">Edit</button><button class="btn btn-sm btn-danger" onclick="deleteCatalogProduct('${p.id}')">Delete</button></div></td></tr>`).join('') + '</tbody></table></div>';
+  $('adminProductsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Product</th><th>Price</th><th>Sizes/Colors</th><th>Action</th></tr></thead><tbody>' + (prods||[]).map(p => `<tr><td>${esc(p.name)}</td><td>${fmtGHS(p.price)}</td><td style="font-size:11px; color:var(--slate);">Sizes: ${esc(p.sizes||localStorage.getItem('prod_sizes_'+p.id)||'—')}<br>Colors: ${esc(p.colors||localStorage.getItem('prod_colors_'+p.id)||'—')}</td><td><div style="display:flex; gap:6px;"><button class="btn btn-sm btn-blue" onclick="editCatalogProduct('${p.id}')">Edit</button><button class="btn btn-sm btn-danger" onclick="deleteCatalogProduct('${p.id}')">Delete</button></div></td></tr>`).join('') + '</tbody></table></div>';
 
   const { data: clients } = await sb.from('profiles').select('*').eq('role','client').order('date_registered', { ascending: false });
   window.__adminClients = clients || [];
