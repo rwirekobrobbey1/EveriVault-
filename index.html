@@ -224,7 +224,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 </a>
 
 <button class="install-btn" id="installBtn" onclick="installPWA()">
-  <img id="installBtnLogo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230A192F'/%3E%3Ctext x='50' y='68' font-size='60' font-family='Arial' font-weight='bold' fill='%2310B981' text-anchor='middle'%3EE%3C/text%3E%3C/svg%3E" alt="EveriVault">
+  <img id="installBtnLogo" src="" alt="EveriVault">
   <span>Install App</span>
   <span class="pulse-dot"></span>
 </button>
@@ -789,32 +789,51 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 
 <script>
 /* ============================================================
-   PWA: Manifest + Service Worker (1TB Zero-Delay Speed)
+   PWA: Manifest + Service Worker with EveriVault Logo
    ============================================================ */
-(function injectManifest() {
-  const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="96" fill="#0A192F"/><text x="256" y="345" font-size="320" font-family="Arial,sans-serif" font-weight="bold" fill="#10B981" text-anchor="middle">E</text></svg>`;
-  const icon = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(iconSvg)));
+const defaultEveriVaultLogoSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="96" fill="#0A192F"/><text x="256" y="345" font-size="320" font-family="Arial,sans-serif" font-weight="bold" fill="#10B981" text-anchor="middle">E</text></svg>`;
+const defaultEveriVaultLogoBase64 = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(defaultEveriVaultLogoSvg)));
+
+function updateManifestWithLogo(logoUrl) {
+  const iconSrc = logoUrl || defaultEveriVaultLogoBase64;
   const manifest = {
     name: "EveriVault Enterprise", short_name: "EveriVault",
     description: "China to Ghana wholesale group-buying hub.",
     start_url: ".", scope: ".", display: "standalone", orientation: "portrait",
     background_color: "#0A192F", theme_color: "#0A192F",
     icons: [
-      { src: icon, sizes: "192x192", type: "image/svg+xml", purpose: "any maskable" },
-      { src: icon, sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }
+      { src: iconSrc, sizes: "192x192", type: "image/png", purpose: "any maskable" },
+      { src: iconSrc, sizes: "512x512", type: "image/png", purpose: "any maskable" }
     ]
   };
+  
+  // Update or create manifest link
+  let link = document.querySelector('link[rel="manifest"]');
+  if (!link) {
+    link = document.createElement('link');
+    link.rel = 'manifest';
+    document.head.appendChild(link);
+  }
   const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
-  const link = document.createElement('link'); link.rel = 'manifest'; link.href = URL.createObjectURL(blob);
-  document.head.appendChild(link);
-  const apple = document.createElement('link'); apple.rel = 'apple-touch-icon'; apple.href = icon; document.head.appendChild(apple);
-  const fav = document.createElement('link'); fav.rel = 'icon'; fav.href = icon; document.head.appendChild(fav);
-})();
+  link.href = URL.createObjectURL(blob);
+
+  // Update apple touch icon & favicon
+  let apple = document.querySelector('link[rel="apple-touch-icon"]');
+  if (!apple) { apple = document.createElement('link'); apple.rel = 'apple-touch-icon'; document.head.appendChild(apple); }
+  apple.href = iconSrc;
+
+  let fav = document.querySelector('link[rel="icon"]');
+  if (!fav) { fav = document.createElement('link'); fav.rel = 'icon'; document.head.appendChild(fav); }
+  fav.href = iconSrc;
+}
+
+// Initialize default manifest
+updateManifestWithLogo(null);
 
 (function registerSW() {
   if (!('serviceWorker' in navigator)) return;
   const swCode = `
-    const CACHE = 'everivault-v1TB-zerodelay';
+    const CACHE = 'everivault-v1TB-logo';
     const CORE = ['.', './index.html'];
     self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE).catch(()=>{}))); });
     self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())); });
@@ -870,7 +889,7 @@ const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 });
 
 /* ============================================================
-   STATE + HELPERS (0s ZERO DELAY)
+   STATE + HELPERS
    ============================================================ */
 const state = {
   user: null,
@@ -933,7 +952,7 @@ function showLoading(show, msg = 'Processing...') {
 }
 
 /* ============================================================
-   NAVIGATION (0s ZERO DELAY)
+   NAVIGATION
    ============================================================ */
 function go(page) {
   if (!state.user && page !== 'home' && page !== 'auth') {
@@ -1781,8 +1800,9 @@ async function saveLogoFile(e) {
   if (!state.uploadedLogoBase64) return toast('Choose a file first', 'err');
   await sb.from('app_settings').update({ logo_url: state.uploadedLogoBase64 }).eq('id', 1);
   state.settings.logoUrl = state.uploadedLogoBase64;
+  updateManifestWithLogo(state.uploadedLogoBase64);
   applyPortalSettings();
-  toast('Logo updated', 'ok');
+  toast('Logo and App Icon updated successfully!', 'ok');
 }
 
 function adminTab(tab) {
@@ -1920,8 +1940,13 @@ function applyUserState() {
 function applyPortalSettings() {
   if ($('dynHeroTitle')) $('dynHeroTitle').innerHTML = esc(state.settings.heroTitle || 'China to Ghana Wholesale Group-Buying Hub');
   if ($('dynHeroSub')) $('dynHeroSub').textContent = state.settings.heroSub || '';
-  if ($('navBrandLogo') && state.settings.logoUrl) $('navBrandLogo').src = state.settings.logoUrl;
-  if ($('installBtnLogo') && state.settings.logoUrl) $('installBtnLogo').src = state.settings.logoUrl;
+  if (state.settings.logoUrl) {
+    if ($('navBrandLogo')) $('navBrandLogo').src = state.settings.logoUrl;
+    if ($('installBtnLogo')) $('installBtnLogo').src = state.settings.logoUrl;
+    updateManifestWithLogo(state.settings.logoUrl);
+  } else {
+    if ($('installBtnLogo')) $('installBtnLogo').src = defaultEveriVaultLogoBase64;
+  }
 }
 
 /* ============================================================
