@@ -124,7 +124,7 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 .review-card { background:#fff; border-radius:12px; padding:16px; border:1px solid var(--border-color); box-shadow:var(--card-shadow); margin-bottom:12px; }
 
 .admin-stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-bottom:20px; }
-.stat-card { background:#fff; padding:16px; border-radius:12px; border:1pxsolid var(--border-color); box-shadow:var(--card-shadow); }
+.stat-card { background:#fff; padding:16px; border-radius:12px; border:1px solid var(--border-color); box-shadow:var(--card-shadow); }
 .stat-card h4 { font-size:11px; color:var(--slate); text-transform:uppercase; margin-bottom:4px; font-weight:700; }
 .stat-card .val { font-size:22px; font-weight:800; color:var(--navy); }
 
@@ -163,9 +163,6 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 .spinner { display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,0.3); border-top-color:#fff; border-radius:50%; animation:spin .8s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
 
-/* ============================================================
-   INSTALL APP BUTTON — EveriVault branded
-   ============================================================ */
 .install-btn {
   position:fixed; bottom:20px; left:20px; z-index:10000;
   background:var(--navy); color:#fff; padding:8px 18px 8px 8px;
@@ -178,22 +175,9 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 }
 .install-btn.show { display:flex; }
 .install-btn:hover { transform:translateY(-2px); box-shadow:0 12px 30px rgba(16,185,129,0.4); }
-.install-btn img {
-  width:26px; height:26px; border-radius:6px;
-  border:1px solid rgba(255,255,255,0.15);
-  object-fit:cover;
-  background:#fff;
-}
-.install-btn .pulse-dot {
-  width:8px; height:8px; border-radius:50%;
-  background:var(--green);
-  animation:pulse 1.5s infinite;
-  margin-left:2px;
-}
-@keyframes pulse {
-  0%,100% { opacity:1; transform:scale(1); }
-  50% { opacity:0.5; transform:scale(1.3); }
-}
+.install-btn img { width:26px; height:26px; border-radius:6px; border:1px solid rgba(255,255,255,0.15); object-fit:cover; background:#fff; }
+.install-btn .pulse-dot { width:8px; height:8px; border-radius:50%; background:var(--green); animation:pulse 1.5s infinite; margin-left:2px; }
+@keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(1.3); } }
 
 @media(max-width:850px) {
   .admin-layout { grid-template-columns:1fr; }
@@ -239,9 +223,6 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
   WhatsApp Us
 </a>
 
-<!-- ============================================================
-     INSTALL APP BUTTON — Branded with EveriVault logo
-     ============================================================ -->
 <button class="install-btn" id="installBtn" onclick="installPWA()">
   <img id="installBtnLogo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230A192F'/%3E%3Ctext x='50' y='68' font-size='60' font-family='Arial' font-weight='bold' fill='%2310B981' text-anchor='middle'%3EE%3C/text%3E%3C/svg%3E" alt="EveriVault">
   <span>Install App</span>
@@ -750,8 +731,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
     <p style="margin-top:6px; font-size:12px;">
       Admin: <strong style="color:var(--green);">richmonwireko@gmail.com</strong> | WhatsApp: <a href="https://wa.me/13095194647" target="_blank" style="color:var(--wa-green); font-weight:700;">+1 (309) 519-4647</a>
     </p>
-  </div>
-</footer>
+  </div></footer>
 
 <div class="toast-wrap" id="toastWrap"></div>
 
@@ -759,8 +739,6 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 /* ============================================================
    PWA: Manifest + Service Worker (inline)
    ============================================================ */
-const BRAND_LOGO_SVG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230A192F'/%3E%3Ctext x='50' y='68' font-size='60' font-family='Arial' font-weight='bold' fill='%2310B981' text-anchor='middle'%3EE%3C/text%3E%3C/svg%3E";
-
 (function injectManifest() {
   const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="96" fill="#0A192F"/><text x="256" y="345" font-size="320" font-family="Arial,sans-serif" font-weight="bold" fill="#10B981" text-anchor="middle">E</text></svg>`;
   const icon = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(iconSvg)));
@@ -1109,8 +1087,7 @@ async function doAddProduct(e) {
     price: parseFloat($('npPrice').value) || 0,
     type: $('npType').value,
     image: state.uploadedProdBase64 || $('npImgUrl').value.trim() || null
-  };
-  const { error } = await sb.from('products').insert(prod);
+  };const { error } = await sb.from('products').insert(prod);
   if (error) return toast(error.message, 'err');
   toast('Product published', 'ok');
   $('npName').value = ''; $('npCat').value = ''; $('npPrice').value = ''; $('npImgUrl').value = '';
@@ -1631,7 +1608,6 @@ function applyPortalSettings() {
   if ($('dynHeroTitle')) $('dynHeroTitle').innerHTML = esc(state.settings.heroTitle || 'China to Ghana Wholesale Group-Buying Hub');
   if ($('dynHeroSub')) $('dynHeroSub').textContent = state.settings.heroSub || '';
   if ($('navBrandLogo') && state.settings.logoUrl) $('navBrandLogo').src = state.settings.logoUrl;
-  // Keep install button logo in sync with brand
   if ($('installBtnLogo') && state.settings.logoUrl) $('installBtnLogo').src = state.settings.logoUrl;
 }
 
@@ -1683,7 +1659,7 @@ sb.auth.onAuthStateChange(async (event, session) => {
 })();
 
 /* ============================================================
-   EXPORTS
+   EXPORTS (so inline onclick can reach them)
    ============================================================ */
 Object.assign(window, {
   go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare,
