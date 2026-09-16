@@ -643,7 +643,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
               <div class="form-group"><label>Product Title</label><input type="text" id="npName" required></div>
               <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:10px;">
                 <div class="form-group"><label>Category</label><input type="text" id="npCat" required placeholder="e.g. clothing, apparel"></div>
-                <div class="form-group"><label>Price per Unit / Color (GHS)</label><input type="number" id="npPrice" step="0.01" required></div>
+                <div class="form-group"><label>Price per Unit (GHS)</label><input type="number" id="npPrice" step="0.01" required></div>
               </div>
               <div class="form-group"><label>Item Type</label>
                 <select id="npType" required>
@@ -653,7 +653,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
               </div>
               <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:10px;">
                 <div class="form-group"><label>Available Sizes (comma separated)</label><input type="text" id="npSizes" placeholder="e.g. S, M, L, XL"></div>
-                <div class="form-group"><label>Available Colors (Admin Presets, comma separated)</label><input type="text" id="npColors" placeholder="e.g. Black, White, Navy"></div>
+                <div class="form-group"><label>Preset Color Options (comma separated)</label><input type="text" id="npColors" placeholder="e.g. Black, White, Navy, Grey"></div>
               </div>
               <div class="form-group">
                 <label>Product Images (Upload or Multiple URLs)</label>
@@ -790,7 +790,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 (function registerSW() {
   if (!('serviceWorker' in navigator)) return;
   const swCode = `
-    const CACHE = 'everivault-v18';
+    const CACHE = 'everivault-v19';
     const CORE = ['.', './index.html'];
     self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE).catch(()=>{}))); });
     self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())); });
@@ -1157,7 +1157,7 @@ async function loadReviews() {
 }
 
 /* ============================================================
-   PRODUCTS, ADMIN PRESET COLOR SELECTION & SIZES
+   PRODUCTS & SELECTION OPTIONS
    ============================================================ */
 function renderProducts() {
   const grid = $('prodGrid'), homeGrid = $('homeCatalogGrid');
@@ -1207,7 +1207,6 @@ function renderProducts() {
       optionsHtml += '<div style="display:flex; align-items:center; gap:4px;"><span style="font-weight:700; color:var(--slate); min-width:40px;">Size:</span><select id="size-'+p.id+'" style="padding:2px 4px; font-size:11px; border-radius:4px; height:24px; flex:1;">' + sizes.map(s => '<option value="'+esc(s)+'">'+esc(s)+'</option>').join('') + '</select></div>';
     }
     
-    // Admin Preset Color Selection checkboxes so users can select from admin-provided options
     if (colorPresets.length > 0) {
       optionsHtml += '<div><span style="font-weight:700; color:var(--slate); display:block; margin-bottom:3px;">Select Color(s) — Each color priced individually:</span>';
       optionsHtml += '<div style="display:flex; flex-wrap:wrap; gap:6px; background:#F8FAFC; padding:6px; border-radius:6px; border:1px solid #CBD5E1; max-height:80px; overflow-y:auto;" id="color-group-'+p.id+'">';
@@ -1216,8 +1215,7 @@ function renderProducts() {
       });
       optionsHtml += '</div></div>';
     } else {
-      optionsHtml += '<div><label style="font-weight:700; color:var(--slate); display:block; margin-bottom:2px; font-size:10px;">Select Preferred Color(s):</label>';
-      optionsHtml += '<input type="text" id="pref-colors-'+p.id+'" placeholder="e.g. Black, White, Navy" style="padding:6px 8px; font-size:11px; border-radius:6px; height:28px;"></div>';
+      optionsHtml += '<div><span style="font-weight:700; color:var(--slate); display:block; margin-bottom:3px;">Select Color:</span><select id="color-sel-'+p.id+'" style="padding:2px 4px; font-size:11px; border-radius:4px; height:24px; width:100%;"><option value="Assorted / Default">Assorted / Default</option><option value="Black">Black</option><option value="White">White</option><option value="Navy Blue">Navy Blue</option><option value="Grey">Grey</option><option value="Red">Red</option><option value="Blue">Blue</option></select></div>';
     }
     optionsHtml += '</div>';
 
@@ -1367,23 +1365,19 @@ async function addToCart(prodId) {
   const sizeSel = $('size-' + prodId);
   const selectedSize = sizeSel ? sizeSel.value : null;
 
-  // Gather selected admin color checkboxes
   let chosenColors = Array.from(document.querySelectorAll('input[name="color-chk-'+prodId+'"]:checked')).map(cb => cb.value);
   
-  // If no checkboxes exist or none selected, check the fallback text input
   if (chosenColors.length === 0) {
-    const colorInputEl = $('pref-colors-' + prodId);
-    const colorStr = colorInputEl ? colorInputEl.value.trim() : '';
-    if (colorStr) {
-      chosenColors = colorStr.split(',').map(c => c.trim()).filter(Boolean);
+    const colorSelEl = $('color-sel-' + prodId);
+    if (colorSelEl) {
+      chosenColors = [colorSelEl.value];
     }
   }
 
   if (chosenColors.length === 0) {
-    return toast('Please select or enter at least one color option', 'err');
+    chosenColors = ['Assorted / Default'];
   }
 
-  // Each selected color is added as an individual line item, priced per color unit
   for (const color of chosenColors) {
     const existing = state.cart.find(c => c.product_id === prodId && c.size === selectedSize && c.color === color);
     if (existing) {
