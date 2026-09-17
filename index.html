@@ -666,7 +666,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
               <input type="hidden" id="editingProdId">
               <div class="form-group"><label>Product Title</label><input type="text" id="npName" required></div>
               <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:10px;">
-                <div class="form-group"><label>Category</label><input type="text" id="npCat" required placeholder="e.g. clothing, apparel"></div>
+                <div class="form-group"><label>Category</label><input type="text" id="npCat" required placeholder="e.g. clothing, hardware, printers"></div>
                 <div class="form-group"><label>Price per Unit (GHS)</label><input type="number" id="npPrice" step="0.01" required></div>
               </div>
               <div class="form-group"><label>Item Type</label>
@@ -676,8 +676,8 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
                 </select>
               </div>
               <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:10px;">
-                <div class="form-group"><label>Available Sizes (comma separated)</label><input type="text" id="npSizes" placeholder="e.g. S, M, L, XL"></div>
-                <div class="form-group"><label>Preset Color Options (comma separated)</label><input type="text" id="npColors" placeholder="e.g. Black, White, Navy, Grey"></div>
+                <div class="form-group"><label>Sizes (Optional for Clothing)</label><input type="text" id="npSizes" placeholder="e.g. S, M, L, XL"></div>
+                <div class="form-group"><label>Colors (Optional for Clothing)</label><input type="text" id="npColors" placeholder="e.g. Black, White, Navy"></div>
               </div>
               <div class="form-group">
                 <label>Product Images (Upload or Multiple URLs)</label>
@@ -965,7 +965,6 @@ async function go(page) {
   document.querySelectorAll('.plink[data-p="'+page+'"]').forEach(l => l.classList.add('active'));
   $('menu').classList.remove('active');
 
-  // Trigger dedicated page backends instantly with zero delay
   await executePageBackend(page);
   window.scrollTo({ top: 0, behavior: 'auto' });
 }
@@ -994,16 +993,13 @@ async function executePageBackend(page) {
       await loadPaymentHistory();
       break;
     case 'calc':
-      // Calculations run instantly via client functions
       break;
     case 'address':
-      // Static receiving warehouse data
       break;
     case 'reviews':
       await loadReviews();
       break;
     case 'auth':
-      // Auth forms ready
       break;
     case 'admin':
       await loadAdmin();
@@ -1234,8 +1230,15 @@ async function loadReviews() {
 }
 
 /* ============================================================
-   PRODUCTS & STORE BACKEND & RENDERING
+   PRODUCTS & STORE BACKEND & RENDERING (Conditional Apparel Options)
    ============================================================ */
+function isClothingCategory(cat) {
+  if (!cat) return false;
+  const c = cat.toLowerCase().trim();
+  const keywords = ['clothing', 'apparel', "men's clothing", 'ladies clothing', 'womens clothing', 'women clothing', 'shirt', 'pants', 'trousers', 'shorts', 'hoodie', 'dress'];
+  return keywords.some(k => c.includes(k));
+}
+
 function renderProducts() {
   const grid = $('prodGrid'), homeGrid = $('homeCatalogGrid');
   const search = ($('searchInput')?.value || '').toLowerCase();
@@ -1276,7 +1279,9 @@ function renderProducts() {
     }
 
     let optionsHtml = '';
-    if (state.user && state.user.role === 'client') {
+    const isApparel = isClothingCategory(p.category);
+
+    if (state.user && state.user.role === 'client' && isApparel) {
       const sizes = p.sizes ? p.sizes.split(',').map(s => s.trim()).filter(Boolean) : [];
       const colorPresets = p.colors ? p.colors.split(',').map(c => c.trim()).filter(Boolean) : [];
 
@@ -1342,11 +1347,12 @@ async function doSaveProduct(e) {
     type: $('npType').value,
     sizes: sizesInput || null,
     colors: colorsInput || null,
+    color: colorsInput || null,
     images: JSON.stringify(urls),
     image: urls[0] || null
   };
 
-  showLoading(true, 'Saving product to online store backend...');
+  showLoading(true, 'Saving product to backend...');
   if (editId) {
     const { error } = await sb.from('products').update(prod).eq('id', editId);
     if (error) { toast(error.message, 'err'); showLoading(false); return; }
@@ -1363,7 +1369,7 @@ async function doSaveProduct(e) {
     }
   }
   showLoading(false);
-  toast('Product successfully added/updated in online store!', 'ok');
+  toast('Product successfully saved!', 'ok');
 
   resetProductForm();
   await loadProducts();
@@ -1380,7 +1386,7 @@ function editCatalogProduct(id) {
   $('npPrice').value = p.price || '';
   $('npType').value = p.type || 'preorder';
   $('npSizes').value = p.sizes || localStorage.getItem('prod_sizes_'+id) || '';
-  $('npColors').value = p.colors || localStorage.getItem('prod_colors_'+id) || '';
+  $('npColors').value = p.colors || p.color || localStorage.getItem('prod_colors_'+id) || '';
   
   let imgList = [];
   try {
@@ -1445,20 +1451,24 @@ async function addToCart(prodId) {
   const p = state.products.find(x => x.id === prodId);
   if (!p) return;
 
-  const sizeSel = $('size-' + prodId);
-  const selectedSize = sizeSel ? sizeSel.value : null;
+  const isApparel = isClothingCategory(p.category);
+  let selectedSize = null;
+  let chosenColors = ['Standard'];
 
-  let chosenColors = Array.from(document.querySelectorAll('input[name="color-chk-'+prodId+'"]:checked')).map(cb => cb.value);
-  
-  if (chosenColors.length === 0) {
-    const colorSelEl = $('color-sel-' + prodId);
-    if (colorSelEl) {
-      chosenColors = [colorSelEl.value];
+  if (isApparel) {
+    const sizeSel = $('size-' + prodId);
+    selectedSize = sizeSel ? sizeSel.value : null;
+
+    chosenColors = Array.from(document.querySelectorAll('input[name="color-chk-'+prodId+'"]:checked')).map(cb => cb.value);
+    if (chosenColors.length === 0) {
+      const colorSelEl = $('color-sel-' + prodId);
+      if (colorSelEl) {
+        chosenColors = [colorSelEl.value];
+      }
     }
-  }
-
-  if (chosenColors.length === 0) {
-    chosenColors = ['Assorted / Default'];
+    if (chosenColors.length === 0) {
+      chosenColors = ['Assorted / Default'];
+    }
   }
 
   showLoading(true, 'Adding to cart backend...');
@@ -1473,20 +1483,26 @@ async function addToCart(prodId) {
         if (arr && arr.length) primaryImg = arr[0];
       } catch(e) {}
 
-      await sb.from('cart_items').insert({
-        user_id: state.user.id, product_id: p.id, product_name: p.name,
-        price: p.price, type: p.type, image: primaryImg, qty: 1,
-        size: selectedSize, color: color
-      }).catch(async () => {
-        await sb.from('cart_items').insert({
-          user_id: state.user.id, product_id: p.id, product_name: (p.name + ' ['+color+']'),
-          price: p.price, type: p.type, image: primaryImg, qty: 1
-        });
+      const itemPayload = {
+        user_id: state.user.id,
+        product_id: p.id,
+        product_name: isApparel ? (p.name + (color !== 'Standard' && color !== 'Assorted / Default' ? ' ['+color+']' : '')) : p.name,
+        price: p.price,
+        type: p.type,
+        image: primaryImg,
+        qty: 1,
+        size: selectedSize,
+        color: color
+      };
+
+      await sb.from('cart_items').insert(itemPayload).catch(async () => {
+        delete itemPayload.color;
+        await sb.from('cart_items').insert(itemPayload);
       });
     }
   }
   showLoading(false);
-  toast(`Added ${chosenColors.length} variant(s) to cart!`, 'ok');
+  toast('Added to cart successfully!', 'ok');
   await loadCart();
 }
 
@@ -1530,7 +1546,7 @@ function renderCart() {
     const img = item.image ? '<img src="'+esc(item.image)+'" style="width:45px;height:45px;object-fit:cover;border-radius:6px;">' : '';
     let optStr = '';
     if (item.size) optStr += 'Size: ' + esc(item.size) + ' ';
-    if (item.color) optStr += 'Selected Color: <strong style="color:var(--navy);">'+esc(item.color)+'</strong>';
+    if (item.color && item.color !== 'Standard') optStr += 'Color: <strong style="color:var(--navy);">'+esc(item.color)+'</strong>';
     const optsBadge = optStr ? '<br><span style="color:var(--slate); font-size:11px;">'+optStr+'</span>' : '';
     const badge = item.type === 'preorder' ? '<br><span style="color:var(--green); font-size:11px; font-weight:700;">✓ Pre-Order</span>' : '';
     return '<div class="cart-item-row"><div style="display:flex;align-items:center;gap:10px;">'+img+'<div><strong style="color:var(--navy);font-size:14px;">'+esc(item.product_name)+'</strong><br><span style="color:var(--green);font-weight:700;">'+fmtGHS(item.price)+' per unit</span>'+optsBadge+badge+'</div></div><div style="display:flex;align-items:center;gap:8px;"><button class="qty-btn" onclick="updateCartQty(\''+item.id+'\', -1)">-</button><span style="font-weight:800;min-width:18px;text-align:center;">'+item.qty+'</span><button class="qty-btn" onclick="updateCartQty(\''+item.id+'\', 1)">+</button></div><div style="text-align:right;"><span style="font-weight:800;color:var(--navy);">'+fmtGHS(sub)+'</span><br><button class="btn btn-sm btn-danger" style="margin-top:3px;padding:2px 6px;font-size:10px;" onclick="removeFromCart(\''+item.id+'\')">Remove</button></div></div>';
@@ -1564,7 +1580,7 @@ function goToPaymentPortal(type = 'goods') {
   if (state.user) $('payClientName').value = (state.user.mark || 'ADM') + ' — ' + state.user.name + ' (' + (state.user.phone || 'Admin') + ')';
   if (type === 'goods') {
     if (!state.cart.length) return toast('Cart empty', 'err');
-    $('payItemSummary').value = state.cart.map(i => i.product_name + (i.size? ' ['+i.size+']':'') + (i.color? ' (Color: '+i.color+')':'') + ' (x' + i.qty + ')').join(', ');
+    $('payItemSummary').value = state.cart.map(i => i.product_name + (i.size? ' ['+i.size+']':'') + (i.color && i.color !== 'Standard'? ' (Color: '+i.color+')':'') + ' (x' + i.qty + ')').join(', ');
     $('payTotalAmount').value = state.cart.reduce((s, i) => s + i.price * i.qty, 0).toFixed(2);
   } else {
     const seaVal = parseFloat(($('seaGhs').textContent||'').replace(/[^0-9.]/g,'')) || 0;
@@ -1757,7 +1773,7 @@ async function loadAdmin() {
   $('statChatCount').textContent = chatCount;
 
   const { data: prods } = await sb.from('products').select('*').order('created_at', { ascending: false });
-  $('adminProductsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Product</th><th>Price/Unit</th><th>Sizes/Colors</th><th>Action</th></tr></thead><tbody>' + (prods||[]).map(p => `<tr><td>${esc(p.name)}</td><td>${fmtGHS(p.price)}</td><td style="font-size:11px; color:var(--slate);">Sizes: ${esc(p.sizes||localStorage.getItem('prod_sizes_'+p.id)||'—')}<br>Colors: ${esc(p.colors||localStorage.getItem('prod_colors_'+p.id)||'—')}</td><td><div style="display:flex; gap:6px;"><button class="btn btn-sm btn-blue" onclick="editCatalogProduct('${p.id}')">Edit</button><button class="btn btn-sm btn-danger" onclick="deleteCatalogProduct('${p.id}')">Delete</button></div></td></tr>`).join('') + '</tbody></table></div>';
+  $('adminProductsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Product</th><th>Price/Unit</th><th>Sizes/Colors</th><th>Action</th></tr></thead><tbody>' + (prods||[]).map(p => `<tr><td>${esc(p.name)}</td><td>${fmtGHS(p.price)}</td><td style="font-size:11px; color:var(--slate);">Sizes: ${esc(p.sizes||localStorage.getItem('prod_sizes_'+p.id)||'—')}<br>Colors: ${esc(p.colors||p.color||localStorage.getItem('prod_colors_'+p.id)||'—')}</td><td><div style="display:flex; gap:6px;"><button class="btn btn-sm btn-blue" onclick="editCatalogProduct('${p.id}')">Edit</button><button class="btn btn-sm btn-danger" onclick="deleteCatalogProduct('${p.id}')">Delete</button></div></td></tr>`).join('') + '</tbody></table></div>';
 
   const { data: clients } = await sb.from('profiles').select('*').eq('role','client').order('date_registered', { ascending: false });
   window.__adminClients = clients || [];
@@ -2050,7 +2066,6 @@ sb.auth.onAuthStateChange(async (event, session) => {
     renderProducts();
     updateCartBadge();
 
-    // Route to active section backend instantly
     const activePage = document.querySelector('.page.active')?.id?.replace('p-', '') || 'home';
     await executePageBackend(activePage);
   } catch (err) {
