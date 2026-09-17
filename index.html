@@ -197,7 +197,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
 <nav>
   <div class="container nav-wrap">
     <a class="logo-area" onclick="go('home')">
-      <img id="navBrandLogo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230A192F'/%3E%3Ctext x='50' y='68' font-size='60' font-family='Arial' font-weight='bold' fill='%2310B981' text-anchor='middle'%3EE%3C/text%3E%3C/svg%3E" class="logo-img" alt="EveriVault Logo">
+      <img id="navBrandLogo" src="" class="logo-img" alt="EveriVault Logo">
       <div class="logo">EVERIVAULT <span>GROUP-BUY HUB</span></div>
     </a>
     <ul class="nav-links" id="menu">
@@ -807,7 +807,6 @@ function updateManifestWithLogo(logoUrl) {
     ]
   };
   
-  // Update or create manifest link
   let link = document.querySelector('link[rel="manifest"]');
   if (!link) {
     link = document.createElement('link');
@@ -817,7 +816,6 @@ function updateManifestWithLogo(logoUrl) {
   const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
   link.href = URL.createObjectURL(blob);
 
-  // Update apple touch icon & favicon
   let apple = document.querySelector('link[rel="apple-touch-icon"]');
   if (!apple) { apple = document.createElement('link'); apple.rel = 'apple-touch-icon'; document.head.appendChild(apple); }
   apple.href = iconSrc;
@@ -827,13 +825,12 @@ function updateManifestWithLogo(logoUrl) {
   fav.href = iconSrc;
 }
 
-// Initialize default manifest
 updateManifestWithLogo(null);
 
 (function registerSW() {
   if (!('serviceWorker' in navigator)) return;
   const swCode = `
-    const CACHE = 'everivault-v1TB-logo';
+    const CACHE = 'everivault-v1TB-backend';
     const CORE = ['.', './index.html'];
     self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE).catch(()=>{}))); });
     self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())); });
@@ -889,7 +886,7 @@ const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 });
 
 /* ============================================================
-   STATE + HELPERS
+   STATE + FULL PAGE BACKEND ROUTER / CONTROLLER
    ============================================================ */
 const state = {
   user: null,
@@ -952,15 +949,15 @@ function showLoading(show, msg = 'Processing...') {
 }
 
 /* ============================================================
-   NAVIGATION
+   PAGE CONTROLLER & BACKEND ROUTING
    ============================================================ */
-function go(page) {
-  if (!state.user && page !== 'home' && page !== 'auth') {
+async function go(page) {
+  if (!state.user && page !== 'home' && page !== 'auth' && page !== 'calc' && page !== 'address' && page !== 'reviews') {
     toast('Please sign in to continue', 'err');
     return go('auth');
   }
-  if (page === 'admin' && state.user?.role !== 'admin') { toast('Admin required', 'err'); return go('auth'); }
-  if (page === 'deliveryportal' && state.user?.role !== 'delivery') { toast('Courier required', 'err'); return go('auth'); }
+  if (page === 'admin' && state.user?.role !== 'admin') { toast('Admin privileges required', 'err'); return go('auth'); }
+  if (page === 'deliveryportal' && state.user?.role !== 'delivery') { toast('Courier credentials required', 'err'); return go('auth'); }
 
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const t = $('p-' + page); if (t) t.classList.add('active');
@@ -968,15 +965,55 @@ function go(page) {
   document.querySelectorAll('.plink[data-p="'+page+'"]').forEach(l => l.classList.add('active'));
   $('menu').classList.remove('active');
 
-  if (page === 'home' || page === 'store') renderProducts();
-  if (page === 'cart') loadCart();
-  if (page === 'tracking') loadTrackingAndChat();
-  if (page === 'deliveryportal') loadCourierPortal();
-  if (page === 'payment') loadPaymentHistory();
-  if (page === 'reviews') loadReviews();
-  if (page === 'admin') loadAdmin();
+  // Trigger dedicated page backends instantly with zero delay
+  await executePageBackend(page);
   window.scrollTo({ top: 0, behavior: 'auto' });
 }
+
+async function executePageBackend(page) {
+  switch (page) {
+    case 'home':
+      await loadProducts();
+      renderProducts();
+      break;
+    case 'store':
+      await loadProducts();
+      renderProducts();
+      break;
+    case 'cart':
+      await loadCart();
+      renderCart();
+      break;
+    case 'tracking':
+      await loadTrackingAndChat();
+      break;
+    case 'deliveryportal':
+      await loadCourierPortal();
+      break;
+    case 'payment':
+      await loadPaymentHistory();
+      break;
+    case 'calc':
+      // Calculations run instantly via client functions
+      break;
+    case 'address':
+      // Static receiving warehouse data
+      break;
+    case 'reviews':
+      await loadReviews();
+      break;
+    case 'auth':
+      // Auth forms ready
+      break;
+    case 'admin':
+      await loadAdmin();
+      break;
+    default:
+      await loadProducts();
+      renderProducts();
+  }
+}
+
 function toggleMenu() { $('menu').classList.toggle('active'); }
 function authTab(tab) {
   document.querySelectorAll('[data-authtab]').forEach(t => t.classList.toggle('active', t.dataset.authtab === tab));
@@ -986,7 +1023,7 @@ function authTab(tab) {
 }
 
 /* ============================================================
-   AUTH & REGISTRATION
+   AUTH & REGISTRATION BACKEND
    ============================================================ */
 async function doRegister(e) {
   e.preventDefault();
@@ -1138,7 +1175,7 @@ async function doSignOut() {
 }
 
 /* ============================================================
-   DATA LOADING
+   CENTRAL DATA SYNCHRONIZATION & BACKEND FETCHERS
    ============================================================ */
 async function loadProducts() {
   const { data, error } = await sb.from('products').select('*').order('created_at', { ascending: false });
@@ -1197,7 +1234,7 @@ async function loadReviews() {
 }
 
 /* ============================================================
-   PRODUCTS & STORE RENDERING
+   PRODUCTS & STORE BACKEND & RENDERING
    ============================================================ */
 function renderProducts() {
   const grid = $('prodGrid'), homeGrid = $('homeCatalogGrid');
@@ -1309,14 +1346,16 @@ async function doSaveProduct(e) {
     image: urls[0] || null
   };
 
-  showLoading(true, 'Saving product...');
+  showLoading(true, 'Saving product to online store backend...');
   if (editId) {
-    await sb.from('products').update(prod).eq('id', editId).catch(()=>{});
+    const { error } = await sb.from('products').update(prod).eq('id', editId);
+    if (error) { toast(error.message, 'err'); showLoading(false); return; }
     localStorage.setItem('prod_colors_'+editId, colorsInput);
     localStorage.setItem('prod_sizes_'+editId, sizesInput);
     localStorage.setItem('prod_images_'+editId, JSON.stringify(urls));
   } else {
-    const { data: inserted } = await sb.from('products').insert(prod).select().single().catch(()=>{});
+    const { data: inserted, error } = await sb.from('products').insert(prod).select().single();
+    if (error) { toast(error.message, 'err'); showLoading(false); return; }
     if (inserted?.id) {
       localStorage.setItem('prod_colors_'+inserted.id, colorsInput);
       localStorage.setItem('prod_sizes_'+inserted.id, sizesInput);
@@ -1324,7 +1363,7 @@ async function doSaveProduct(e) {
     }
   }
   showLoading(false);
-  toast('Product saved successfully!', 'ok');
+  toast('Product successfully added/updated in online store!', 'ok');
 
   resetProductForm();
   await loadProducts();
@@ -1380,19 +1419,21 @@ function resetProductForm() {
 }
 
 async function deleteCatalogProduct(id) {
-  if (!confirm('Delete this product?')) return;
+  if (!confirm('Delete this product from store?')) return;
+  showLoading(true, 'Deleting product...');
   await sb.from('products').delete().eq('id', id);
   localStorage.removeItem('prod_colors_'+id);
   localStorage.removeItem('prod_sizes_'+id);
   localStorage.removeItem('prod_images_'+id);
-  toast('Deleted', 'ok');
+  showLoading(false);
+  toast('Product deleted', 'ok');
   await loadProducts();
   renderProducts();
   loadAdmin();
 }
 
 /* ============================================================
-   CART & ORDER MANAGEMENT
+   CART & ORDER MANAGEMENT BACKEND
    ============================================================ */
 function updateCartBadge() {
   const count = state.cart.reduce((s, i) => s + (i.qty || 0), 0);
@@ -1420,6 +1461,7 @@ async function addToCart(prodId) {
     chosenColors = ['Assorted / Default'];
   }
 
+  showLoading(true, 'Adding to cart backend...');
   for (const color of chosenColors) {
     const existing = state.cart.find(c => c.product_id === prodId && c.size === selectedSize && c.color === color);
     if (existing) {
@@ -1443,8 +1485,8 @@ async function addToCart(prodId) {
       });
     }
   }
-
-  toast(`Added ${chosenColors.length} color variant(s) to cart!`, 'ok');
+  showLoading(false);
+  toast(`Added ${chosenColors.length} variant(s) to cart!`, 'ok');
   await loadCart();
 }
 
@@ -1506,7 +1548,7 @@ function renderCart() {
 }
 
 /* ============================================================
-   PAYMENT PORTAL
+   PAYMENT PORTAL BACKEND
    ============================================================ */
 function setPaymentType(type) {
   state.paymentCategory = type;
@@ -1569,7 +1611,7 @@ async function submitPayment(e) {
     proof: state.paymentProofBase64 || null,
     status: 'Pending Verification'
   };
-  showLoading(true, 'Submitting...');
+  showLoading(true, 'Submitting payment backend...');
   const { error } = await sb.from('orders').insert(order);
   showLoading(false);
   if (error) return toast(error.message, 'err');
@@ -1596,7 +1638,7 @@ async function loadPaymentHistory() {
 }
 
 /* ============================================================
-   TRACKING & CHAT
+   TRACKING & LIVE CHAT BACKEND
    ============================================================ */
 async function loadTrackingAndChat() {
   if (!state.user) return;
@@ -1651,7 +1693,7 @@ async function sendBargainMessage(e) {
 }
 
 /* ============================================================
-   COURIER PORTAL
+   COURIER PORTAL BACKEND
    ============================================================ */
 async function loadCourierPortal() {
   if (!state.user || state.user.role !== 'delivery') return;
@@ -1698,7 +1740,7 @@ async function sendCourierMessage(e) {
 }
 
 /* ============================================================
-   ADMIN SUITE
+   ADMIN SUITE BACKEND
    ============================================================ */
 async function loadAdmin() {
   if (!state.user || state.user.role !== 'admin') return;
@@ -1759,7 +1801,7 @@ async function toggleOrderVerify(id) {
   if (!o) return;
   const newStatus = o.status === 'Verified' ? 'Pending Verification' : 'Verified';
   await sb.from('orders').update({ status: newStatus }).eq('id', id);
-  toast('Updated', 'ok');
+  toast('Order status updated', 'ok');
   loadAdmin();
 }
 
@@ -1769,7 +1811,7 @@ async function adminUpdateTracking(e) {
   const payload = { user_id: uid, status: $('admTrackStatusSelect').value, message: $('admTrackMsg').value.trim(), updated_at: new Date().toISOString() };
   const { error } = await sb.from('tracking').upsert(payload);
   if (error) return toast(error.message, 'err');
-  toast('Tracking updated', 'ok');
+  toast('Tracking status updated', 'ok');
   $('admTrackMsg').value = '';
   loadAdmin();
 }
@@ -1797,7 +1839,7 @@ async function savePortalSettings(e) {
 
 async function saveLogoFile(e) {
   e.preventDefault();
-  if (!state.uploadedLogoBase64) return toast('Choose a file first', 'err');
+  if (!state.uploadedLogoBase64) return toast('Choose a logo file first', 'err');
   await sb.from('app_settings').update({ logo_url: state.uploadedLogoBase64 }).eq('id', 1);
   state.settings.logoUrl = state.uploadedLogoBase64;
   updateManifestWithLogo(state.uploadedLogoBase64);
@@ -1823,7 +1865,7 @@ function exportClientData() {
 }
 
 /* ============================================================
-   REVIEWS & ADS
+   REVIEWS & SOURCING ADS BACKEND
    ============================================================ */
 async function doSubmitReview(e) {
   e.preventDefault();
@@ -1837,7 +1879,7 @@ async function doSubmitReview(e) {
   });
   if (error) return toast(error.message, 'err');
   $('revComment').value = '';
-  toast('Review posted!', 'ok');
+  toast('Review posted to backend!', 'ok');
   loadReviews();
 }
 
@@ -1850,7 +1892,7 @@ async function submitAdvertisement(e) {
   });
   if (error) return toast(error.message, 'err');
   $('adName').value = ''; $('adContact').value = ''; $('adDetails').value = '';
-  toast('Request submitted!', 'ok');
+  toast('Sourcing request submitted to backend!', 'ok');
 }
 
 /* ============================================================
@@ -1881,7 +1923,7 @@ function handleLogoFileSelect(e) {
 }
 
 /* ============================================================
-   CALCULATORS
+   FREIGHT CALCULATORS
    ============================================================ */
 function calcMode(mode) {
   ['sea','air','compare'].forEach(m => {
@@ -1913,7 +1955,7 @@ function calcCompare() {
 }
 
 /* ============================================================
-   APPLY USER STATE
+   APPLY USER STATE & PORTAL SETTINGS
    ============================================================ */
 function applyUserState() {
   const isLoggedIn = !!state.user;
@@ -1945,12 +1987,13 @@ function applyPortalSettings() {
     if ($('installBtnLogo')) $('installBtnLogo').src = state.settings.logoUrl;
     updateManifestWithLogo(state.settings.logoUrl);
   } else {
+    if ($('navBrandLogo')) $('navBrandLogo').src = defaultEveriVaultLogoBase64;
     if ($('installBtnLogo')) $('installBtnLogo').src = defaultEveriVaultLogoBase64;
   }
 }
 
 /* ============================================================
-   AUTH STATE LISTENERS
+   AUTH STATE LISTENER
    ============================================================ */
 sb.auth.onAuthStateChange(async (event, session) => {
   if (event === 'SIGNED_OUT') {
@@ -1982,7 +2025,7 @@ sb.auth.onAuthStateChange(async (event, session) => {
 });
 
 /* ============================================================
-   0s ZERO-DELAY PARALLEL BACKEND INITIALIZATION
+   ZERO-DELAY BACKEND INITIALIZATION & ROUTING
    ============================================================ */
 (async function init() {
   try {
@@ -2006,6 +2049,10 @@ sb.auth.onAuthStateChange(async (event, session) => {
     applyUserState();
     renderProducts();
     updateCartBadge();
+
+    // Route to active section backend instantly
+    const activePage = document.querySelector('.page.active')?.id?.replace('p-', '') || 'home';
+    await executePageBackend(activePage);
   } catch (err) {
     console.error('Init error:', err);
   } finally {
@@ -2014,7 +2061,7 @@ sb.auth.onAuthStateChange(async (event, session) => {
 })();
 
 /* ============================================================
-   GLOBAL EXPORTS
+   GLOBAL API EXPORTS
    ============================================================ */
 Object.assign(window, {
   go, toggleMenu, authTab, calcMode, calcSea, calcAir, calcCompare,
