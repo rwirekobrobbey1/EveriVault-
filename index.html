@@ -917,7 +917,7 @@ const generateShippingMark = (name, phone) => {
   return 'GH001K-' + initials + '-' + cleanPhone;
 };
 
-function toast(msg, type = 'info', ms = 2000) {
+function toast(msg, type = 'info', ms = 2500) {
   const wrap = $('toastWrap'); if (!wrap) return;
   const el = document.createElement('div');
   el.className = 'toast ' + (type === 'ok' ? 'ok' : type === 'err' ? 'err' : '');
@@ -1048,7 +1048,7 @@ async function doRegister(e) {
     const userId = authData.user.id;
     const mark = generateShippingMark(name, phone);
 
-    const { error: profErr } = await sb.from('profiles').insert({
+    const { error: profErr } = await sb.from('profiles').upsert({
       id: userId, email, name, phone, location,
       mark, role: email === 'richmonwireko@gmail.com' ? 'admin' : 'client', 
       referred_by: refMark || null,
@@ -1057,7 +1057,7 @@ async function doRegister(e) {
     
     if (profErr) throw profErr;
 
-    await sb.from('tracking').insert({ 
+    await sb.from('tracking').upsert({ 
       user_id: userId,
       status: 'Goods Received at China Warehouse',
       message: 'Account initialized.'
@@ -1068,7 +1068,7 @@ async function doRegister(e) {
     await loadCart();
     await loadOrders();
 
-    toast(`🎉 Welcome to EveriVault, ${name}! Mark: ${mark}`, 'ok', 3000);
+    toast(`🎉 Welcome to EveriVault, ${name}! Mark: ${mark}`, 'ok', 3500);
     go(state.user?.role === 'admin' ? 'admin' : 'store');
   } catch (err) {
     console.error(err);
