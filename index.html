@@ -1058,7 +1058,6 @@ async function doRegister(e) {
     if (authErr) throw authErr;
     let userId = authData.user?.id;
 
-    // If user already exists or auto-signed in without email confirmation
     if (!userId) {
       const { data: signInData, error: signInErr } = await sb.auth.signInWithPassword({ email, password });
       if (signInErr) throw signInErr;
@@ -1320,7 +1319,6 @@ function renderProducts() {
 
       optionsHtml += '<div style="margin:8px 0; font-size:11px; display:flex; flex-direction:column; gap:6px;">';
       
-      // MANDATORY SIZE FOR CLOTHING
       optionsHtml += '<div style="display:flex; align-items:center; gap:4px;"><span style="font-weight:700; color:var(--navy); min-width:45px;">Size' + (isClothing ? ' *' : '') + ':</span>';
       if (sizes.length > 0) {
         optionsHtml += '<select id="size-'+p.id+'" style="padding:2px 4px; font-size:11px; border-radius:4px; height:24px; flex:1;" required><option value="">--Select Size--</option>' + sizes.map(s => '<option value="'+esc(s)+'">'+esc(s)+'</option>').join('') + '</select>';
@@ -1329,7 +1327,6 @@ function renderProducts() {
       }
       optionsHtml += '</div>';
       
-      // MANDATORY COLOR FOR CLOTHING
       if (colorPresets.length > 0) {
         optionsHtml += '<div><span style="font-weight:700; color:var(--navy); display:block; margin-bottom:3px;">Select Color' + (isClothing ? ' *' : '') + ':</span>';
         optionsHtml += '<div style="display:flex; flex-wrap:wrap; gap:6px; background:#F8FAFC; padding:6px; border-radius:6px; border:1px solid #CBD5E1; max-height:80px; overflow-y:auto;" id="color-group-'+p.id+'">';
@@ -1500,14 +1497,12 @@ async function addToCart(prodId) {
 
   const isClothing = isClothingCategory(p.category);
 
-  // Retrieve and validate Size
   const sizeEl = $('size-' + prodId);
   const selectedSize = sizeEl ? sizeEl.value.trim() : '';
   if (isClothing && !selectedSize) {
     return toast('Please select a size for this clothing item', 'err');
   }
 
-  // Retrieve and validate Color
   let selectedColor = '';
   const radioChecked = document.querySelector('input[name="color-radio-'+prodId+'"]:checked');
   if (radioChecked) {
