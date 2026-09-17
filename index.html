@@ -666,7 +666,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
               <input type="hidden" id="editingProdId">
               <div class="form-group"><label>Product Title</label><input type="text" id="npName" required></div>
               <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:10px;">
-                <div class="form-group"><label>Category</label><input type="text" id="npCat" required placeholder="e.g. clothing, hardware, printers"></div>
+                <div class="form-group"><label>Category</label><input type="text" id="npCat" required placeholder="e.g. clothing, apparel, printer"></div>
                 <div class="form-group"><label>Price per Unit (GHS)</label><input type="number" id="npPrice" step="0.01" required></div>
               </div>
               <div class="form-group"><label>Item Type</label>
@@ -676,8 +676,8 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
                 </select>
               </div>
               <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:10px;">
-                <div class="form-group"><label>Sizes (Optional for Clothing)</label><input type="text" id="npSizes" placeholder="e.g. S, M, L, XL"></div>
-                <div class="form-group"><label>Colors (Optional for Clothing)</label><input type="text" id="npColors" placeholder="e.g. Black, White, Navy"></div>
+                <div class="form-group"><label>Sizes (Optional for clothing)</label><input type="text" id="npSizes" placeholder="e.g. S, M, L, XL"></div>
+                <div class="form-group"><label>Colors (Optional for clothing)</label><input type="text" id="npColors" placeholder="e.g. Black, White, Navy"></div>
               </div>
               <div class="form-group">
                 <label>Product Images (Upload or Multiple URLs)</label>
@@ -1230,13 +1230,11 @@ async function loadReviews() {
 }
 
 /* ============================================================
-   PRODUCTS & STORE BACKEND & RENDERING (Conditional Apparel Options)
+   PRODUCTS & STORE BACKEND (Conditional Apparel Check)
    ============================================================ */
-function isClothingCategory(cat) {
-  if (!cat) return false;
-  const c = cat.toLowerCase().trim();
-  const keywords = ['clothing', 'apparel', "men's clothing", 'ladies clothing', 'womens clothing', 'women clothing', 'shirt', 'pants', 'trousers', 'shorts', 'hoodie', 'dress'];
-  return keywords.some(k => c.includes(k));
+function isClothingCategory(catStr) {
+  const c = (catStr || '').toLowerCase();
+  return c.includes('clothing') || c.includes('apparel') || c.includes('men') || c.includes('ladies') || c.includes('wear') || c.includes('shirt') || c.includes('pant') || c.includes('jean');
 }
 
 function renderProducts() {
@@ -1279,8 +1277,8 @@ function renderProducts() {
     }
 
     let optionsHtml = '';
-    const isApparel = isClothingCategory(p.category);
-
+    const isApparel = isClothingCategory(p.category) || isClothingCategory(p.name);
+    
     if (state.user && state.user.role === 'client' && isApparel) {
       const sizes = p.sizes ? p.sizes.split(',').map(s => s.trim()).filter(Boolean) : [];
       const colorPresets = p.colors ? p.colors.split(',').map(c => c.trim()).filter(Boolean) : [];
@@ -1451,7 +1449,7 @@ async function addToCart(prodId) {
   const p = state.products.find(x => x.id === prodId);
   if (!p) return;
 
-  const isApparel = isClothingCategory(p.category);
+  const isApparel = isClothingCategory(p.category) || isClothingCategory(p.name);
   let selectedSize = null;
   let chosenColors = ['Standard'];
 
@@ -1483,26 +1481,21 @@ async function addToCart(prodId) {
         if (arr && arr.length) primaryImg = arr[0];
       } catch(e) {}
 
-      const itemPayload = {
-        user_id: state.user.id,
-        product_id: p.id,
-        product_name: isApparel ? (p.name + (color !== 'Standard' && color !== 'Assorted / Default' ? ' ['+color+']' : '')) : p.name,
-        price: p.price,
-        type: p.type,
-        image: primaryImg,
-        qty: 1,
-        size: selectedSize,
-        color: color
-      };
-
-      await sb.from('cart_items').insert(itemPayload).catch(async () => {
-        delete itemPayload.color;
-        await sb.from('cart_items').insert(itemPayload);
+      const displayName = isApparel ? p.name : p.name;
+      await sb.from('cart_items').insert({
+        user_id: state.user.id, product_id: p.id, product_name: displayName,
+        price: p.price, type: p.type, image: primaryImg, qty: 1,
+        size: selectedSize, color: isApparel ? color : null
+      }).catch(async () => {
+        await sb.from('cart_items').insert({
+          user_id: state.user.id, product_id: p.id, product_name: p.name,
+          price: p.price, type: p.type, image: primaryImg, qty: 1
+        });
       });
     }
   }
   showLoading(false);
-  toast('Added to cart successfully!', 'ok');
+  toast(`Added to cart successfully!`, 'ok');
   await loadCart();
 }
 
