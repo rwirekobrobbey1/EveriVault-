@@ -598,9 +598,9 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
               <li><strong>2. Prohibited Items & Fees:</strong> Restricted items are strictly forbidden. Users assume full liability for customs or clearance inspections.</li>
             </ul>
           </div>
-          <div style="display:flex; align-items:flex-start; gap:8px; margin-bottom:14px;">
-            <input type="checkbox" id="tcCheckLogin" required style="width:16px; height:16px; margin-top:2px;">
-            <label for="tcCheckLogin" style="font-size:11px; font-weight:600; text-transform:none;">I agree to EveriVault's Terms & Conditions to sign in.</label>
+          <div style="display:flex; align-items:flex-start; gap:8px; margin-bottom:14px; cursor:pointer;" onclick="const cb=$('tcCheckLogin'); cb.checked=!cb.checked;">
+            <input type="checkbox" id="tcCheckLogin" required style="width:16px; height:16px; margin-top:2px; cursor:pointer;" onclick="event.stopPropagation()">
+            <label for="tcCheckLogin" style="font-size:11px; font-weight:600; text-transform:none; cursor:pointer;">I agree to EveriVault's Terms & Conditions to sign in.</label>
           </div>
 
           <button class="btn btn-green btn-block" type="submit" id="uniLoginBtn">Sign In</button>
@@ -628,9 +628,9 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
             </ul>
           </div>
 
-          <div style="display:flex; align-items:flex-start; gap:8px; margin-bottom:14px;">
-            <input type="checkbox" id="tcCheck" required style="width:16px; height:16px; margin-top:2px;">
-            <label for="tcCheck" style="font-size:11px; font-weight:600; text-transform:none;">I fully agree to EveriVault's Risk-Free Terms & Conditions to register.</label>
+          <div style="display:flex; align-items:flex-start; gap:8px; margin-bottom:14px; cursor:pointer;" onclick="const cb=$('tcCheck'); cb.checked=!cb.checked;">
+            <input type="checkbox" id="tcCheck" required style="width:16px; height:16px; margin-top:2px; cursor:pointer;" onclick="event.stopPropagation()">
+            <label for="tcCheck" style="font-size:11px; font-weight:600; text-transform:none; cursor:pointer;">I fully agree to EveriVault's Risk-Free Terms & Conditions to register.</label>
           </div>
           <button class="btn btn-green btn-block" type="submit" id="regBtn">Create Account & Sign In</button>
         </form>
