@@ -666,7 +666,7 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
               <input type="hidden" id="editingProdId">
               <div class="form-group"><label>Product Title</label><input type="text" id="npName" required></div>
               <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:10px;">
-                <div class="form-group"><label>Category (e.g. clothing, apparel, electronics)</label><input type="text" id="npCat" required placeholder="e.g. clothing, apparel"></div>
+                <div class="form-group"><label>Category <span style="font-size:10px; color:var(--slate);">(e.g. clothing, apparel, men's clothing, ladies clothing)</span></label><input type="text" id="npCat" required placeholder="e.g. clothing"></div>
                 <div class="form-group"><label>Price per Unit (GHS)</label><input type="number" id="npPrice" step="0.01" required></div>
               </div>
               <div class="form-group"><label>Item Type</label>
@@ -676,8 +676,8 @@ footer h3 { color:#FFFFFF; margin-bottom:10px; font-size:18px; font-weight:800; 
                 </select>
               </div>
               <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:10px;">
-                <div class="form-group"><label>Available Sizes (comma separated)</label><input type="text" id="npSizes" placeholder="e.g. S, M, L, XL"></div>
-                <div class="form-group"><label>Preset Color Options (comma separated)</label><input type="text" id="npColors" placeholder="e.g. Black, White, Navy, Grey"></div>
+                <div class="form-group"><label id="labelSizes">Available Sizes (comma separated)</label><input type="text" id="npSizes" placeholder="e.g. S, M, L, XL"></div>
+                <div class="form-group"><label id="labelColors">Preset Color Options (comma separated)</label><input type="text" id="npColors" placeholder="e.g. Black, White, Navy, Grey"></div>
               </div>
               <div class="form-group">
                 <label>Product Images (Upload or Multiple URLs)</label>
@@ -1180,16 +1180,17 @@ async function loadProducts() {
     state.products = (fallbackData || []).map(p => ({
       ...p,
       sizes: p.sizes || localStorage.getItem('prod_sizes_'+p.id) || '',
-      colors: p.colors || localStorage.getItem('prod_colors_'+p.id) || '',
+      colors: p.colors || p.color || localStorage.getItem('prod_colors_'+p.id) || '',
+      color: p.color || p.colors || localStorage.getItem('prod_colors_'+p.id) || '',
       images: p.images || localStorage.getItem('prod_images_'+p.id) || JSON.stringify([p.image].filter(Boolean))
     }));
     return;
   }
   state.products = (data || []).map(p => {
-    let colors = p.colors || localStorage.getItem('prod_colors_'+p.id) || '';
+    let colors = p.colors || p.color || localStorage.getItem('prod_colors_'+p.id) || '';
     let sizes = p.sizes || localStorage.getItem('prod_sizes_'+p.id) || '';
     let images = p.images || localStorage.getItem('prod_images_'+p.id) || '';
-    return { ...p, colors, sizes, images };
+    return { ...p, colors, color: colors, sizes, images };
   });
 }
 
@@ -1230,18 +1231,13 @@ async function loadReviews() {
 }
 
 /* ============================================================
-   CLOTHING CATEGORY HELPER (Mandatory vs Optional Size & Color)
+   PRODUCTS & STORE BACKEND & RENDERING (Mandatory Clothing Sizes & Colors)
    ============================================================ */
 function isClothingCategory(cat) {
-  if (!cat) return false;
-  const c = cat.toLowerCase().trim();
-  const clothingKeywords = ['clothing', 'apparel', "men's clothing", 'ladies clothing', 'mens clothing', 'women clothing', 'womens clothing', 'ladieswear', 'menswear'];
-  return clothingKeywords.some(kw => c.includes(kw));
+  const c = (cat || '').toLowerCase().trim();
+  return c.includes('clothing') || c.includes('apparel') || c.includes("men's clothing") || c.includes('ladies clothing');
 }
 
-/* ============================================================
-   PRODUCTS & STORE BACKEND & RENDERING
-   ============================================================ */
 function renderProducts() {
   const grid = $('prodGrid'), homeGrid = $('homeCatalogGrid');
   const search = ($('searchInput')?.value || '').toLowerCase();
@@ -1281,32 +1277,36 @@ function renderProducts() {
       thumbsHtml = '<div class="gallery-thumbs">' + imgList.map((im, idx) => '<img src="'+esc(im)+'" class="gallery-thumb'+(idx===0?' active':'')+'" onclick="switchProductImage(\''+p.id+'\', \''+esc(im)+'\', this)">').join('') + '</div>';
     }
 
-    let optionsHtml = '';
-    const isMandatory = isClothingCategory(p.category);
+    const isClothing = isClothingCategory(p.category);
 
+    let optionsHtml = '';
     if (state.user && state.user.role === 'client') {
       const sizes = p.sizes ? p.sizes.split(',').map(s => s.trim()).filter(Boolean) : [];
-      const colorPresets = p.colors ? p.colors.split(',').map(c => c.trim()).filter(Boolean) : [];
+      const colorPresets = (p.colors || p.color) ? (p.colors || p.color).split(',').map(c => c.trim()).filter(Boolean) : [];
 
-      optionsHtml += '<div style="margin:8px 0; font-size:11px; display:flex; flex-direction:column; gap:6px;" data-mandatory="'+isMandatory+'" data-prodid="'+p.id+'">';
+      optionsHtml += '<div style="margin:8px 0; font-size:11px; display:flex; flex-direction:column; gap:6px;">';
       
-      // Size selection
+      // MANDATORY SIZE FOR CLOTHING
+      optionsHtml += '<div style="display:flex; align-items:center; gap:4px;"><span style="font-weight:700; color:var(--navy); min-width:45px;">Size' + (isClothing ? ' *' : '') + ':</span>';
       if (sizes.length > 0) {
-        optionsHtml += '<div style="display:flex; align-items:center; gap:4px;"><span style="font-weight:700; color:var(--slate); min-width:40px;">Size'+(isMandatory?' *':'')+':</span><select id="size-'+p.id+'" style="padding:2px 4px; font-size:11px; border-radius:4px; height:24px; flex:1;">' + (isMandatory ? '' : '<option value="">-- Optional --</option>') + sizes.map(s => '<option value="'+esc(s)+'">'+esc(s)+'</option>').join('') + '</select></div>';
-      } else if (isMandatory) {
-        optionsHtml += '<div style="display:flex; align-items:center; gap:4px;"><span style="font-weight:700; color:var(--slate); min-width:40px;">Size *:</span><input type="text" id="size-txt-'+p.id+'" placeholder="e.g. M, L, XL" style="padding:2px 4px; font-size:11px; border-radius:4px; height:24px; flex:1;"></div>';
+        optionsHtml += '<select id="size-'+p.id+'" style="padding:2px 4px; font-size:11px; border-radius:4px; height:24px; flex:1;" required><option value="">--Select Size--</option>' + sizes.map(s => '<option value="'+esc(s)+'">'+esc(s)+'</option>').join('') + '</select>';
+      } else {
+        optionsHtml += '<input type="text" id="size-'+p.id+'" placeholder="e.g. M, L, XL" style="padding:2px 6px; font-size:11px; height:24px; flex:1;" '+(isClothing?'required':'')+'>';
       }
+      optionsHtml += '</div>';
       
-      // Color selection
+      // MANDATORY COLOR FOR CLOTHING
       if (colorPresets.length > 0) {
-        optionsHtml += '<div><span style="font-weight:700; color:var(--slate); display:block; margin-bottom:3px;">Color'+(isMandatory?' *':'')+':</span>';
+        optionsHtml += '<div><span style="font-weight:700; color:var(--navy); display:block; margin-bottom:3px;">Select Color' + (isClothing ? ' *' : '') + ':</span>';
         optionsHtml += '<div style="display:flex; flex-wrap:wrap; gap:6px; background:#F8FAFC; padding:6px; border-radius:6px; border:1px solid #CBD5E1; max-height:80px; overflow-y:auto;" id="color-group-'+p.id+'">';
         colorPresets.forEach(c => {
-          optionsHtml += '<label style="display:inline-flex; align-items:center; gap:3px; font-size:11px; font-weight:600; cursor:pointer;"><input type="checkbox" name="color-chk-'+p.id+'" value="'+esc(c)+'" style="width:13px; height:13px;"> '+esc(c)+'</label>';
+          optionsHtml += '<label style="display:inline-flex; align-items:center; gap:3px; font-size:11px; font-weight:600; cursor:pointer;"><input type="radio" name="color-radio-'+p.id+'" value="'+esc(c)+'" style="width:13px; height:13px;"> '+esc(c)+'</label>';
         });
         optionsHtml += '</div></div>';
       } else {
-        optionsHtml += '<div><span style="font-weight:700; color:var(--slate); display:block; margin-bottom:3px;">Color'+(isMandatory?' *':'')+':</span><select id="color-sel-'+p.id+'" style="padding:2px 4px; font-size:11px; border-radius:4px; height:24px; width:100%;">' + (isMandatory ? '' : '<option value="">-- Optional --</option>') + '<option value="Black">Black</option><option value="White">White</option><option value="Navy Blue">Navy Blue</option><option value="Grey">Grey</option><option value="Red">Red</option><option value="Blue">Blue</option></select></div>';
+        optionsHtml += '<div style="display:flex; align-items:center; gap:4px;"><span style="font-weight:700; color:var(--navy); min-width:45px;">Color' + (isClothing ? ' *' : '') + ':</span>';
+        optionsHtml += '<input type="text" id="color-txt-'+p.id+'" placeholder="e.g. Black, White" style="padding:2px 6px; font-size:11px; height:24px; flex:1;" '+(isClothing?'required':'')+'>';
+        optionsHtml += '</div>';
       }
       optionsHtml += '</div>';
     }
@@ -1339,20 +1339,18 @@ function switchProductImage(prodId, imgUrl, thumbEl) {
 async function doSaveProduct(e) {
   e.preventDefault();
   const editId = $('editingProdId').value;
+  const category = $('npCat').value.trim();
+  const sizesInput = $('npSizes').value.trim();
+  const colorsInput = $('npColors').value.trim();
+
+  if (isClothingCategory(category)) {
+    if (!sizesInput) return toast('Size is mandatory for clothing/apparel items', 'err');
+    if (!colorsInput) return toast('Color is mandatory for clothing/apparel items', 'err');
+  }
   
   let urls = $('npImgUrls').value.split(',').map(s => s.trim()).filter(Boolean);
   if (state.uploadedImagesBase64.length > 0) {
     urls = [...state.uploadedImagesBase64, ...urls];
-  }
-
-  const category = $('npCat').value.trim();
-  const colorsInput = $('npColors').value.trim();
-  const sizesInput = $('npSizes').value.trim();
-
-  // Enforce mandatory size and color for clothing/apparel categories at admin creation time
-  if (isClothingCategory(category)) {
-    if (!sizesInput) return toast('Size is mandatory for clothing/apparel categories.', 'err');
-    if (!colorsInput) return toast('Color is mandatory for clothing/apparel categories.', 'err');
   }
 
   const prod = {
@@ -1367,7 +1365,7 @@ async function doSaveProduct(e) {
     image: urls[0] || null
   };
 
-  showLoading(true, 'Saving product to backend...');
+  showLoading(true, 'Saving product with mandatory color & size validation to backend...');
   if (editId) {
     const { error } = await sb.from('products').update(prod).eq('id', editId);
     if (error) { toast(error.message, 'err'); showLoading(false); return; }
@@ -1454,7 +1452,7 @@ async function deleteCatalogProduct(id) {
 }
 
 /* ============================================================
-   CART & ORDER MANAGEMENT BACKEND (Mandatory Size/Color Validation)
+   CART & ORDER MANAGEMENT BACKEND (Mandatory Size & Color Enforcement)
    ============================================================ */
 function updateCartBadge() {
   const count = state.cart.reduce((s, i) => s + (i.qty || 0), 0);
@@ -1466,65 +1464,58 @@ async function addToCart(prodId) {
   const p = state.products.find(x => x.id === prodId);
   if (!p) return;
 
-  const isMandatory = isClothingCategory(p.category);
+  const isClothing = isClothingCategory(p.category);
 
-  // Validate Size
-  let selectedSize = null;
-  const sizeSel = $('size-' + prodId);
-  const sizeTxt = $('size-txt-' + prodId);
-  if (sizeSel) {
-    selectedSize = sizeSel.value;
-  } else if (sizeTxt) {
-    selectedSize = sizeTxt.value.trim();
+  // Retrieve and validate Size
+  const sizeEl = $('size-' + prodId);
+  const selectedSize = sizeEl ? sizeEl.value.trim() : '';
+  if (isClothing && !selectedSize) {
+    return toast('Please select a size for this clothing item', 'err');
   }
 
-  if (isMandatory && !selectedSize) {
-    return toast('Please select a size for this clothing item.', 'err');
-  }
-
-  // Validate Color
-  let chosenColors = Array.from(document.querySelectorAll('input[name="color-chk-'+prodId+'"]:checked')).map(cb => cb.value);
-  if (chosenColors.length === 0) {
-    const colorSelEl = $('color-sel-' + prodId);
-    if (colorSelEl && colorSelEl.value) {
-      chosenColors = [colorSelEl.value];
+  // Retrieve and validate Color
+  let selectedColor = '';
+  const radioChecked = document.querySelector('input[name="color-radio-'+prodId+'"]:checked');
+  if (radioChecked) {
+    selectedColor = radioChecked.value;
+  } else {
+    const colorTxtEl = $('color-txt-' + prodId);
+    if (colorTxtEl) {
+      selectedColor = colorTxtEl.value.trim();
     }
   }
 
-  if (isMandatory && (chosenColors.length === 0 || chosenColors.includes(''))) {
-    return toast('Please select a color for this clothing item.', 'err');
+  if (isClothing && !selectedColor) {
+    return toast('Please specify or select a color for this clothing item', 'err');
   }
 
-  if (chosenColors.length === 0) {
-    chosenColors = ['Assorted / Default'];
-  }
+  const finalSize = selectedSize || 'Standard';
+  const finalColor = selectedColor || 'Assorted / Default';
 
   showLoading(true, 'Adding to cart backend...');
-  for (const color of chosenColors) {
-    const existing = state.cart.find(c => c.product_id === prodId && c.size === selectedSize && c.color === color);
-    if (existing) {
-      await sb.from('cart_items').update({ qty: existing.qty + 1 }).eq('id', existing.id).catch(()=>{});
-    } else {
-      let primaryImg = p.image;
-      try {
-        const arr = typeof p.images === 'string' ? JSON.parse(p.images) : p.images;
-        if (arr && arr.length) primaryImg = arr[0];
-      } catch(e) {}
+  const existing = state.cart.find(c => c.product_id === prodId && c.size === finalSize && c.color === finalColor);
+  if (existing) {
+    await sb.from('cart_items').update({ qty: existing.qty + 1 }).eq('id', existing.id).catch(()=>{});
+  } else {
+    let primaryImg = p.image;
+    try {
+      const arr = typeof p.images === 'string' ? JSON.parse(p.images) : p.images;
+      if (arr && arr.length) primaryImg = arr[0];
+    } catch(e) {}
 
+    await sb.from('cart_items').insert({
+      user_id: state.user.id, product_id: p.id, product_name: p.name,
+      price: p.price, type: p.type, image: primaryImg, qty: 1,
+      size: finalSize, color: finalColor
+    }).catch(async () => {
       await sb.from('cart_items').insert({
-        user_id: state.user.id, product_id: p.id, product_name: p.name,
-        price: p.price, type: p.type, image: primaryImg, qty: 1,
-        size: selectedSize || null, color: color
-      }).catch(async () => {
-        await sb.from('cart_items').insert({
-          user_id: state.user.id, product_id: p.id, product_name: (p.name + ' ['+color+']'),
-          price: p.price, type: p.type, image: primaryImg, qty: 1, color: color
-        });
+        user_id: state.user.id, product_id: p.id, product_name: (p.name + ' ['+finalSize+', '+finalColor+']'),
+        price: p.price, type: p.type, image: primaryImg, qty: 1, color: finalColor
       });
-    }
+    });
   }
   showLoading(false);
-  toast(`Added ${chosenColors.length} variant(s) to cart!`, 'ok');
+  toast('Added to cart successfully!', 'ok');
   await loadCart();
 }
 
@@ -1568,7 +1559,7 @@ function renderCart() {
     const img = item.image ? '<img src="'+esc(item.image)+'" style="width:45px;height:45px;object-fit:cover;border-radius:6px;">' : '';
     let optStr = '';
     if (item.size) optStr += 'Size: ' + esc(item.size) + ' ';
-    if (item.color) optStr += 'Selected Color: <strong style="color:var(--navy);">'+esc(item.color)+'</strong>';
+    if (item.color) optStr += 'Color: <strong style="color:var(--navy);">'+esc(item.color)+'</strong>';
     const optsBadge = optStr ? '<br><span style="color:var(--slate); font-size:11px;">'+optStr+'</span>' : '';
     const badge = item.type === 'preorder' ? '<br><span style="color:var(--green); font-size:11px; font-weight:700;">✓ Pre-Order</span>' : '';
     return '<div class="cart-item-row"><div style="display:flex;align-items:center;gap:10px;">'+img+'<div><strong style="color:var(--navy);font-size:14px;">'+esc(item.product_name)+'</strong><br><span style="color:var(--green);font-weight:700;">'+fmtGHS(item.price)+' per unit</span>'+optsBadge+badge+'</div></div><div style="display:flex;align-items:center;gap:8px;"><button class="qty-btn" onclick="updateCartQty(\''+item.id+'\', -1)">-</button><span style="font-weight:800;min-width:18px;text-align:center;">'+item.qty+'</span><button class="qty-btn" onclick="updateCartQty(\''+item.id+'\', 1)">+</button></div><div style="text-align:right;"><span style="font-weight:800;color:var(--navy);">'+fmtGHS(sub)+'</span><br><button class="btn btn-sm btn-danger" style="margin-top:3px;padding:2px 6px;font-size:10px;" onclick="removeFromCart(\''+item.id+'\')">Remove</button></div></div>';
@@ -1602,7 +1593,7 @@ function goToPaymentPortal(type = 'goods') {
   if (state.user) $('payClientName').value = (state.user.mark || 'ADM') + ' — ' + state.user.name + ' (' + (state.user.phone || 'Admin') + ')';
   if (type === 'goods') {
     if (!state.cart.length) return toast('Cart empty', 'err');
-    $('payItemSummary').value = state.cart.map(i => i.product_name + (i.size? ' ['+i.size+']':'') + (i.color? ' (Color: '+i.color+')':'') + ' (x' + i.qty + ')').join(', ');
+    $('payItemSummary').value = state.cart.map(i => i.product_name + (i.size? ' [Size: '+i.size+']':'') + (i.color? ' [Color: '+i.color+']':'') + ' (x' + i.qty + ')').join(', ');
     $('payTotalAmount').value = state.cart.reduce((s, i) => s + i.price * i.qty, 0).toFixed(2);
   } else {
     const seaVal = parseFloat(($('seaGhs').textContent||'').replace(/[^0-9.]/g,'')) || 0;
