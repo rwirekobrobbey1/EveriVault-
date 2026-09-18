@@ -933,7 +933,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Bind all navigation links dynamically
   document.querySelectorAll('[data-nav]').forEach(el => {
     el.addEventListener('click', (e) => {
       e.preventDefault();
@@ -958,7 +957,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Auth Tab Buttons
   document.querySelectorAll('[data-authtab]').forEach(btn => {
     btn.addEventListener('click', () => {
       const tab = btn.getAttribute('data-authtab');
@@ -969,7 +967,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Admin Sidebar Tabs
   document.querySelectorAll('[data-admintab]').forEach(btn => {
     btn.addEventListener('click', () => {
       const tab = btn.getAttribute('data-admintab');
@@ -981,7 +978,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Calc Tabs
   document.querySelectorAll('[data-calctab]').forEach(btn => {
     btn.addEventListener('click', () => {
       const mode = btn.getAttribute('data-calctab');
@@ -992,7 +988,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Payment Slot buttons
   document.querySelectorAll('[data-payslot]').forEach(btn => {
     btn.addEventListener('click', () => {
       const slot = btn.getAttribute('data-payslot');
@@ -1008,7 +1003,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Copy buttons
   document.querySelectorAll('[data-copy]').forEach(btn => {
     btn.addEventListener('click', () => {
       const val = btn.getAttribute('data-copy');
@@ -1035,7 +1029,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Payment Type switch buttons
   const payTypeBtnGoods = $('payTypeBtnGoods');
   if (payTypeBtnGoods) {
     payTypeBtnGoods.addEventListener('click', () => setPaymentType('goods'));
@@ -1105,7 +1098,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Forms
   const loginForm = $('loginForm');
   if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
@@ -1442,7 +1434,6 @@ document.addEventListener('DOMContentLoaded', () => {
     courierClientSelect.addEventListener('change', loadCourierChat);
   }
 
-  // Calculator inputs
   ['seaL','seaW','seaH','seaQty'].forEach(id => {
     const el = $(id); if (el) el.addEventListener('input', calcSea);
   });
@@ -1584,7 +1575,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (grid) grid.innerHTML = filtered.length ? filtered.map(card).join('') : '<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--slate);">No catalog items match criteria.</div>';
     if (homeGrid) homeGrid.innerHTML = state.products.slice(0, 8).map(card).join('');
 
-    // Attach listeners to dynamic catalog buttons
     document.querySelectorAll('[data-addcart]').forEach(btn => {
       btn.addEventListener('click', () => addToCart(btn.getAttribute('data-addcart')));
     });
@@ -1849,38 +1839,43 @@ document.addEventListener('DOMContentLoaded', () => {
     }).join('') || '<p style="color:var(--slate);">No active communications recorded.</p>';
 
     const dg = state.settings.deliveryGuy || {};
-    $('dgName').value = dg.name || ''; $('dgEmail').value = dg.email \vert{}\vert{} '';$('dgPass').value = dg.pass || ''; $('dgPhone').value = dg.phone \vert{}\vert{} '';$('dgZone').value = dg.zone || '';
+    $('dgName').value = dg.name || '';
+    $('dgEmail').value = dg.email \vert{}\vert{} '';$('dgPass').value = dg.pass || '';
+    $('dgPhone').value = dg.phone \vert{}\vert{} '';$('dgZone').value = dg.zone || '';
     $('cfgHeroTitle').value = state.settings.heroTitle \vert{}\vert{} '';$('cfgHeroSub').value = state.settings.heroSub || '';
   }
 
   function resetProductForm() {
-    $('editingProdId').value = ''; $('npName').value = '';$('npCat').value = '';
-    $('npPrice').value = '';$('npType').value = 'preorder'; $('npSizes').value = '';$('npColors').value = ''; $('npImgUrls').value = '';$('npFile').value = '';
+    $('editingProdId').value = '';
+    $('npName').value = '';$('npCat').value = '';
+    $('npPrice').value = '';$('npType').value = 'preorder';
+    $('npSizes').value = '';$('npColors').value = '';
+    $('npImgUrls').value = '';$('npFile').value = '';
     state.uploadedImagesBase64 = [];
     $('productFormHeading').textContent = 'Add Product';
     $('prodSubmitBtn').textContent = 'Publish Product';$('cancelEditBtn').style.display = 'none';
   }
 
   function calcSea() {
-    const l = +$('seaL').value\vert{}\vert{}0, w = +$('seaW').value||0, h = +$('seaH').value\vert{}\vert{}0, qty = +$('seaQty').value||1;
-    const cbm = (l*w*h/1e6)*qty;
+    const l = +$('seaL').value \vert{}\vert{} 0, w = +$('seaW').value || 0, h = +$('seaH').value \vert{}\vert{} 0, qty = +$('seaQty').value || 1;
+    const cbm = (l * w * h / 1e6) * qty;
     const usd = cbm * (cbm >= 1 ? 255 : 260);
-    $('seaCbm').textContent = cbm.toFixed(3);$('seaUsd').textContent = '$'+usd.toFixed(2);$('seaGhs').textContent = fmtGHS(usd*15.5);
+    $('seaCbm').textContent = cbm.toFixed(3);$('seaUsd').textContent = '$' + usd.toFixed(2);$('seaGhs').textContent = fmtGHS(usd * 15.5);
   }
 
   function calcAir() {
-    const type = $('airType').value, kg = +$('airKg').value||0;
-    const usd = type === 'device' ? (500/15.5) : kg*17;
-    $('airUsd').textContent = '$'+usd.toFixed(2);$('airGhs').textContent = fmtGHS(type === 'device' ? 500 : usd*15.5);
+    const type = $('airType').value, kg = +$('airKg').value || 0;
+    const usd = type === 'device' ? (500 / 15.5) : kg * 17;
+    $('airUsd').textContent = '$' + usd.toFixed(2);$('airGhs').textContent = fmtGHS(type === 'device' ? 500 : usd * 15.5);
   }
 
   function calcCompare() {
-    const l=+$('compL').value\vert{}\vert{}0, w=+$('compW').value||0, h=+$('compH').value\vert{}\vert{}0, kg=+$('compKg').value||0;
-    const cbm = l*w*h/1e6;
-    const seaGhs = cbm*(cbm>=1?255:260)*15.5;
-    const airGhs = kg*17*15.5;
-    $('compSeaRes').textContent = fmtGHS(seaGhs)+` (${cbm.toFixed(3)} m³)`;
-    $('compAirRes').textContent = fmtGHS(airGhs)+` (${kg.toFixed(1)} kg)`;
+    const l = +$('compL').value \vert{}\vert{} 0, w = +$('compW').value || 0, h = +$('compH').value \vert{}\vert{} 0, kg = +$('compKg').value || 0;
+    const cbm = l * w * h / 1e6;
+    const seaGhs = cbm * (cbm >= 1 ? 255 : 260) * 15.5;
+    const airGhs = kg * 17 * 15.5;
+    $('compSeaRes').textContent = fmtGHS(seaGhs) + ` (${cbm.toFixed(3)} m³)`;
+    $('compAirRes').textContent = fmtGHS(airGhs) + ` (${kg.toFixed(1)} kg)`;
   }
 
   function applyUserState() {
