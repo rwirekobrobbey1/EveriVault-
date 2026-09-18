@@ -32,18 +32,18 @@ body { background:var(--bg-light); color:#0F172A; line-height:1.6; -webkit-font-
 
 nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-bottom:1px solid rgba(255,255,255,0.08); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); }
 .nav-wrap { display:flex; justify-content:space-between; align-items:center; height:76px; }
-.logo-area { display:flex; align-items:center; gap:12px; cursor:pointer; text-decoration:none; }
+.logo-area { display:flex; align-items:center; gap:12px; cursor:pointer; text-decoration:none; background:none; border:none; }
 .logo-img { width:42px; height:42px; border-radius:6px; object-fit:cover; background:#FFFFFF; border:1px solid rgba(255,255,255,0.2); }
-.logo { font-size:15px; font-weight:800; color:#FFFFFF; letter-spacing:0.5px; display:flex; flex-direction:column; line-height:1.2; }
+.logo { font-size:15px; font-weight:800; color:#FFFFFF; letter-spacing:0.5px; display:flex; flex-direction:column; line-height:1.2; text-align:left; }
 .logo span { color:var(--green); font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:1.2px; }
 .nav-links { display:flex; gap:2px; list-style:none; align-items:center; flex-wrap:wrap; }
-.nav-links a { color:var(--slate-light); text-decoration:none; padding:8px 12px; border-radius:6px; font-weight:600; font-size:13px; cursor:pointer; display:flex; align-items:center; gap:5px; white-space:nowrap; transition:all 0.2s; }
-.nav-links a:hover, .nav-links a.active { color:#FFFFFF; background:rgba(255,255,255,0.08); }
+.nav-links button, .nav-links a { color:var(--slate-light); text-decoration:none; background:none; border:none; padding:8px 12px; border-radius:6px; font-weight:600; font-size:13px; cursor:pointer; display:flex; align-items:center; gap:5px; white-space:nowrap; transition:all 0.2s; font-family:inherit; }
+.nav-links button:hover, .nav-links button.active, .nav-links a:hover, .nav-links a.active { color:#FFFFFF; background:rgba(255,255,255,0.08); }
 .nav-cta { background:var(--green) !important; color:#FFFFFF !important; font-weight:700 !important; }
 .cart-badge { background:#EF4444; color:#fff; border-radius:50px; padding:2px 7px; font-size:10px; font-weight:800; }
 .menu-toggle { display:none; color:#fff; font-size:14px; font-weight:700; cursor:pointer; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); padding:8px 14px; border-radius:6px; }
 
-.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 20px; border-radius:8px; font-weight:700; border:none; cursor:pointer; font-size:14px; text-decoration:none; white-space:nowrap; -webkit-appearance:none; transition:all 0.2s; }
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 20px; border-radius:8px; font-weight:700; border:none; cursor:pointer; font-size:14px; text-decoration:none; white-space:nowrap; -webkit-appearance:none; transition:all 0.2s; font-family:inherit; }
 .btn:active { transform:scale(0.98); }
 .btn:disabled { opacity:0.5; cursor:not-allowed; }
 .btn-green { background:var(--green); color:#fff; }
@@ -71,8 +71,7 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 .rate-card .sub { font-size:11px; color:#CBD5E1; margin-top:2px; }
 
 .grid-pdd { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:16px; }
-.pdd-card { background:#fff; border-radius:10px; overflow:hidden; border:1px solid var(--border-color); display:flex; flex-direction:column; justify-content:space-between; box-shadow:var(--card-shadow); transition:transform 0.2s, box-shadow 0.2s; }
-.pdd-card:hover { transform:translateY(-2px); box-shadow:0 12px 25px rgba(10,25,47,0.08); }
+.pdd-card { background:#fff; border-radius:10px; overflow:hidden; border:1px solid var(--border-color); display:flex; flex-direction:column; justify-content:space-between; box-shadow:var(--card-shadow); }
 .pdd-img-wrap { width:100%; height:170px; background:#E2E8F0; position:relative; overflow:hidden; }
 .pdd-img { width:100%; height:100%; object-fit:cover; }
 .pdd-tag-deal { position:absolute; top:8px; left:8px; background:var(--deep-blue); color:#fff; font-size:10px; font-weight:800; padding:2px 6px; border-radius:4px; z-index:2; text-transform:uppercase; letter-spacing:0.5px; }
@@ -92,7 +91,7 @@ h2::after { content:''; display:block; width:36px; height:3px; background:var(--
 .subtitle { text-align:center; color:var(--slate); margin-bottom:30px; font-size:14px; font-weight:500; }
 
 .tabs { display:flex; gap:6px; margin-bottom:20px; border-bottom:2px solid var(--border-color); padding-bottom:2px; flex-wrap:wrap; }
-.tab { padding:8px 16px; border-radius:6px; cursor:pointer; font-weight:700; color:var(--slate); border:none; background:none; font-size:13px; transition:all 0.2s; }
+.tab { padding:8px 16px; border-radius:6px; cursor:pointer; font-weight:700; color:var(--slate); border:none; background:none; font-size:13px; transition:all 0.2s; font-family:inherit; }
 .tab.active { color:var(--navy); background:#E2E8F0; }
 .tab-content { display:none; }
 .tab-content.active { display:block; }
@@ -101,7 +100,7 @@ h2::after { content:''; display:block; width:36px; height:3px; background:var(--
 .calc-box { width:100%; background:#fff; border-radius:12px; padding:28px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); max-width:700px; margin:0 auto; }
 .form-group { margin-bottom:16px; }
 label { display:block; margin-bottom:5px; font-weight:700; color:var(--navy); font-size:11px; text-transform:uppercase; letter-spacing:0.5px; }
-input, select, textarea { width:100%; padding:12px 14px; border:1.5px solid #CBD5E1; border-radius:8px; font-size:14px; background:var(--bg-light); color:#0F172A; -webkit-appearance:none; transition:border-color 0.2s; }
+input, select, textarea { width:100%; padding:12px 14px; border:1.5px solid #CBD5E1; border-radius:8px; font-size:14px; background:var(--bg-light); color:#0F172A; -webkit-appearance:none; transition:border-color 0.2s; font-family:inherit; }
 input:focus, select:focus, textarea:focus { outline:none; border-color:var(--deep-blue); background:#fff; }
 input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 
@@ -112,7 +111,7 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 
 .payment-slot-card { background:#F8FAFC; border:2px solid var(--border-color); border-radius:10px; padding:16px; margin:16px 0; }
 .pay-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(100px, 1fr)); gap:8px; margin-top:8px; }
-.pay-btn { background:#fff; border:1.5px solid #CBD5E1; border-radius:6px; padding:8px; text-align:center; cursor:pointer; font-size:12px; font-weight:700; color:var(--navy); transition:all 0.2s; }
+.pay-btn { background:#fff; border:1.5px solid #CBD5E1; border-radius:6px; padding:8px; text-align:center; cursor:pointer; font-size:12px; font-weight:700; color:var(--navy); transition:all 0.2s; font-family:inherit; }
 .pay-btn.active { border-color:var(--green); background:var(--green-light); color:var(--green-hover); }
 .pay-details-box { background:#fff; border:1px solid var(--border-color); border-radius:8px; padding:12px; margin-top:10px; }
 
@@ -134,7 +133,7 @@ input[readonly] { background:#E2E8F0; cursor:not-allowed; }
 
 .admin-layout { display:grid; grid-template-columns:230px 1fr; gap:20px; }
 .admin-sidebar { background:#fff; border-radius:12px; border:1px solid var(--border-color); padding:14px; box-shadow:var(--card-shadow); height:fit-content; }
-.admin-nav-btn { width:100%; text-align:left; padding:10px 14px; border-radius:6px; border:none; background:transparent; font-weight:700; color:var(--slate); cursor:pointer; font-size:13px; margin-bottom:4px; display:block; transition:all 0.2s; }
+.admin-nav-btn { width:100%; text-align:left; padding:10px 14px; border-radius:6px; border:none; background:transparent; font-weight:700; color:var(--slate); cursor:pointer; font-size:13px; margin-bottom:4px; display:block; transition:all 0.2s; font-family:inherit; }
 .admin-nav-btn.active, .admin-nav-btn:hover { background:var(--deep-blue); color:#fff; }
 
 .admin-table { width:100%; border-collapse:collapse; background:#fff; border-radius:8px; overflow:hidden; box-shadow:var(--card-shadow); }
@@ -174,7 +173,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
   border:1.5px solid var(--green); cursor:pointer;
   display:none; align-items:center; gap:10px;
   box-shadow:0 8px 25px rgba(10,25,47,0.45);
-  font-family:'Plus Jakarta Sans',sans-serif;
+  font-family:inherit;
 }
 .install-btn.show { display:flex; }
 .install-btn img { width:24px; height:24px; border-radius:6px; border:1px solid rgba(255,255,255,0.15); object-fit:cover; background:#fff; }
@@ -185,7 +184,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
   .menu-toggle { display:block; }
   .nav-links { position:absolute; top:100%; left:0; right:0; background:var(--navy); flex-direction:column; padding:14px; display:none; border-bottom:1px solid rgba(255,255,255,0.1); box-shadow:0 10px 25px rgba(0,0,0,0.2); }
   .nav-links.active { display:flex; }
-  .nav-links a { width:100%; padding:10px; text-align:left; }
+  .nav-links button, .nav-links a { width:100%; padding:10px; text-align:left; }
   .hero { padding:50px 12px 60px; }
   .install-btn { bottom:70px; left:16px; padding:7px 14px 7px 7px; font-size:12px; }
 }
@@ -199,29 +198,29 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
 
 <nav>
   <div class="container nav-wrap">
-    <a class="logo-area" onclick="window.go('home')">
+    <button class="logo-area" data-nav="home">
       <img id="navBrandLogo" src="" class="logo-img" alt="EveriVault Logo">
       <div class="logo">EVERIVAULT <span>ENTERPRISE HUB</span></div>
-    </a>
+    </button>
     <ul class="nav-links" id="menu">
-      <li><a class="plink active" data-p="home" onclick="window.go('home')">Home Hub</a></li>
-      <li class="client-only"><a class="plink" data-p="store" onclick="window.go('store')">Wholesale Catalog</a></li>
-      <li class="client-only"><a class="plink" data-p="cart" onclick="window.go('cart')">Secure Cart <span class="cart-badge" id="cartBadgeCount">0</span></a></li>
-      <li class="client-only"><a class="plink" data-p="tracking" onclick="window.go('tracking')">Live Tracking & Dispatch</a></li>
-      <li class="client-only"><a class="plink" data-p="calc" onclick="window.go('calc')">Freight Calculator</a></li>
-      <li class="client-only"><a class="plink" data-p="address" onclick="window.go('address')">Warehouses</a></li>
-      <li class="client-only"><a class="plink" data-p="reviews" onclick="window.go('reviews')">Client Reviews</a></li>
-      <li class="client-only"><a class="plink" data-p="payment" onclick="window.go('payment')">Secure Payment Portal</a></li>
-      <li class="delivery-only"><a class="plink" data-p="deliveryportal" onclick="window.go('deliveryportal')">Courier Portal</a></li>
-      <li id="adminLink" style="display:none;"><a class="plink" data-p="admin" onclick="window.go('admin')">Executive Suite</a></li>
-      <li id="authNav"><a class="nav-cta plink" data-p="auth" onclick="window.go('auth')">Sign In & Portals</a></li>
-      <li id="signOutNav" style="display:none;"><a class="btn btn-sm btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.4);" onclick="window.doSignOut()">Sign Out</a></li>
+      <li><button class="plink active" data-nav="home">Home Hub</button></li>
+      <li class="client-only"><button class="plink" data-nav="store">Wholesale Catalog</button></li>
+      <li class="client-only"><button class="plink" data-nav="cart">Secure Cart <span class="cart-badge" id="cartBadgeCount">0</span></button></li>
+      <li class="client-only"><button class="plink" data-nav="tracking">Live Tracking & Dispatch</button></li>
+      <li class="client-only"><button class="plink" data-nav="calc">Freight Calculator</button></li>
+      <li class="client-only"><button class="plink" data-nav="address">Warehouses</button></li>
+      <li class="client-only"><button class="plink" data-nav="reviews">Client Reviews</button></li>
+      <li class="client-only"><button class="plink" data-nav="payment">Secure Payment Portal</button></li>
+      <li class="delivery-only"><button class="plink" data-nav="deliveryportal">Courier Portal</button></li>
+      <li id="adminLink" style="display:none;"><button class="plink" data-nav="admin">Executive Suite</button></li>
+      <li id="authNav"><button class="nav-cta plink" data-nav="auth">Sign In & Portals</button></li>
+      <li id="signOutNav" style="display:none;"><button class="btn btn-sm btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.4);" id="signOutBtn">Sign Out</button></li>
     </ul>
-    <button class="menu-toggle" onclick="window.toggleMenu()">Menu</button>
+    <button class="menu-toggle" id="menuToggleBtn">Menu</button>
   </div>
 </nav>
 
-<button class="install-btn" id="installBtn" onclick="window.installPWA()">
+<button class="install-btn" id="installBtn">
   <img id="installBtnLogo" src="" alt="EveriVault">
   <span>Install App</span>
   <span class="pulse-dot"></span>
@@ -255,7 +254,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
         </div>
       </div>
       <div class="hero-actions" id="heroAuthCtas">
-        <button class="btn btn-green" onclick="window.go('auth')">Access Secure Portal & Wholesale Catalog</button>
+        <button class="btn btn-green" data-nav="auth">Access Secure Portal & Wholesale Catalog</button>
       </div>
     </div>
   </div>
@@ -291,7 +290,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
       <p class="subtitle">Factory-direct commercial catalog secured through group consolidation protocols.</p>
       <div id="homeCatalogGrid" class="grid-pdd"></div>
       <div style="text-align:center; margin-top:30px;" id="homeCatalogCtaBox">
-        <button class="btn btn-blue" onclick="window.go('auth')">Sign In to View Full Wholesale Catalog</button>
+        <button class="btn btn-blue" data-nav="auth">Sign In to View Full Wholesale Catalog</button>
       </div>
     </div>
   </div>
@@ -303,7 +302,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
         <p style="font-size:13px; color:#93C5FD;">Share your tracking mark link to unlock commercial team rebates:</p>
         <code id="userReferralLinkDisplay" style="background:#fff; color:var(--navy); padding:4px 10px; border-radius:6px; font-weight:800; display:inline-block; margin-top:6px; font-size:12px;"></code>
       </div>
-      <button class="btn btn-green" onclick="window.copyText(document.getElementById('userReferralLinkDisplay').innerText)">Copy Referral Link</button>
+      <button class="btn btn-green" id="copyRefBtn">Copy Referral Link</button>
     </div>
   </div>
 
@@ -311,7 +310,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
     <div style="background:var(--navy); color:#fff; border-radius:12px; padding:30px; max-width:760px; margin:40px auto 0; box-shadow:var(--card-shadow);">
       <h3 style="font-size:18px; color:var(--green); margin-bottom:6px; font-weight:800; text-align:center;">Commercial Sourcing Inquiry</h3>
       <p style="color:var(--slate-light); text-align:center; font-size:13px; margin-bottom:20px;">Submit detailed procurement requests for custom factory manufacturing runs.</p>
-      <form onsubmit="window.submitAdvertisement(event)">
+      <form id="sourcingForm">
         <div class="form-group"><label style="color:#fff;">Corporate / Individual Name</label><input type="text" id="adName" required></div>
         <div class="form-group"><label style="color:#fff;">Verified Contact Number</label><input type="text" id="adContact" required></div>
         <div class="form-group"><label style="color:#fff;">Sourcing Specifications & Quantity</label><textarea id="adDetails" rows="3" required></textarea></div>
@@ -326,9 +325,9 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
     <h2>Wholesale Store Catalog</h2>
     <p class="subtitle">Direct factory inventory with transparent group-buy pricing tiers.</p>
     <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:24px;">
-      <input type="search" id="searchInput" placeholder="Search catalog items..." oninput="window.renderProducts()" style="max-width:260px;">
-      <select id="catFilter" onchange="window.renderProducts()" style="max-width:160px;"></select>
-      <select id="typeFilter" onchange="window.renderProducts()" style="max-width:160px;">
+      <input type="search" id="searchInput" placeholder="Search catalog items..." style="max-width:260px;">
+      <select id="catFilter" style="max-width:160px;"></select>
+      <select id="typeFilter" style="max-width:160px;">
         <option value="all">All Fulfillment Types</option>
         <option value="preorder">Pre-Order</option>
         <option value="available">Available In Stock</option>
@@ -356,8 +355,8 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
           Cart Subtotal: <span id="cartGrandTotal" style="color:var(--green);">GHS 0.00</span>
         </div>
         <div style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
-          <button class="btn btn-outline" onclick="window.clearCart()">Clear Cart</button>
-          <button class="btn btn-green" onclick="window.goToPaymentPortal('goods')">Proceed to Secure Payment</button>
+          <button class="btn btn-outline" id="clearCartBtn">Clear Cart</button>
+          <button class="btn btn-green" id="proceedPaymentBtn">Proceed to Secure Payment</button>
         </div>
       </div>
     </div>
@@ -380,7 +379,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
           Security Directive: Remit delivery tariffs exclusively to official company channels — never directly in cash to couriers.
         </div>
         <div id="bargainChatBox" style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:8px; padding:12px; height:180px; overflow-y:auto; margin-bottom:12px; display:flex; flex-direction:column; gap:6px;"></div>
-        <form onsubmit="window.sendBargainMessage(event)">
+        <form id="bargainForm">
           <div style="display:flex; gap:6px;">
             <input type="text" id="bargainInput" required placeholder="Enter dispatch negotiation message..." style="font-size:13px;">
             <button class="btn btn-blue" type="submit" style="padding:8px 14px;">Send</button>
@@ -410,9 +409,9 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
       </div>
       <div style="background:#fff; padding:20px; border-radius:10px; margin-bottom:20px; border:1px solid var(--border-color); box-shadow:var(--card-shadow);">
         <h3 style="color:var(--navy); margin-bottom:12px;">Client Communication Desk</h3>
-        <div class="form-group"><label>Select Active Client</label><select id="courierClientSelect" onchange="window.loadCourierChat()"></select></div>
+        <div class="form-group"><label>Select Active Client</label><select id="courierClientSelect"></select></div>
         <div id="courierChatBox" style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:8px; padding:12px; height:200px; overflow-y:auto; margin-bottom:12px; display:flex; flex-direction:column; gap:6px;"></div>
-        <form onsubmit="window.sendCourierMessage(event)">
+        <form id="courierChatForm">
           <div style="display:flex; gap:6px;">
             <input type="text" id="courierInputMsg" required placeholder="Type dispatch response..." style="font-size:13px;">
             <button class="btn btn-blue" type="submit" style="padding:8px 14px;">Send</button>
@@ -432,11 +431,11 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
         <div style="margin-bottom:16px; text-align:center;">
           <label style="font-size:12px; margin-bottom:8px;">Settlement Category</label>
           <div style="display:flex; gap:8px;">
-            <button class="btn btn-block btn-green" id="payTypeBtnGoods" type="button" onclick="window.setPaymentType('goods')">Store Goods</button>
-            <button class="btn btn-block btn-outline" id="payTypeBtnShipping" type="button" onclick="window.setPaymentType('shipping')">Freight Shipping</button>
+            <button class="btn btn-block btn-green" id="payTypeBtnGoods" type="button">Store Goods</button>
+            <button class="btn btn-block btn-outline" id="payTypeBtnShipping" type="button">Freight Shipping</button>
           </div>
         </div>
-        <form onsubmit="window.submitPayment(event)">
+        <form id="paymentForm">
           <h3 id="payFormHeading" style="color:var(--navy); font-size:15px; margin-bottom:14px;">Store Goods Settlement</h3>
           <div class="form-group"><label>Shipping Mark & Importer</label><input type="text" id="payClientName" readonly style="font-weight:700;"></div>
           <div id="goodsPayFields"><div class="form-group"><label>Item Summary</label><input type="text" id="payItemSummary" readonly></div></div>
@@ -445,14 +444,14 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
           <div class="payment-slot-card">
             <label style="color:var(--navy); font-weight:800;">Verified Settlement Channel</label>
             <div class="pay-grid">
-              <div class="pay-btn active" id="pbtn-momo" onclick="window.selectPaymentSlot('momo')">MTN Mobile Money</div>
-              <div class="pay-btn" id="pbtn-telecel" onclick="window.selectPaymentSlot('telecel')">Telecel Cash</div>
-              <div class="pay-btn" id="pbtn-bank" onclick="window.selectPaymentSlot('bank')">GTBank Corporate</div>
+              <button type="button" class="pay-btn active" data-payslot="momo">MTN Mobile Money</button>
+              <button type="button" class="pay-btn" data-payslot="telecel">Telecel Cash</button>
+              <button type="button" class="pay-btn" data-payslot="bank">GTBank Corporate</button>
             </div>
             <div class="pay-details-box" id="paySlotInfo"></div>
           </div>
           <div class="form-group"><label>Transaction Reference ID</label><input type="text" id="payTxRef" required></div>
-          <div class="form-group"><label>Upload Remittance Receipt</label><input type="file" id="payProofFile" accept="image/*" onchange="window.handleProofFile(event)"></div>
+          <div class="form-group"><label>Upload Remittance Receipt</label><input type="file" id="payProofFile" accept="image/*"></div>
           <button class="btn btn-green btn-block" type="submit">Submit Payment for Audit</button>
         </form>
       </div>
@@ -470,44 +469,44 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
     <p class="subtitle">Accurate real-time pricing for Sea Cargo, Air Express, or comparative valuation.</p>
     <div class="calc-box">
       <div class="tabs">
-        <button class="tab active" id="tabBtnSea" onclick="window.calcMode('sea')">Sea Cargo CBM</button>
-        <button class="tab" id="tabBtnAir" onclick="window.calcMode('air')">Air Express Weight</button>
-        <button class="tab" id="tabBtnCompare" onclick="window.calcMode('compare')">Comparative Analysis</button>
+        <button class="tab active" data-calctab="sea">Sea Cargo CBM</button>
+        <button class="tab" data-calctab="air">Air Express Weight</button>
+        <button class="tab" data-calctab="compare">Comparative Analysis</button>
       </div>
       <div id="calcSea" class="tab-content active">
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(110px, 1fr)); gap:10px;">
-          <div class="form-group"><label>Length (cm)</label><input type="number" id="seaL" oninput="window.calcSea()"></div>
-          <div class="form-group"><label>Width (cm)</label><input type="number" id="seaW" oninput="window.calcSea()"></div>
-          <div class="form-group"><label>Height (cm)</label><input type="number" id="seaH" oninput="window.calcSea()"></div>
+          <div class="form-group"><label>Length (cm)</label><input type="number" id="seaL"></div>
+          <div class="form-group"><label>Width (cm)</label><input type="number" id="seaW"></div>
+          <div class="form-group"><label>Height (cm)</label><input type="number" id="seaH"></div>
         </div>
-        <div class="form-group"><label>Quantity Units</label><input type="number" id="seaQty" value="1" min="1" oninput="window.calcSea()"></div>
+        <div class="form-group"><label>Quantity Units</label><input type="number" id="seaQty" value="1" min="1"></div>
         <div style="background:#F8FAFC; border:1px solid var(--border-color); padding:16px; border-radius:8px; margin-top:14px;">
           <p>Volume: <span id="seaCbm" style="font-weight:800;">0.000</span> m³</p>
           <p style="font-size:13px; color:var(--slate);">Valuation USD: <span id="seaUsd" style="font-weight:700;">$0.00</span></p>
           <p style="font-size:16px; margin-top:5px;">Estimated Total: <strong id="seaGhs" style="color:var(--green);">GHS 0.00</strong></p>
-          <button class="btn btn-sm btn-green" style="margin-top:12px;" onclick="window.goToPaymentPortal('shipping')">Proceed to Freight Payment</button>
+          <button class="btn btn-sm btn-green" style="margin-top:12px;" id="calcProceedShipBtn">Proceed to Freight Payment</button>
         </div>
       </div>
       <div id="calcAir" class="tab-content">
         <div class="form-group"><label>Cargo Classification</label>
-          <select id="airType" onchange="window.calcAir()">
+          <select id="airType">
             <option value="general">General Merchandise ($17/kg)</option>
             <option value="device">Electronic Devices (GHS 500 Flat)</option>
           </select>
         </div>
-        <div class="form-group"><label>Gross Weight (kg)</label><input type="number" id="airKg" step="0.1" oninput="window.calcAir()"></div>
+        <div class="form-group"><label>Gross Weight (kg)</label><input type="number" id="airKg" step="0.1"></div>
         <div style="background:#F8FAFC; border:1px solid var(--border-color); padding:16px; border-radius:8px;">
           <p style="font-size:13px; color:var(--slate);">Valuation USD: <span id="airUsd" style="font-weight:700;">$0.00</span></p>
           <p style="font-size:16px; margin-top:5px;">Estimated Total: <strong id="airGhs" style="color:var(--navy);">GHS 0.00</strong></p>
-          <button class="btn btn-sm btn-green" style="margin-top:12px;" onclick="window.goToPaymentPortal('shipping')">Proceed to Freight Payment</button>
+          <button class="btn btn-sm btn-green" style="margin-top:12px;" id="calcProceedShipBtn2">Proceed to Freight Payment</button>
         </div>
       </div>
       <div id="calcCompare" class="tab-content">
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(100px, 1fr)); gap:10px;">
-          <div class="form-group"><label>Length (cm)</label><input type="number" id="compL" oninput="window.calcCompare()"></div>
-          <div class="form-group"><label>Width (cm)</label><input type="number" id="compW" oninput="window.calcCompare()"></div>
-          <div class="form-group"><label>Height (cm)</label><input type="number" id="compH" oninput="window.calcCompare()"></div>
-          <div class="form-group"><label>Weight (kg)</label><input type="number" id="compKg" oninput="window.calcCompare()"></div>
+          <div class="form-group"><label>Length (cm)</label><input type="number" id="compL"></div>
+          <div class="form-group"><label>Width (cm)</label><input type="number" id="compW"></div>
+          <div class="form-group"><label>Height (cm)</label><input type="number" id="compH"></div>
+          <div class="form-group"><label>Weight (kg)</label><input type="number" id="compKg"></div>
         </div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px;">
           <div style="background:#F8FAFC; border:1px solid var(--border-color); padding:16px; border-radius:8px;">
@@ -534,18 +533,18 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
           <h4>Sea Cargo Hub — Foshan Facility</h4>
           <label>Mandatory Chinese Address Label:</label>
           <div class="cn-text-box" id="cnSeaAddress">广东省佛山市南海区狮山镇新浦西路88号博汇五期</div>
-          <button class="btn btn-sm btn-green" onclick="window.copyText($('cnSeaAddress').innerText)">Copy Address</button>
+          <button class="btn btn-sm btn-green" id="copySeaAddrBtn">Copy Address</button>
           <div style="margin-top:14px;">
             <label>Facility Management Contacts:</label>
-            <div class="contact-row"><span>Mr. Zhang: <strong>+86 181 2571 7488</strong></span><button class="btn btn-sm btn-outline" onclick="window.copyText('+8618125717488')">Copy</button></div>
-            <div class="contact-row"><span>Mr. Yue: <strong>+86 180 2417 9599</strong></span><button class="btn btn-sm btn-outline" onclick="window.copyText('+8618024179599')">Copy</button></div>
+            <div class="contact-row"><span>Mr. Zhang: <strong>+86 181 2571 7488</strong></span><button class="btn btn-sm btn-outline" data-copy="+8618125717488">Copy</button></div>
+            <div class="contact-row"><span>Mr. Yue: <strong>+86 180 2417 9599</strong></span><button class="btn btn-sm btn-outline" data-copy="+8618024179599">Copy</button></div>
           </div>
         </div>
         <div class="addr-block" style="border-left:4px solid var(--green);">
           <h4>Air Express Hub — Guangzhou Facility</h4>
           <label>Mandatory Chinese Address Label:</label>
           <div class="cn-text-box" id="cnAirAddress">广东省广州市越秀区广园西路99号99商务中心510室</div>
-          <button class="btn btn-sm btn-green" onclick="window.copyText($('cnAirAddress').innerText)">Copy Address</button>
+          <button class="btn btn-sm btn-green" id="copyAirAddrBtn">Copy Address</button>
         </div>
       </div>
     </div>
@@ -558,7 +557,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
     <p class="subtitle">Authenticated feedback from commercial importers and supply chain partners.</p>
     <div class="form-box" style="margin-bottom:28px; border:2px solid var(--green);">
       <h3>Submit Client Feedback</h3>
-      <form onsubmit="window.doSubmitReview(event)">
+      <form id="reviewForm">
         <div class="form-group"><label>Rating Evaluation</label>
           <select id="revRating" required><option value="5">5 Stars — Exceptional Service</option><option value="4">4 Stars — Highly Satisfied</option><option value="3">3 Stars — Standard Execution</option></select>
         </div>
@@ -575,13 +574,13 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
     <h2>Account Authentication</h2>
     <div class="form-box">
       <div class="tabs">
-        <button class="tab active" data-authtab="login" onclick="window.authTab('login')">Sign In</button>
-        <button class="tab" data-authtab="reg" onclick="window.authTab('reg')">Register</button>
-        <button class="tab" data-authtab="reset" onclick="window.authTab('reset')">Recovery</button>
+        <button class="tab active" data-authtab="login">Sign In</button>
+        <button class="tab" data-authtab="reg">Register</button>
+        <button class="tab" data-authtab="reset">Recovery</button>
       </div>
       <div id="tLogin" class="tab-content active">
         <p style="font-size:12px; color:var(--slate); margin-bottom:14px;">Authenticate using your registered <strong>Gmail</strong>, <strong>Shipping Mark ID</strong>, or <strong>Courier credentials</strong>.</p>
-        <form onsubmit="window.doUniversalLogin(event)">
+        <form id="loginForm">
           <div class="form-group"><label>Gmail Address / Shipping ID</label><input type="text" id="uniIdent" required></div>
           <div class="form-group"><label>Account Password</label><input type="password" id="uniPw" required></div>
           
@@ -592,8 +591,8 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
               <li><strong>2. Prohibited Items & Liability:</strong> Restricted hazardous materials are strictly prohibited. Users assume full legal and financial liability for import customs inspections.</li>
             </ul>
           </div>
-          <div style="display:flex; align-items:flex-start; gap:8px; margin-bottom:14px; cursor:pointer;" onclick="const cb=$('tcCheckLogin'); cb.checked=!cb.checked;">
-            <input type="checkbox" id="tcCheckLogin" required style="width:16px; height:16px; margin-top:2px; cursor:pointer;" onclick="event.stopPropagation()">
+          <div style="display:flex; align-items:flex-start; gap:8px; margin-bottom:14px; cursor:pointer;" id="tcLoginWrapper">
+            <input type="checkbox" id="tcCheckLogin" required style="width:16px; height:16px; margin-top:2px; cursor:pointer;">
             <label for="tcCheckLogin" style="font-size:11px; font-weight:600; text-transform:none; cursor:pointer;">I accept EveriVault's Terms & Conditions to authorize sign-in.</label>
           </div>
 
@@ -601,7 +600,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
         </form>
       </div>
       <div id="tReg" class="tab-content">
-        <form onsubmit="window.doRegister(event)">
+        <form id="regForm">
           <div class="form-group"><label>Full Corporate / Individual Name</label><input type="text" id="rn" required></div>
           <div class="form-group"><label>Gmail Address</label><input type="email" id="rem" required></div>
           <div class="form-group"><label>Verified Phone Number</label><input type="tel" id="rp" required></div>
@@ -622,8 +621,8 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
             </ul>
           </div>
 
-          <div style="display:flex; align-items:flex-start; gap:8px; margin-bottom:14px; cursor:pointer;" onclick="const cb=$('tcCheck'); cb.checked=!cb.checked;">
-            <input type="checkbox" id="tcCheck" required style="width:16px; height:16px; margin-top:2px; cursor:pointer;" onclick="event.stopPropagation()">
+          <div style="display:flex; align-items:flex-start; gap:8px; margin-bottom:14px; cursor:pointer;" id="tcRegWrapper">
+            <input type="checkbox" id="tcCheck" required style="width:16px; height:16px; margin-top:2px; cursor:pointer;">
             <label for="tcCheck" style="font-size:11px; font-weight:600; text-transform:none; cursor:pointer;">I fully accept EveriVault's Risk-Free Terms & Conditions to register.</label>
           </div>
           <button class="btn btn-green btn-block" type="submit" id="regBtn">Create Account & Authorize Portal</button>
@@ -631,7 +630,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
       </div>
       <div id="tReset" class="tab-content">
         <p style="font-size:12px; color:var(--slate); margin-bottom:14px;">Enter your registered <strong>Gmail address</strong> to receive encrypted password recovery instructions.</p>
-        <form onsubmit="window.doPasswordReset(event)">
+        <form id="resetForm">
           <div class="form-group"><label>Gmail Address</label><input type="email" id="resetEmail" required placeholder="e.g. yourname@gmail.com"></div>
           <button class="btn btn-navy btn-block" type="submit" id="resetBtn">Dispatch Recovery Instructions</button>
         </form>
@@ -656,20 +655,20 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
     </div>
     <div class="admin-layout">
       <div class="admin-sidebar">
-        <button class="admin-nav-btn active" data-admintab="products" onclick="window.adminTab('products')">Manage Catalog</button>
-        <button class="admin-nav-btn" data-admintab="payments" onclick="window.adminTab('payments')">Payments Desk</button>
-        <button class="admin-nav-btn" data-admintab="tracking" onclick="window.adminTab('tracking')">Shipping Tracking</button>
-        <button class="admin-nav-btn" data-admintab="monitoredchat" onclick="window.adminTab('monitoredchat')">Monitor Chats</button>
-        <button class="admin-nav-btn" data-admintab="delivery" onclick="window.adminTab('delivery')">Courier Setup</button>
-        <button class="admin-nav-btn" data-admintab="ads" onclick="window.adminTab('ads')">Sourcing Requests</button>
-        <button class="admin-nav-btn" data-admintab="clients" onclick="window.adminTab('clients')">Registered Clients</button>
-        <button class="admin-nav-btn" data-admintab="content" onclick="window.adminTab('content')">Brand & Content</button>
+        <button class="admin-nav-btn active" data-admintab="products">Manage Catalog</button>
+        <button class="admin-nav-btn" data-admintab="payments">Payments Desk</button>
+        <button class="admin-nav-btn" data-admintab="tracking">Shipping Tracking</button>
+        <button class="admin-nav-btn" data-admintab="monitoredchat">Monitor Chats</button>
+        <button class="admin-nav-btn" data-admintab="delivery">Courier Setup</button>
+        <button class="admin-nav-btn" data-admintab="ads">Sourcing Requests</button>
+        <button class="admin-nav-btn" data-admintab="clients">Registered Clients</button>
+        <button class="admin-nav-btn" data-admintab="content">Brand & Content</button>
       </div>
       <div>
         <div id="adminProducts" class="tab-content active">
           <div class="form-box" style="max-width:100%; margin-bottom:24px;">
             <h3 id="productFormHeading">Add Product</h3>
-            <form onsubmit="window.doSaveProduct(event)">
+            <form id="productForm">
               <input type="hidden" id="editingProdId">
               <div class="form-group"><label>Product Title</label><input type="text" id="npName" required></div>
               <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:10px;">
@@ -688,12 +687,12 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
               </div>
               <div class="form-group">
                 <label>Product Images (Upload or Multiple URLs)</label>
-                <input type="file" id="npFile" accept="image/*" multiple onchange="window.handleImageFiles(event)">
+                <input type="file" id="npFile" accept="image/*" multiple>
                 <textarea id="npImgUrls" rows="2" placeholder="Or paste multiple image URLs separated by commas" style="margin-top:6px;"></textarea>
               </div>
               <div style="display:flex; gap:10px;">
                 <button class="btn btn-green btn-block" type="submit" id="prodSubmitBtn">Publish Product</button>
-                <button class="btn btn-outline" type="button" id="cancelEditBtn" style="display:none;" onclick="window.resetProductForm()">Cancel</button>
+                <button class="btn btn-outline" type="button" id="cancelEditBtn" style="display:none;">Cancel</button>
               </div>
             </form>
           </div>
@@ -709,7 +708,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
         <div id="adminTracking" class="tab-content">
           <div class="form-box" style="max-width:100%; margin-bottom:24px;">
             <h3>Update Client Tracking Status</h3>
-            <form onsubmit="window.adminUpdateTracking(event)">
+            <form id="trackingUpdateForm">
               <div class="form-group"><label>Select Client</label><select id="admTrackClientSelect" required></select></div>
               <div class="form-group"><label>Status</label>
                 <select id="admTrackStatusSelect" required>
@@ -736,7 +735,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
         <div id="adminDelivery" class="tab-content">
           <div class="form-box" style="max-width:100%; margin-bottom:24px;">
             <h3>Courier Profile Configuration</h3>
-            <form onsubmit="window.saveDeliveryGuyInfo(event)">
+            <form id="courierConfigForm">
               <div class="form-group"><label>Courier Name</label><input type="text" id="dgName" required></div>
               <div class="form-group"><label>Login Email</label><input type="email" id="dgEmail" required></div>
               <div class="form-group"><label>Password</label><input type="password" id="dgPass" required></div>
@@ -755,7 +754,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
         <div id="adminClients" class="tab-content">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
             <h3 style="color:var(--navy); margin:0;">Registered Importers</h3>
-            <button class="btn btn-sm btn-green" onclick="window.exportClientData()">Export CSV Audit</button>
+            <button class="btn btn-sm btn-green" id="exportCsvBtn">Export CSV Audit</button>
           </div>
           <div id="adminClientsList"></div>
         </div>
@@ -763,14 +762,14 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
         <div id="adminContent" class="tab-content">
           <div class="form-box" style="max-width:100%; margin-bottom:24px;">
             <h3>Platform Brand Logo</h3>
-            <form onsubmit="window.saveLogoFile(event)">
-              <div class="form-group"><label>Logo File</label><input type="file" id="logoFileInput" accept="image/*" required onchange="window.handleLogoFileSelect(event)"></div>
+            <form id="logoForm">
+              <div class="form-group"><label>Logo File</label><input type="file" id="logoFileInput" accept="image/*" required></div>
               <button class="btn btn-green btn-block" type="submit">Update Platform Logo</button>
             </form>
           </div>
           <div class="form-box" style="max-width:100%;">
             <h3>Hero Banner Content</h3>
-            <form onsubmit="window.savePortalSettings(event)">
+            <form id="heroContentForm">
               <div class="form-group"><label>Hero Title</label><input type="text" id="cfgHeroTitle" required></div>
               <div class="form-group"><label>Hero Subtitle</label><input type="text" id="cfgHeroSub" required></div>
               <button class="btn btn-green btn-block" type="submit">Commit Settings</button>
@@ -795,7 +794,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
 <div class="toast-wrap" id="toastWrap"></div>
 
 <script>
-window.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
   const defaultEveriVaultLogoSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="96" fill="#0A192F"/><text x="256" y="345" font-size="320" font-family="Arial,sans-serif" font-weight="bold" fill="#059669" text-anchor="middle">E</text></svg>`;
   const defaultEveriVaultLogoBase64 = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(defaultEveriVaultLogoSvg)));
 
@@ -811,15 +810,9 @@ window.addEventListener('DOMContentLoaded', () => {
         { src: iconSrc, sizes: "512x512", type: "image/png", purpose: "any maskable" }
       ]
     };
-    
     let link = document.querySelector('link[rel="manifest"]');
-    if (!link) {
-      link = document.createElement('link');
-      link.rel = 'manifest';
-      document.head.appendChild(link);
-    }
-    const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
-    link.href = URL.createObjectURL(blob);
+    if (!link) { link = document.createElement('link'); link.rel = 'manifest'; document.head.appendChild(link); }
+    link.href = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' }));
 
     let apple = document.querySelector('link[rel="apple-touch-icon"]');
     if (!apple) { apple = document.createElement('link'); apple.rel = 'apple-touch-icon'; document.head.appendChild(apple); }
@@ -829,29 +822,20 @@ window.addEventListener('DOMContentLoaded', () => {
     if (!fav) { fav = document.createElement('link'); fav.rel = 'icon'; document.head.appendChild(fav); }
     fav.href = iconSrc;
   }
-
   updateManifestWithLogo(null);
 
   if ('serviceWorker' in navigator) {
     const swCode = `
-      const CACHE = 'everivault-v1TB-backend';
-      const CORE = ['.', './index.html'];
-      self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE).catch(()=>{}))); });
+      const CACHE = 'everivault-v2TB';
+      self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.', './index.html']).catch(()=>{}))); });
       self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())); });
       self.addEventListener('fetch', e => {
-        const req = e.request;
-        if (req.method !== 'GET') return;
-        if (req.url.includes('supabase.co') || req.url.includes('googleapis.com') || req.url.includes('unsplash.com') || req.url.includes('jsdelivr.net')) return;
-        e.respondWith(caches.match(req).then(cached => cached || fetch(req).then(res => {
-          if (res && res.status === 200 && req.url.startsWith(self.location.origin)) {
-            const clone = res.clone(); caches.open(CACHE).then(c => c.put(req, clone));
-          }
-          return res;
-        }).catch(() => caches.match('./index.html'))));
+        if (e.request.method !== 'GET') return;
+        if (e.request.url.includes('supabase.co') || e.request.url.includes('googleapis.com') || e.request.url.includes('unsplash.com') || e.request.url.includes('jsdelivr.net')) return;
+        e.respondWith(caches.match(e.request).then(cached => cached || fetch(e.request).catch(() => caches.match('./index.html'))));
       });
     `;
-    const url = URL.createObjectURL(new Blob([swCode], { type: 'application/javascript' }));
-    navigator.serviceWorker.register(url).catch(() => {});
+    navigator.serviceWorker.register(URL.createObjectURL(new Blob([swCode], { type: 'application/javascript' }))).catch(()=>{});
   }
 
   let deferredPrompt = null;
@@ -861,22 +845,6 @@ window.addEventListener('DOMContentLoaded', () => {
     if (btn) btn.classList.add('show');
   });
 
-  window.installPWA = function() {
-    if (!deferredPrompt) {
-      window.toast('To install: tap browser menu → "Add to Home Screen"', 'info', 3000);
-      return;
-    }
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(c => {
-      if (c.outcome === 'accepted') {
-        const btn = document.getElementById('installBtn');
-        if (btn) btn.classList.remove('show');
-        window.toast('EveriVault installed successfully.', 'ok', 3000);
-      }
-      deferredPrompt = null;
-    });
-  };
-
   const SUPABASE_URL = 'https://admgkiewiwziifesbpey.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_ZdxSIdlfrMQStQkt8Zq3oQ_0wIrkxIF';
   const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
@@ -884,35 +852,25 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   const state = {
-    user: null,
-    products: [],
-    cart: [],
-    orders: [],
-    tracking: null,
-    messages: [],
-    reviews: [],
-    ads: [],
+    user: null, products: [], cart: [], orders: [], tracking: null,
+    messages: [], reviews: [], ads: [],
     settings: { heroTitle: '', heroSub: '', logoUrl: '', deliveryGuy: {} },
-    uploadedImagesBase64: [],
-    paymentProofBase64: '',
-    selectedPaymentSlot: 'momo',
-    paymentCategory: 'goods',
-    uploadedLogoBase64: '',
-    chatSubscription: null,
-    activeCourierClientId: null
+    uploadedImagesBase64: [], paymentProofBase64: '',
+    selectedPaymentSlot: 'momo', paymentCategory: 'goods',
+    uploadedLogoBase64: '', chatSubscription: null, activeCourierClientId: null
   };
 
   const $ = id => document.getElementById(id);
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
   const fmtGHS = n => 'GHS ' + Number(n || 0).toLocaleString('en-GH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-  const generateShippingMark = (name, phone) => {
+  function generateShippingMark(name, phone) {
     const initials = (name || 'EV').split(/\s+/).map(w => w[0] || '').join('').toUpperCase().slice(0,3) || 'CLI';
     const cleanPhone = (phone || '00000000').replace(/\D/g, '');
     return 'GH001K-' + initials + '-' + cleanPhone;
-  };
+  }
 
-  window.toast = function(msg, type = 'info', ms = 2500) {
+  function toast(msg, type = 'info', ms = 2500) {
     const wrap = $('toastWrap'); if (!wrap) return;
     const el = document.createElement('div');
     el.className = 'toast ' + (type === 'ok' ? 'ok' : type === 'err' ? 'err' : '');
@@ -920,9 +878,7 @@ window.addEventListener('DOMContentLoaded', () => {
     wrap.appendChild(el);
     requestAnimationFrame(() => el.classList.add('show'));
     setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 100); }, ms);
-  };
-
-  window.copyText = function(t) { if (navigator.clipboard) navigator.clipboard.writeText(t).then(() => window.toast('Copied to clipboard.', 'ok')); };
+  }
 
   function showLoading(show, msg = 'Processing secure request...') {
     let el = document.getElementById('globalLoader');
@@ -938,227 +894,569 @@ window.addEventListener('DOMContentLoaded', () => {
     } else if (el) el.remove();
   }
 
-  window.go = async function(page) {
+  async function go(page) {
     if (!state.user && page !== 'home' && page !== 'auth' && page !== 'calc' && page !== 'address' && page !== 'reviews') {
-      window.toast('Authentication required to access portal.', 'err');
-      return window.go('auth');
+      toast('Authentication required to access portal.', 'err');
+      return go('auth');
     }
-    if (page === 'admin' && state.user?.role !== 'admin') { window.toast('Insufficient security clearance.', 'err'); return window.go('auth'); }
-    if (page === 'deliveryportal' && state.user?.role !== 'delivery') { window.toast('Courier credentials required.', 'err'); return window.go('auth'); }
+    if (page === 'admin' && state.user?.role !== 'admin') { toast('Insufficient security clearance.', 'err'); return go('auth'); }
+    if (page === 'deliveryportal' && state.user?.role !== 'delivery') { toast('Courier credentials required.', 'err'); return go('auth'); }
 
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const t = $('p-' + page); if (t) t.classList.add('active');
     document.querySelectorAll('.plink').forEach(l => l.classList.remove('active'));
-    document.querySelectorAll('.plink[data-p="'+page+'"]').forEach(l => l.classList.add('active'));
+    document.querySelectorAll('[data-nav="'+page+'"]').forEach(l => l.classList.add('active'));
     const menu = $('menu'); if (menu) menu.classList.remove('active');
 
     await executePageBackend(page);
     window.scrollTo({ top: 0, behavior: 'auto' });
-  };
+  }
 
   async function executePageBackend(page) {
     switch (page) {
-      case 'home':
-        await loadProducts();
-        window.renderProducts();
-        break;
-      case 'store':
-        await loadProducts();
-        window.renderProducts();
-        break;
+      case 'home': case 'store':
+        await loadProducts(); renderProducts(); break;
       case 'cart':
-        await loadCart();
-        renderCart();
-        break;
+        await loadCart(); renderCart(); break;
       case 'tracking':
-        await loadTrackingAndChat();
-        break;
+        await loadTrackingAndChat(); break;
       case 'deliveryportal':
-        await loadCourierPortal();
-        break;
+        await loadCourierPortal(); break;
       case 'payment':
-        await loadPaymentHistory();
-        break;
+        await loadPaymentHistory(); break;
       case 'reviews':
-        await loadReviews();
-        break;
+        await loadReviews(); break;
       case 'admin':
-        await loadAdmin();
-        break;
+        await loadAdmin(); break;
       default:
-        await loadProducts();
-        window.renderProducts();
+        await loadProducts(); renderProducts();
     }
   }
 
-  window.toggleMenu = function() { const m = $('menu'); if (m) m.classList.toggle('active'); };
-  window.authTab = function(tab) {
-    document.querySelectorAll('[data-authtab]').forEach(t => t.classList.toggle('active', t.dataset.authtab === tab));
-    const tl = $('tLogin'), tr = $('tReg'), ts = $('tReset');
-    if (tl) tl.classList.toggle('active', tab === 'login');
-    if (tr) tr.classList.toggle('active', tab === 'reg');
-    if (ts) ts.classList.toggle('active', tab === 'reset');
-  };
+  // Bind all navigation links dynamically
+  document.querySelectorAll('[data-nav]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      go(el.getAttribute('data-nav'));
+    });
+  });
 
-  window.doRegister = async function(e) {
-    e.preventDefault();
-    const tc = $('tcCheck');
-    if (tc && !tc.checked) return window.toast('Acceptance of Terms & Conditions is required.', 'err');
-    
-    const name = $('rn').value.trim();
-    const email = $('rem').value.trim().toLowerCase();
-    const phone = $('rp').value.trim();
-    const location = $('rloc').value.trim();
-    const password = $('rpw').value;
-    const refMark = $('regRefMark').value.trim();
-    
-    if (password.length < 6) return window.toast('Password must be at least 6 characters.', 'err');
+  const menuToggle = $('menuToggleBtn');
+  if (menuToggle) {
+    menuToggle.addEventListener('click', () => { $('menu').classList.toggle('active'); });
+  }
 
-    showLoading(true, 'Provisioning secure account...');
-    try {
-      const { data: authData, error: authErr } = await sb.auth.signUp({ 
-        email, 
-        password,
-        options: { data: { name, phone } }
+  const installBtn = $('installBtn');
+  if (installBtn) {
+    installBtn.addEventListener('click', () => {
+      if (!deferredPrompt) { toast('To install: tap browser menu → "Add to Home Screen"', 'info', 3000); return; }
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(c => {
+        if (c.outcome === 'accepted') installBtn.classList.remove('show');
+        deferredPrompt = null;
       });
-      
-      if (authErr) throw authErr;
-      let userId = authData.user?.id;
+    });
+  }
 
-      if (!userId) {
-        const { data: signInData, error: signInErr } = await sb.auth.signInWithPassword({ email, password });
-        if (signInErr) throw signInErr;
-        userId = signInData.user.id;
+  // Auth Tab Buttons
+  document.querySelectorAll('[data-authtab]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.getAttribute('data-authtab');
+      document.querySelectorAll('[data-authtab]').forEach(t => t.classList.toggle('active', t.getAttribute('data-authtab') === tab));
+      $('tLogin').classList.toggle('active', tab === 'login');
+      $('tReg').classList.toggle('active', tab === 'reg');
+      $('tReset').classList.toggle('active', tab === 'reset');
+    });
+  });
+
+  // Admin Sidebar Tabs
+  document.querySelectorAll('[data-admintab]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.getAttribute('data-admintab');
+      document.querySelectorAll('.admin-nav-btn').forEach(t => t.classList.toggle('active', t.getAttribute('data-admintab') === tab));
+      ['products','payments','tracking','monitoredchat','delivery','ads','clients','content'].forEach(t => {
+        const el = $('admin' + t.charAt(0).toUpperCase() + t.slice(1));
+        if (el) el.classList.toggle('active', t === tab);
+      });
+    });
+  });
+
+  // Calc Tabs
+  document.querySelectorAll('[data-calctab]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mode = btn.getAttribute('data-calctab');
+      ['sea','air','compare'].forEach(m => {
+        document.querySelector('[data-calctab="'+m+'"]').classList.toggle('active', m === mode);
+        $('calc'+m.charAt(0).toUpperCase()+m.slice(1)).classList.toggle('active', m === mode);
+      });
+    });
+  });
+
+  // Payment Slot buttons
+  document.querySelectorAll('[data-payslot]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const slot = btn.getAttribute('data-payslot');
+      state.selectedPaymentSlot = slot;
+      document.querySelectorAll('[data-payslot]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const info = $('paySlotInfo');
+      if (slot === 'momo' || slot === 'telecel') {
+        info.innerHTML = '<p style="font-size:12px;font-weight:700;color:var(--navy);">Mobile Money Corporate Channel</p><p style="font-size:13px;color:var(--green-hover);font-weight:800;">Account Number: 0543155883</p><p style="font-size:11px;color:var(--slate);">Registered Name: Richmond Wireko Brobbey</p>';
+      } else {
+        info.innerHTML = '<p style="font-size:12px;font-weight:700;color:var(--navy);">GTBank Corporate Clearing</p><p style="font-size:13px;color:var(--green-hover);font-weight:800;">Account Number: 1304001024705</p><p style="font-size:11px;color:var(--slate);">Registered Name: Richmond Wireko Brobbey</p>';
       }
+    });
+  });
 
-      const mark = generateShippingMark(name, phone);
+  // Copy buttons
+  document.querySelectorAll('[data-copy]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const val = btn.getAttribute('data-copy');
+      if (navigator.clipboard) navigator.clipboard.writeText(val).then(() => toast('Copied to clipboard.', 'ok'));
+    });
+  });
 
-      const { error: profErr } = await sb.from('profiles').upsert({
-        id: userId, email, name, phone, location,
-        mark, role: email === 'richmonwireko@gmail.com' ? 'admin' : 'client',
-        referred_by: refMark || null,
-        date_registered: new Date().toLocaleDateString()
-      });
-      
-      if (profErr) throw profErr;
+  const copySeaAddrBtn = $('copySeaAddrBtn');
+  if (copySeaAddrBtn) {
+    copySeaAddrBtn.addEventListener('click', () => {
+      if (navigator.clipboard) navigator.clipboard.writeText($('cnSeaAddress').innerText).then(() => toast('Copied to clipboard.', 'ok'));
+    });
+  }
+  const copyAirAddrBtn = $('copyAirAddrBtn');
+  if (copyAirAddrBtn) {
+    copyAirAddrBtn.addEventListener('click', () => {
+      if (navigator.clipboard) navigator.clipboard.writeText($('cnAirAddress').innerText).then(() => toast('Copied to clipboard.', 'ok'));
+    });
+  }
+  const copyRefBtn = $('copyRefBtn');
+  if (copyRefBtn) {
+    copyRefBtn.addEventListener('click', () => {
+      if (navigator.clipboard) navigator.clipboard.writeText($('userReferralLinkDisplay').innerText).then(() => toast('Copied to clipboard.', 'ok'));
+    });
+  }
 
-      await sb.from('tracking').upsert({ 
-        user_id: userId,
-        status: 'Goods Received at China Warehouse',
-        message: 'Account provisioned successfully.'
-      }).then(() => {});
+  // Payment Type switch buttons
+  const payTypeBtnGoods = $('payTypeBtnGoods');
+  if (payTypeBtnGoods) {
+    payTypeBtnGoods.addEventListener('click', () => setPaymentType('goods'));
+  }
+  const payTypeBtnShipping = $('payTypeBtnShipping');
+  if (payTypeBtnShipping) {
+    payTypeBtnShipping.addEventListener('click', () => setPaymentType('shipping'));
+  }
 
-      await loadUserProfile(userId);
-      applyUserState();
+  function setPaymentType(type) {
+    state.paymentCategory = type;
+    $('payTypeBtnGoods').className = type === 'goods' ? 'btn btn-block btn-green' : 'btn btn-block btn-outline';
+    $('payTypeBtnShipping').className = type === 'shipping' ? 'btn btn-block btn-green' : 'btn btn-block btn-outline';
+    $('goodsPayFields').style.display = type === 'goods' ? 'block' : 'none';
+    $('shippingPayFields').style.display = type === 'shipping' ? 'block' : 'none';
+    $('payFormHeading').textContent = type === 'goods' ? 'Store Goods Settlement' : 'Freight Shipping Settlement';
+  }
+
+  const proceedPaymentBtn = $('proceedPaymentBtn');
+  if (proceedPaymentBtn) {
+    proceedPaymentBtn.addEventListener('click', () => goToPaymentPortal('goods'));
+  }
+  const calcProceedShipBtn = $('calcProceedShipBtn');
+  if (calcProceedShipBtn) {
+    calcProceedShipBtn.addEventListener('click', () => goToPaymentPortal('shipping'));
+  }
+  const calcProceedShipBtn2 = $('calcProceedShipBtn2');
+  if (calcProceedShipBtn2) {
+    calcProceedShipBtn2.addEventListener('click', () => goToPaymentPortal('shipping'));
+  }
+
+  function goToPaymentPortal(type = 'goods') {
+    setPaymentType(type);
+    if (state.user) $('payClientName').value = (state.user.mark || 'ADM') + ' — ' + state.user.name + ' (' + (state.user.phone || 'Admin') + ')';
+    if (type === 'goods') {
+      if (!state.cart.length) return toast('Shopping cart is empty.', 'err');
+      $('payItemSummary').value = state.cart.map(i => i.product_name + (i.size? ' [Size: '+i.size+']':'') + (i.color? ' [Color: '+i.color+']':'') + ' (x' + i.qty + ')').join(', ');
+      $('payTotalAmount').value = state.cart.reduce((s, i) => s + i.price * i.qty, 0).toFixed(2);
+    } else {
+      const seaVal = parseFloat(($('seaGhs').textContent||'').replace(/[^0-9.]/g,'')) || 0;
+      const airVal = parseFloat(($('airGhs').textContent||'').replace(/[^0-9.]/g,'')) || 0;
+      $('payShipDesc').value = 'Freight Logistics Settlement';
+      $('payTotalAmount').value = (seaVal || airVal || 0).toFixed(2);
+    }
+    go('payment');
+  }
+
+  const clearCartBtn = $('clearCartBtn');
+  if (clearCartBtn) {
+    clearCartBtn.addEventListener('click', async () => {
+      if (!state.user) return;
+      await sb.from('cart_items').delete().eq('user_id', state.user.id);
       await loadCart();
-      await loadOrders();
-
-      window.toast(`Account created. Shipping Mark: ${mark}`, 'ok', 3500);
-      window.go(state.user?.role === 'admin' ? 'admin' : 'store');
-    } catch (err) {
-      window.toast(err.message || 'Registration failure.', 'err', 4000);
-    } finally { 
-      showLoading(false); 
-    }
-  };
-
-  window.doUniversalLogin = async function(e) {
-    e.preventDefault();
-    const tc = $('tcCheckLogin');
-    if (tc && !tc.checked) return window.toast('Acceptance of Terms & Conditions is required to sign in.', 'err');
-
-    const id = $('uniIdent').value.trim().toLowerCase();
-    const pw = $('uniPw').value;
-    const btn = $('uniLoginBtn');
-    if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Authenticating...'; }
-
-    try {
-      const { data: settings } = await sb.from('app_settings').select('delivery_guy').eq('id', 1).single();
-      const dg = settings?.delivery_guy || {};
-      if (dg.email && id === dg.email.toLowerCase() && pw === dg.pass) {
-        state.user = { id: 'courier', name: dg.name, email: dg.email, role: 'delivery', mark: 'COURIER' };
-        sessionStorage.setItem('ev_courier', '1');
-        window.toast('Courier session authenticated.', 'ok');
-        applyUserState();
-        return window.go('deliveryportal');
-      }
-
-      let email = id;
-      if (!id.includes('@')) {
-        const { data: prof } = await sb.from('profiles').select('email').eq('mark', id).single();
-        if (prof?.email) email = prof.email;
-      }
-
-      const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
-      if (error) throw error;
-
-      let uid = data?.user?.id;
-      if (!uid) throw new Error('Authentication failure.');
-
-      await loadUserProfile(uid);
-
-      if (email === 'richmonwireko@gmail.com' && state.user.role !== 'admin') {
-        await sb.from('profiles').update({ role: 'admin' }).eq('id', uid);
-        state.user.role = 'admin';
-      }
-
-      window.toast('Welcome back, ' + (state.user?.name || '') + '.', 'ok');
-      applyUserState();
-      window.go(state.user?.role === 'admin' ? 'admin' : 'store');
-    } catch (err) {
-      window.toast(err.message || 'Authentication error.', 'err', 4000);
-    } finally { 
-      if (btn) { btn.disabled = false; btn.textContent = 'Sign In to Portal'; }
-    }
-  };
-
-  window.doPasswordReset = async function(e) {
-    e.preventDefault();
-    const email = $('resetEmail').value.trim().toLowerCase();
-    const btn = $('resetBtn');
-    if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Dispatches...'; }
-
-    try {
-      const { error } = await sb.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.origin + window.location.pathname,
-      });
-      if (error) throw error;
-      window.toast('Recovery instructions dispatched.', 'ok', 4000);
-      $('resetEmail').value = '';
-      window.authTab('login');
-    } catch (err) {
-      window.toast(err.message || 'Recovery failed.', 'err', 4000);
-    } finally {
-      if (btn) { btn.disabled = false; btn.textContent = 'Dispatch Recovery Instructions'; }
-    }
-  };
-
-  async function loadUserProfile(uid) {
-    const { data, error } = await sb.from('profiles').select('*').eq('id', uid).single();
-    if (error) {
-      if (uid) {
-        const { data: authUser } = await sb.auth.getUser();
-        const userEmail = authUser?.user?.email || '';
-        if (userEmail === 'richmonwireko@gmail.com') {
-          const newProf = { id: uid, email: userEmail, name: 'Richmond Wireko', role: 'admin', mark: 'GH001K-ADM-0543', date_registered: new Date().toLocaleDateString() };
-          await sb.from('profiles').upsert(newProf);
-          state.user = newProf;
-          return;
-        }
-      }
-      throw error;
-    }
-    state.user = data;
+      toast('Cart cleared.', 'ok');
+    });
   }
 
-  window.doSignOut = async function() {
-    if (state.user?.role === 'delivery') sessionStorage.removeItem('ev_courier');
-    else await sb.auth.signOut();
-    state.user = null;
-    applyUserState();
-    window.toast('Secure session terminated.', 'ok');
-    window.go('home');
-  };
+  const signOutBtn = $('signOutNav');
+  if (signOutBtn) {
+    signOutBtn.addEventListener('click', async () => {
+      if (state.user?.role === 'delivery') sessionStorage.removeItem('ev_courier');
+      else await sb.auth.signOut();
+      state.user = null;
+      applyUserState();
+      toast('Secure session terminated.', 'ok');
+      go('home');
+    });
+  }
+
+  // Forms
+  const loginForm = $('loginForm');
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!$('tcCheckLogin').checked) return toast('Acceptance of Terms & Conditions is required to sign in.', 'err');
+      const id = $('uniIdent').value.trim().toLowerCase();
+      const pw = $('uniPw').value;
+      const btn = $('uniLoginBtn');
+      btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Authenticating...';
+
+      try {
+        const { data: settings } = await sb.from('app_settings').select('delivery_guy').eq('id', 1).single();
+        const dg = settings?.delivery_guy || {};
+        if (dg.email && id === dg.email.toLowerCase() && pw === dg.pass) {
+          state.user = { id: 'courier', name: dg.name, email: dg.email, role: 'delivery', mark: 'COURIER' };
+          sessionStorage.setItem('ev_courier', '1');
+          toast('Courier session authenticated.', 'ok');
+          applyUserState();
+          return go('deliveryportal');
+        }
+
+        let email = id;
+        if (!id.includes('@')) {
+          const { data: prof } = await sb.from('profiles').select('email').eq('mark', id).single();
+          if (prof?.email) email = prof.email;
+        }
+
+        const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
+        if (error) throw error;
+        let uid = data?.user?.id;
+        if (!uid) throw new Error('Authentication failure.');
+
+        await loadUserProfile(uid);
+        if (email === 'richmonwireko@gmail.com' && state.user.role !== 'admin') {
+          await sb.from('profiles').update({ role: 'admin' }).eq('id', uid);
+          state.user.role = 'admin';
+        }
+
+        toast('Welcome back, ' + (state.user?.name || '') + '.', 'ok');
+        applyUserState();
+        go(state.user?.role === 'admin' ? 'admin' : 'store');
+      } catch (err) {
+        toast(err.message || 'Authentication error.', 'err', 4000);
+      } finally { btn.disabled = false; btn.textContent = 'Sign In to Portal'; }
+    });
+  }
+
+  const regForm = $('regForm');
+  if (regForm) {
+    regForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!$('tcCheck').checked) return toast('Acceptance of Terms & Conditions is required.', 'err');
+      const name = $('rn').value.trim();
+      const email = $('rem').value.trim().toLowerCase();
+      const phone = $('rp').value.trim();
+      const location = $('rloc').value.trim();
+      const password = $('rpw').value;
+      const refMark = $('regRefMark').value.trim();
+
+      if (password.length < 6) return toast('Password must be at least 6 characters.', 'err');
+      showLoading(true, 'Provisioning secure account...');
+      try {
+        const { data: authData, error: authErr } = await sb.auth.signUp({ email, password, options: { data: { name, phone } } });
+        if (authErr) throw authErr;
+        let userId = authData.user?.id;
+        if (!userId) {
+          const { data: signInData, error: signInErr } = await sb.auth.signInWithPassword({ email, password });
+          if (signInErr) throw signInErr;
+          userId = signInData.user.id;
+        }
+
+        const mark = generateShippingMark(name, phone);
+        const { error: profErr } = await sb.from('profiles').upsert({
+          id: userId, email, name, phone, location, mark,
+          role: email === 'richmonwireko@gmail.com' ? 'admin' : 'client',
+          referred_by: refMark || null, date_registered: new Date().toLocaleDateString()
+        });
+        if (profErr) throw profErr;
+
+        await sb.from('tracking').upsert({ user_id: userId, status: 'Goods Received at China Warehouse', message: 'Account provisioned successfully.' }).catch(()=>{});
+        await loadUserProfile(userId);
+        applyUserState();
+        await loadCart();
+        await loadOrders();
+
+        toast(`Account created. Shipping Mark: ${mark}`, 'ok', 3500);
+        go(state.user?.role === 'admin' ? 'admin' : 'store');
+      } catch (err) {
+        toast(err.message || 'Registration failure.', 'err', 4000);
+      } finally { showLoading(false); }
+    });
+  }
+
+  const resetForm = $('resetForm');
+  if (resetForm) {
+    resetForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = $('resetEmail').value.trim().toLowerCase();
+      const btn = $('resetBtn');
+      btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Dispatches...';
+      try {
+        const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + window.location.pathname });
+        if (error) throw error;
+        toast('Recovery instructions dispatched.', 'ok', 4000);
+        $('resetEmail').value = '';
+        document.querySelector('[data-authtab="login"]').click();
+      } catch (err) {
+        toast(err.message || 'Recovery failed.', 'err', 4000);
+      } finally { btn.disabled = false; btn.textContent = 'Dispatch Recovery Instructions'; }
+    });
+  }
+
+  const sourcingForm = $('sourcingForm');
+  if (sourcingForm) {
+    sourcingForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const { error } = await sb.from('ads').insert({ name: $('adName').value.trim(), contact: $('adContact').value.trim(), details: $('adDetails').value.trim() });
+      if (error) return toast(error.message, 'err');
+      $('adName').value = ''; $('adContact').value = ''; $('adDetails').value = '';
+      toast('Procurement request submitted successfully.', 'ok');
+    });
+  }
+
+  const paymentForm = $('paymentForm');
+  if (paymentForm) {
+    paymentForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!state.user) return;
+      const isShipping = state.paymentCategory === 'shipping';
+      const order = {
+        user_id: state.user.id, client_name: state.user.name, client_mark: state.user.mark || 'ADM',
+        type: isShipping ? 'Shipping Cost' : 'Cart Goods',
+        summary: isShipping ? $('payShipDesc').value.trim() : $('payItemSummary').value.trim(),
+        total: parseFloat($('payTotalAmount').value) || 0,
+        slot: state.selectedPaymentSlot, tx_ref: $('payTxRef').value.trim(),
+        proof: state.paymentProofBase64 || null, status: 'Pending Verification'
+      };
+      showLoading(true, 'Submitting remittance for audit...');
+      const { error } = await sb.from('orders').insert(order);
+      showLoading(false);
+      if (error) return toast(error.message, 'err');
+      toast('Remittance submitted. Awaiting verification.', 'ok');
+      state.paymentProofBase64 = ''; $('payTxRef').value = '';
+      if (!isShipping) {
+        await sb.from('cart_items').delete().eq('user_id', state.user.id);
+        await loadCart();
+      }
+      loadPaymentHistory();
+    });
+  }
+
+  const payProofFile = $('payProofFile');
+  if (payProofFile) {
+    payProofFile.addEventListener('change', (e) => {
+      const f = e.target.files[0]; if (!f) return;
+      const r = new FileReader();
+      r.onload = ev => { state.paymentProofBase64 = ev.target.result; toast('Remittance proof attached.', 'ok'); };
+      r.readAsDataURL(f);
+    });
+  }
+
+  const reviewForm = $('reviewForm');
+  if (reviewForm) {
+    reviewForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!state.user) return toast('Authentication required.', 'err');
+      const { error } = await sb.from('reviews').insert({
+        user_id: state.user.id, name: state.user.name, mark: state.user.mark || 'ADM',
+        rating: parseInt($('revRating').value), comment: $('revComment').value.trim()
+      });
+      if (error) return toast(error.message, 'err');
+      $('revComment').value = '';
+      toast('Testimonial submitted for verification.', 'ok');
+      loadReviews();
+    });
+  }
+
+  const productForm = $('productForm');
+  if (productForm) {
+    productForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const editId = $('editingProdId').value;
+      const category = $('npCat').value.trim();
+      const sizesInput = $('npSizes').value.trim();
+      const colorsInput = $('npColors').value.trim();
+
+      if (category.toLowerCase().includes('clothing') || category.toLowerCase().includes('apparel')) {
+        if (!sizesInput || !colorsInput) return toast('Size and color configurations are mandatory for apparel.', 'err');
+      }
+
+      let urls = $('npImgUrls').value.split(',').map(s => s.trim()).filter(Boolean);
+      if (state.uploadedImagesBase64.length > 0) urls = [...state.uploadedImagesBase64, ...urls];
+
+      const prod = {
+        name: $('npName').value.trim(), category, price: parseFloat($('npPrice').value) || 0,
+        type: $('npType').value, sizes: sizesInput || null, colors: colorsInput || null,
+        color: colorsInput || null, images: JSON.stringify(urls), image: urls[0] || null
+      };
+
+      showLoading(true, 'Committing catalog item...');
+      if (editId) {
+        await sb.from('products').update(prod).eq('id', editId);
+      } else {
+        await sb.from('products').insert(prod);
+      }
+      showLoading(false);
+      toast('Catalog item updated.', 'ok');
+      resetProductForm();
+      await loadProducts(); renderProducts(); loadAdmin();
+    });
+  }
+
+  const cancelEditBtn = $('cancelEditBtn');
+  if (cancelEditBtn) cancelEditBtn.addEventListener('click', resetProductForm);
+
+  const npFile = $('npFile');
+  if (npFile) {
+    npFile.addEventListener('change', (e) => {
+      const files = e.target.files; if (!files || !files.length) return;
+      state.uploadedImagesBase64 = [];
+      let processed = 0;
+      for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        reader.onload = ev => {
+          state.uploadedImagesBase64.push(ev.target.result);
+          processed++;
+          if (processed === files.length) toast(files.length + ' image file(s) encoded securely.', 'ok');
+        };
+        reader.readAsDataURL(files[i]);
+      }
+    });
+  }
+
+  const trackingUpdateForm = $('trackingUpdateForm');
+  if (trackingUpdateForm) {
+    trackingUpdateForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const uid = $('admTrackClientSelect').value;
+      const payload = { user_id: uid, status: $('admTrackStatusSelect').value, message: $('admTrackMsg').value.trim(), updated_at: new Date().toISOString() };
+      const { error } = await sb.from('tracking').upsert(payload);
+      if (error) return toast(error.message, 'err');
+      toast('Tracking status committed.', 'ok');
+      $('admTrackMsg').value = '';
+      loadAdmin();
+    });
+  }
+
+  const courierConfigForm = $('courierConfigForm');
+  if (courierConfigForm) {
+    courierConfigForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const dg = { name: $('dgName').value.trim(), email: $('dgEmail').value.trim(), pass: $('dgPass').value.trim(), phone: $('dgPhone').value.trim(), zone: $('dgZone').value.trim() };
+      await sb.from('app_settings').update({ delivery_guy: dg }).eq('id', 1);
+      state.settings.deliveryGuy = dg;
+      toast('Courier profile updated.', 'ok');
+    });
+  }
+
+  const logoForm = $('logoForm');
+  if (logoForm) {
+    logoForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!state.uploadedLogoBase64) return toast('Select a valid logo image.', 'err');
+      await sb.from('app_settings').update({ logo_url: state.uploadedLogoBase64 }).eq('id', 1);
+      state.settings.logoUrl = state.uploadedLogoBase64;
+      updateManifestWithLogo(state.uploadedLogoBase64);
+      applyPortalSettings();
+      toast('Platform branding updated.', 'ok');
+    });
+  }
+
+  const logoFileInput = $('logoFileInput');
+  if (logoFileInput) {
+    logoFileInput.addEventListener('change', (e) => {
+      const f = e.target.files[0]; if (!f) return;
+      const r = new FileReader();
+      r.onload = ev => { state.uploadedLogoBase64 = ev.target.result; };
+      r.readAsDataURL(f);
+    });
+  }
+
+  const heroContentForm = $('heroContentForm');
+  if (heroContentForm) {
+    heroContentForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await sb.from('app_settings').update({
+        hero_title: $('cfgHeroTitle').value.trim(),
+        hero_sub: $('cfgHeroSub').value.trim(),
+        updated_at: new Date().toISOString()
+      }).eq('id', 1);
+      state.settings.heroTitle = $('cfgHeroTitle').value.trim();
+      state.settings.heroSub = $('cfgHeroSub').value.trim();
+      applyPortalSettings();
+      toast('Portal content configuration committed.', 'ok');
+    });
+  }
+
+  const exportCsvBtn = $('exportCsvBtn');
+  if (exportCsvBtn) {
+    exportCsvBtn.addEventListener('click', () => {
+      const clients = window.__adminClients || [];
+      let csv = 'Name,Email,Phone,ShippingMark,Location,Referral\n';
+      clients.forEach(c => { csv += `"${c.name}","${c.email}","${c.phone||''}","${c.mark}","${c.location||''}","${c.referred_by||''}"\n`; });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'everivault_importers_audit.csv'; a.click();
+      toast('Client database audit exported.', 'ok');
+    });
+  }
+
+  const bargainForm = $('bargainForm');
+  if (bargainForm) {
+    bargainForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const text = $('bargainInput').value.trim(); if (!text || !state.user) return;
+      await sb.from('messages').insert({ user_id: state.user.id, sender: 'Client', text });
+      $('bargainInput').value = '';
+    });
+  }
+
+  const courierChatForm = $('courierChatForm');
+  if (courierChatForm) {
+    courierChatForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const text = $('courierInputMsg').value.trim();
+      const uid = $('courierClientSelect').value;
+      if (!text || !uid) return;
+      await sb.from('messages').insert({ user_id: uid, sender: 'Courier', text });
+      $('courierInputMsg').value = '';
+    });
+  }
+
+  const courierClientSelect = $('courierClientSelect');
+  if (courierClientSelect) {
+    courierClientSelect.addEventListener('change', loadCourierChat);
+  }
+
+  // Calculator inputs
+  ['seaL','seaW','seaH','seaQty'].forEach(id => {
+    const el = $(id); if (el) el.addEventListener('input', calcSea);
+  });
+  const airType = $('airType'); if (airType) airType.addEventListener('change', calcAir);
+  const airKg = $('airKg'); if (airKg) airKg.addEventListener('input', calcAir);
+  ['compL','compW','compH','compKg'].forEach(id => {
+    const el = $(id); if (el) el.addEventListener('input', calcCompare);
+  });
+  const searchInput = $('searchInput');
+  if (searchInput) searchInput.addEventListener('input', renderProducts);
+  const catFilter = $('catFilter');
+  if (catFilter) catFilter.addEventListener('change', renderProducts);
+  const typeFilter = $('typeFilter');
+  if (typeFilter) typeFilter.addEventListener('change', renderProducts);
 
   async function loadProducts() {
     const { data } = await sb.from('products').select('*').order('created_at', { ascending: false });
@@ -1173,12 +1471,7 @@ window.addEventListener('DOMContentLoaded', () => {
   async function loadSettings() {
     const { data } = await sb.from('app_settings').select('*').eq('id', 1).single();
     if (data) {
-      state.settings = {
-        heroTitle: data.hero_title,
-        heroSub: data.hero_sub,
-        logoUrl: data.logo_url,
-        deliveryGuy: data.delivery_guy || {}
-      };
+      state.settings = { heroTitle: data.hero_title, heroSub: data.hero_sub, logoUrl: data.logo_url, deliveryGuy: data.delivery_guy || {} };
       applyPortalSettings();
     }
   }
@@ -1209,12 +1502,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function isClothingCategory(cat) {
-    const c = (cat || '').toLowerCase().trim();
-    return c.includes('clothing') || c.includes('apparel') || c.includes("men's clothing") || c.includes('ladies clothing');
-  }
-
-  window.renderProducts = function() {
+  function renderProducts() {
     const grid = $('prodGrid'), homeGrid = $('homeCatalogGrid');
     const search = ($('searchInput')?.value || '').toLowerCase();
     const cat = $('catFilter')?.value || 'all';
@@ -1248,10 +1536,10 @@ window.addEventListener('DOMContentLoaded', () => {
       
       let thumbsHtml = '';
       if (imgList.length > 1) {
-        thumbsHtml = '<div class="gallery-thumbs">' + imgList.map((im, idx) => '<img src="'+esc(im)+'" class="gallery-thumb'+(idx===0?' active':'')+'" onclick="window.switchProductImage(\''+p.id+'\', \''+esc(im)+'\', this)">').join('') + '</div>';
+        thumbsHtml = '<div class="gallery-thumbs">' + imgList.map((im, idx) => '<img src="'+esc(im)+'" class="gallery-thumb'+(idx===0?' active':'')+'" data-switchimg="'+p.id+'" data-url="'+esc(im)+'">').join('') + '</div>';
       }
 
-      const isClothing = isClothingCategory(p.category);
+      const isClothing = (p.category || '').toLowerCase().includes('clothing') || (p.category || '').toLowerCase().includes('apparel');
       let optionsHtml = '';
       if (state.user && state.user.role === 'client') {
         const sizes = p.sizes ? p.sizes.split(',').map(s => s.trim()).filter(Boolean) : [];
@@ -1283,11 +1571,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
       let btn = '';
       if (!state.user) {
-        btn = '<button class="btn btn-sm btn-blue btn-block" onclick="window.go(\'auth\')">Sign In to Acquire</button>';
+        btn = '<button class="btn btn-sm btn-blue btn-block" data-action="signin">Sign In to Acquire</button>';
       } else if (state.user.role === 'admin') {
-        btn = '<button class="btn btn-sm btn-navy btn-block" onclick="window.go(\'admin\'); window.adminTab(\'products\');">Manage Product</button>';
+        btn = '<button class="btn btn-sm btn-navy btn-block" data-manage="'+p.id+'">Manage Product</button>';
       } else {
-        btn = '<button class="btn btn-sm btn-green btn-block" onclick="window.addToCart(\''+p.id+'\')">Reserve Wholesale Unit</button>';
+        btn = '<button class="btn btn-sm btn-green btn-block" data-addcart="'+p.id+'">Reserve Wholesale Unit</button>';
       }
 
       return '<div class="pdd-card"><div class="pdd-img-wrap">'+imgHtml+'<span class="pdd-tag-deal">'+tag+'</span></div>'+thumbsHtml+'<div class="pdd-content"><div><div class="pdd-title">'+esc(p.name)+'</div>'+optionsHtml+'</div><div class="pdd-footer-row"><div><div class="pdd-price">'+fmtGHS(p.price)+' <span style="font-size:10px; color:var(--slate); font-weight:normal;">/unit</span></div></div></div><div style="margin-top:8px;">'+btn+'</div></div></div>';
@@ -1295,141 +1583,42 @@ window.addEventListener('DOMContentLoaded', () => {
 
     if (grid) grid.innerHTML = filtered.length ? filtered.map(card).join('') : '<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--slate);">No catalog items match criteria.</div>';
     if (homeGrid) homeGrid.innerHTML = state.products.slice(0, 8).map(card).join('');
-  };
 
-  window.switchProductImage = function(prodId, imgUrl, thumbEl) {
-    const mainImg = $('main-img-' + prodId);
-    if (mainImg) mainImg.src = imgUrl;
-    if (thumbEl && thumbEl.parentNode) {
-      thumbEl.parentNode.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
-      thumbEl.classList.add('active');
-    }
-  };
-
-  window.doSaveProduct = async function(e) {
-    e.preventDefault();
-    const editId = $('editingProdId').value;
-    const category = $('npCat').value.trim();
-    const sizesInput = $('npSizes').value.trim();
-    const colorsInput = $('npColors').value.trim();
-
-    if (isClothingCategory(category)) {
-      if (!sizesInput) return window.toast('Size configuration mandatory for apparel items.', 'err');
-      if (!colorsInput) return window.toast('Color configuration mandatory for apparel items.', 'err');
-    }
-    
-    let urls = $('npImgUrls').value.split(',').map(s => s.trim()).filter(Boolean);
-    if (state.uploadedImagesBase64.length > 0) {
-      urls = [...state.uploadedImagesBase64, ...urls];
-    }
-
-    const prod = {
-      name: $('npName').value.trim(),
-      category: category,
-      price: parseFloat($('npPrice').value) || 0,
-      type: $('npType').value,
-      sizes: sizesInput || null,
-      colors: colorsInput || null,
-      color: colorsInput || null,
-      images: JSON.stringify(urls),
-      image: urls[0] || null
-    };
-
-    showLoading(true, 'Committing catalog item to secure database...');
-    if (editId) {
-      await sb.from('products').update(prod).eq('id', editId);
-      localStorage.setItem('prod_colors_'+editId, colorsInput);
-      localStorage.setItem('prod_sizes_'+editId, sizesInput);
-      localStorage.setItem('prod_images_'+editId, JSON.stringify(urls));
-    } else {
-      const { data: inserted } = await sb.from('products').insert(prod).select().single();
-      if (inserted?.id) {
-        localStorage.setItem('prod_colors_'+inserted.id, colorsInput);
-        localStorage.setItem('prod_sizes_'+inserted.id, sizesInput);
-        localStorage.setItem('prod_images_'+inserted.id, JSON.stringify(urls));
-      }
-    }
-    showLoading(false);
-    window.toast('Catalog item updated successfully.', 'ok');
-
-    window.resetProductForm();
-    await loadProducts();
-    window.renderProducts();
-    loadAdmin();
-  };
-
-  window.editCatalogProduct = function(id) {
-    const p = state.products.find(x => x.id === id);
-    if (!p) return;
-    $('editingProdId').value = p.id;
-    $('npName').value = p.name || '';
-    $('npCat').value = p.category || '';
-    $('npPrice').value = p.price || '';
-    $('npType').value = p.type || 'preorder';
-    $('npSizes').value = p.sizes || localStorage.getItem('prod_sizes_'+id) || '';
-    $('npColors').value = p.colors || p.color || localStorage.getItem('prod_colors_'+id) || '';
-    
-    let imgList = [];
-    try {
-      if (p.images) imgList = typeof p.images === 'string' ? JSON.parse(p.images) : p.images;
-    } catch(e) {
-      imgList = p.images ? p.images.split(',').map(s => s.trim()).filter(Boolean) : [];
-    }
-    if (!imgList.length && p.image) imgList = [p.image];
-
-    $('npImgUrls').value = imgList.join(', ');
-    state.uploadedImagesBase64 = [];
-    $('productFormHeading').textContent = 'Edit Product: ' + p.name;
-    $('prodSubmitBtn').textContent = 'Commit Changes';
-    $('cancelEditBtn').style.display = 'inline-flex';
-    window.scrollTo({ top: 0, behavior: 'auto' });
-  };
-
-  window.resetProductForm = function() {
-    $('editingProdId').value = '';
-    $('npName').value = '';
-    $('npCat').value = '';
-    $('npPrice').value = '';
-    $('npType').value = 'preorder';
-    $('npSizes').value = '';
-    $('npColors').value = '';
-    $('npImgUrls').value = '';
-    $('npFile').value = '';
-    state.uploadedImagesBase64 = [];
-    $('productFormHeading').textContent = 'Add Product';
-    $('prodSubmitBtn').textContent = 'Publish Product';
-    $('cancelEditBtn').style.display = 'none';
-  };
-
-  window.deleteCatalogProduct = async function(id) {
-    if (!confirm('Authorize deletion of catalog item?')) return;
-    showLoading(true, 'Removing catalog item...');
-    await sb.from('products').delete().eq('id', id);
-    localStorage.removeItem('prod_colors_'+id);
-    localStorage.removeItem('prod_sizes_'+id);
-    localStorage.removeItem('prod_images_'+id);
-    showLoading(false);
-    window.toast('Item removed from catalog.', 'ok');
-    await loadProducts();
-    window.renderProducts();
-    loadAdmin();
-  };
+    // Attach listeners to dynamic catalog buttons
+    document.querySelectorAll('[data-addcart]').forEach(btn => {
+      btn.addEventListener('click', () => addToCart(btn.getAttribute('data-addcart')));
+    });
+    document.querySelectorAll('[data-manage]').forEach(btn => {
+      btn.addEventListener('click', () => { go('admin'); document.querySelector('[data-admintab="products"]').click(); });
+    });
+    document.querySelectorAll('[data-action="signin"]').forEach(btn => {
+      btn.addEventListener('click', () => go('auth'));
+    });
+    document.querySelectorAll('[data-switchimg]').forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        const pId = thumb.getAttribute('data-switchimg');
+        const url = thumb.getAttribute('data-url');
+        $('main-img-' + pId).src = url;
+        thumb.parentNode.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+      });
+    });
+  }
 
   function updateCartBadge() {
     const count = state.cart.reduce((s, i) => s + (i.qty || 0), 0);
-    const badge = $('cartBadgeCount');
-    if (badge) badge.textContent = count;
+    const badge = $('cartBadgeCount'); if (badge) badge.textContent = count;
   }
 
-  window.addToCart = async function(prodId) {
-    if (!state.user || state.user.role !== 'client') { window.toast('Authentication required.', 'err'); return window.go('auth'); }
+  async function addToCart(prodId) {
+    if (!state.user || state.user.role !== 'client') { toast('Authentication required.', 'err'); return go('auth'); }
     const p = state.products.find(x => x.id === prodId);
     if (!p) return;
 
-    const isClothing = isClothingCategory(p.category);
+    const isClothing = (p.category || '').toLowerCase().includes('clothing') || (p.category || '').toLowerCase().includes('apparel');
     const sizeEl = $('size-' + prodId);
     const selectedSize = sizeEl ? sizeEl.value.trim() : '';
-    if (isClothing && !selectedSize) return window.toast('Mandatory size selection required.', 'err');
+    if (isClothing && !selectedSize) return toast('Mandatory size selection required.', 'err');
 
     let selectedColor = '';
     const radioChecked = document.querySelector('input[name="color-radio-'+prodId+'"]:checked');
@@ -1438,8 +1627,7 @@ window.addEventListener('DOMContentLoaded', () => {
       const colorTxtEl = $('color-txt-' + prodId);
       if (colorTxtEl) selectedColor = colorTxtEl.value.trim();
     }
-
-    if (isClothing && !selectedColor) return window.toast('Mandatory color specification required.', 'err');
+    if (isClothing && !selectedColor) return toast('Mandatory color specification required.', 'err');
 
     const finalSize = selectedSize || 'Standard';
     const finalColor = selectedColor || 'Assorted / Default';
@@ -1467,31 +1655,9 @@ window.addEventListener('DOMContentLoaded', () => {
       });
     }
     showLoading(false);
-    window.toast('Item reserved in cart.', 'ok');
+    toast('Item reserved in cart.', 'ok');
     await loadCart();
-  };
-
-  window.updateCartQty = async function(itemId, delta) {
-    const item = state.cart.find(c => c.id === itemId);
-    if (!item) return;
-    const newQty = item.qty + delta;
-    if (newQty <= 0) await sb.from('cart_items').delete().eq('id', itemId);
-    else await sb.from('cart_items').update({ qty: newQty }).eq('id', itemId);
-    await loadCart();
-  };
-
-  window.removeFromCart = async function(itemId) {
-    await sb.from('cart_items').delete().eq('id', itemId);
-    await loadCart();
-    window.toast('Reservation removed.', 'ok');
-  };
-
-  window.clearCart = async function() {
-    if (!state.user) return;
-    await sb.from('cart_items').delete().eq('user_id', state.user.id);
-    await loadCart();
-    window.toast('Cart cleared.', 'ok');
-  };
+  }
 
   function renderCart() {
     const container = $('cartItemsContainer'); if (!container) return;
@@ -1511,105 +1677,31 @@ window.addEventListener('DOMContentLoaded', () => {
       if (item.color) optStr += 'Color: <strong style="color:var(--navy);">'+esc(item.color)+'</strong>';
       const optsBadge = optStr ? '<br><span style="color:var(--slate); font-size:11px;">'+optStr+'</span>' : '';
       const badge = item.type === 'preorder' ? '<br><span style="color:var(--green); font-size:11px; font-weight:700;">Pre-Order Sourcing</span>' : '';
-      return '<div class="cart-item-row"><div style="display:flex;align-items:center;gap:10px;">'+img+'<div><strong style="color:var(--navy);font-size:14px;">'+esc(item.product_name)+'</strong><br><span style="color:var(--green);font-weight:700;">'+fmtGHS(item.price)+' per unit</span>'+optsBadge+badge+'</div></div><div style="display:flex;align-items:center;gap:8px;"><button class="qty-btn" onclick="window.updateCartQty(\''+item.id+'\', -1)">-</button><span style="font-weight:800;min-width:18px;text-align:center;">'+item.qty+'</span><button class="qty-btn" onclick="window.updateCartQty(\''+item.id+'\', 1)">+</button></div><div style="text-align:right;"><span style="font-weight:800;color:var(--navy);">'+fmtGHS(sub)+'</span><br><button class="btn btn-sm btn-danger" style="margin-top:3px;padding:2px 6px;font-size:10px;" onclick="window.removeFromCart(\''+item.id+'\')">Remove</button></div></div>';
+      return '<div class="cart-item-row"><div style="display:flex;align-items:center;gap:10px;">'+img+'<div><strong style="color:var(--navy);font-size:14px;">'+esc(item.product_name)+'</strong><br><span style="color:var(--green);font-weight:700;">'+fmtGHS(item.price)+' per unit</span>'+optsBadge+badge+'</div></div><div style="display:flex;align-items:center;gap:8px;"><button class="qty-btn" data-cartqty="'+item.id+'" data-delta="-1">-</button><span style="font-weight:800;min-width:18px;text-align:center;">'+item.qty+'</span><button class="qty-btn" data-cartqty="'+item.id+'" data-delta="1">+</button></div><div style="text-align:right;"><span style="font-weight:800;color:var(--navy);">'+fmtGHS(sub)+'</span><br><button class="btn btn-sm btn-danger" style="margin-top:3px;padding:2px 6px;font-size:10px;" data-removecart="'+item.id+'">Remove</button></div></div>';
     }).join('');
     $('cartGrandTotal').textContent = fmtGHS(total);
-    const earliest = state.cart.reduce((min, i) => !min || new Date(i.expires_at) < new Date(min) ? i.expires_at : min, null);
-    if (earliest) {
-      const diff = new Date(earliest) - new Date();
-      if (diff > 0) {
-        const h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
-        $('cartCountdownDisplay').textContent = `${h}h ${m}m ${s}s`;
-        $('cartTimerAlert').style.display = 'flex';
-      } else { $('cartTimerAlert').style.display = 'none'; }
-    }
-  }
 
-  window.setPaymentType = function(type) {
-    state.paymentCategory = type;
-    $('payTypeBtnGoods').className = type === 'goods' ? 'btn btn-block btn-green' : 'btn btn-block btn-outline';
-    $('payTypeBtnShipping').className = type === 'shipping' ? 'btn btn-block btn-green' : 'btn btn-block btn-outline';
-    $('goodsPayFields').style.display = type === 'goods' ? 'block' : 'none';
-    $('shippingPayFields').style.display = type === 'shipping' ? 'block' : 'none';
-    $('payFormHeading').textContent = type === 'goods' ? 'Store Goods Settlement' : 'Freight Shipping Settlement';
-  };
+    document.querySelectorAll('[data-cartqty]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const id = btn.getAttribute('data-cartqty');
+        const delta = parseInt(btn.getAttribute('data-delta'));
+        const item = state.cart.find(c => c.id === id);
+        if (!item) return;
+        const newQty = item.qty + delta;
+        if (newQty <= 0) await sb.from('cart_items').delete().eq('id', id);
+        else await sb.from('cart_items').update({ qty: newQty }).eq('id', id);
+        await loadCart();
+      });
+    });
 
-  window.goToPaymentPortal = function(type = 'goods') {
-    window.setPaymentType(type);
-    if (state.user) $('payClientName').value = (state.user.mark || 'ADM') + ' — ' + state.user.name + ' (' + (state.user.phone || 'Admin') + ')';
-    if (type === 'goods') {
-      if (!state.cart.length) return window.toast('Shopping cart is empty.', 'err');
-      $('payItemSummary').value = state.cart.map(i => i.product_name + (i.size? ' [Size: '+i.size+']':'') + (i.color? ' [Color: '+i.color+']':'') + ' (x' + i.qty + ')').join(', ');
-      $('payTotalAmount').value = state.cart.reduce((s, i) => s + i.price * i.qty, 0).toFixed(2);
-    } else {
-      const seaVal = parseFloat(($('seaGhs').textContent||'').replace(/[^0-9.]/g,'')) || 0;
-      const airVal = parseFloat(($('airGhs').textContent||'').replace(/[^0-9.]/g,'')) || 0;
-      $('payShipDesc').value = 'Freight Logistics Settlement';
-      $('payTotalAmount').value = (seaVal || airVal || 0).toFixed(2);
-    }
-    window.selectPaymentSlot('momo');
-    window.go('payment');
-  };
-
-  window.selectPaymentSlot = function(slot) {
-    state.selectedPaymentSlot = slot;
-    document.querySelectorAll('.pay-btn').forEach(b => b.classList.remove('active'));
-    $('pbtn-' + slot)?.classList.add('active');
-    const info = $('paySlotInfo');
-    if (slot === 'momo' || slot === 'telecel') {
-      info.innerHTML = '<p style="font-size:12px;font-weight:700;color:var(--navy);">Mobile Money Corporate Channel</p><p style="font-size:13px;color:var(--green-hover);font-weight:800;">Account Number: 0543155883</p><p style="font-size:11px;color:var(--slate);">Registered Name: Richmond Wireko Brobbey</p>';
-    } else {
-      info.innerHTML = '<p style="font-size:12px;font-weight:700;color:var(--navy);">GTBank Corporate Clearing</p><p style="font-size:13px;color:var(--green-hover);font-weight:800;">Account Number: 1304001024705</p><p style="font-size:11px;color:var(--slate);">Registered Name: Richmond Wireko Brobbey</p>';
-    }
-  };
-
-  window.handleProofFile = function(e) {
-    const f = e.target.files[0]; if (!f) return;
-    const r = new FileReader();
-    r.onload = ev => { state.paymentProofBase64 = ev.target.result; window.toast('Remittance proof attached.', 'ok'); };
-    r.readAsDataURL(f);
-  };
-
-  window.submitPayment = async function(e) {
-    e.preventDefault();
-    if (!state.user) return;
-    const isShipping = state.paymentCategory === 'shipping';
-    const order = {
-      user_id: state.user.id,
-      client_name: state.user.name,
-      client_mark: state.user.mark || 'ADM',
-      type: isShipping ? 'Shipping Cost' : 'Cart Goods',
-      summary: isShipping ? $('payShipDesc').value.trim() : $('payItemSummary').value.trim(),
-      total: parseFloat($('payTotalAmount').value) || 0,
-      slot: state.selectedPaymentSlot,
-      tx_ref: $('payTxRef').value.trim(),
-      proof: state.paymentProofBase64 || null,
-      status: 'Pending Verification'
-    };
-    showLoading(true, 'Submitting remittance for executive audit...');
-    const { error } = await sb.from('orders').insert(order);
-    showLoading(false);
-    if (error) return window.toast(error.message, 'err');
-    window.toast('Remittance submitted. Awaiting verification.', 'ok');
-    state.paymentProofBase64 = '';
-    $('payTxRef').value = '';
-    if (!isShipping) await window.clearCart();
-    await loadOrders();
-    loadPaymentHistory();
-  };
-
-  async function loadPaymentHistory() {
-    await loadOrders();
-    const container = $('myPaymentsList'); if (!container) return;
-    if (!state.orders.length) {
-      container.innerHTML = '<div style="background:#fff; padding:16px; border-radius:8px; color:var(--slate);">No payment records on file.</div>';
-      return;
-    }
-    container.innerHTML = state.orders.map(o => {
-      const proof = o.proof ? '<a href="'+o.proof+'" target="_blank" style="color:var(--green); font-weight:700;">View Receipt</a>' : 'No Receipt';
-      const cls = o.status === 'Verified' ? 'pill-verified' : 'pill-pending';
-      return '<div style="background:#fff; padding:14px; border-radius:8px; margin-bottom:10px; border:1px solid var(--border-color);"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span class="pill pill-type">'+esc(o.type)+'</span><span class="pill '+cls+'">'+esc(o.status)+'</span></div><h3 style="font-size:14px;">'+esc(o.summary)+'</h3><p style="font-weight:800;color:var(--green);font-size:13px;margin-top:2px;">'+fmtGHS(o.total)+' | '+esc(o.slot)+'</p><div style="font-size:11px;color:var(--slate);margin-top:4px;">Ref: <code>'+esc(o.tx_ref||'')+'</code> | '+proof+'</div></div>';
-    }).join('');
+    document.querySelectorAll('[data-removecart]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const id = btn.getAttribute('data-removecart');
+        await sb.from('cart_items').delete().eq('id', id);
+        await loadCart();
+        toast('Reservation removed.', 'ok');
+      });
+    });
   }
 
   async function loadTrackingAndChat() {
@@ -1622,12 +1714,9 @@ window.addEventListener('DOMContentLoaded', () => {
         <p style="font-size:13px; color:var(--navy); font-weight:600;">${esc(state.tracking.message)}</p>
         <p style="font-size:10px; color:var(--slate); margin-top:4px;">Last Audited: ${new Date(state.tracking.updated_at).toLocaleString()}</p>
       </div>`;
-
     const dg = state.settings.deliveryGuy || {};
     $('deliveryGuyInfoCard').innerHTML = `Assigned Courier: <strong>${esc(dg.name||'—')}</strong> (${esc(dg.phone||'—')})`;
-
     await loadMessages(state.user.id);
-    subscribeToMessages(state.user.id);
   }
 
   async function loadMessages(uid) {
@@ -1647,66 +1736,31 @@ window.addEventListener('DOMContentLoaded', () => {
     box.scrollTop = box.scrollHeight;
   }
 
-  function subscribeToMessages(uid) {
-    if (state.chatSubscription) sb.removeChannel(state.chatSubscription);
-    state.chatSubscription = sb.channel('msg-'+uid)
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: 'user_id=eq.'+uid }, (payload) => {
-        state.messages.push(payload.new);
-        renderChat($('bargainChatBox'), state.messages, 'Client');
-        if ($('p-deliveryportal').classList.contains('active')) window.loadCourierChat();
-      }).subscribe();
-  }
-
-  window.sendBargainMessage = async function(e) {
-    e.preventDefault();
-    const text = $('bargainInput').value.trim(); if (!text || !state.user) return;
-    await sb.from('messages').insert({ user_id: state.user.id, sender: 'Client', text });
-    $('bargainInput').value = '';
-  };
-
   async function loadCourierPortal() {
     if (!state.user || state.user.role !== 'delivery') return;
-
     const { data: clients } = await sb.from('profiles').select('id, name, mark, phone, location').eq('role', 'client');
     const clientList = clients || [];
-
     const { data: dispatch } = await sb.from('tracking').select('user_id, status').eq('status', 'Out for Delivery');
-    const dispatchHtml = (dispatch || []).map(d => {
+    $('courierDeliveriesList').innerHTML = (dispatch || []).map(d => {
       const c = clientList.find(x => x.id === d.user_id);
       if (!c) return '';
       return `<div style="background:#F8FAFC; border:1px solid var(--border-color); padding:12px; border-radius:8px; margin-bottom:8px; font-size:12px;"><strong>Consignee:</strong> ${esc(c.name)} (${esc(c.mark)})<br>Destination: ${esc(c.location)} | Contact: ${esc(c.phone)}</div>`;
-    }).join('');
-    $('courierDeliveriesList').innerHTML = dispatchHtml || '<p style="color:var(--slate);">No active dispatches pending.</p>';
+    }).join('') || '<p style="color:var(--slate);">No active dispatches pending.</p>';
 
     $('courierNewClientsList').innerHTML = clientList.length
       ? '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Importer</th><th>Mark ID</th><th>Contact / Location</th></tr></thead><tbody>' + clientList.map(c => `<tr><td><strong>${esc(c.name)}</strong></td><td><code>${esc(c.mark)}</code></td><td>${esc(c.phone||'')}<br><span style="font-size:11px;color:var(--slate);">${esc(c.location||'')}</span></td></tr>`).join('') + '</tbody></table></div>'
       : '<p style="color:var(--slate);">No registered importers.</p>';
 
     $('courierClientSelect').innerHTML = clientList.map(c => `<option value="${c.id}">${esc(c.name)} (${esc(c.mark)})</option>`).join('');
-    window.loadCourierChat();
+    loadCourierChat();
   }
 
-  window.loadCourierChat = async function() {
-    const uid = $('courierClientSelect').value;
-    if (!uid) return;
+  async function loadCourierChat() {
+    const uid = $('courierClientSelect').value; if (!uid) return;
     state.activeCourierClientId = uid;
     const { data } = await sb.from('messages').select('*').eq('user_id', uid).order('created_at');
     renderChat($('courierChatBox'), data || [], 'Courier');
-
-    if (state.chatSubscription) sb.removeChannel(state.chatSubscription);
-    state.chatSubscription = sb.channel('cmsg-'+uid)
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: 'user_id=eq.'+uid }, () => window.loadCourierChat())
-      .subscribe();
-  };
-
-  window.sendCourierMessage = async function(e) {
-    e.preventDefault();
-    const text = $('courierInputMsg').value.trim();
-    const uid = $('courierClientSelect').value;
-    if (!text || !uid) return;
-    await sb.from('messages').insert({ user_id: uid, sender: 'Courier', text });
-    $('courierInputMsg').value = '';
-  };
+  }
 
   async function loadAdmin() {
     if (!state.user || state.user.role !== 'admin') return;
@@ -1723,12 +1777,43 @@ window.addEventListener('DOMContentLoaded', () => {
     $('statChatCount').textContent = chatCount;
 
     const { data: prods } = await sb.from('products').select('*').order('created_at', { ascending: false });
-    $('adminProductsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Product</th><th>Price</th><th>Attributes</th><th>Action</th></tr></thead><tbody>' + (prods||[]).map(p => `<tr><td>${esc(p.name)}</td><td>${fmtGHS(p.price)}</td><td style="font-size:11px; color:var(--slate);">Sizes: ${esc(p.sizes||localStorage.getItem('prod_sizes_'+p.id)||'—')}<br>Colors: ${esc(p.colors||p.color||localStorage.getItem('prod_colors_'+p.id)||'—')}</td><td><div style="display:flex; gap:6px;"><button class="btn btn-sm btn-blue" onclick="window.editCatalogProduct('${p.id}')">Edit</button><button class="btn btn-sm btn-danger" onclick="window.deleteCatalogProduct('${p.id}')">Delete</button></div></td></tr>`).join('') + '</tbody></table></div>';
+    $('adminProductsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Product</th><th>Price</th><th>Attributes</th><th>Action</th></tr></thead><tbody>' + (prods||[]).map(p => `<tr><td>${esc(p.name)}</td><td>${fmtGHS(p.price)}</td><td style="font-size:11px; color:var(--slate);">Sizes: ${esc(p.sizes||localStorage.getItem('prod_sizes_'+p.id)||'—')}<br>Colors: ${esc(p.colors||p.color||localStorage.getItem('prod_colors_'+p.id)||'—')}</td><td><div style="display:flex; gap:6px;"><button class="btn btn-sm btn-blue" data-editprod="${p.id}">Edit</button><button class="btn btn-sm btn-danger" data-delprod="${p.id}">Delete</button></div></td></tr>`).join('') + '</tbody></table></div>';
+
+    document.querySelectorAll('[data-editprod]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-editprod');
+        const p = state.products.find(x => x.id === id);
+        if (!p) return;
+        $('editingProdId').value = p.id;
+        $('npName').value = p.name \vert{}\vert{} '';$('npCat').value = p.category || '';
+        $('npPrice').value = p.price \vert{}\vert{} '';$('npType').value = p.type || 'preorder';
+        $('npSizes').value = p.sizes \vert{}\vert{} '';$('npColors').value = p.colors || p.color || '';
+        let imgList = [];
+        try { if (p.images) imgList = typeof p.images === 'string' ? JSON.parse(p.images) : p.images; } catch(e){}
+        if (!imgList.length && p.image) imgList = [p.image];
+        $('npImgUrls').value = imgList.join(', ');
+        state.uploadedImagesBase64 = [];
+        $('productFormHeading').textContent = 'Edit Product: ' + p.name;
+        $('prodSubmitBtn').textContent = 'Commit Changes';$('cancelEditBtn').style.display = 'inline-flex';
+        window.scrollTo({ top: 0, behavior: 'auto' });
+      });
+    });
+
+    document.querySelectorAll('[data-delprod]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const id = btn.getAttribute('data-delprod');
+        if (!confirm('Authorize deletion of catalog item?')) return;
+        showLoading(true, 'Removing item...');
+        await sb.from('products').delete().eq('id', id);
+        showLoading(false);
+        toast('Item removed.', 'ok');
+        await loadProducts(); renderProducts(); loadAdmin();
+      });
+    });
 
     const { data: clients } = await sb.from('profiles').select('*').eq('role','client').order('date_registered', { ascending: false });
     window.__adminClients = clients || [];
     $('adminClientsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Shipping Mark</th><th>Referral</th></tr></thead><tbody>' + (clients||[]).map(c => '<tr><td><strong>'+esc(c.name)+'</strong></td><td>'+esc(c.email)+'</td><td>'+esc(c.phone||'')+'</td><td><code>'+esc(c.mark)+'</code></td><td>'+esc(c.referred_by||'Direct')+'</td></tr>').join('') + '</tbody></table></div>';
-
     $('admTrackClientSelect').innerHTML = (clients||[]).map(c => `<option value="${c.id}">${esc(c.name)} (${esc(c.mark)})</option>`).join('');
 
     const { data: tracks } = await sb.from('tracking').select('*, profiles(name, mark)').order('updated_at', { ascending: false });
@@ -1736,9 +1821,21 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const { data: orders } = await sb.from('orders').select('*').order('created_at', { ascending: false });
     $('adminPaymentsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Importer</th><th>Remittance Summary</th><th>Total</th><th>Audit Status</th></tr></thead><tbody>' + (orders||[]).map(o => {
-      const btn = o.status === 'Verified' ? '<span class="pill pill-verified">Verified</span> <button class="btn btn-sm btn-outline" onclick="window.toggleOrderVerify(\''+o.id+'\')">Unverify</button>' : '<span class="pill pill-pending">Pending</span> <button class="btn btn-sm btn-green" onclick="window.toggleOrderVerify(\''+o.id+'\')">Verify</button>';
+      const btn = o.status === 'Verified' ? '<span class="pill pill-verified">Verified</span> <button class="btn btn-sm btn-outline" data-toggleord="'+o.id+'">Unverify</button>' : '<span class="pill pill-pending">Pending</span> <button class="btn btn-sm btn-green" data-toggleord="'+o.id+'">Verify</button>';
       return '<tr><td>'+esc(o.client_name)+'<br><code style="font-size:11px;">'+esc(o.client_mark)+'</code></td><td>'+esc(o.summary)+'<br><span class="pill pill-type" style="font-size:10px;">'+esc(o.type)+'</span></td><td>'+fmtGHS(o.total)+'</td><td>'+btn+'</td></tr>';
     }).join('') + '</tbody></table></div>';
+
+    document.querySelectorAll('[data-toggleord]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const id = btn.getAttribute('data-toggleord');
+        const { data: o } = await sb.from('orders').select('status').eq('id', id).single();
+        if (!o) return;
+        const newStatus = o.status === 'Verified' ? 'Pending Verification' : 'Verified';
+        await sb.from('orders').update({ status: newStatus }).eq('id', id);
+        toast('Remittance audit status updated.', 'ok');
+        loadAdmin();
+      });
+    });
 
     const { data: ads } = await sb.from('ads').select('*').order('created_at', { ascending: false });
     $('adminAdsList').innerHTML = '<div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Requester</th><th>Contact</th><th>Specifications</th></tr></thead><tbody>' + (ads||[]).map(a => '<tr><td>'+esc(a.name)+'</td><td>'+esc(a.contact)+'</td><td>'+esc(a.details)+'</td></tr>').join('') + '</tbody></table></div>';
@@ -1752,158 +1849,39 @@ window.addEventListener('DOMContentLoaded', () => {
     }).join('') || '<p style="color:var(--slate);">No active communications recorded.</p>';
 
     const dg = state.settings.deliveryGuy || {};
-    $('dgName').value = dg.name || '';
-    $('dgEmail').value = dg.email \vert{}\vert{} '';$('dgPass').value = dg.pass || '';
-    $('dgPhone').value = dg.phone \vert{}\vert{} '';$('dgZone').value = dg.zone || '';
-
+    $('dgName').value = dg.name || ''; $('dgEmail').value = dg.email \vert{}\vert{} '';$('dgPass').value = dg.pass || ''; $('dgPhone').value = dg.phone \vert{}\vert{} '';$('dgZone').value = dg.zone || '';
     $('cfgHeroTitle').value = state.settings.heroTitle \vert{}\vert{} '';$('cfgHeroSub').value = state.settings.heroSub || '';
   }
 
-  window.toggleOrderVerify = async function(id) {
-    const { data: o } = await sb.from('orders').select('status').eq('id', id).single();
-    if (!o) return;
-    const newStatus = o.status === 'Verified' ? 'Pending Verification' : 'Verified';
-    await sb.from('orders').update({ status: newStatus }).eq('id', id);
-    window.toast('Remittance audit status updated.', 'ok');
-    loadAdmin();
-  };
-
-  window.adminUpdateTracking = async function(e) {
-    e.preventDefault();
-    const uid = $('admTrackClientSelect').value;
-    const payload = { user_id: uid, status: $('admTrackStatusSelect').value, message:$('admTrackMsg').value.trim(), updated_at: new Date().toISOString() };
-    const { error } = await sb.from('tracking').upsert(payload);
-    if (error) return window.toast(error.message, 'err');
-    window.toast('Tracking status committed.', 'ok');
-    $('admTrackMsg').value = '';
-    loadAdmin();
-  };
-
-  window.saveDeliveryGuyInfo = async function(e) {
-    e.preventDefault();
-    const dg = { name: $('dgName').value.trim(), email: $('dgEmail').value.trim(), pass:$('dgPass').value.trim(), phone: $('dgPhone').value.trim(), zone:$('dgZone').value.trim() };
-    await sb.from('app_settings').update({ delivery_guy: dg }).eq('id', 1);
-    state.settings.deliveryGuy = dg;
-    window.toast('Courier profile updated.', 'ok');
-  };
-
-  window.savePortalSettings = async function(e) {
-    e.preventDefault();
-    await sb.from('app_settings').update({
-      hero_title: $('cfgHeroTitle').value.trim(),
-      hero_sub: $('cfgHeroSub').value.trim(),
-      updated_at: new Date().toISOString()
-    }).eq('id', 1);
-    state.settings.heroTitle = $('cfgHeroTitle').value.trim();
-    state.settings.heroSub = $('cfgHeroSub').value.trim();
-    applyPortalSettings();
-    window.toast('Portal content configuration committed.', 'ok');
-  };
-
-  window.saveLogoFile = async function(e) {
-    e.preventDefault();
-    if (!state.uploadedLogoBase64) return window.toast('Select a valid logo image.', 'err');
-    await sb.from('app_settings').update({ logo_url: state.uploadedLogoBase64 }).eq('id', 1);
-    state.settings.logoUrl = state.uploadedLogoBase64;
-    updateManifestWithLogo(state.uploadedLogoBase64);
-    applyPortalSettings();
-    window.toast('Platform branding updated.', 'ok');
-  };
-
-  window.adminTab = function(tab) {
-    document.querySelectorAll('.admin-nav-btn').forEach(t => t.classList.toggle('active', t.dataset.admintab === tab));
-    ['products','payments','tracking','monitoredchat','delivery','ads','clients','content'].forEach(t => {
-      const el = $('admin' + t.charAt(0).toUpperCase() + t.slice(1));
-      if (el) el.classList.toggle('active', t === tab);
-    });
-  };
-
-  window.exportClientData = function() {
-    const clients = window.__adminClients || [];
-    let csv = 'Name,Email,Phone,ShippingMark,Location,Referral\n';
-    clients.forEach(c => { csv += `"${c.name}","${c.email}","${c.phone||''}","${c.mark}","${c.location||''}","${c.referred_by||''}"\n`; });
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'everivault_importers_audit.csv'; a.click();
-    window.toast('Client database audit exported.', 'ok');
-  };
-
-  window.doSubmitReview = async function(e) {
-    e.preventDefault();
-    if (!state.user) return window.toast('Authentication required.', 'err');
-    const { error } = await sb.from('reviews').insert({
-      user_id: state.user.id,
-      name: state.user.name,
-      mark: state.user.mark || 'ADM',
-      rating: parseInt($('revRating').value),
-      comment: $('revComment').value.trim()
-    });
-    if (error) return window.toast(error.message, 'err');
-    $('revComment').value = '';
-    window.toast('Testimonial submitted for verification.', 'ok');
-    loadReviews();
-  };
-
-  window.submitAdvertisement = async function(e) {
-    e.preventDefault();
-    const { error } = await sb.from('ads').insert({
-      name: $('adName').value.trim(),
-      contact: $('adContact').value.trim(),
-      details: $('adDetails').value.trim()
-    });
-    if (error) return window.toast(error.message, 'err');
-    $('adName').value = ''; $('adContact').value = '';$('adDetails').value = '';
-    window.toast('Procurement request submitted successfully.', 'ok');
-  };
-
-  window.handleImageFiles = function(e) {
-    const files = e.target.files; if (!files || !files.length) return;
+  function resetProductForm() {
+    $('editingProdId').value = ''; $('npName').value = '';$('npCat').value = '';
+    $('npPrice').value = '';$('npType').value = 'preorder'; $('npSizes').value = '';$('npColors').value = ''; $('npImgUrls').value = '';$('npFile').value = '';
     state.uploadedImagesBase64 = [];
-    let processed = 0;
-    for (let i = 0; i < files.length; i++) {
-      const reader = new FileReader();
-      reader.onload = ev => {
-        state.uploadedImagesBase64.push(ev.target.result);
-        processed++;
-        if (processed === files.length) window.toast(files.length + ' image file(s) encoded securely.', 'ok');
-      };
-      reader.readAsDataURL(files[i]);
-    }
-  };
+    $('productFormHeading').textContent = 'Add Product';
+    $('prodSubmitBtn').textContent = 'Publish Product';$('cancelEditBtn').style.display = 'none';
+  }
 
-  window.handleLogoFileSelect = function(e) {
-    const f = e.target.files[0]; if (!f) return;
-    const r = new FileReader();
-    r.onload = ev => { state.uploadedLogoBase64 = ev.target.result; };
-    r.readAsDataURL(f);
-  };
-
-  window.calcMode = function(mode) {
-    ['sea','air','compare'].forEach(m => {
-      $('tabBtn'+m.charAt(0).toUpperCase()+m.slice(1)).classList.toggle('active', m === mode);$('calc'+m.charAt(0).toUpperCase()+m.slice(1)).classList.toggle('active', m === mode);
-    });
-  };
-
-  window.calcSea = function() {
+  function calcSea() {
     const l = +$('seaL').value\vert{}\vert{}0, w = +$('seaW').value||0, h = +$('seaH').value\vert{}\vert{}0, qty = +$('seaQty').value||1;
     const cbm = (l*w*h/1e6)*qty;
     const usd = cbm * (cbm >= 1 ? 255 : 260);
     $('seaCbm').textContent = cbm.toFixed(3);$('seaUsd').textContent = '$'+usd.toFixed(2);$('seaGhs').textContent = fmtGHS(usd*15.5);
-  };
+  }
 
-  window.calcAir = function() {
+  function calcAir() {
     const type = $('airType').value, kg = +$('airKg').value||0;
     const usd = type === 'device' ? (500/15.5) : kg*17;
     $('airUsd').textContent = '$'+usd.toFixed(2);$('airGhs').textContent = fmtGHS(type === 'device' ? 500 : usd*15.5);
-  };
+  }
 
-  window.calcCompare = function() {
+  function calcCompare() {
     const l=+$('compL').value\vert{}\vert{}0, w=+$('compW').value||0, h=+$('compH').value\vert{}\vert{}0, kg=+$('compKg').value||0;
     const cbm = l*w*h/1e6;
     const seaGhs = cbm*(cbm>=1?255:260)*15.5;
     const airGhs = kg*17*15.5;
     $('compSeaRes').textContent = fmtGHS(seaGhs)+` (${cbm.toFixed(3)} m³)`;
     $('compAirRes').textContent = fmtGHS(airGhs)+` (${kg.toFixed(1)} kg)`;
-  };
+  }
 
   function applyUserState() {
     const isLoggedIn = !!state.user;
@@ -1923,7 +1901,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if ($('referralBannerBox')) {$('referralBannerBox').style.display = isClient ? 'block' : 'none';
       if (isClient) $('userReferralLinkDisplay').textContent = location.origin + '/?ref=' + state.user.mark;
     }
-    window.renderProducts();
+    renderProducts();
   }
 
   function applyPortalSettings() {
@@ -1941,29 +1919,40 @@ window.addEventListener('DOMContentLoaded', () => {
 
   sb.auth.onAuthStateChange(async (event, session) => {
     if (event === 'SIGNED_OUT') {
-      state.user = null;
-      state.cart = [];
-      updateCartBadge();
-      applyUserState();
+      state.user = null; state.cart = []; updateCartBadge(); applyUserState();
     } else if (session?.user && !state.user) {
       try { await loadUserProfile(session.user.id); applyUserState(); } catch(e) {}
-    } else if (event === 'PASSWORD_RECOVERY') {
-      window.go('auth');
-      window.authTab('reset');
-      const newPassword = prompt('Enter your new secure password (minimum 6 characters):');
-      if (newPassword && newPassword.length >= 6) {
-        const { error } = await sb.auth.updateUser({ password: newPassword });
-        if (!error) {
-          window.toast('Password updated successfully. Please sign in.', 'ok', 4000);
-          window.authTab('login');
-        } else {
-          window.toast('Password update error: ' + error.message, 'err');
-        }
-      } else {
-        window.toast('Password must be at least 6 characters.', 'err');
-      }
     }
   });
+
+  async function loadUserProfile(uid) {
+    const { data, error } = await sb.from('profiles').select('*').eq('id', uid).single();
+    if (error) {
+      const { data: authUser } = await sb.auth.getUser();
+      if (authUser?.user?.email === 'richmonwireko@gmail.com') {
+        const newProf = { id: uid, email: authUser.user.email, name: 'Richmond Wireko', role: 'admin', mark: 'GH001K-ADM-0543', date_registered: new Date().toLocaleDateString() };
+        await sb.from('profiles').upsert(newProf);
+        state.user = newProf;
+        return;
+      }
+      throw error;
+    }
+    state.user = data;
+  }
+
+  async function loadPaymentHistory() {
+    await loadOrders();
+    const container = $('myPaymentsList'); if (!container) return;
+    if (!state.orders.length) {
+      container.innerHTML = '<div style="background:#fff; padding:16px; border-radius:8px; color:var(--slate);">No payment records on file.</div>';
+      return;
+    }
+    container.innerHTML = state.orders.map(o => {
+      const proof = o.proof ? '<a href="'+o.proof+'" target="_blank" style="color:var(--green); font-weight:700;">View Receipt</a>' : 'No Receipt';
+      const cls = o.status === 'Verified' ? 'pill-verified' : 'pill-pending';
+      return '<div style="background:#fff; padding:14px; border-radius:8px; margin-bottom:10px; border:1px solid var(--border-color);"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span class="pill pill-type">'+esc(o.type)+'</span><span class="pill '+cls+'">'+esc(o.status)+'</span></div><h3 style="font-size:14px;">'+esc(o.summary)+'</h3><p style="font-weight:800;color:var(--green);font-size:13px;margin-top:2px;">'+fmtGHS(o.total)+' | '+esc(o.slot)+'</p><div style="font-size:11px;color:var(--slate);margin-top:4px;">Ref: <code>'+esc(o.tx_ref||'')+'</code> | '+proof+'</div></div>';
+    }).join('');
+  }
 
   (async function init() {
     try {
@@ -1985,7 +1974,7 @@ window.addEventListener('DOMContentLoaded', () => {
       }
 
       applyUserState();
-      window.renderProducts();
+      renderProducts();
       updateCartBadge();
 
       const activePage = document.querySelector('.page.active')?.id?.replace('p-', '') || 'home';
