@@ -23,6 +23,13 @@
   --slate: #64748B; --slate-light: #94A3B8;
   --bg-light: #F8FAFC; --border-color: #E2E8F0;
   --card-shadow: 0 12px 35px -5px rgba(10,25,47,0.08);
+  
+  /* Executive Theme Refinements */
+  --admin-bg: #0F172A;
+  --admin-card-bg: #1E293B;
+  --admin-border: #334155;
+  --admin-text: #F8FAFC;
+  --admin-muted: #94A3B8;
 }
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif; -webkit-tap-highlight-color:transparent; }
 html { scroll-behavior:smooth; }
@@ -101,18 +108,35 @@ input:focus, select:focus, textarea:focus { outline:none; border-color:var(--dee
 .cn-text-box { background:#fff; border:1.5px solid #CBD5E1; border-radius:8px; padding:12px; margin:10px 0; font-family:monospace; font-size:13px; color:#0F172A; word-break:break-all; }
 .contact-row { display:flex; justify-content:space-between; align-items:center; background:#fff; padding:10px 14px; border-radius:8px; border:1px solid var(--border-color); margin-bottom:8px; font-size:13px; }
 
-.admin-stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:16px; margin-bottom:28px; }
-.stat-card { background:#fff; padding:20px; border-radius:12px; border:1px solid var(--border-color); box-shadow:var(--card-shadow); }
-.stat-card h4 { font-size:11px; color:var(--slate); text-transform:uppercase; margin-bottom:4px; font-weight:700; letter-spacing:0.5px; }
-.stat-card .val { font-size:26px; font-weight:800; color:var(--navy); }
+/* REFINED ADMIN EXECUTIVE SUITE STYLING */
+#p-admin { background: var(--admin-bg); color: var(--admin-text); }
+#p-admin .container { max-width: 1280px; }
+.admin-header-card { background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%); border: 1px solid var(--admin-border); padding: 24px; border-radius: 16px; margin-bottom: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.admin-header-card h2 { color: #34D399; text-align: left; margin-bottom: 4px; font-size: 24px; }
+.admin-header-card h2::after { display: none; }
+.admin-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px; margin-bottom: 32px; }
+.admin-stat-card { background: var(--admin-card-bg); padding: 22px; border-radius: 14px; border: 1px solid var(--admin-border); box-shadow: 0 8px 20px rgba(0,0,0,0.25); position: relative; overflow: hidden; }
+.admin-stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--green); }
+.admin-stat-card h4 { font-size: 11px; color: var(--admin-muted); text-transform: uppercase; margin-bottom: 6px; font-weight: 700; letter-spacing: 1px; }
+.admin-stat-card .val { font-size: 30px; font-weight: 800; color: #F8FAFC; }
 
-.admin-table { width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; box-shadow:var(--card-shadow); }
-.admin-table th { background:var(--navy); color:#fff; padding:14px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; }
-.admin-table td { padding:14px; border-bottom:1px solid var(--border-color); font-size:13px; }
+.admin-panel-box { background: var(--admin-card-bg); padding: 28px; border-radius: 16px; border: 1px solid var(--admin-border); margin-bottom: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+.admin-panel-box h3 { color: #F8FAFC; margin-bottom: 8px; font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.admin-panel-box p { color: var(--admin-muted); font-size: 13px; margin-bottom: 18px; }
+#p-admin label { color: #CBD5E1; }
+#p-admin input, #p-admin select, #p-admin textarea { background: #0F172A; border-color: var(--admin-border); color: #F8FAFC; }
+#p-admin input:focus, #p-admin select:focus { border-color: #34D399; background: #0B132B; }
 
-.pill { display:inline-block; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700; }
-.pill-verified { background:#D1FAE5; color:#166534; }
-.pill-pending { background:#FEF3C7; color:#92400E; }
+.admin-table-wrap { width: 100%; overflow-x: auto; border-radius: 12px; border: 1px solid var(--admin-border); }
+.admin-table { width: 100%; border-collapse: collapse; background: #0F172A; text-align: left; }
+.admin-table th { background: #1E293B; color: #34D399; padding: 16px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; border-bottom: 2px solid var(--admin-border); }
+.admin-table td { padding: 16px; border-bottom: 1px solid var(--admin-border); font-size: 13px; color: #E2E8F0; }
+.admin-table tr:last-child td { border-bottom: none; }
+.admin-table tr:hover { background: rgba(255,255,255,0.02); }
+
+.pill { display:inline-block; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:700; }
+.pill-verified { background:rgba(5,150,105,0.2); color:#34D399; border: 1px solid rgba(5,150,105,0.4); }
+.pill-pending { background:rgba(245,158,11,0.2); color:#FBBF24; border: 1px solid rgba(245,158,11,0.4); }
 
 .page { display:none; }
 .page.active { display:block; }
@@ -270,7 +294,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
         <button class="tab" data-authtab="reset">Password Recovery</button>
       </div>
 
-      <!-- Sign In Tab (Accepts registered client Email or Tracking Mark only) -->
+      <!-- Sign In Tab (Accepts ONLY registered client email or tracking mark) -->
       <div id="tLogin" class="tab-content active">
         <form id="loginForm">
           <div class="form-group"><label>Registered Email or Tracking Mark</label><input type="text" id="uniIdent" required placeholder="e.g. yourname@gmail.com or GH001K-RICHMOND-0543155883"></div>
@@ -368,31 +392,37 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
   </div>
 </section>
 
-<!-- MASTER EXECUTIVE SUITE (ADMIN ONLY) -->
+<!-- MASTER EXECUTIVE SUITE (ADMIN ONLY) — REFINED DARK THEME -->
 <section id="p-admin" class="page">
   <div class="container">
-    <div style="background:var(--navy); color:#fff; padding:20px; border-radius:12px; margin-bottom:24px;">
-      <h2 style="color:var(--green); text-align:left; margin-bottom:2px;">Master Executive Suite</h2>
-      <p style="color:var(--slate-light); font-size:12px;">Authenticated Executive: Richmond Wireko Brobbey (Admin Portal Only)</p>
+    <div class="admin-header-card">
+      <div>
+        <h2>Master Executive Suite</h2>
+        <p style="color:var(--admin-muted); font-size:12px;">Authenticated Executive: Richmond Wireko Brobbey (Admin Portal Only)</p>
+      </div>
+      <div>
+        <span class="pill pill-verified" style="font-size:12px; padding:6px 14px;">System Secure & Online</span>
+      </div>
     </div>
     
     <div class="admin-stats-grid">
-      <div class="stat-card"><h4>Registered Clients</h4><div class="val" id="statClientCount">0</div></div>
-      <div class="stat-card"><h4>Catalog Items</h4><div class="val" id="statProdCount">0</div></div>
-      <div class="stat-card"><h4>Delivery Personnel</h4><div class="val" id="statCourierCount">0</div></div>
-      <div class="stat-card"><h4>Pending Payments</h4><div class="val" id="statPayCount">0</div></div>
+      <div class="admin-stat-card"><h4>Registered Clients</h4><div class="val" id="statClientCount">0</div></div>
+      <div class="admin-stat-card"><h4>Catalog Items</h4><div class="val" id="statProdCount">0</div></div>
+      <div class="admin-stat-card"><h4>Delivery Personnel</h4><div class="val" id="statCourierCount">0</div></div>
+      <div class="admin-stat-card"><h4>Pending Payments</h4><div class="val" id="statPayCount">0</div></div>
     </div>
 
     <!-- 1. Payment Verification & Audit Desk -->
-    <div style="background:#fff; padding:24px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:24px; box-shadow:var(--card-shadow); border-left:4px solid var(--green);">
-      <h3 style="margin-bottom:6px; color:var(--navy);">Payment Verification & Audit Desk (Admin Only)</h3>
-      <p style="font-size:12px; color:var(--slate); margin-bottom:14px;">Review client payment proofs and notify them instantly upon verification.</p>
+    <div class="admin-panel-box" style="border-left: 4px solid var(--green);">
+      <h3>Payment Verification & Audit Desk (Admin Only)</h3>
+      <p>Review client payment proofs and notify them instantly upon verification.</p>
       <div id="adminPaymentsList"></div>
     </div>
 
     <!-- 2. Add Wholesale Item (Unlimited Inventory & Multiple Photos/Videos) -->
-    <div style="background:#fff; padding:24px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:24px; box-shadow:var(--card-shadow);">
-      <h3 style="margin-bottom:14px; color:var(--navy);">Add Wholesale Item (Unlimited Inventory & Media)</h3>
+    <div class="admin-panel-box">
+      <h3>Add Wholesale Item (Unlimited Inventory & Media)</h3>
+      <p>Upload new factory-direct inventory items with unlimited photos and videos.</p>
       <form id="addProductForm">
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px;">
           <div class="form-group"><label>Product Title</label><input type="text" id="npName" required placeholder="e.g. DTF Printer Pro"></div>
@@ -414,8 +444,9 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
     </div>
 
     <!-- 3. Update Global Goods Tracking Milestone -->
-    <div style="background:#fff; padding:24px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:24px; box-shadow:var(--card-shadow);">
-      <h3 style="margin-bottom:14px; color:var(--navy);">Update Global Goods Tracking Milestone</h3>
+    <div class="admin-panel-box">
+      <h3>Update Global Goods Tracking Milestone</h3>
+      <p>Manage shipping progress stages for registered clients.</p>
       <form id="updateTrackingForm">
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px;">
           <div class="form-group"><label>Select Client</label><select id="adminTrackClientSelect" required></select></div>
@@ -434,8 +465,9 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
     </div>
 
     <!-- 4. Register New Delivery Courier -->
-    <div style="background:#fff; padding:24px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:24px; box-shadow:var(--card-shadow);">
-      <h3 style="margin-bottom:14px; color:var(--navy);">Register New Delivery Courier</h3>
+    <div class="admin-panel-box">
+      <h3>Register New Delivery Courier</h3>
+      <p>Provision portal credentials for dispatch personnel.</p>
       <form id="addCourierForm">
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px;">
           <div class="form-group"><label>Courier Name</label><input type="text" id="dcName" required placeholder="e.g. Yaw Mensah"></div>
@@ -448,14 +480,16 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
     </div>
 
     <!-- 5. Registered Clients & Referrals Audit Log (Unlimited) -->
-    <div style="background:#fff; padding:20px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:24px;">
-      <h3 style="margin-bottom:12px; color:var(--navy);">Registered Clients & Referrals Audit Log (Unlimited)</h3>
+    <div class="admin-panel-box">
+      <h3>Registered Clients & Referrals Audit Log (Unlimited)</h3>
+      <p>Complete record of all verified importers and their selections.</p>
       <div id="adminClientsList"></div>
     </div>
 
     <!-- 6. Catalog Inventory Management (Unlimited) -->
-    <div style="background:#fff; padding:20px; border-radius:12px; border:1px solid var(--border-color);">
-      <h3 style="margin-bottom:12px; color:var(--navy);">Catalog Inventory (Unlimited)</h3>
+    <div class="admin-panel-box">
+      <h3>Catalog Inventory (Unlimited)</h3>
+      <p>Manage active wholesale store catalog listings.</p>
       <div id="adminProductsList"></div>
     </div>
   </div>
@@ -565,7 +599,13 @@ document.addEventListener('DOMContentLoaded', () => {
   ]));
   let messages = JSON.parse(localStorage.getItem('ev_messages') || '[]');
   let payments = JSON.parse(localStorage.getItem('ev_payments') || '[]');
+  
+  // Force log out already registered clients as requested
   let currentUser = JSON.parse(localStorage.getItem('ev_user') || 'null');
+  if (currentUser && currentUser.role === 'client') {
+    currentUser = null;
+    localStorage.removeItem('ev_user');
+  }
 
   // Check 24-hour cart item expiration for registered clients
   function checkCartExpirations() {
@@ -575,9 +615,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (c.cart && c.cart.length) {
         const initialLen = c.cart.length;
         c.cart = c.cart.filter(item => {
-          // If item has addedTime, check if 24 hours have passed (24 * 60 * 60 * 1000 ms)
           if (item.addedTime && (now - item.addedTime > 86400000)) {
-            return false; // auto delete
+            return false; // auto delete after 24 hrs
           }
           return true;
         });
@@ -589,7 +628,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (currentUser && currentUser.role === 'client') renderClientPortal();
     }
   }
-  setInterval(checkCartExpirations, 60000); // Check every minute
+  setInterval(checkCartExpirations, 60000);
   checkCartExpirations();
 
   function generateMark(firstName, phone) {
@@ -1061,59 +1100,65 @@ document.addEventListener('DOMContentLoaded', () => {
     const payList = $('adminPaymentsList');
     if (payList) {
       payList.innerHTML = payments.length ? `
-        <table class="admin-table">
-          <thead><tr><th>Client & Mark</th><th>Reference</th><th>Proof</th><th>Status</th><th>Action</th></tr></thead>
-          <tbody>
-            ${payments.map(pay => `
-              <tr>
-                <td><strong>${pay.clientName}</strong><br><code>${pay.mark}</code></td>
-                <td>${pay.ref}<br><span style="font-size:10px; color:var(--slate);">${pay.time}</span></td>
-                <td><a href="${pay.proofUrl}" target="_blank"><img src="${pay.proofUrl}" style="width:50px;height:50px;object-fit:cover;border-radius:4px;border:1px solid #CBD5E1;"></a></td>
-                <td><span class="pill ${pay.status === 'Verified' ? 'pill-verified' : 'pill-pending'}">${pay.status}</span></td>
-                <td>
-                  ${pay.status === 'Pending Verification' ? `<button class="btn btn-sm btn-green" onclick="window.verifyPayment('${pay.id}')">Verify Payment</button>` : '<span style="color:var(--green); font-weight:700; font-size:12px;">Verified</span>'}
-                </td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>` : '<p style="color:var(--slate);">No payment proofs submitted yet.</p>';
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>Client & Mark</th><th>Reference</th><th>Proof</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody>
+              ${payments.map(pay => `
+                <tr>
+                  <td><strong>${pay.clientName}</strong><br><code style="color:#34D399;">${pay.mark}</code></td>
+                  <td>${pay.ref}<br><span style="font-size:10px; color:var(--admin-muted);">${pay.time}</span></td>
+                  <td><a href="${pay.proofUrl}" target="_blank"><img src="${pay.proofUrl}" style="width:50px;height:50px;object-fit:cover;border-radius:4px;border:1px solid var(--admin-border);"></a></td>
+                  <td><span class="pill ${pay.status === 'Verified' ? 'pill-verified' : 'pill-pending'}">${pay.status}</span></td>
+                  <td>
+                    ${pay.status === 'Pending Verification' ? `<button class="btn btn-sm btn-green" onclick="window.verifyPayment('${pay.id}')">Verify Payment</button>` : '<span style="color:#34D399; font-weight:700; font-size:12px;">Verified</span>'}
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>` : '<p style="color:var(--admin-muted);">No payment proofs submitted yet.</p>';
     }
 
     // Clients audit log table (with selected items count)
     $('adminClientsList').innerHTML = clients.length ? `
-      <table class="admin-table">
-        <thead><tr><th>Client Name</th><th>Email & Phone</th><th>Tracking Mark & Location</th><th>Selected Items</th><th>Milestone Status</th></tr></thead>
-        <tbody>
-          ${clients.map(c => `
-            <tr>
-              <td><strong>${c.name}</strong></td>
-              <td>${c.email}<br><strong>${c.phone}</strong></td>
-              <td><code>${c.mark}</code><br><span style="font-size:11px; color:var(--slate);">${c.location}</span></td>
-              <td>${(c.cart||[]).length} item(s) selected</td>
-              <td><span class="pill pill-verified">${c.status}</span></td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>` : '<p style="color:var(--slate);">No registered clients found.</p>';
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>Client Name</th><th>Email & Phone</th><th>Tracking Mark & Location</th><th>Selected Items</th><th>Milestone Status</th></tr></thead>
+          <tbody>
+            ${clients.map(c => `
+              <tr>
+                <td><strong>${c.name}</strong></td>
+                <td>${c.email}<br><strong>${c.phone}</strong></td>
+                <td><code style="color:#34D399;">${c.mark}</code><br><span style="font-size:11px; color:var(--admin-muted);">${c.location}</span></td>
+                <td>${(c.cart||[]).length} item(s) selected</td>
+                <td><span class="pill pill-verified">${c.status}</span></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>` : '<p style="color:var(--admin-muted);">No registered clients found.</p>';
 
     // Products table
     const list = $('adminProductsList');
     if (list) {
       list.innerHTML = products.length ? `
-        <table class="admin-table">
-          <thead><tr><th>Product Title</th><th>Category</th><th>Price</th><th>Media Files</th><th>Action</th></tr></thead>
-          <tbody>
-            ${products.map(p => `
-              <tr>
-                <td><strong>${p.name}</strong></td>
-                <td>${p.category}</td>
-                <td style="color:var(--green); font-weight:700;">GHS ${Number(p.price).toLocaleString()}</td>
-                <td>${(p.media||[]).length} file(s)</td>
-                <td><button class="btn btn-sm btn-danger" data-delprod="${p.id}">Delete</button></td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>` : '<p style="color:var(--slate);">No inventory items recorded.</p>';
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>Product Title</th><th>Category</th><th>Price</th><th>Media Files</th><th>Action</th></tr></thead>
+            <tbody>
+              ${products.map(p => `
+                <tr>
+                  <td><strong>${p.name}</strong></td>
+                  <td>${p.category}</td>
+                  <td style="color:#34D399; font-weight:700;">GHS ${Number(p.price).toLocaleString()}</td>
+                  <td>${(p.media||[]).length} file(s)</td>
+                  <td><button class="btn btn-sm btn-danger" data-delprod="${p.id}">Delete</button></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>` : '<p style="color:var(--admin-muted);">No inventory items recorded.</p>';
 
       list.querySelectorAll('[data-delprod]').forEach(btn => {
         btn.addEventListener('click', () => {
