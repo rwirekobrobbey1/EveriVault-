@@ -273,7 +273,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
       <!-- Sign In Tab -->
       <div id="tLogin" class="tab-content active">
         <form id="loginForm">
-          <div class="form-group"><label>Email / Shipping ID / Courier ID</label><input type="text" id="uniIdent" required placeholder="e.g. richmonwireko@gmail.com or delivery@everivault.com"></div>
+          <div class="form-group"><label>Email / Shipping ID / Courier ID</label><input type="text" id="uniIdent" required placeholder="e.g. richmonwireko@gmail.com"></div>
           <div class="form-group"><label>Password</label><input type="password" id="uniPw" required placeholder="••••••••"></div>
           <button class="btn btn-green btn-block" type="submit">Sign In to Portal</button>
         </form>
@@ -293,7 +293,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
 
       <!-- Password Recovery Tab -->
       <div id="tReset" class="tab-content">
-        <p style="font-size:12px; color:var(--slate); margin-bottom:14px;">Enter your registered details to generate/recover your tracking code instantly.</p>
+        <p style="font-size:12px; color:var(--slate); margin-bottom:14px;">Enter your registered details to recover your tracking code instantly.</p>
         <form id="resetForm">
           <div class="form-group"><label>First Name</label><input type="text" id="resetFirst" required placeholder="e.g. Richmond"></div>
           <div class="form-group"><label>Phone Number Used to Register</label><input type="tel" id="resetPhone" required placeholder="e.g. 0543155883"></div>
@@ -305,42 +305,60 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
   </div>
 </section>
 
-<!-- CLIENT DASHBOARD & TRACKING & CHAT -->
+<!-- CLIENT DASHBOARD & TRACKING & PAYMENT SUBMISSION -->
 <section id="p-clientportal" class="page">
   <div class="container">
-    <h2>Client Dashboard & Live Tracking</h2>
-    <p class="subtitle">Monitor your cargo milestone progress and negotiate delivery directly.</p>
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:20px; max-width:1000px; margin:0 auto;">
-      <div class="form-box" style="margin:0;">
-        <h3 style="color:var(--navy); margin-bottom:12px;" id="clientPortalName">Importer Portal</h3>
-        <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">Tracking Mark: <code id="clientPortalMark" style="background:#F1F5F9; padding:4px 8px; font-weight:800; color:var(--green);">GH001K-RICHMOND-0543155883</code></p>
-        
-        <div style="background:#F8FAFC; border:1px solid var(--border-color); padding:16px; border-radius:10px; margin-bottom:14px;">
-          <label>Current Shipment Milestone:</label>
-          <div id="clientLiveStatusDisplay" style="font-weight:800; color:var(--green); font-size:15px; margin-top:4px;">Goods Ordered</div>
+    <h2>Client Dashboard & Remittance Portal</h2>
+    <p class="subtitle">Monitor milestones, submit payment proofs, and negotiate delivery directly.</p>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:20px; max-width:1100px; margin:0 auto;">
+      
+      <!-- Left: Tracking & Payment Submission -->
+      <div style="display:flex; flex-direction:column; gap:20px;">
+        <div class="form-box" style="margin:0; width:100%;">
+          <h3 style="color:var(--navy); margin-bottom:8px;" id="clientPortalName">Importer Portal</h3>
+          <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">Tracking Mark: <code id="clientPortalMark" style="background:#F1F5F9; padding:4px 8px; font-weight:800; color:var(--green);">GH001K-RICHMOND-0543155883</code></p>
+          
+          <div style="background:#F8FAFC; border:1px solid var(--border-color); padding:16px; border-radius:10px; margin-bottom:14px;">
+            <label>Current Shipment Milestone:</label>
+            <div id="clientLiveStatusDisplay" style="font-weight:800; color:var(--green); font-size:15px; margin-top:4px;">Goods Ordered</div>
+          </div>
+
+          <div style="background:#FEF3C7; border:1px solid #FCD34D; padding:12px; border-radius:8px; font-size:12px; color:#92400E;">
+            <strong>Official Payment Scheme:</strong> MTN MoMo: 0543155883 / GTBank: 1304001024705 (Richmond Wireko Brobbey).
+          </div>
         </div>
 
-        <div style="background:#FEF3C7; border:1px solid #FCD34D; padding:12px; border-radius:8px; font-size:12px; color:#92400E; margin-bottom:14px;">
-          <strong>Security Notice to Client:</strong> All payments for store purchases or shipping logistics must be done strictly to official payment schemes (MTN MoMo: 0543155883 / GTBank: 1304001024705). Never hand cash to unofficial third-party agents.
+        <!-- Submit Payment Proof Form -->
+        <div class="form-box" style="margin:0; width:100%; border:2px solid var(--green);">
+          <h3 style="color:var(--green); margin-bottom:8px;">Submit Payment Proof</h3>
+          <p style="font-size:12px; color:var(--slate); margin-bottom:12px;">Upload receipt screenshot and transaction reference for executive audit.</p>
+          <form id="clientPaymentForm">
+            <div class="form-group"><label>Remittance Amount (GHS)</label><input type="number" id="payAmount" step="0.01" required placeholder="e.g. 1500.00"></div>
+            <div class="form-group"><label>Transaction Reference ID</label><input type="text" id="payTxRef" required placeholder="e.g. MOMO-TX-994821"></div>
+            <div class="form-group"><label>Upload Receipt Screenshot</label><input type="file" id="payProofFile" accept="image/*" required style="padding:8px;"></div>
+            <button class="btn btn-green btn-block" type="submit">Submit Payment for Audit</button>
+          </form>
         </div>
       </div>
 
-      <div class="form-box" style="margin:0; border:2px solid var(--deep-blue);">
+      <!-- Right: Delivery Negotiation Desk -->
+      <div class="form-box" style="margin:0; border:2px solid var(--deep-blue); width:100%;">
         <h3 style="color:var(--deep-blue); margin-bottom:6px;">Delivery Negotiation Desk</h3>
-        <p style="font-size:12px; color:var(--slate); margin-bottom:10px;">Discuss delivery fee amount and preferred receipt time with your courier.</p>
+        <p style="font-size:12px; color:var(--slate); margin-bottom:10px;">Discuss delivery fee amount and receipt time with your courier.</p>
         
-        <div id="clientChatBox" style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:8px; padding:12px; height:220px; overflow-y:auto; margin-bottom:12px; display:flex; flex-direction:column; gap:8px;"></div>
+        <div id="clientChatBox" style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:8px; padding:12px; height:320px; overflow-y:auto; margin-bottom:12px; display:flex; flex-direction:column; gap:8px;"></div>
         
         <form id="clientChatForm">
           <div style="display:flex; flex-direction:column; gap:8px;">
             <input type="text" id="clientMsgInput" required placeholder="Discuss delivery amount or receipt time..." style="font-size:13px;">
             <div style="display:flex; gap:8px; align-items:center;">
               <input type="file" id="clientChatFile" accept="image/*" multiple style="font-size:11px; padding:6px; flex:1;">
-              <button class="btn btn-blue" type="submit" style="padding:10px 16px;">Send Message</button>
+              <button class="btn btn-blue" type="submit" style="padding:10px 16px;">Send</button>
             </div>
           </div>
         </form>
       </div>
+
     </div>
   </div>
 </section>
@@ -356,12 +374,12 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
     <div class="admin-stats-grid">
       <div class="stat-card"><h4>Registered Clients</h4><div class="val" id="statClientCount">0</div></div>
       <div class="stat-card"><h4>Catalog Items</h4><div class="val" id="statProdCount">0</div></div>
-      <div class="stat-card"><h4>Delivery Personnel</h4><div class="val" id="statCourierCount">0</div></div>
+      <div class="stat-card"><h4>Pending Payments</h4><div class="val" id="statPaymentCount" style="color:#D97706;">0</div></div>
     </div>
 
-    <!-- 1. Product Management with Multiple Photos -->
+    <!-- 1. Unlimited Wholesale Product Management -->
     <div style="background:#fff; padding:24px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:24px; box-shadow:var(--card-shadow);">
-      <h3 style="margin-bottom:14px; color:var(--navy);">Add Wholesale Item (Multiple Photos / Files)</h3>
+      <h3 style="margin-bottom:14px; color:var(--navy);">Add Wholesale Item (Unlimited Inventory & Multiple Photos)</h3>
       <form id="addProductForm">
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px;">
           <div class="form-group"><label>Product Title</label><input type="text" id="npName" required placeholder="e.g. DTF Printer Pro"></div>
@@ -378,11 +396,18 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
           <label>Select Multiple Photos / Files</label>
           <input type="file" id="npFiles" accept="image/*" multiple required style="padding:10px;">
         </div>
-        <button class="btn btn-green" type="submit">Publish Product with Photos</button>
+        <button class="btn btn-green" type="submit">Publish Product to Catalog</button>
       </form>
     </div>
 
-    <!-- 2. Goods Tracking Control -->
+    <!-- 2. PAYMENT AUDIT & VERIFICATION DESK (Admin Only) -->
+    <div style="background:#fff; padding:24px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:24px; box-shadow:var(--card-shadow); border-left:6px solid var(--green);">
+      <h3 style="margin-bottom:6px; color:var(--navy);">Payment Verification & Audit Desk (Admin Only)</h3>
+      <p style="font-size:12px; color:var(--slate); margin-bottom:14px;">Review proofs of payment submitted by clients and verify them in real time.</p>
+      <div id="adminPaymentsList"></div>
+    </div>
+
+    <!-- 3. Goods Tracking Control -->
     <div style="background:#fff; padding:24px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:24px; box-shadow:var(--card-shadow);">
       <h3 style="margin-bottom:14px; color:var(--navy);">Update Global Goods Tracking Milestone</h3>
       <form id="updateTrackingForm">
@@ -402,7 +427,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
       </form>
     </div>
 
-    <!-- 3. Add New Delivery Guy -->
+    <!-- 4. Add New Delivery Guy -->
     <div style="background:#fff; padding:24px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:24px; box-shadow:var(--card-shadow);">
       <h3 style="margin-bottom:14px; color:var(--navy);">Register New Delivery Courier</h3>
       <form id="addCourierForm">
@@ -416,15 +441,15 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
       </form>
     </div>
 
-    <!-- 4. Registered Client Info Audit Log -->
+    <!-- 5. Registered Client Info Audit Log -->
     <div style="background:#fff; padding:20px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:24px;">
-      <h3 style="margin-bottom:12px; color:var(--navy);">Newly Registered & Logged Clients Audit Log</h3>
+      <h3 style="margin-bottom:12px; color:var(--navy);">Registered Clients Audit Log</h3>
       <div id="adminClientsList"></div>
     </div>
 
-    <!-- 5. Catalog Inventory Management -->
+    <!-- 6. Catalog Inventory Management -->
     <div style="background:#fff; padding:20px; border-radius:12px; border:1px solid var(--border-color);">
-      <h3 style="margin-bottom:12px; color:var(--navy);">Catalog Inventory</h3>
+      <h3 style="margin-bottom:12px; color:var(--navy);">Catalog Inventory (Unlimited)</h3>
       <div id="adminProductsList"></div>
     </div>
   </div>
@@ -447,7 +472,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
 
       <div style="background:#fff; padding:20px; border-radius:12px; border:1px solid var(--border-color);">
         <h3 style="margin-bottom:12px; color:var(--deep-blue);">Delivery Amount & Time Discussion</h3>
-        <div id="courierChatBox" style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:8px; padding:12px; height:220px; overflow-y:auto; margin-bottom:12px; display:flex; flex-direction:column; gap:8px;"></div>
+        <div id="courierChatBox" style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:8px; padding:12px; height:280px; overflow-y:auto; margin-bottom:12px; display:flex; flex-direction:column; gap:8px;"></div>
         
         <form id="courierChatForm">
           <div style="display:flex; flex-direction:column; gap:8px;">
@@ -521,7 +546,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Initial State Data
+  // State Datastores in localStorage
   const initialProducts = [
     { id: 'p1', name: 'Direct-to-Film (DTF) Industrial Printer Pro', category: 'printing hardware', price: 18500, type: 'Pre-Order', images: ['https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=600&q=80'] },
     { id: 'p2', name: 'Men’s Streetwear Cargo Jogger Two-Piece Set', category: 'apparel', price: 280, type: 'In Stock', images: ['https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80'] }
@@ -534,6 +559,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let couriers = JSON.parse(localStorage.getItem('ev_couriers') || JSON.stringify([
     { name: 'Yaw Mensah', email: 'delivery@everivault.com', phone: '0240000000', pass: 'password123' }
   ]));
+  let payments = JSON.parse(localStorage.getItem('ev_payments') || JSON.stringify([]));
   let messages = JSON.parse(localStorage.getItem('ev_messages') || '[]');
   let currentUser = JSON.parse(localStorage.getItem('ev_user') || 'null');
 
@@ -544,6 +570,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function go(page) {
+    if (page === 'admin' && (!currentUser || currentUser.role !== 'admin')) {
+      toast('Access denied. Executive clearance required.', 'err');
+      return go('home');
+    }
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const t = $('p-' + page); if (t) t.classList.add('active');
     document.querySelectorAll('.plink').forEach(l => l.classList.remove('active'));
@@ -579,7 +609,6 @@ document.addEventListener('DOMContentLoaded', () => {
     loginForm.addEventListener('submit', e => {
       e.preventDefault();
       const ident = $('uniIdent').value.trim().toLowerCase();
-      const pass = $('uniPw').value;
 
       if (ident === 'richmonwireko@gmail.com') {
         currentUser = { name: 'Richmond Wireko', email: ident, role: 'admin', mark: 'GH001K-RICHMOND-0543155883' };
@@ -590,7 +619,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           let foundClient = clients.find(c => c.email.toLowerCase() === ident || c.mark.toLowerCase() === ident);
           if (!foundClient) {
-            // Auto register/login new client session
             const firstName = ident.split('@')[0];
             const mark = generateMark(firstName, '0541234567');
             foundClient = { name: firstName, email: ident, phone: '0541234567', location: 'Ghana', mark, status: 'Goods Ordered' };
@@ -674,7 +702,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Add Wholesale Product with Multiple Photos
+  // Unlimited Wholesale Product Management (Multiple Photos)
   const addProductForm = $('addProductForm');
   if (addProductForm) {
     addProductForm.addEventListener('submit', e => {
@@ -703,13 +731,44 @@ document.addEventListener('DOMContentLoaded', () => {
             products.unshift(newProd);
             localStorage.setItem('ev_products', JSON.stringify(products));
             addProductForm.reset();
-            toast('Product published with ' + imageUrls.length + ' photo(s).', 'ok');
+            toast('Product published to catalog successfully.', 'ok');
             renderAdmin();
             renderCatalog();
           }
         };
         reader.readAsDataURL(files[i]);
       }
+    });
+  }
+
+  // Client Payment Proof Submission
+  const clientPaymentForm = $('clientPaymentForm');
+  if (clientPaymentForm) {
+    clientPaymentForm.addEventListener('submit', e => {
+      e.preventDefault();
+      if (!currentUser || currentUser.role !== 'client') return;
+      const fileInput = $('payProofFile');
+      const file = fileInput.files[0];
+      if (!file) return toast('Please attach receipt screenshot.', 'err');
+
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const paymentRecord = {
+          id: 'pay_' + Date.now(),
+          client_mark: currentUser.mark,
+          client_name: currentUser.name,
+          amount: parseFloat($('payAmount').value) || 0,
+          tx_ref: $('payTxRef').value.trim(),
+          proof_img: ev.target.result,
+          status: 'Pending Verification',
+          date: new Date().toLocaleDateString()
+        };
+        payments.push(paymentRecord);
+        localStorage.setItem('ev_payments', JSON.stringify(payments));
+        clientPaymentForm.reset();
+        toast('Payment proof submitted for executive audit.', 'ok');
+      };
+      reader.readAsDataURL(file);
     });
   }
 
@@ -826,7 +885,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div style="font-size:13px; margin-top:2px;">${m.text}</div>
           <div style="display:flex; gap:6px; flex-wrap:wrap;">${imgHtml}</div>
         </div>`;
-      }).join('') : '<p style="font-size:12px; color:var(--slate);">No negotiation messages yet. Discuss delivery amount or receipt time.</p>';
+      }).join('') : '<p style="font-size:12px; color:var(--slate);">No negotiation messages yet. Discuss delivery fee amount or receipt time.</p>';
       box.scrollTop = box.scrollHeight;
     };
 
@@ -887,12 +946,53 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderAdmin() {
+    if (!currentUser || currentUser.role !== 'admin') return;
+
     $('statClientCount').textContent = clients.length;
     $('statProdCount').textContent = products.length;
-    $('statCourierCount').textContent = couriers.length;
+    const pendingCount = payments.filter(p => p.status === 'Pending Verification').length;
+    $('statPaymentCount').textContent = pendingCount;
 
     // Client dropdown for tracking milestone
     $('adminTrackClientSelect').innerHTML = clients.map(c => `<option value="${c.mark}">${c.name} (${c.mark})</option>`).join('');
+
+    // Payment Audit & Verification Desk (Admin Only)
+    const payList = $('adminPaymentsList');
+    if (payList) {
+      payList.innerHTML = payments.length ? `
+        <table class="admin-table">
+          <thead><tr><th>Client / Mark</th><th>Amount</th><th>Reference</th><th>Receipt Proof</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody>
+            ${payments.map(pay => `
+              <tr>
+                <td><strong>${pay.client_name}</strong><br><code>${pay.client_mark}</code></td>
+                <td style="color:var(--green); font-weight:800;">GHS ${Number(pay.amount).toLocaleString()}</td>
+                <td>${pay.tx_ref}</td>
+                <td><a href="${pay.proof_img}" target="_blank"><img src="${pay.proof_img}" style="width:45px; height:45px; object-fit:cover; border-radius:6px; border:1px solid #CBD5E1;"></a></td>
+                <td><span class="pill ${pay.status === 'Verified' ? 'pill-verified' : 'pill-pending'}">${pay.status}</span></td>
+                <td>
+                  <button class="btn btn-sm ${pay.status === 'Verified' ? 'btn-danger' : 'btn-green'}" data-togglepay="${pay.id}">
+                    ${pay.status === 'Verified' ? 'Unverify' : 'Verify'}
+                  </button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>` : '<p style="color:var(--slate);">No payment proofs submitted yet.</p>';
+
+      payList.querySelectorAll('[data-togglepay]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-togglepay');
+          const p = payments.find(x => x.id === id);
+          if (p) {
+            p.status = p.status === 'Verified' ? 'Pending Verification' : 'Verified';
+            localStorage.setItem('ev_payments', JSON.stringify(payments));
+            toast('Payment audit status updated.', 'ok');
+            renderAdmin();
+          }
+        });
+      });
+    }
 
     // Clients audit log table
     $('adminClientsList').innerHTML = clients.length ? `
