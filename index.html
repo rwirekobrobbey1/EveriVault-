@@ -575,7 +575,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function go(page) {
-    // Restrict admin page to admin role only
     if (page === 'admin' && (!currentUser || currentUser.role !== 'admin')) {
       toast('Access Denied: Master Executive Suite is for Admin only.', 'err');
       go('auth');
@@ -610,13 +609,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Login Form (Only permits admin or pre-registered clients in the system)
+  // Login Form (Strictly checks against pre-registered clients or admin credentials)
   const loginForm = $('loginForm');
   if (loginForm) {
     loginForm.addEventListener('submit', e => {
       e.preventDefault();
       const ident = $('uniIdent').value.trim().toLowerCase();
-      const pass = $('uniPw').value;
 
       if (ident === 'richmonwireko@gmail.com') {
         currentUser = { name: 'Richmond Wireko', email: ident, role: 'admin', mark: 'GH001K-RICHMOND-0543155883' };
@@ -635,7 +633,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           const foundClient = clients.find(c => c.email.toLowerCase() === ident || c.mark.toLowerCase() === ident);
           if (!foundClient) {
-            return toast('Access Denied: Account not found or not yet approved by the Admin.', 'err', 4000);
+            return toast('Access Denied: Account not found or not yet approved by Admin.', 'err', 4000);
           }
           currentUser = { name: foundClient.name, email: foundClient.email, role: 'client', mark: foundClient.mark };
           localStorage.setItem('ev_user', JSON.stringify(currentUser));
@@ -647,7 +645,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Registration Form (Registers client for Admin review/approval)
+  // Registration Form (Submits registration for admin review/storage)
   const regForm = $('regForm');
   if (regForm) {
     regForm.addEventListener('submit', e => {
@@ -659,7 +657,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const firstName = name.split(' ')[0];
       const mark = generateMark(firstName, phone);
 
-      // Check if client already exists
       if (clients.some(c => c.email.toLowerCase() === email.toLowerCase())) {
         return toast('An account with this email is already registered.', 'err');
       }
@@ -668,9 +665,8 @@ document.addEventListener('DOMContentLoaded', () => {
       clients.push(newClient);
       localStorage.setItem('ev_clients', JSON.stringify(clients));
 
-      toast('Registration submitted successfully! You can now sign in once reviewed.', 'ok', 4000);
+      toast('Registration submitted successfully! You can now sign in once approved.', 'ok', 4000);
       regForm.reset();
-      // Switch back to login tab
       document.querySelector('[data-authtab="login"]').click();
     });
   }
@@ -680,8 +676,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (resetForm) {
     resetForm.addEventListener('submit', e => {
       e.preventDefault();
-      const first = $('resetFirst').value.trim();
-      const phone = $('resetPhone').value.trim();
       const email = $('resetEmail').value.trim();
 
       const client = clients.find(c => c.email.toLowerCase() === email.toLowerCase());
