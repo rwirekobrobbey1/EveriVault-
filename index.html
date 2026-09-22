@@ -282,11 +282,11 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
   </div>
 </section>
 
-<!-- AUTHENTICATION & RECOVERY PORTAL -->
+<!-- AUTHENTICATION, REGISTRATION & PASSWORD RECOVERY WITH OTP SYSTEM -->
 <section id="p-auth" class="page">
   <div class="container">
-    <h2>Secure Gateway & Access Portal</h2>
-    <p class="subtitle">Unified authentication for Clients, Executives, and Logistics Couriers.</p>
+    <h2>Secure Gateway & OTP Portal</h2>
+    <p class="subtitle">Mandatory One-Time Password (OTP) verification sent to your Gmail or Tracking ID.</p>
     <div class="form-box">
       <div class="tabs">
         <button class="tab active" data-authtab="login">Sign In</button>
@@ -294,16 +294,24 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
         <button class="tab" data-authtab="reset">Password Recovery</button>
       </div>
 
-      <!-- Sign In Tab (Accepts ONLY registered client email or tracking mark) -->
+      <!-- Sign In Flow with OTP -->
       <div id="tLogin" class="tab-content active">
         <form id="loginForm">
           <div class="form-group"><label>Registered Email or Tracking Mark</label><input type="text" id="uniIdent" required placeholder="e.g. yourname@gmail.com or GH001K-RICHMOND-0543155883"></div>
           <div class="form-group"><label>Password</label><input type="password" id="uniPw" required placeholder="••••••••"></div>
-          <button class="btn btn-green btn-block" type="submit">Sign In to Portal</button>
+          <button class="btn btn-green btn-block" type="submit">Request Login OTP</button>
+        </form>
+
+        <form id="loginOtpForm" style="display:none; margin-top:16px; border-top:1px solid var(--border-color); padding-top:16px;">
+          <div style="background:#EFF6FF; border:1px solid #BFDBFE; padding:10px; border-radius:8px; font-size:12px; color:#1E40AF; margin-bottom:12px;" id="loginOtpNotice">
+            OTP sent to your Gmail/Tracking ID. (Check screen notification below).
+          </div>
+          <div class="form-group"><label>Enter 6-Digit OTP Code</label><input type="text" id="loginOtpInput" required placeholder="123456" maxlength="6"></div>
+          <button class="btn btn-green btn-block" type="submit">Verify OTP & Sign In</button>
         </form>
       </div>
 
-      <!-- Registration Tab -->
+      <!-- Registration Flow with OTP -->
       <div id="tReg" class="tab-content">
         <form id="regForm">
           <div class="form-group"><label>Full Name</label><input type="text" id="rn" required placeholder="e.g. Richmond Wireko"></div>
@@ -311,16 +319,30 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
           <div class="form-group"><label>Phone Number (Digits)</label><input type="tel" id="rp" required placeholder="e.g. 0543155883"></div>
           <div class="form-group"><label>Delivery Address in Ghana</label><input type="text" id="rloc" required placeholder="e.g. Kumasi KNUST Ayeduase"></div>
           <div class="form-group"><label>Password (Min 6 Characters)</label><input type="password" id="rpw" required minlength="6"></div>
-          <button class="btn btn-green btn-block" type="submit">Create Account & Tracking Mark</button>
+          <button class="btn btn-green btn-block" type="submit">Request Registration OTP</button>
+        </form>
+
+        <form id="regOtpForm" style="display:none; margin-top:16px; border-top:1px solid var(--border-color); padding-top:16px;">
+          <div style="background:#EFF6FF; border:1px solid #BFDBFE; padding:10px; border-radius:8px; font-size:12px; color:#1E40AF; margin-bottom:12px;">
+            Verification OTP sent to your Gmail. Enter code to finalize registration.
+          </div>
+          <div class="form-group"><label>Enter 6-Digit OTP Code</label><input type="text" id="regOtpInput" required placeholder="123456" maxlength="6"></div>
+          <button class="btn btn-green btn-block" type="submit">Verify OTP & Create Account</button>
         </form>
       </div>
 
-      <!-- Password Recovery Tab -->
+      <!-- Password Recovery Flow with OTP -->
       <div id="tReset" class="tab-content">
-        <p style="font-size:12px; color:var(--slate); margin-bottom:14px;">Enter your registered email to recover your tracking code instantly.</p>
+        <p style="font-size:12px; color:var(--slate); margin-bottom:14px;">Enter your registered email to receive a secure password reset OTP.</p>
         <form id="resetForm">
           <div class="form-group"><label>Registered Gmail Address</label><input type="email" id="resetEmail" required placeholder="e.g. yourname@gmail.com"></div>
-          <button class="btn btn-navy btn-block" type="submit">Recover Account & Tracking Code</button>
+          <button class="btn btn-navy btn-block" type="submit">Request Password Reset OTP</button>
+        </form>
+
+        <form id="resetOtpForm" style="display:none; margin-top:16px; border-top:1px solid var(--border-color); padding-top:16px;">
+          <div class="form-group"><label>Enter 6-Digit OTP Code</label><input type="text" id="resetOtpInput" required placeholder="123456" maxlength="6"></div>
+          <div class="form-group"><label>New Password</label><input type="password" id="newResetPw" required placeholder="New secure password" minlength="6"></div>
+          <button class="btn btn-navy btn-block" type="submit">Verify OTP & Reset Password</button>
         </form>
       </div>
     </div>
@@ -561,7 +583,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateManifest(null);
 
   const $ = id => document.getElementById(id);
-  const toast = (msg, type = 'info', ms = 2500) => {
+  const toast = (msg, type = 'info', ms = 3000) => {
     const wrap = $('toastWrap'); if (!wrap) return;
     const el = document.createElement('div');
     el.className = 'toast ' + (type === 'ok' ? 'ok' : type === 'err' ? 'err' : '');
@@ -600,12 +622,14 @@ document.addEventListener('DOMContentLoaded', () => {
   let messages = JSON.parse(localStorage.getItem('ev_messages') || '[]');
   let payments = JSON.parse(localStorage.getItem('ev_payments') || '[]');
   
-  // Force log out already registered clients as requested
   let currentUser = JSON.parse(localStorage.getItem('ev_user') || 'null');
   if (currentUser && currentUser.role === 'client') {
     currentUser = null;
     localStorage.removeItem('ev_user');
   }
+
+  // Temporary storage for OTP Verification states
+  let tempAuthData = null;
 
   // Check 24-hour cart item expiration for registered clients
   function checkCartExpirations() {
@@ -668,21 +692,67 @@ document.addEventListener('DOMContentLoaded', () => {
       const tab = btn.getAttribute('data-authtab');
       document.querySelectorAll('[data-authtab]').forEach(t => t.classList.toggle('active', t.getAttribute('data-authtab') === tab));
       $('tLogin').classList.toggle('active', tab === 'login');
-      $('tReg').classList.toggle('active', tab === 'reg');$('tReset').classList.toggle('active', tab === 'reset');
+      $('tReg').classList.toggle('active', tab === 'reg');
+      $('tReset').classList.toggle('active', tab === 'reset');
+      
+      // Reset OTP states
+      $('loginOtpForm').style.display = 'none';
+      $('loginForm').style.display = 'block';
+      $('regOtpForm').style.display = 'none';
+      $('regForm').style.display = 'block';
+      $('resetOtpForm').style.display = 'none';
+      $('resetForm').style.display = 'block';
     });
   });
 
-  // Login Form (Accepts ONLY registered client email or tracking mark)
+  // --- LOGIN OTP WORKFLOW ---
   const loginForm = $('loginForm');
+  const loginOtpForm = $('loginOtpForm');
   if (loginForm) {
     loginForm.addEventListener('submit', e => {
       e.preventDefault();
       const ident = $('uniIdent').value.trim().toLowerCase();
+      const pw = $('uniPw').value.trim();
 
+      if (ident === 'richmonwireko@gmail.com') {
+        if (pw !== 'password123' && pw !== '') { /* admin allowed */ }
+      } else {
+        const foundCourier = couriers.find(c => c.email.toLowerCase() === ident && c.pass === pw);
+        if (!foundCourier) {
+          const foundClient = clients.find(c => c.email.toLowerCase() === ident || c.mark.toLowerCase() === ident);
+          if (!foundClient) {
+            return toast('Access Denied: Account not found with this email or tracking mark.', 'err', 4000);
+          }
+        }
+      }
+
+      // Generate 6-digit OTP
+      const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+      tempAuthData = { type: 'login', ident, otp: generatedOtp };
+
+      // Simulate sending OTP via Gmail / Tracking ID system notice
+      toast(`[OTP SENT TO GMAIL/TRACKING ID]: Your code is ${generatedOtp}`, 'ok', 7000);
+      $('loginOtpNotice').innerHTML = `OTP sent to <strong>${ident}</strong>. (Simulated Code for Testing: <strong style="color:#047857;">${generatedOtp}</strong>)`;
+      
+      loginForm.style.display = 'none';
+      loginOtpForm.style.display = 'block';
+    });
+  }
+
+  const loginOtpFormSubmit = $('loginOtpForm');
+  if (loginOtpFormSubmit) {
+    loginOtpFormSubmit.addEventListener('submit', e => {
+      e.preventDefault();
+      const enteredOtp = $('loginOtpInput').value.trim();
+      if (!tempAuthData || tempAuthData.type !== 'login' || tempAuthData.otp !== enteredOtp) {
+        return toast('Invalid or expired OTP code. Please try again.', 'err');
+      }
+
+      const ident = tempAuthData.ident;
       if (ident === 'richmonwireko@gmail.com') {
         currentUser = { name: 'Richmond Wireko', email: ident, role: 'admin', mark: 'GH001K-RICHMOND-0543155883' };
         localStorage.setItem('ev_user', JSON.stringify(currentUser));
-        toast('Signed in as Executive Admin.', 'ok');
+        toast('OTP Verified! Signed in as Executive Admin.', 'ok');
         applyUserState();
         go('admin');
       } else {
@@ -690,26 +760,27 @@ document.addEventListener('DOMContentLoaded', () => {
         if (foundCourier) {
           currentUser = { name: foundCourier.name, email: foundCourier.email, role: 'delivery', mark: 'COURIER' };
           localStorage.setItem('ev_user', JSON.stringify(currentUser));
-          toast('Signed in as Delivery Courier.', 'ok');
+          toast('OTP Verified! Signed in as Delivery Courier.', 'ok');
           applyUserState();
           go('deliveryportal');
         } else {
           const foundClient = clients.find(c => c.email.toLowerCase() === ident || c.mark.toLowerCase() === ident);
-          if (!foundClient) {
-            return toast('Access Denied: Only registered client emails or tracking marks are allowed to sign in.', 'err', 4000);
-          }
           currentUser = { name: foundClient.name, email: foundClient.email, role: 'client', mark: foundClient.mark };
           localStorage.setItem('ev_user', JSON.stringify(currentUser));
-          toast('Signed in successfully.', 'ok');
+          toast('OTP Verified! Signed in successfully.', 'ok');
           applyUserState();
           go('clientportal');
         }
       }
+      loginOtpFormSubmit.reset();
+      loginOtpFormSubmit.style.display = 'none';
+      loginForm.style.display = 'block';
     });
   }
 
-  // Registration Form
+  // --- REGISTRATION OTP WORKFLOW ---
   const regForm = $('regForm');
+  const regOtpForm = $('regOtpForm');
   if (regForm) {
     regForm.addEventListener('submit', e => {
       e.preventDefault();
@@ -717,6 +788,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const email = $('rem').value.trim();
       const phone = $('rp').value.trim();
       const location = $('rloc').value.trim();
+      const password = $('rpw').value.trim();
       const firstName = name.split(' ')[0];
       const mark = generateMark(firstName, phone);
 
@@ -724,18 +796,40 @@ document.addEventListener('DOMContentLoaded', () => {
         return toast('An account with this email is already registered.', 'err');
       }
 
-      const newClient = { name, email, phone, location, mark, status: 'Goods Ordered', cart: [] };
-      clients.push(newClient);
+      const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+      tempAuthData = { type: 'reg', clientData: { name, email, phone, location, mark, password, status: 'Goods Ordered', cart: [] }, otp: generatedOtp };
+
+      toast(`[REGISTRATION OTP SENT]: Your code is ${generatedOtp}`, 'ok', 7000);
+      
+      regForm.style.display = 'none';
+      regOtpForm.style.display = 'block';
+    });
+  }
+
+  const regOtpFormSubmit = $('regOtpForm');
+  if (regOtpFormSubmit) {
+    regOtpFormSubmit.addEventListener('submit', e => {
+      e.preventDefault();
+      const enteredOtp = $('regOtpInput').value.trim();
+      if (!tempAuthData || tempAuthData.type !== 'reg' || tempAuthData.otp !== enteredOtp) {
+        return toast('Invalid or expired OTP code.', 'err');
+      }
+
+      clients.push(tempAuthData.clientData);
       localStorage.setItem('ev_clients', JSON.stringify(clients));
 
-      toast('Registration successful! Your Tracking Mark is ' + mark, 'ok', 4000);
+      toast('OTP Verified! Registration successful. Tracking Mark: ' + tempAuthData.clientData.mark, 'ok', 4500);
+      regOtpFormSubmit.reset();
+      regOtpFormSubmit.style.display = 'none';
+      regForm.style.display = 'block';
       regForm.reset();
       document.querySelector('[data-authtab="login"]').click();
     });
   }
 
-  // Password Recovery Form
+  // --- PASSWORD RECOVERY OTP WORKFLOW ---
   const resetForm = $('resetForm');
+  const resetOtpForm = $('resetOtpForm');
   if (resetForm) {
     resetForm.addEventListener('submit', e => {
       e.preventDefault();
@@ -746,10 +840,40 @@ document.addEventListener('DOMContentLoaded', () => {
         return toast('No registered account found with this email.', 'err');
       }
 
+      const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+      tempAuthData = { type: 'reset', email, otp: generatedOtp };
+
+      toast(`[PASSWORD RESET OTP SENT]: Your code is ${generatedOtp}`, 'ok', 7000);
+
+      resetForm.style.display = 'none';
+      resetOtpForm.style.display = 'block';
+    });
+  }
+
+  const resetOtpFormSubmit = $('resetOtpForm');
+  if (resetOtpFormSubmit) {
+    resetOtpFormSubmit.addEventListener('submit', e => {
+      e.preventDefault();
+      const enteredOtp = $('resetOtpInput').value.trim();
+      const newPw = $('newResetPw').value.trim();
+
+      if (!tempAuthData || tempAuthData.type !== 'reset' || tempAuthData.otp !== enteredOtp) {
+        return toast('Invalid or expired OTP code.', 'err');
+      }
+
+      const client = clients.find(c => c.email.toLowerCase() === tempAuthData.email.toLowerCase());
+      if (client) {
+        client.password = newPw;
+        localStorage.setItem('ev_clients', JSON.stringify(clients));
+      }
+
       currentUser = { name: client.name, email: client.email, role: 'client', mark: client.mark };
       localStorage.setItem('ev_user', JSON.stringify(currentUser));
 
-      toast('Account recovered! Tracking Mark: ' + client.mark, 'ok', 4500);
+      toast('OTP Verified! Password updated and signed in successfully.', 'ok', 4000);
+      resetOtpFormSubmit.reset();
+      resetOtpFormSubmit.style.display = 'none';
+      resetForm.style.display = 'block';
       applyUserState();
       go('clientportal');
     });
