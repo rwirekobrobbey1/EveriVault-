@@ -107,22 +107,27 @@ input:focus, select:focus, textarea:focus { outline:none; border-color:var(--dee
 .cn-text-box { background:#fff; border:1.5px solid #CBD5E1; border-radius:8px; padding:12px; margin:10px 0; font-family:monospace; font-size:13px; color:#0F172A; word-break:break-all; }
 .contact-row { display:flex; justify-content:space-between; align-items:center; background:#fff; padding:10px 14px; border-radius:8px; border:1px solid var(--border-color); margin-bottom:8px; font-size:13px; }
 
-/* MASTER EXECUTIVE SUITE (ADMIN ONLY) — REFINED 6 PORTALS LAYOUT */
+/* MASTER EXECUTIVE SUITE (ADMIN ONLY) WITH 6 DEDICATED SUB-PORTAL TABS */
 #p-admin { background: var(--admin-bg); color: var(--admin-text); }
 #p-admin .container { max-width: 1280px; }
 .admin-header-card { background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%); border: 1px solid var(--admin-border); padding: 24px; border-radius: 16px; margin-bottom: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
 .admin-header-card h2 { color: #34D399; text-align: left; margin-bottom: 4px; font-size: 24px; }
 .admin-header-card h2::after { display: none; }
-.admin-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px; margin-bottom: 32px; }
+.admin-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px; margin-bottom: 24px; }
 .admin-stat-card { background: var(--admin-card-bg); padding: 22px; border-radius: 14px; border: 1px solid var(--admin-border); box-shadow: 0 8px 20px rgba(0,0,0,0.25); position: relative; overflow: hidden; }
 .admin-stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--green); }
 .admin-stat-card h4 { font-size: 11px; color: var(--admin-muted); text-transform: uppercase; margin-bottom: 6px; font-weight: 700; letter-spacing: 1px; }
 .admin-stat-card .val { font-size: 30px; font-weight: 800; color: #F8FAFC; }
 
-.admin-portal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; margin-bottom: 32px; }
-.admin-panel-box { background: var(--admin-card-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--admin-border); box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: flex; flex-direction: column; justify-content: space-between; }
-.admin-panel-box h3 { color: #F8FAFC; margin-bottom: 8px; font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
-.admin-panel-box p { color: var(--admin-muted); font-size: 13px; margin-bottom: 18px; }
+.admin-nav-tabs { display: flex; gap: 8px; margin-bottom: 24px; background: var(--admin-card-bg); padding: 10px; border-radius: 12px; border: 1px solid var(--admin-border); overflow-x: auto; }
+.admin-nav-tab { padding: 10px 16px; border-radius: 8px; font-weight: 700; font-size: 12px; background: #0F172A; color: var(--admin-muted); border: 1px solid var(--admin-border); cursor: pointer; white-space: nowrap; transition: all 0.2s; font-family: inherit; }
+.admin-nav-tab.active { background: var(--green); color: #fff; border-color: var(--green); }
+.admin-subpage { display: none; }
+.admin-subpage.active { display: block; }
+
+.admin-panel-box { background: var(--admin-card-bg); padding: 32px; border-radius: 16px; border: 1px solid var(--admin-border); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+.admin-panel-box h3 { color: #F8FAFC; margin-bottom: 8px; font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+.admin-panel-box p { color: var(--admin-muted); font-size: 13px; margin-bottom: 24px; }
 #p-admin label { color: #CBD5E1; }
 #p-admin input, #p-admin select, #p-admin textarea { background: #0F172A; border-color: var(--admin-border); color: #F8FAFC; }
 #p-admin input:focus, #p-admin select:focus { border-color: #34D399; background: #0B132B; }
@@ -415,7 +420,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
   </div>
 </section>
 
-<!-- MASTER EXECUTIVE SUITE (ADMIN ONLY) — ORGANIZED INTO EXACTLY 6 PORTALS -->
+<!-- MASTER EXECUTIVE SUITE (ADMIN ONLY) — 6 DEDICATED PAGES -->
 <section id="p-admin" class="page">
   <div class="container">
     <div class="admin-header-card">
@@ -435,98 +440,92 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
       <div class="admin-stat-card"><h4>Pending Payments</h4><div class="val" id="statPayCount">0</div></div>
     </div>
 
-    <!-- 6 PORTALS GRID LAYOUT -->
-    <div class="admin-portal-grid">
-      
-      <!-- PORTAL 1: Payment Verification Desk -->
-      <div class="admin-panel-box" style="border-top: 4px solid var(--green);">
-        <div>
-          <h3>1. Payment Verification Desk</h3>
-          <p>Review client payment proofs and approve transactions instantly.</p>
-          <div id="adminPaymentsList"></div>
-        </div>
-      </div>
-
-      <!-- PORTAL 2: Wholesale Catalog Upload -->
-      <div class="admin-panel-box" style="border-top: 4px solid #38BDF8;">
-        <div>
-          <h3>2. Wholesale Catalog Upload</h3>
-          <p>Upload new factory-direct inventory with unlimited photos/videos.</p>
-          <form id="addProductForm">
-            <div class="form-group"><label>Product Title</label><input type="text" id="npName" required placeholder="e.g. DTF Printer Pro"></div>
-            <div class="form-group"><label>Category</label><input type="text" id="npCat" required placeholder="e.g. printing hardware"></div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-              <div class="form-group"><label>Price (GHS)</label><input type="number" id="npPrice" step="0.01" required placeholder="18500"></div>
-              <div class="form-group"><label>Fulfillment</label>
-                <select id="npType" required>
-                  <option value="Pre-Order">Pre-Order</option>
-                  <option value="In Stock">In Stock</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group"><label>Media Files</label><input type="file" id="npFiles" accept="image/*,video/*" multiple required style="padding:8px;"></div>
-            <button class="btn btn-green btn-sm btn-block" type="submit">Publish Product</button>
-          </form>
-        </div>
-      </div>
-
-      <!-- PORTAL 3: Global Tracking Control -->
-      <div class="admin-panel-box" style="border-top: 4px solid #818CF8;">
-        <div>
-          <h3>3. Global Tracking Control</h3>
-          <p>Manage shipment milestones for registered importers.</p>
-          <form id="updateTrackingForm">
-            <div class="form-group"><label>Select Client</label><select id="adminTrackClientSelect" required></select></div>
-            <div class="form-group"><label>Milestone Status</label>
-              <select id="adminTrackStatusSelect" required>
-                <option value="Goods Ordered">Goods Ordered</option>
-                <option value="Reached Chinese Warehouse">Reached Chinese Warehouse</option>
-                <option value="At Tema Harbor">At Tema Harbor</option>
-                <option value="In Kumasi Warehouse">In Kumasi Warehouse</option>
-                <option value="Out for Delivery">Out for Delivery</option>
-              </select>
-            </div>
-            <button class="btn btn-blue btn-sm btn-block" type="submit">Commit Milestone</button>
-          </form>
-        </div>
-      </div>
-
-      <!-- PORTAL 4: Courier Provisioning Desk -->
-      <div class="admin-panel-box" style="border-top: 4px solid #F59E0B;">
-        <div>
-          <h3>4. Courier Provisioning Desk</h3>
-          <p>Register new delivery personnel credentials for dispatch.</p>
-          <form id="addCourierForm">
-            <div class="form-group"><label>Courier Name</label><input type="text" id="dcName" required placeholder="e.g. Yaw Mensah"></div>
-            <div class="form-group"><label>Login Email</label><input type="email" id="dcEmail" required placeholder="e.g. yaw@everivault.com"></div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-              <div class="form-group"><label>Phone</label><input type="tel" id="dcPhone" required placeholder="0240000000"></div>
-              <div class="form-group"><label>Password</label><input type="password" id="dcPass" required placeholder="••••••••"></div>
-            </div>
-            <button class="btn btn-green btn-sm btn-block" type="submit">Save Courier</button>
-          </form>
-        </div>
-      </div>
-
-      <!-- PORTAL 5: Importers & Referrals Audit -->
-      <div class="admin-panel-box" style="border-top: 4px solid #EC4899;">
-        <div>
-          <h3>5. Importers & Referrals Audit</h3>
-          <p>Complete record of verified clients and their tracking marks.</p>
-          <div id="adminClientsList"></div>
-        </div>
-      </div>
-
-      <!-- PORTAL 6: Catalog Inventory Management -->
-      <div class="admin-panel-box" style="border-top: 4px solid #14B8A6;">
-        <div>
-          <h3>6. Catalog Inventory Management</h3>
-          <p>Review and delete active store catalog listings.</p>
-          <div id="adminProductsList"></div>
-        </div>
-      </div>
-
+    <!-- 6 DEDICATED SUB-PORTAL TABS / PAGES -->
+    <div class="admin-nav-tabs">
+      <button class="admin-nav-tab active" data-admintab="sub-payments">1. Payment Verification</button>
+      <button class="admin-nav-tab" data-admintab="sub-upload">2. Catalog Upload</button>
+      <button class="admin-nav-tab" data-admintab="sub-tracking">3. Global Tracking</button>
+      <button class="admin-nav-tab" data-admintab="sub-couriers">4. Courier Provisioning</button>
+      <button class="admin-nav-tab" data-admintab="sub-clients">5. Importers & Referrals</button>
+      <button class="admin-nav-tab" data-admintab="sub-inventory">6. Catalog Inventory</button>
     </div>
+
+    <!-- SUB-PAGE 1: Payment Verification Desk -->
+    <div id="sub-payments" class="admin-subpage admin-panel-box active" style="border-top: 4px solid var(--green);">
+      <h3>1. Payment Verification Desk</h3>
+      <p>Review client payment proofs and approve transactions instantly.</p>
+      <div id="adminPaymentsList"></div>
+    </div>
+
+    <!-- SUB-PAGE 2: Wholesale Catalog Upload -->
+    <div id="sub-upload" class="admin-subpage admin-panel-box" style="border-top: 4px solid #38BDF8;">
+      <h3>2. Wholesale Catalog Upload</h3>
+      <p>Upload new factory-direct inventory with unlimited photos/videos.</p>
+      <form id="addProductForm" style="max-width: 600px;">
+        <div class="form-group"><label>Product Title</label><input type="text" id="npName" required placeholder="e.g. DTF Printer Pro"></div>
+        <div class="form-group"><label>Category</label><input type="text" id="npCat" required placeholder="e.g. printing hardware"></div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <div class="form-group"><label>Price (GHS)</label><input type="number" id="npPrice" step="0.01" required placeholder="18500"></div>
+          <div class="form-group"><label>Fulfillment</label>
+            <select id="npType" required>
+              <option value="Pre-Order">Pre-Order</option>
+              <option value="In Stock">In Stock</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group"><label>Media Files</label><input type="file" id="npFiles" accept="image/*,video/*" multiple required style="padding:10px;"></div>
+        <button class="btn btn-green" type="submit">Publish Product</button>
+      </form>
+    </div>
+
+    <!-- SUB-PAGE 3: Global Tracking Control -->
+    <div id="sub-tracking" class="admin-subpage admin-panel-box" style="border-top: 4px solid #818CF8;">
+      <h3>3. Global Tracking Control</h3>
+      <p>Manage shipment milestones for registered importers.</p>
+      <form id="updateTrackingForm" style="max-width: 600px;">
+        <div class="form-group"><label>Select Client</label><select id="adminTrackClientSelect" required></select></div>
+        <div class="form-group"><label>Milestone Status</label>
+          <select id="adminTrackStatusSelect" required>
+            <option value="Goods Ordered">Goods Ordered</option>
+            <option value="Reached Chinese Warehouse">Reached Chinese Warehouse</option>
+            <option value="At Tema Harbor">At Tema Harbor</option>
+            <option value="In Kumasi Warehouse">In Kumasi Warehouse</option>
+            <option value="Out for Delivery">Out for Delivery</option>
+          </select>
+        </div>
+        <button class="btn btn-blue" type="submit">Commit Milestone</button>
+      </form>
+    </div>
+
+    <!-- SUB-PAGE 4: Courier Provisioning Desk -->
+    <div id="sub-couriers" class="admin-subpage admin-panel-box" style="border-top: 4px solid #F59E0B;">
+      <h3>4. Courier Provisioning Desk</h3>
+      <p>Register new delivery personnel credentials for dispatch.</p>
+      <form id="addCourierForm" style="max-width: 600px;">
+        <div class="form-group"><label>Courier Name</label><input type="text" id="dcName" required placeholder="e.g. Yaw Mensah"></div>
+        <div class="form-group"><label>Login Email</label><input type="email" id="dcEmail" required placeholder="e.g. yaw@everivault.com"></div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <div class="form-group"><label>Phone</label><input type="tel" id="dcPhone" required placeholder="0240000000"></div>
+          <div class="form-group"><label>Password</label><input type="password" id="dcPass" required placeholder="••••••••"></div>
+        </div>
+        <button class="btn btn-green" type="submit">Save Courier Profile</button>
+      </form>
+    </div>
+
+    <!-- SUB-PAGE 5: Importers & Referrals Audit -->
+    <div id="sub-clients" class="admin-subpage admin-panel-box" style="border-top: 4px solid #EC4899;">
+      <h3>5. Importers & Referrals Audit</h3>
+      <p>Complete record of verified clients and their tracking marks.</p>
+      <div id="adminClientsList"></div>
+    </div>
+
+    <!-- SUB-PAGE 6: Catalog Inventory Management -->
+    <div id="sub-inventory" class="admin-subpage admin-panel-box" style="border-top: 4px solid #14B8A6;">
+      <h3>6. Catalog Inventory Management</h3>
+      <p>Review and delete active store catalog listings.</p>
+      <div id="adminProductsList"></div>
+    </div>
+
   </div>
 </section>
 
@@ -702,6 +701,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const menuToggle = $('menuToggleBtn');
   if (menuToggle) menuToggle.addEventListener('click', () => $('menu').classList.toggle('active'));
+
+  // Admin Sub-portals Tab Switcher
+  document.querySelectorAll('[data-admintab]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const subId = btn.getAttribute('data-admintab');
+      document.querySelectorAll('[data-admintab]').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.admin-subpage').forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+      const targetSub = $(subId);
+      if (targetSub) targetSub.classList.add('active');
+    });
+  });
 
   document.querySelectorAll('[data-authtab]').forEach(btn => {
     btn.addEventListener('click', () => {
