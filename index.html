@@ -17,12 +17,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --navy: #0A192F; --navy-surface: #112240; --navy-light: #233554;
+  --navy: #0A192F; --navy-surface: #112240; --navy-light: #1E3A5F;
   --deep-blue: #1E3A8A; --deep-blue-hover: #172554;
-  --green: #059669; --green-hover: #047857; --green-light: rgba(5,150,105,0.08);
+  --green: #059669; --green-hover: #047857; --green-light: rgba(5,150,105,0.1);
   --slate: #64748B; --slate-light: #94A3B8;
   --bg-light: #F8FAFC; --border-color: #E2E8F0;
-  --card-shadow: 0 10px 30px -5px rgba(10,25,47,0.06);
+  --card-shadow: 0 12px 35px -5px rgba(10,25,47,0.08);
 }
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif; -webkit-tap-highlight-color:transparent; }
 html { scroll-behavior:smooth; }
@@ -32,19 +32,18 @@ body { background:var(--bg-light); color:#0F172A; line-height:1.6; -webkit-font-
 nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-bottom:1px solid rgba(255,255,255,0.08); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); }
 .nav-wrap { display:flex; justify-content:space-between; align-items:center; height:76px; }
 .logo-area { display:flex; align-items:center; gap:12px; cursor:pointer; text-decoration:none; background:none; border:none; }
-.logo-img { width:42px; height:42px; border-radius:6px; object-fit:cover; background:#FFFFFF; border:1px solid rgba(255,255,255,0.2); }
+.logo-img { width:44px; height:44px; border-radius:8px; object-fit:cover; background:#FFFFFF; border:1.5px solid rgba(255,255,255,0.25); display:flex; align-items:center; justify-content:center; color:var(--green); font-weight:800; font-size:18px; }
 .logo { font-size:15px; font-weight:800; color:#FFFFFF; letter-spacing:0.5px; display:flex; flex-direction:column; line-height:1.2; text-align:left; }
 .logo span { color:var(--green); font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:1.2px; }
 .nav-links { display:flex; gap:6px; list-style:none; align-items:center; flex-wrap:wrap; }
-.nav-links button, .nav-links a { color:var(--slate-light); text-decoration:none; background:none; border:none; padding:8px 14px; border-radius:6px; font-weight:600; font-size:13px; cursor:pointer; display:flex; align-items:center; gap:5px; white-space:nowrap; transition:all 0.2s; font-family:inherit; }
+.nav-links button, .nav-links a { color:var(--slate-light); text-decoration:none; background:none; border:none; padding:8px 14px; border-radius:8px; font-weight:600; font-size:13px; cursor:pointer; display:flex; align-items:center; gap:5px; white-space:nowrap; transition:all 0.2s; font-family:inherit; }
 .nav-links button:hover, .nav-links button.active, .nav-links a:hover, .nav-links a.active { color:#FFFFFF; background:rgba(255,255,255,0.08); }
-.nav-cta { background:var(--green) !important; color:#FFFFFF !important; font-weight:700 !important; }
-.cart-badge { background:#EF4444; color:#fff; border-radius:50px; padding:2px 7px; font-size:10px; font-weight:800; }
-.menu-toggle { display:none; color:#fff; font-size:14px; font-weight:700; cursor:pointer; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); padding:8px 14px; border-radius:6px; }
+.nav-cta { background:var(--green) !important; color:#FFFFFF !important; font-weight:700 !important; box-shadow:0 4px 15px rgba(5,150,105,0.3); }
+.menu-toggle { display:none; color:#fff; font-size:14px; font-weight:700; cursor:pointer; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); padding:8px 14px; border-radius:8px; }
 
 .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 20px; border-radius:8px; font-weight:700; border:none; cursor:pointer; font-size:14px; text-decoration:none; white-space:nowrap; -webkit-appearance:none; transition:all 0.2s; font-family:inherit; }
 .btn:active { transform:scale(0.98); }
-.btn-green { background:var(--green); color:#fff; }
+.btn-green { background:var(--green); color:#fff; box-shadow:0 4px 15px rgba(5,150,105,0.25); }
 .btn-green:hover { background:var(--green-hover); }
 .btn-blue { background:var(--deep-blue); color:#fff; }
 .btn-blue:hover { background:var(--deep-blue-hover); }
@@ -57,9 +56,9 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 .secure-badge-bar { background:#071322; border-bottom:1px solid rgba(255,255,255,0.06); padding:6px 0; font-size:11px; color:var(--slate-light); text-align:center; font-weight:600; letter-spacing:0.5px; }
 .secure-badge-bar span { color:var(--green); font-weight:700; margin-left:6px; }
 
-.hero { background: linear-gradient(180deg, rgba(10,25,47,0.95) 0%, rgba(30,58,138,0.98) 100%), url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat; color:#fff; padding:75px 16px 85px; text-align:center; position:relative; overflow:hidden; }
+.hero { background: linear-gradient(135deg, rgba(10,25,47,0.96) 0%, rgba(30,58,138,0.95) 100%), url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat; color:#fff; padding:80px 16px 90px; text-align:center; position:relative; overflow:hidden; }
 .badge { display:inline-flex; align-items:center; gap:6px; background:var(--green-light); border:1px solid rgba(5,150,105,0.4); color:var(--green); padding:6px 14px; border-radius:50px; font-weight:700; margin-bottom:16px; font-size:11px; text-transform:uppercase; letter-spacing:0.8px; }
-.hero h1 { font-size:clamp(28px, 4.5vw, 46px); margin-bottom:14px; font-weight:800; letter-spacing:-0.5px; }
+.hero h1 { font-size:clamp(28px, 4.5vw, 48px); margin-bottom:14px; font-weight:800; letter-spacing:-0.5px; }
 .hero h1 span { color:var(--green); }
 .hero p { font-size:clamp(14px, 2vw, 16px); color:var(--slate-light); max-width:650px; margin:0 auto 28px; font-weight:500; }
 .rate-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px; max-width:920px; margin:0 auto 28px; text-align:left; }
@@ -68,50 +67,58 @@ nav { background:var(--navy); position:sticky; top:0; z-index:9999; border-botto
 .rate-card .big { font-size:22px; font-weight:800; color:var(--green); }
 .rate-card .sub { font-size:11px; color:#CBD5E1; margin-top:2px; }
 
-.grid-pdd { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:16px; }
-.pdd-card { background:#fff; border-radius:10px; overflow:hidden; border:1px solid var(--border-color); display:flex; flex-direction:column; justify-content:space-between; box-shadow:var(--card-shadow); }
-.pdd-img-wrap { width:100%; height:160px; background:#E2E8F0; position:relative; overflow:hidden; }
+.grid-pdd { display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:18px; }
+.pdd-card { background:#fff; border-radius:12px; overflow:hidden; border:1px solid var(--border-color); display:flex; flex-direction:column; justify-content:space-between; box-shadow:var(--card-shadow); transition:transform 0.2s; }
+.pdd-card:hover { transform:translateY(-3px); }
+.pdd-img-wrap { width:100%; height:180px; background:#E2E8F0; position:relative; overflow:hidden; }
 .pdd-img { width:100%; height:100%; object-fit:cover; }
-.pdd-tag-deal { position:absolute; top:8px; left:8px; background:var(--deep-blue); color:#fff; font-size:10px; font-weight:800; padding:2px 6px; border-radius:4px; z-index:2; text-transform:uppercase; letter-spacing:0.5px; }
-.pdd-content { padding:14px; display:flex; flex-direction:column; flex:1; justify-content:space-between; }
-.pdd-title { font-size:13px; font-weight:700; color:var(--navy); margin-bottom:6px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; height:38px; line-height:1.3; }
+.pdd-tag-deal { position:absolute; top:10px; left:10px; background:var(--deep-blue); color:#fff; font-size:10px; font-weight:800; padding:3px 8px; border-radius:6px; z-index:2; text-transform:uppercase; letter-spacing:0.5px; }
+.pdd-content { padding:16px; display:flex; flex-direction:column; flex:1; justify-content:space-between; }
+.pdd-title { font-size:14px; font-weight:700; color:var(--navy); margin-bottom:8px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
 .pdd-price { font-size:16px; font-weight:800; color:var(--green); }
 
 section { padding:50px 0; }
 .section-box { background:#fff; padding:50px 0; border-bottom:1px solid var(--border-color); }
-h2 { text-align:center; font-size:26px; color:var(--navy); margin-bottom:6px; font-weight:800; letter-spacing:-0.5px; }
-h2::after { content:''; display:block; width:36px; height:3px; background:var(--green); margin:10px auto 0; border-radius:2px; }
+h2 { text-align:center; font-size:28px; color:var(--navy); margin-bottom:6px; font-weight:800; letter-spacing:-0.5px; }
+h2::after { content:''; display:block; width:40px; height:3px; background:var(--green); margin:10px auto 0; border-radius:2px; }
 .subtitle { text-align:center; color:var(--slate); margin-bottom:30px; font-size:14px; font-weight:500; }
 
 .tabs { display:flex; gap:6px; margin-bottom:20px; border-bottom:2px solid var(--border-color); padding-bottom:2px; flex-wrap:wrap; }
-.tab { padding:8px 16px; border-radius:6px; cursor:pointer; font-weight:700; color:var(--slate); border:none; background:none; font-size:13px; transition:all 0.2s; font-family:inherit; }
+.tab { padding:8px 16px; border-radius:8px; cursor:pointer; font-weight:700; color:var(--slate); border:none; background:none; font-size:13px; transition:all 0.2s; font-family:inherit; }
 .tab.active { color:var(--navy); background:#E2E8F0; }
 .tab-content { display:none; }
 .tab-content.active { display:block; }
 
-.form-box { width:100%; max-width:540px; margin:0 auto; background:#fff; padding:28px; border-radius:12px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); }
+.form-box { width:100%; max-width:580px; margin:0 auto; background:#fff; padding:32px; border-radius:14px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); }
 .form-group { margin-bottom:16px; }
-label { display:block; margin-bottom:5px; font-weight:700; color:var(--navy); font-size:11px; text-transform:uppercase; letter-spacing:0.5px; }
+label { display:block; margin-bottom:6px; font-weight:700; color:var(--navy); font-size:11px; text-transform:uppercase; letter-spacing:0.5px; }
 input, select, textarea { width:100%; padding:12px 14px; border:1.5px solid #CBD5E1; border-radius:8px; font-size:14px; background:var(--bg-light); color:#0F172A; -webkit-appearance:none; transition:border-color 0.2s; font-family:inherit; }
 input:focus, select:focus, textarea:focus { outline:none; border-color:var(--deep-blue); background:#fff; }
 
-.admin-stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:14px; margin-bottom:24px; }
-.stat-card { background:#fff; padding:18px; border-radius:10px; border:1px solid var(--border-color); box-shadow:var(--card-shadow); }
+.addr-section { background:#fff; border-radius:14px; padding:28px; box-shadow:var(--card-shadow); border:1px solid var(--border-color); margin-bottom:24px; }
+.addr-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:20px; }
+.addr-block { background:var(--bg-light); border-radius:10px; padding:20px; border:1px solid var(--border-color); }
+.cn-text-box { background:#fff; border:1.5px solid #CBD5E1; border-radius:8px; padding:12px; margin:10px 0; font-family:monospace; font-size:13px; color:#0F172A; word-break:break-all; }
+.contact-row { display:flex; justify-content:space-between; align-items:center; background:#fff; padding:10px 14px; border-radius:8px; border:1px solid var(--border-color); margin-bottom:8px; font-size:13px; }
+
+.admin-stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:16px; margin-bottom:28px; }
+.stat-card { background:#fff; padding:20px; border-radius:12px; border:1px solid var(--border-color); box-shadow:var(--card-shadow); }
 .stat-card h4 { font-size:11px; color:var(--slate); text-transform:uppercase; margin-bottom:4px; font-weight:700; letter-spacing:0.5px; }
-.stat-card .val { font-size:24px; font-weight:800; color:var(--navy); }
+.stat-card .val { font-size:26px; font-weight:800; color:var(--navy); }
 
-.admin-table { width:100%; border-collapse:collapse; background:#fff; border-radius:8px; overflow:hidden; box-shadow:var(--card-shadow); }
-.admin-table th { background:var(--navy); color:#fff; padding:12px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; }
-.admin-table td { padding:12px; border-bottom:1px solid var(--border-color); font-size:13px; }
+.admin-table { width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; box-shadow:var(--card-shadow); }
+.admin-table th { background:var(--navy); color:#fff; padding:14px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; }
+.admin-table td { padding:14px; border-bottom:1px solid var(--border-color); font-size:13px; }
 
-.pill { display:inline-block; padding:3px 8px; border-radius:20px; font-size:11px; font-weight:700; }
+.pill { display:inline-block; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700; }
 .pill-verified { background:#D1FAE5; color:#166534; }
+.pill-pending { background:#FEF3C7; color:#92400E; }
 
 .page { display:none; }
 .page.active { display:block; }
 
 .toast-wrap { position:fixed; top:85px; right:16px; z-index:10001; display:flex; flex-direction:column; gap:8px; pointer-events:none; }
-.toast { background:var(--navy); color:#fff; padding:12px 18px; border-radius:8px; font-weight:600; font-size:13px; max-width:320px; opacity:0; transform:translateX(100%); transition:all 0.2s; pointer-events:auto; box-shadow:0 8px 20px rgba(0,0,0,0.15); }
+.toast { background:var(--navy); color:#fff; padding:12px 20px; border-radius:8px; font-weight:600; font-size:13px; max-width:340px; opacity:0; transform:translateX(100%); transition:all 0.2s; pointer-events:auto; box-shadow:0 8px 25px rgba(0,0,0,0.15); }
 .toast.show { opacity:1; transform:translateX(0); }
 .toast.ok { background:var(--green); }
 .toast.err { background:#EF4444; }
@@ -126,15 +133,15 @@ input:focus, select:focus, textarea:focus { outline:none; border-color:var(--dee
   font-family:inherit;
 }
 .install-btn.show { display:flex; }
-.install-btn img { width:24px; height:24px; border-radius:6px; border:1px solid rgba(255,255,255,0.15); object-fit:cover; background:#fff; }
+.install-btn img { width:24px; height:24px; border-radius:6px; object-fit:cover; background:#fff; }
 .install-btn .pulse-dot { width:8px; height:8px; border-radius:50%; background:var(--green); margin-left:2px; }
 
-footer { background:var(--navy); color:var(--slate-light); padding:45px 16px 25px; margin-top:60px; text-align:center; border-top:1px solid rgba(255,255,255,0.08); }
+footer { background:var(--navy); color:var(--slate-light); padding:50px 16px 25px; margin-top:60px; text-align:center; border-top:1px solid rgba(255,255,255,0.08); }
 footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; letter-spacing:0.5px; }
 
 @media(max-width:850px) {
   .menu-toggle { display:block; }
-  .nav-links { position:absolute; top:100%; left:0; right:0; background:var(--navy); flex-direction:column; padding:14px; display:none; border-bottom:1px solid rgba(255,255,255,0.1); box-shadow:0 10px 25px rgba(0,0,0,0.2); }
+  .nav-links { position:absolute; top:100%; left:0; right:0; background:var(--navy); flex-direction:column; padding:16px; display:none; border-bottom:1px solid rgba(255,255,255,0.1); box-shadow:0 10px 25px rgba(0,0,0,0.2); }
   .nav-links.active { display:flex; }
   .nav-links button, .nav-links a { width:100%; padding:10px; text-align:left; }
   .hero { padding:50px 12px 60px; }
@@ -157,6 +164,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
     <ul class="nav-links" id="menu">
       <li><button class="plink active" data-nav="home">Home Hub</button></li>
       <li><button class="plink" data-nav="store">Wholesale Catalog</button></li>
+      <li><button class="plink" data-nav="address">Warehouses</button></li>
       <li id="dynamicPortalLink" style="display:none;"><button class="plink" id="dynPortalBtn" data-nav="clientportal">My Portal</button></li>
       <li id="authNav"><button class="nav-cta plink" data-nav="auth">Sign In & Access Portal</button></li>
       <li id="signOutNav" style="display:none;"><button class="btn btn-sm btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.4);" id="signOutBtn">Sign Out</button></li>
@@ -221,6 +229,35 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
   </div>
 </section>
 
+<!-- WAREHOUSES & ADDRESSES -->
+<section id="p-address" class="page">
+  <div class="container">
+    <h2>International Receiving Warehouses</h2>
+    <p class="subtitle">Verified Chinese receiving facilities for supplier cargo dispatch labeling.</p>
+    <div class="addr-section">
+      <div class="addr-grid">
+        <div class="addr-block" style="border-left:4px solid var(--navy);">
+          <h4>Sea Cargo Hub — Foshan Facility</h4>
+          <label>Mandatory Chinese Address Label:</label>
+          <div class="cn-text-box" id="cnSeaAddress">广东省佛山市南海区狮山镇新浦西路88号博汇五期</div>
+          <button class="btn btn-sm btn-green" id="copySeaAddrBtn">Copy Chinese Address</button>
+          <div style="margin-top:16px;">
+            <label>Facility Management Contacts:</label>
+            <div class="contact-row"><span>Mr. Zhang: <strong>+86 181 2571 7488</strong></span><button class="btn btn-sm btn-outline" data-copy="+8618125717488">Copy</button></div>
+            <div class="contact-row"><span>Mr. Yue: <strong>+86 180 2417 9599</strong></span><button class="btn btn-sm btn-outline" data-copy="+8618024179599">Copy</button></div>
+          </div>
+        </div>
+        <div class="addr-block" style="border-left:4px solid var(--green);">
+          <h4>Air Express Hub — Guangzhou Facility</h4>
+          <label>Mandatory Chinese Address Label:</label>
+          <div class="cn-text-box" id="cnAirAddress">广东省广州市越秀区广园西路99号99商务中心510室</div>
+          <button class="btn btn-sm btn-green" id="copyAirAddrBtn">Copy Chinese Address</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- AUTHENTICATION & RECOVERY PORTAL -->
 <section id="p-auth" class="page">
   <div class="container">
@@ -238,14 +275,6 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
         <form id="loginForm">
           <div class="form-group"><label>Email / Shipping ID / Courier ID</label><input type="text" id="uniIdent" required placeholder="e.g. richmonwireko@gmail.com or delivery@everivault.com"></div>
           <div class="form-group"><label>Password</label><input type="password" id="uniPw" required placeholder="••••••••"></div>
-          
-          <div style="background:#F8FAFC; border:1px solid var(--border-color); padding:10px; border-radius:6px; font-size:11px; color:var(--slate); margin-bottom:14px;">
-            <strong>Quick Test Credentials:</strong><br>
-            • Admin: `richmonwireko@gmail.com`<br>
-            • Courier: `delivery@everivault.com`<br>
-            • Client: Register below or use any email.
-          </div>
-
           <button class="btn btn-green btn-block" type="submit">Sign In to Portal</button>
         </form>
       </div>
@@ -253,40 +282,65 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
       <!-- Registration Tab -->
       <div id="tReg" class="tab-content">
         <form id="regForm">
-          <div class="form-group"><label>Full Name</label><input type="text" id="rn" required></div>
-          <div class="form-group"><label>Gmail Address</label><input type="email" id="rem" required></div>
-          <div class="form-group"><label>Phone Number</label><input type="tel" id="rp" required></div>
-          <div class="form-group"><label>Delivery Address in Ghana</label><input type="text" id="rloc" required></div>
+          <div class="form-group"><label>Full Name</label><input type="text" id="rn" required placeholder="e.g. Richmond Wireko"></div>
+          <div class="form-group"><label>Gmail Address</label><input type="email" id="rem" required placeholder="e.g. yourname@gmail.com"></div>
+          <div class="form-group"><label>Phone Number (Digits)</label><input type="tel" id="rp" required placeholder="e.g. 0543155883"></div>
+          <div class="form-group"><label>Delivery Address in Ghana</label><input type="text" id="rloc" required placeholder="e.g. Kumasi KNUST Ayeduase"></div>
           <div class="form-group"><label>Password (Min 6 Characters)</label><input type="password" id="rpw" required minlength="6"></div>
-          <button class="btn btn-green btn-block" type="submit">Create Account & Shipping Mark</button>
+          <button class="btn btn-green btn-block" type="submit">Create Account & Tracking Mark</button>
         </form>
       </div>
 
       <!-- Password Recovery Tab -->
       <div id="tReset" class="tab-content">
-        <p style="font-size:12px; color:var(--slate); margin-bottom:14px;">Enter your registered Gmail address to reset your portal password instantly.</p>
+        <p style="font-size:12px; color:var(--slate); margin-bottom:14px;">Enter your registered details to generate/recover your tracking code instantly.</p>
         <form id="resetForm">
-          <div class="form-group"><label>Registered Gmail Address</label><input type="email" id="resetEmail" required placeholder="yourname@gmail.com"></div>
-          <button class="btn btn-navy btn-block" type="submit">Send Reset Instructions</button>
+          <div class="form-group"><label>First Name</label><input type="text" id="resetFirst" required placeholder="e.g. Richmond"></div>
+          <div class="form-group"><label>Phone Number Used to Register</label><input type="tel" id="resetPhone" required placeholder="e.g. 0543155883"></div>
+          <div class="form-group"><label>Registered Gmail Address</label><input type="email" id="resetEmail" required placeholder="e.g. yourname@gmail.com"></div>
+          <button class="btn btn-navy btn-block" type="submit">Recover Account & Tracking Code</button>
         </form>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CLIENT DASHBOARD -->
+<!-- CLIENT DASHBOARD & TRACKING & CHAT -->
 <section id="p-clientportal" class="page">
   <div class="container">
-    <h2>Client Dashboard & Tracking</h2>
-    <p class="subtitle">Welcome to your secure importer portal.</p>
-    <div class="form-box" style="max-width:700px; text-align:center;">
-      <h3 style="color:var(--navy); margin-bottom:8px;" id="clientPortalName">Importer Portal</h3>
-      <p style="font-size:13px; color:var(--slate); margin-bottom:16px;">Your Shipping Mark: <code id="clientPortalMark" style="background:#F1F5F9; padding:4px 8px; font-weight:800; color:var(--green);">GH001K-CLI-001</code></p>
-      <div style="background:#F8FAFC; border:1px solid var(--border-color); padding:18px; border-radius:8px; text-align:left; margin-bottom:16px;">
-        <span class="pill pill-verified">Goods Received at China Warehouse</span>
-        <p style="font-size:13px; color:var(--navy); margin-top:8px;">Your cargo is successfully processed and queued for container consolidation to Kumasi.</p>
+    <h2>Client Dashboard & Live Tracking</h2>
+    <p class="subtitle">Monitor your cargo milestone progress and negotiate delivery directly.</p>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:20px; max-width:1000px; margin:0 auto;">
+      <div class="form-box" style="margin:0;">
+        <h3 style="color:var(--navy); margin-bottom:12px;" id="clientPortalName">Importer Portal</h3>
+        <p style="font-size:13px; color:var(--slate); margin-bottom:14px;">Tracking Mark: <code id="clientPortalMark" style="background:#F1F5F9; padding:4px 8px; font-weight:800; color:var(--green);">GH001K-RICHMOND-0543155883</code></p>
+        
+        <div style="background:#F8FAFC; border:1px solid var(--border-color); padding:16px; border-radius:10px; margin-bottom:14px;">
+          <label>Current Shipment Milestone:</label>
+          <div id="clientLiveStatusDisplay" style="font-weight:800; color:var(--green); font-size:15px; margin-top:4px;">Goods Ordered</div>
+        </div>
+
+        <div style="background:#FEF3C7; border:1px solid #FCD34D; padding:12px; border-radius:8px; font-size:12px; color:#92400E; margin-bottom:14px;">
+          <strong>Security Notice to Client:</strong> All payments for store purchases or shipping logistics must be done strictly to official payment schemes (MTN MoMo: 0543155883 / GTBank: 1304001024705). Never hand cash to unofficial third-party agents.
+        </div>
       </div>
-      <button class="btn btn-outline" data-nav="store">Browse Wholesale Catalog</button>
+
+      <div class="form-box" style="margin:0; border:2px solid var(--deep-blue);">
+        <h3 style="color:var(--deep-blue); margin-bottom:6px;">Delivery Negotiation Desk</h3>
+        <p style="font-size:12px; color:var(--slate); margin-bottom:10px;">Discuss delivery fee amount and preferred receipt time with your courier.</p>
+        
+        <div id="clientChatBox" style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:8px; padding:12px; height:220px; overflow-y:auto; margin-bottom:12px; display:flex; flex-direction:column; gap:8px;"></div>
+        
+        <form id="clientChatForm">
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <input type="text" id="clientMsgInput" required placeholder="Discuss delivery amount or receipt time..." style="font-size:13px;">
+            <div style="display:flex; gap:8px; align-items:center;">
+              <input type="file" id="clientChatFile" accept="image/*" multiple style="font-size:11px; padding:6px; flex:1;">
+              <button class="btn btn-blue" type="submit" style="padding:10px 16px;">Send Message</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </section>
@@ -294,20 +348,20 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
 <!-- ADMIN EXECUTIVE SUITE -->
 <section id="p-admin" class="page">
   <div class="container">
-    <div style="background:var(--navy); color:#fff; padding:20px; border-radius:10px; margin-bottom:24px;">
+    <div style="background:var(--navy); color:#fff; padding:20px; border-radius:12px; margin-bottom:24px;">
       <h2 style="color:var(--green); text-align:left; margin-bottom:2px;">Master Executive Suite</h2>
       <p style="color:var(--slate-light); font-size:12px;">Authenticated Executive: Richmond Wireko Brobbey</p>
     </div>
     
     <div class="admin-stats-grid">
-      <div class="stat-card"><h4>Registered Clients</h4><div class="val" id="statClientCount">14</div></div>
-      <div class="stat-card"><h4>Catalog Inventory</h4><div class="val" id="statProdCount">0</div></div>
-      <div class="stat-card"><h4>Active Containers</h4><div class="val" id="statContCount">3</div></div>
+      <div class="stat-card"><h4>Registered Clients</h4><div class="val" id="statClientCount">0</div></div>
+      <div class="stat-card"><h4>Catalog Items</h4><div class="val" id="statProdCount">0</div></div>
+      <div class="stat-card"><h4>Delivery Personnel</h4><div class="val" id="statCourierCount">0</div></div>
     </div>
 
-    <!-- Product Management Section -->
-    <div style="background:#fff; padding:24px; border-radius:10px; border:1px solid var(--border-color); margin-bottom:24px; box-shadow:var(--card-shadow);">
-      <h3 style="margin-bottom:14px; color:var(--navy);">Add New Wholesale Item</h3>
+    <!-- 1. Product Management with Multiple Photos -->
+    <div style="background:#fff; padding:24px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:24px; box-shadow:var(--card-shadow);">
+      <h3 style="margin-bottom:14px; color:var(--navy);">Add Wholesale Item (Multiple Photos / Files)</h3>
       <form id="addProductForm">
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px;">
           <div class="form-group"><label>Product Title</label><input type="text" id="npName" required placeholder="e.g. DTF Printer Pro"></div>
@@ -320,12 +374,56 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
             </select>
           </div>
         </div>
-        <div class="form-group"><label>Image URL</label><input type="url" id="npImg" required placeholder="https://images.unsplash.com/..."></div>
-        <button class="btn btn-green" type="submit">Publish Product to Catalog</button>
+        <div class="form-group">
+          <label>Select Multiple Photos / Files</label>
+          <input type="file" id="npFiles" accept="image/*" multiple required style="padding:10px;">
+        </div>
+        <button class="btn btn-green" type="submit">Publish Product with Photos</button>
       </form>
     </div>
 
-    <div style="background:#fff; padding:20px; border-radius:10px; border:1px solid var(--border-color);">
+    <!-- 2. Goods Tracking Control -->
+    <div style="background:#fff; padding:24px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:24px; box-shadow:var(--card-shadow);">
+      <h3 style="margin-bottom:14px; color:var(--navy);">Update Global Goods Tracking Milestone</h3>
+      <form id="updateTrackingForm">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px;">
+          <div class="form-group"><label>Select Client</label><select id="adminTrackClientSelect" required></select></div>
+          <div class="form-group"><label>Milestone Status</label>
+            <select id="adminTrackStatusSelect" required>
+              <option value="Goods Ordered">Goods Ordered</option>
+              <option value="Reached Chinese Warehouse">Reached Chinese Warehouse</option>
+              <option value="At Tema Harbor">At Tema Harbor</option>
+              <option value="In Kumasi Warehouse">In Kumasi Warehouse</option>
+              <option value="Out for Delivery">Out for Delivery</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-blue" type="submit">Commit Tracking Milestone</button>
+      </form>
+    </div>
+
+    <!-- 3. Add New Delivery Guy -->
+    <div style="background:#fff; padding:24px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:24px; box-shadow:var(--card-shadow);">
+      <h3 style="margin-bottom:14px; color:var(--navy);">Register New Delivery Courier</h3>
+      <form id="addCourierForm">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px;">
+          <div class="form-group"><label>Courier Name</label><input type="text" id="dcName" required placeholder="e.g. Yaw Mensah"></div>
+          <div class="form-group"><label>Login Email</label><input type="email" id="dcEmail" required placeholder="e.g. yaw@everivault.com"></div>
+          <div class="form-group"><label>Phone Number</label><input type="tel" id="dcPhone" required placeholder="0240000000"></div>
+          <div class="form-group"><label>Password</label><input type="password" id="dcPass" required placeholder="••••••••"></div>
+        </div>
+        <button class="btn btn-green" type="submit">Save Courier Profile</button>
+      </form>
+    </div>
+
+    <!-- 4. Registered Client Info Audit Log -->
+    <div style="background:#fff; padding:20px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:24px;">
+      <h3 style="margin-bottom:12px; color:var(--navy);">Newly Registered & Logged Clients Audit Log</h3>
+      <div id="adminClientsList"></div>
+    </div>
+
+    <!-- 5. Catalog Inventory Management -->
+    <div style="background:#fff; padding:20px; border-radius:12px; border:1px solid var(--border-color);">
       <h3 style="margin-bottom:12px; color:var(--navy);">Catalog Inventory</h3>
       <div id="adminProductsList"></div>
     </div>
@@ -335,16 +433,31 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
 <!-- COURIER PORTAL -->
 <section id="p-deliveryportal" class="page">
   <div class="container">
-    <div style="background:var(--deep-blue); color:#fff; padding:20px; border-radius:10px; margin-bottom:24px;">
+    <div style="background:var(--deep-blue); color:#fff; padding:20px; border-radius:12px; margin-bottom:24px;">
       <h2 style="color:#fff; text-align:left; margin-bottom:2px;">Courier Dispatch Portal</h2>
-      <p style="color:#93C5FD; font-size:12px;">Kumasi Logistics & Last-Mile Delivery Desk</p>
+      <p style="color:#93C5FD; font-size:12px;" id="courierWelcomeSubtitle">Kumasi Logistics & Last-Mile Delivery Desk</p>
     </div>
-    <div style="background:#fff; padding:20px; border-radius:10px; border:1px solid var(--border-color);">
-      <h3 style="margin-bottom:12px; color:var(--navy);">Assigned Deliveries</h3>
-      <div style="background:#F8FAFC; border:1px solid var(--border-color); padding:14px; border-radius:8px; font-size:13px;">
-        <strong>Consignee:</strong> Kofi Mensah (GH001K-KM-2401)<br>
-        <strong>Destination:</strong> KNUST Ayeduase New Site, Kumasi<br>
-        <strong>Contact:</strong> +233 24 123 4567 <span class="pill pill-verified" style="margin-top:6px; display:inline-block;">Ready for Dispatch</span>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:20px;">
+      <div style="background:#fff; padding:20px; border-radius:12px; border:1px solid var(--border-color);">
+        <h3 style="margin-bottom:12px; color:var(--navy);">Assigned Client Deliveries</h3>
+        <div class="form-group"><label>Select Active Importer to Coordinate</label><select id="courierClientSelect"></select></div>
+        <div id="courierClientDetailsCard" style="background:#F8FAFC; border:1px solid var(--border-color); padding:14px; border-radius:8px; font-size:13px; margin-top:10px;"></div>
+      </div>
+
+      <div style="background:#fff; padding:20px; border-radius:12px; border:1px solid var(--border-color);">
+        <h3 style="margin-bottom:12px; color:var(--deep-blue);">Delivery Amount & Time Discussion</h3>
+        <div id="courierChatBox" style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:8px; padding:12px; height:220px; overflow-y:auto; margin-bottom:12px; display:flex; flex-direction:column; gap:8px;"></div>
+        
+        <form id="courierChatForm">
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <input type="text" id="courierMsgInput" required placeholder="Discuss delivery fee or schedule time..." style="font-size:13px;">
+            <div style="display:flex; gap:8px; align-items:center;">
+              <input type="file" id="courierChatFiles" accept="image/*" multiple style="font-size:11px; padding:6px; flex:1;" title="Upload multiple picture proofs that goods are with you">
+              <button class="btn btn-blue" type="submit" style="padding:10px 16px;">Send Proof & Note</button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -408,15 +521,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Pre-populated wholesale products if none exist in localStorage
+  // Initial State Data
   const initialProducts = [
-    { id: 'p1', name: 'Direct-to-Film (DTF) Industrial Printer Pro', category: 'printing hardware', price: 18500, type: 'Pre-Order', image: 'https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=600&q=80' },
-    { id: 'p2', name: 'Men’s Streetwear Cargo Jogger Two-Piece Set', category: 'apparel', price: 280, type: 'In Stock', image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80' },
-    { id: 'p3', name: 'Moissanite Luxury Quartz Watch & Bracelet Gift Set', category: 'accessories', price: 650, type: 'In Stock', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80' }
+    { id: 'p1', name: 'Direct-to-Film (DTF) Industrial Printer Pro', category: 'printing hardware', price: 18500, type: 'Pre-Order', images: ['https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=600&q=80'] },
+    { id: 'p2', name: 'Men’s Streetwear Cargo Jogger Two-Piece Set', category: 'apparel', price: 280, type: 'In Stock', images: ['https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80'] }
   ];
 
   let products = JSON.parse(localStorage.getItem('ev_products') || JSON.stringify(initialProducts));
+  let clients = JSON.parse(localStorage.getItem('ev_clients') || JSON.stringify([
+    { name: 'Kofi Mensah', email: 'kofi@gmail.com', phone: '0241234567', location: 'Kumasi', mark: 'GH001K-KOFI-4567', status: 'Goods Ordered' }
+  ]));
+  let couriers = JSON.parse(localStorage.getItem('ev_couriers') || JSON.stringify([
+    { name: 'Yaw Mensah', email: 'delivery@everivault.com', phone: '0240000000', pass: 'password123' }
+  ]));
+  let messages = JSON.parse(localStorage.getItem('ev_messages') || '[]');
   let currentUser = JSON.parse(localStorage.getItem('ev_user') || 'null');
+
+  function generateMark(firstName, phone) {
+    const cleanName = (firstName || 'CLI').trim().toUpperCase().replace(/[^A-Z]/g, '');
+    const cleanPhone = (phone || '0000000000').trim().replace(/\D/g, '');
+    return 'GH001K-' + cleanName + '-' + cleanPhone;
+  }
 
   function go(page) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -425,7 +550,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-nav="'+page+'"]').forEach(l => l.classList.add('active'));
     window.scrollTo({ top: 0, behavior: 'auto' });
     if (page === 'store' || page === 'home') renderCatalog();
-    if (page === 'admin') renderAdminProducts();
+    if (page === 'admin') renderAdmin();
+    if (page === 'clientportal') renderClientPortal();
+    if (page === 'deliveryportal') renderCourierPortal();
   }
 
   document.addEventListener('click', e => {
@@ -446,39 +573,45 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Login Form Handler
+  // Login Form
   const loginForm = $('loginForm');
   if (loginForm) {
     loginForm.addEventListener('submit', e => {
       e.preventDefault();
       const ident = $('uniIdent').value.trim().toLowerCase();
-      
-      let role = 'client';
-      let name = 'Commercial Importer';
-      let mark = 'GH001K-CLI-001';
+      const pass = $('uniPw').value;
 
       if (ident === 'richmonwireko@gmail.com') {
-        role = 'admin'; name = 'Richmond Wireko Brobbey'; mark = 'GH001K-ADM-0543';
-      } else if (ident === 'delivery@everivault.com') {
-        role = 'delivery'; name = 'Kumasi Express Dispatch'; mark = 'COURIER';
+        currentUser = { name: 'Richmond Wireko', email: ident, role: 'admin', mark: 'GH001K-RICHMOND-0543155883' };
+      } else {
+        const foundCourier = couriers.find(c => c.email.toLowerCase() === ident);
+        if (foundCourier) {
+          currentUser = { name: foundCourier.name, email: foundCourier.email, role: 'delivery', mark: 'COURIER' };
+        } else {
+          let foundClient = clients.find(c => c.email.toLowerCase() === ident || c.mark.toLowerCase() === ident);
+          if (!foundClient) {
+            // Auto register/login new client session
+            const firstName = ident.split('@')[0];
+            const mark = generateMark(firstName, '0541234567');
+            foundClient = { name: firstName, email: ident, phone: '0541234567', location: 'Ghana', mark, status: 'Goods Ordered' };
+            clients.push(foundClient);
+            localStorage.setItem('ev_clients', JSON.stringify(clients));
+          }
+          currentUser = { name: foundClient.name, email: foundClient.email, role: 'client', mark: foundClient.mark };
+        }
       }
 
-      currentUser = { name, email: ident, role, mark };
       localStorage.setItem('ev_user', JSON.stringify(currentUser));
-      toast('Welcome back, ' + name + '!', 'ok');
+      toast('Signed in successfully.', 'ok');
       applyUserState();
 
-      if (role === 'admin') go('admin');
-      else if (role === 'delivery') go('deliveryportal');
-      else {
-        $('clientPortalName').textContent = name;
-        $('clientPortalMark').textContent = mark;
-        go('clientportal');
-      }
+      if (currentUser.role === 'admin') go('admin');
+      else if (currentUser.role === 'delivery') go('deliveryportal');
+      else go('clientportal');
     });
   }
 
-  // Registration Form Handler
+  // Registration Form
   const regForm = $('regForm');
   if (regForm) {
     regForm.addEventListener('submit', e => {
@@ -486,63 +619,219 @@ document.addEventListener('DOMContentLoaded', () => {
       const name = $('rn').value.trim();
       const email = $('rem').value.trim();
       const phone = $('rp').value.trim();
-      const mark = 'GH001K-' + name.slice(0,3).toUpperCase() + '-' + phone.slice(-4);
+      const location = $('rloc').value.trim();
+      const firstName = name.split(' ')[0];
+      const mark = generateMark(firstName, phone);
+
+      const newClient = { name, email, phone, location, mark, status: 'Goods Ordered' };
+      clients.push(newClient);
+      localStorage.setItem('ev_clients', JSON.stringify(clients));
 
       currentUser = { name, email, role: 'client', mark };
       localStorage.setItem('ev_user', JSON.stringify(currentUser));
-      toast('Account registered! Mark: ' + mark, 'ok', 3500);
+
+      toast('Account created! Your Tracking Mark: ' + mark, 'ok', 4000);
       applyUserState();
-      $('clientPortalName').textContent = name;
-      $('clientPortalMark').textContent = mark;
       go('clientportal');
     });
   }
 
-  // Password Recovery Handler
+  // Password Recovery / Tracking Recovery Form
   const resetForm = $('resetForm');
   if (resetForm) {
     resetForm.addEventListener('submit', e => {
       e.preventDefault();
+      const first = $('resetFirst').value.trim();
+      const phone = $('resetPhone').value.trim();
       const email = $('resetEmail').value.trim();
-      if (!email) return;
-      toast('Password reset instructions sent to ' + email, 'ok', 4000);
-      $('resetEmail').value = '';
-      document.querySelector('[data-authtab="login"]').click();
+
+      const mark = generateMark(first, phone);
+      let client = clients.find(c => c.email.toLowerCase() === email.toLowerCase());
+      if (!client) {
+        client = { name: first, email, phone, location: 'Ghana', mark, status: 'Goods Ordered' };
+        clients.push(client);
+        localStorage.setItem('ev_clients', JSON.stringify(clients));
+      }
+
+      currentUser = { name: client.name, email: client.email, role: 'client', mark: client.mark };
+      localStorage.setItem('ev_user', JSON.stringify(currentUser));
+
+      toast('Account recovered! Tracking Mark: ' + mark, 'ok', 4500);
+      applyUserState();
+      go('clientportal');
     });
   }
 
-  // Sign Out Handler
+  // Sign Out
   const signOutBtn = $('signOutNav');
   if (signOutBtn) {
     signOutBtn.addEventListener('click', () => {
       currentUser = null;
       localStorage.removeItem('ev_user');
       applyUserState();
-      toast('Signed out successfully.', 'ok');
+      toast('Signed out.', 'ok');
       go('home');
     });
   }
 
-  // Add Product Form Handler
+  // Add Wholesale Product with Multiple Photos
   const addProductForm = $('addProductForm');
   if (addProductForm) {
     addProductForm.addEventListener('submit', e => {
       e.preventDefault();
-      const newProd = {
-        id: 'p_' + Date.now(),
-        name: $('npName').value.trim(),
-        category: $('npCat').value.trim(),
-        price: parseFloat($('npPrice').value) || 0,
-        type: $('npType').value,
-        image: $('npImg').value.trim()
-      };
-      products.unshift(newProd);
-      localStorage.setItem('ev_products', JSON.stringify(products));
-      addProductForm.reset();
-      toast('Product published successfully.', 'ok');
-      renderAdminProducts();
-      renderCatalog();
+      const filesInput = $('npFiles');
+      const files = filesInput.files;
+      if (!files || !files.length) return toast('Please select at least one photo.', 'err');
+
+      let processed = 0;
+      let imageUrls = [];
+
+      for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        reader.onload = ev => {
+          imageUrls.push(ev.target.result);
+          processed++;
+          if (processed === files.length) {
+            const newProd = {
+              id: 'p_' + Date.now(),
+              name: $('npName').value.trim(),
+              category: $('npCat').value.trim(),
+              price: parseFloat($('npPrice').value) || 0,
+              type: $('npType').value,
+              images: imageUrls
+            };
+            products.unshift(newProd);
+            localStorage.setItem('ev_products', JSON.stringify(products));
+            addProductForm.reset();
+            toast('Product published with ' + imageUrls.length + ' photo(s).', 'ok');
+            renderAdmin();
+            renderCatalog();
+          }
+        };
+        reader.readAsDataURL(files[i]);
+      }
     });
+  }
+
+  // Update Global Tracking Milestone
+  const updateTrackingForm = $('updateTrackingForm');
+  if (updateTrackingForm) {
+    updateTrackingForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const mark = $('adminTrackClientSelect').value;
+      const newStatus = $('adminTrackStatusSelect').value;
+      const client = clients.find(c => c.mark === mark);
+      if (client) {
+        client.status = newStatus;
+        localStorage.setItem('ev_clients', JSON.stringify(clients));
+        toast('Tracking milestone updated for ' + client.name, 'ok');
+        renderAdmin();
+      }
+    });
+  }
+
+  // Add New Delivery Guy
+  const addCourierForm = $('addCourierForm');
+  if (addCourierForm) {
+    addCourierForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const newC = {
+        name: $('dcName').value.trim(),
+        email: $('dcEmail').value.trim(),
+        phone: $('dcPhone').value.trim(),
+        pass: $('dcPass').value.trim()
+      };
+      couriers.push(newC);
+      localStorage.setItem('ev_couriers', JSON.stringify(couriers));
+      addCourierForm.reset();
+      toast('Delivery courier registered successfully.', 'ok');
+      renderAdmin();
+    });
+  }
+
+  // Messaging / Chat handler (Client & Courier)
+  function handleChatSubmit(inputEl, fileInputEl, boxEl) {
+    const text = inputEl.value.trim();
+    const files = fileInputEl.files;
+    if (!text && (!files || !files.length)) return;
+
+    if (files && files.length > 0) {
+      let readCount = 0;
+      let imgs = [];
+      for(let i=0; i<files.length; i++) {
+        const r = new FileReader();
+        r.onload = ev => {
+          imgs.push(ev.target.result);
+          readCount++;
+          if(readCount === files.length) {
+            saveAndRenderMsg(text, imgs, boxEl, inputEl, fileInputEl);
+          }
+        };
+        r.readAsDataURL(files[i]);
+      }
+    } else {
+      saveAndRenderMsg(text, [], boxEl, inputEl, fileInputEl);
+    }
+  }
+
+  function saveAndRenderMsg(text, imgs, boxEl, inputEl, fileInputEl) {
+    const mark = currentUser.role === 'delivery' ? $('courierClientSelect').value : currentUser.mark;
+    const sender = currentUser.role === 'delivery' ? 'Courier (' + currentUser.name + ')' : currentUser.name;
+
+    messages.push({ mark, sender, text, imgs, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
+    localStorage.setItem('ev_messages', JSON.stringify(messages));
+
+    inputEl.value = '';
+    if(fileInputEl) fileInputEl.value = '';
+    renderChatBoxes();
+  }
+
+  const clientChatForm = $('clientChatForm');
+  if (clientChatForm) {
+    clientChatForm.addEventListener('submit', e => {
+      e.preventDefault();
+      handleChatSubmit($('clientMsgInput'), $('clientChatFile'),$('clientChatBox'));
+    });
+  }
+
+  const courierChatForm = $('courierChatForm');
+  if (courierChatForm) {
+    courierChatForm.addEventListener('submit', e => {
+      e.preventDefault();
+      handleChatSubmit($('courierMsgInput'), $('courierChatFiles'),$('courierChatBox'));
+    });
+  }
+
+  const courierClientSelect = $('courierClientSelect');
+  if (courierClientSelect) {
+    courierClientSelect.addEventListener('change', () => {
+      renderCourierClientDetails();
+      renderChatBoxes();
+    });
+  }
+
+  function renderChatBoxes() {
+    const activeMark = currentUser.role === 'delivery' ? $('courierClientSelect')?.value : currentUser.mark;
+    const clientMsgs = messages.filter(m => m.mark === activeMark);
+
+    const formatMsgs = box => {
+      if (!box) return;
+      box.innerHTML = clientMsgs.length ? clientMsgs.map(m => {
+        const isMe = m.sender.startsWith(currentUser.role === 'delivery' ? 'Courier' : currentUser.name);
+        const bg = isMe ? '#D1FAE5' : '#EFF6FF';
+        const color = isMe ? '#065F46' : '#1E3A8A';
+        const imgHtml = (m.imgs || []).map(im => `<a href="${im}" target="_blank"><img src="${im}" style="width:70px;height:70px;object-fit:cover;border-radius:6px;margin-top:4px;border:1px solid #CBD5E1;"></a>`).join(' ');
+        return `<div style="background:${bg}; color:${color}; padding:10px 14px; border-radius:8px; max-width:85%; ${isMe?'margin-left:auto;':''}">
+          <div style="font-size:10px; font-weight:700; opacity:0.8;">${m.sender} (${m.time})</div>
+          <div style="font-size:13px; margin-top:2px;">${m.text}</div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">${imgHtml}</div>
+        </div>`;
+      }).join('') : '<p style="font-size:12px; color:var(--slate);">No negotiation messages yet. Discuss delivery amount or receipt time.</p>';
+      box.scrollTop = box.scrollHeight;
+    };
+
+    formatMsgs($('clientChatBox'));
+    formatMsgs($('courierChatBox'));
   }
 
   function renderCatalog() {
@@ -550,53 +839,107 @@ document.addEventListener('DOMContentLoaded', () => {
     const homeGrid = $('homeCatalogGrid');
     const fmt = n => 'GHS ' + Number(n || 0).toLocaleString('en-GH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-    const cardHtml = p => `
-      <div class="pdd-card">
-        <div class="pdd-img-wrap"><img src="${p.image}" class="pdd-img" alt=""><span class="pdd-tag-deal">${p.type}</span></div>
-        <div class="pdd-content">
-          <div class="pdd-title">${p.name}</div>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
-            <div class="pdd-price">${fmt(p.price)}</div>
+    const cardHtml = p => {
+      const img = (p.images && p.images.length) ? p.images[0] : (p.image || '');
+      return `
+        <div class="pdd-card">
+          <div class="pdd-img-wrap"><img src="${img}" class="pdd-img" alt=""><span class="pdd-tag-deal">${p.type}</span></div>
+          <div class="pdd-content">
+            <div class="pdd-title">${p.name}</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+              <div class="pdd-price">${fmt(p.price)}</div>
+            </div>
           </div>
-        </div>
-      </div>`;
+        </div>`;
+    };
 
     if (storeGrid) storeGrid.innerHTML = products.map(cardHtml).join('') || '<p style="color:var(--slate);">No wholesale items available.</p>';
     if (homeGrid) homeGrid.innerHTML = products.slice(0, 4).map(cardHtml).join('');
   }
 
-  function renderAdminProducts() {
-    const list = $('adminProductsList');
-    const stat = $('statProdCount');
-    if (stat) stat.textContent = products.length;
-    if (!list) return;
+  function renderClientPortal() {
+    if (!currentUser) return;
+    $('clientPortalName').textContent = currentUser.name;
+    $('clientPortalMark').textContent = currentUser.mark;
+    const clientObj = clients.find(c => c.mark === currentUser.mark);
+    if (clientObj && $('clientLiveStatusDisplay')) {$('clientLiveStatusDisplay').textContent = clientObj.status || 'Goods Ordered';
+    }
+    renderChatBoxes();
+  }
 
-    list.innerHTML = products.length ? `
+  function renderCourierPortal() {
+    if (!currentUser || currentUser.role !== 'delivery') return;
+    $('courierClientSelect').innerHTML = clients.map(c => `<option value="${c.mark}">${c.name} (${c.mark})</option>`).join('');
+    renderCourierClientDetails();
+    renderChatBoxes();
+  }
+
+  function renderCourierClientDetails() {
+    const mark = $('courierClientSelect')?.value;
+    const client = clients.find(c => c.mark === mark);
+    const card = $('courierClientDetailsCard');
+    if (!client || !card) return;
+    card.innerHTML = `<strong>Importer Name:</strong> ${client.name}<br>
+      <strong>Tracking Mark:</strong> <code>${client.mark}</code><br>
+      <strong>Phone Contact:</strong> ${client.phone}<br>
+      <strong>Delivery Address:</strong> ${client.location}<br>
+      <strong>Milestone:</strong> <span class="pill pill-verified">${client.status}</span>`;
+  }
+
+  function renderAdmin() {
+    $('statClientCount').textContent = clients.length;
+    $('statProdCount').textContent = products.length;
+    $('statCourierCount').textContent = couriers.length;
+
+    // Client dropdown for tracking milestone
+    $('adminTrackClientSelect').innerHTML = clients.map(c => `<option value="${c.mark}">${c.name} (${c.mark})</option>`).join('');
+
+    // Clients audit log table
+    $('adminClientsList').innerHTML = clients.length ? `
       <table class="admin-table">
-        <thead><tr><th>Product Title</th><th>Category</th><th>Price</th><th>Type</th><th>Action</th></tr></thead>
+        <thead><tr><th>Client Name</th><th>Email & Phone</th><th>Tracking Mark</th><th>Milestone Status</th></tr></thead>
         <tbody>
-          ${products.map(p => `
+          ${clients.map(c => `
             <tr>
-              <td><strong>${p.name}</strong></td>
-              <td>${p.category}</td>
-              <td style="color:var(--green); font-weight:700;">GHS ${Number(p.price).toLocaleString()}</td>
-              <td><span class="pill pill-verified">${p.type}</span></td>
-              <td><button class="btn btn-sm btn-danger" data-delprod="${p.id}">Delete</button></td>
+              <td><strong>${c.name}</strong><br><span style="font-size:11px; color:var(--slate);">${c.location}</span></td>
+              <td>${c.email}<br><strong>${c.phone}</strong></td>
+              <td><code>${c.mark}</code></td>
+              <td><span class="pill pill-verified">${c.status}</span></td>
             </tr>
           `).join('')}
         </tbody>
-      </table>` : '<p style="color:var(--slate);">No inventory items recorded.</p>';
+      </table>` : '<p style="color:var(--slate);">No clients registered.</p>';
 
-    list.querySelectorAll('[data-delprod]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.getAttribute('data-delprod');
-        products = products.filter(p => p.id !== id);
-        localStorage.setItem('ev_products', JSON.stringify(products));
-        toast('Product deleted.', 'ok');
-        renderAdminProducts();
-        renderCatalog();
+    // Products table
+    const list = $('adminProductsList');
+    if (list) {
+      list.innerHTML = products.length ? `
+        <table class="admin-table">
+          <thead><tr><th>Product Title</th><th>Category</th><th>Price</th><th>Photos</th><th>Action</th></tr></thead>
+          <tbody>
+            ${products.map(p => `
+              <tr>
+                <td><strong>${p.name}</strong></td>
+                <td>${p.category}</td>
+                <td style="color:var(--green); font-weight:700;">GHS ${Number(p.price).toLocaleString()}</td>
+                <td>${(p.images||[]).length} photo(s)</td>
+                <td><button class="btn btn-sm btn-danger" data-delprod="${p.id}">Delete</button></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>` : '<p style="color:var(--slate);">No inventory items recorded.</p>';
+
+      list.querySelectorAll('[data-delprod]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-delprod');
+          products = products.filter(p => p.id !== id);
+          localStorage.setItem('ev_products', JSON.stringify(products));
+          toast('Product deleted.', 'ok');
+          renderAdmin();
+          renderCatalog();
+        });
       });
-    });
+    }
   }
 
   function applyUserState() {
@@ -623,6 +966,13 @@ document.addEventListener('DOMContentLoaded', () => {
       portalLink.style.display = 'none';
     }
   }
+
+  // Copy buttons
+  $('copySeaAddrBtn')?.addEventListener('click', () => { navigator.clipboard.writeText($('cnSeaAddress').innerText); toast('Chinese Sea Address copied.', 'ok'); });
+  $('copyAirAddrBtn')?.addEventListener('click', () => { navigator.clipboard.writeText($('cnAirAddress').innerText); toast('Chinese Air Address copied.', 'ok'); });
+  document.querySelectorAll('[data-copy]').forEach(b => {
+    b.addEventListener('click', () => { navigator.clipboard.writeText(b.getAttribute('data-copy')); toast('Contact copied.', 'ok'); });
+  });
 
   applyUserState();
   renderCatalog();
