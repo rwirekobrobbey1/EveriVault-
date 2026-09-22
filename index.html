@@ -107,7 +107,7 @@ input:focus, select:focus, textarea:focus { outline:none; border-color:var(--dee
 .cn-text-box { background:#fff; border:1.5px solid #CBD5E1; border-radius:8px; padding:12px; margin:10px 0; font-family:monospace; font-size:13px; color:#0F172A; word-break:break-all; }
 .contact-row { display:flex; justify-content:space-between; align-items:center; background:#fff; padding:10px 14px; border-radius:8px; border:1px solid var(--border-color); margin-bottom:8px; font-size:13px; }
 
-/* REFINED ADMIN EXECUTIVE SUITE STYLING */
+/* MASTER EXECUTIVE SUITE (ADMIN ONLY) — REFINED 6 PORTALS LAYOUT */
 #p-admin { background: var(--admin-bg); color: var(--admin-text); }
 #p-admin .container { max-width: 1280px; }
 .admin-header-card { background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%); border: 1px solid var(--admin-border); padding: 24px; border-radius: 16px; margin-bottom: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
@@ -119,7 +119,8 @@ input:focus, select:focus, textarea:focus { outline:none; border-color:var(--dee
 .admin-stat-card h4 { font-size: 11px; color: var(--admin-muted); text-transform: uppercase; margin-bottom: 6px; font-weight: 700; letter-spacing: 1px; }
 .admin-stat-card .val { font-size: 30px; font-weight: 800; color: #F8FAFC; }
 
-.admin-panel-box { background: var(--admin-card-bg); padding: 28px; border-radius: 16px; border: 1px solid var(--admin-border); margin-bottom: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+.admin-portal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; margin-bottom: 32px; }
+.admin-panel-box { background: var(--admin-card-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--admin-border); box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: flex; flex-direction: column; justify-content: space-between; }
 .admin-panel-box h3 { color: #F8FAFC; margin-bottom: 8px; font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
 .admin-panel-box p { color: var(--admin-muted); font-size: 13px; margin-bottom: 18px; }
 #p-admin label { color: #CBD5E1; }
@@ -186,7 +187,6 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
     </button>
     <ul class="nav-links" id="menu">
       <li><button class="plink active" data-nav="home">Home Hub</button></li>
-      <!-- Restricted nav links visible only when signed in -->
       <li class="restricted-link" style="display:none;"><button class="plink" data-nav="store">Wholesale Catalog</button></li>
       <li class="restricted-link" style="display:none;"><button class="plink" data-nav="address">Warehouses</button></li>
       <li id="dynamicPortalLink" style="display:none;"><button class="plink" id="dynPortalBtn" data-nav="clientportal">My Portal</button></li>
@@ -245,7 +245,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
   </div>
 </section>
 
-<!-- WHOLESALE STORE CATALOG (RESTRICTED UNLESS SIGNED IN) -->
+<!-- WHOLESALE STORE CATALOG -->
 <section id="p-store" class="page">
   <div class="container">
     <h2>Wholesale Store Catalog</h2>
@@ -254,7 +254,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
   </div>
 </section>
 
-<!-- WAREHOUSES & ADDRESSES (RESTRICTED UNLESS SIGNED IN) -->
+<!-- WAREHOUSES & ADDRESSES -->
 <section id="p-address" class="page">
   <div class="container">
     <h2>International Receiving Warehouses</h2>
@@ -305,7 +305,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
 
         <form id="loginOtpForm" style="display:none; margin-top:16px; border-top:1px solid var(--border-color); padding-top:16px;">
           <div style="background:#EFF6FF; border:1px solid #BFDBFE; padding:10px; border-radius:8px; font-size:12px; color:#1E40AF; margin-bottom:12px;" id="loginOtpNotice">
-            OTP sent to your Gmail/Tracking ID. (Check screen notification below).
+            OTP sent to your Gmail/Tracking ID.
           </div>
           <div class="form-group"><label>Enter 6-Digit OTP Code</label><input type="text" id="loginOtpInput" required placeholder="123456" maxlength="6"></div>
           <button class="btn btn-green btn-block" type="submit">Verify OTP & Sign In</button>
@@ -382,7 +382,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
           </form>
         </div>
 
-        <!-- Selected Products / Cart Management (With 24hr auto-expiry countdown) -->
+        <!-- Selected Products / Cart Management -->
         <div class="form-box" style="margin:0; width:100%;">
           <h3 style="color:var(--navy); margin-bottom:6px;">My Selected Items / Cart</h3>
           <p style="font-size:11px; color:#DC2626; margin-bottom:10px; font-weight:700;" id="cartExpiryWarning">Unpaid items expire automatically after 24 hours.</p>
@@ -415,7 +415,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
   </div>
 </section>
 
-<!-- MASTER EXECUTIVE SUITE (ADMIN ONLY) — REFINED DARK THEME -->
+<!-- MASTER EXECUTIVE SUITE (ADMIN ONLY) — ORGANIZED INTO EXACTLY 6 PORTALS -->
 <section id="p-admin" class="page">
   <div class="container">
     <div class="admin-header-card">
@@ -435,85 +435,97 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
       <div class="admin-stat-card"><h4>Pending Payments</h4><div class="val" id="statPayCount">0</div></div>
     </div>
 
-    <!-- 1. Payment Verification & Audit Desk -->
-    <div class="admin-panel-box" style="border-left: 4px solid var(--green);">
-      <h3>Payment Verification & Audit Desk (Admin Only)</h3>
-      <p>Review client payment proofs and notify them instantly upon verification.</p>
-      <div id="adminPaymentsList"></div>
-    </div>
-
-    <!-- 2. Add Wholesale Item (Unlimited Inventory & Multiple Photos/Videos) -->
-    <div class="admin-panel-box">
-      <h3>Add Wholesale Item (Unlimited Inventory & Media)</h3>
-      <p>Upload new factory-direct inventory items with unlimited photos and videos.</p>
-      <form id="addProductForm">
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px;">
-          <div class="form-group"><label>Product Title</label><input type="text" id="npName" required placeholder="e.g. DTF Printer Pro"></div>
-          <div class="form-group"><label>Category</label><input type="text" id="npCat" required placeholder="e.g. printing hardware"></div>
-          <div class="form-group"><label>Price (GHS)</label><input type="number" id="npPrice" step="0.01" required placeholder="18500"></div>
-          <div class="form-group"><label>Fulfillment Type</label>
-            <select id="npType" required>
-              <option value="Pre-Order">Pre-Order</option>
-              <option value="In Stock">In Stock</option>
-            </select>
-          </div>
+    <!-- 6 PORTALS GRID LAYOUT -->
+    <div class="admin-portal-grid">
+      
+      <!-- PORTAL 1: Payment Verification Desk -->
+      <div class="admin-panel-box" style="border-top: 4px solid var(--green);">
+        <div>
+          <h3>1. Payment Verification Desk</h3>
+          <p>Review client payment proofs and approve transactions instantly.</p>
+          <div id="adminPaymentsList"></div>
         </div>
-        <div class="form-group">
-          <label>Select Multiple Media Files (Photos & Videos)</label>
-          <input type="file" id="npFiles" accept="image/*,video/*" multiple required style="padding:10px;">
+      </div>
+
+      <!-- PORTAL 2: Wholesale Catalog Upload -->
+      <div class="admin-panel-box" style="border-top: 4px solid #38BDF8;">
+        <div>
+          <h3>2. Wholesale Catalog Upload</h3>
+          <p>Upload new factory-direct inventory with unlimited photos/videos.</p>
+          <form id="addProductForm">
+            <div class="form-group"><label>Product Title</label><input type="text" id="npName" required placeholder="e.g. DTF Printer Pro"></div>
+            <div class="form-group"><label>Category</label><input type="text" id="npCat" required placeholder="e.g. printing hardware"></div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+              <div class="form-group"><label>Price (GHS)</label><input type="number" id="npPrice" step="0.01" required placeholder="18500"></div>
+              <div class="form-group"><label>Fulfillment</label>
+                <select id="npType" required>
+                  <option value="Pre-Order">Pre-Order</option>
+                  <option value="In Stock">In Stock</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group"><label>Media Files</label><input type="file" id="npFiles" accept="image/*,video/*" multiple required style="padding:8px;"></div>
+            <button class="btn btn-green btn-sm btn-block" type="submit">Publish Product</button>
+          </form>
         </div>
-        <button class="btn btn-green" type="submit">Publish Product with Media</button>
-      </form>
-    </div>
+      </div>
 
-    <!-- 3. Update Global Goods Tracking Milestone -->
-    <div class="admin-panel-box">
-      <h3>Update Global Goods Tracking Milestone</h3>
-      <p>Manage shipping progress stages for registered clients.</p>
-      <form id="updateTrackingForm">
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px;">
-          <div class="form-group"><label>Select Client</label><select id="adminTrackClientSelect" required></select></div>
-          <div class="form-group"><label>Milestone Status</label>
-            <select id="adminTrackStatusSelect" required>
-              <option value="Goods Ordered">Goods Ordered</option>
-              <option value="Reached Chinese Warehouse">Reached Chinese Warehouse</option>
-              <option value="At Tema Harbor">At Tema Harbor</option>
-              <option value="In Kumasi Warehouse">In Kumasi Warehouse</option>
-              <option value="Out for Delivery">Out for Delivery</option>
-            </select>
-          </div>
+      <!-- PORTAL 3: Global Tracking Control -->
+      <div class="admin-panel-box" style="border-top: 4px solid #818CF8;">
+        <div>
+          <h3>3. Global Tracking Control</h3>
+          <p>Manage shipment milestones for registered importers.</p>
+          <form id="updateTrackingForm">
+            <div class="form-group"><label>Select Client</label><select id="adminTrackClientSelect" required></select></div>
+            <div class="form-group"><label>Milestone Status</label>
+              <select id="adminTrackStatusSelect" required>
+                <option value="Goods Ordered">Goods Ordered</option>
+                <option value="Reached Chinese Warehouse">Reached Chinese Warehouse</option>
+                <option value="At Tema Harbor">At Tema Harbor</option>
+                <option value="In Kumasi Warehouse">In Kumasi Warehouse</option>
+                <option value="Out for Delivery">Out for Delivery</option>
+              </select>
+            </div>
+            <button class="btn btn-blue btn-sm btn-block" type="submit">Commit Milestone</button>
+          </form>
         </div>
-        <button class="btn btn-blue" type="submit">Commit Tracking Milestone</button>
-      </form>
-    </div>
+      </div>
 
-    <!-- 4. Register New Delivery Courier -->
-    <div class="admin-panel-box">
-      <h3>Register New Delivery Courier</h3>
-      <p>Provision portal credentials for dispatch personnel.</p>
-      <form id="addCourierForm">
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px;">
-          <div class="form-group"><label>Courier Name</label><input type="text" id="dcName" required placeholder="e.g. Yaw Mensah"></div>
-          <div class="form-group"><label>Login Email</label><input type="email" id="dcEmail" required placeholder="e.g. yaw@everivault.com"></div>
-          <div class="form-group"><label>Phone Number</label><input type="tel" id="dcPhone" required placeholder="0240000000"></div>
-          <div class="form-group"><label>Password</label><input type="password" id="dcPass" required placeholder="••••••••"></div>
+      <!-- PORTAL 4: Courier Provisioning Desk -->
+      <div class="admin-panel-box" style="border-top: 4px solid #F59E0B;">
+        <div>
+          <h3>4. Courier Provisioning Desk</h3>
+          <p>Register new delivery personnel credentials for dispatch.</p>
+          <form id="addCourierForm">
+            <div class="form-group"><label>Courier Name</label><input type="text" id="dcName" required placeholder="e.g. Yaw Mensah"></div>
+            <div class="form-group"><label>Login Email</label><input type="email" id="dcEmail" required placeholder="e.g. yaw@everivault.com"></div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+              <div class="form-group"><label>Phone</label><input type="tel" id="dcPhone" required placeholder="0240000000"></div>
+              <div class="form-group"><label>Password</label><input type="password" id="dcPass" required placeholder="••••••••"></div>
+            </div>
+            <button class="btn btn-green btn-sm btn-block" type="submit">Save Courier</button>
+          </form>
         </div>
-        <button class="btn btn-green" type="submit">Save Courier Profile</button>
-      </form>
-    </div>
+      </div>
 
-    <!-- 5. Registered Clients & Referrals Audit Log (Unlimited) -->
-    <div class="admin-panel-box">
-      <h3>Registered Clients & Referrals Audit Log (Unlimited)</h3>
-      <p>Complete record of all verified importers and their selections.</p>
-      <div id="adminClientsList"></div>
-    </div>
+      <!-- PORTAL 5: Importers & Referrals Audit -->
+      <div class="admin-panel-box" style="border-top: 4px solid #EC4899;">
+        <div>
+          <h3>5. Importers & Referrals Audit</h3>
+          <p>Complete record of verified clients and their tracking marks.</p>
+          <div id="adminClientsList"></div>
+        </div>
+      </div>
 
-    <!-- 6. Catalog Inventory Management (Unlimited) -->
-    <div class="admin-panel-box">
-      <h3>Catalog Inventory (Unlimited)</h3>
-      <p>Manage active wholesale store catalog listings.</p>
-      <div id="adminProductsList"></div>
+      <!-- PORTAL 6: Catalog Inventory Management -->
+      <div class="admin-panel-box" style="border-top: 4px solid #14B8A6;">
+        <div>
+          <h3>6. Catalog Inventory Management</h3>
+          <p>Review and delete active store catalog listings.</p>
+          <div id="adminProductsList"></div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -609,7 +621,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Initial State Data
   const initialProducts = [
     { id: 'p1', name: 'Direct-to-Film (DTF) Industrial Printer Pro', category: 'printing hardware', price: 18500, type: 'Pre-Order', media: [{url:'https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=600&q=80', type:'image'}] },
     { id: 'p2', name: 'Men’s Streetwear Cargo Jogger Two-Piece Set', category: 'apparel', price: 280, type: 'In Stock', media: [{url:'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80', type:'image'}] }
@@ -661,7 +672,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function go(page) {
-    // Restrict access if trying to view protected pages (store, address, clientportal, deliveryportal, admin) without login
     const restrictedPages = ['store', 'address', 'clientportal', 'deliveryportal', 'admin'];
     if (restrictedPages.includes(page) && !currentUser) {
       toast('Please sign in or register to access this section.', 'err');
@@ -693,7 +703,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const menuToggle = $('menuToggleBtn');
   if (menuToggle) menuToggle.addEventListener('click', () => $('menu').classList.toggle('active'));
 
-  // Auth Tabs
   document.querySelectorAll('[data-authtab]').forEach(btn => {
     btn.addEventListener('click', () => {
       const tab = btn.getAttribute('data-authtab');
@@ -883,7 +892,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Sign Out
   const signOutBtn = $('signOutNav');
   if (signOutBtn) {
     signOutBtn.addEventListener('click', () => {
@@ -895,7 +903,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Add Wholesale Product with Unlimited Inventory & Multiple Media Files
   const addProductForm = $('addProductForm');
   if (addProductForm) {
     addProductForm.addEventListener('submit', e => {
@@ -936,7 +943,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Payment Proof Submission by Client
   const paymentProofForm = $('paymentProofForm');
   if (paymentProofForm) {
     paymentProofForm.addEventListener('submit', e => {
@@ -967,7 +973,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Update Global Tracking Milestone
   const updateTrackingForm = $('updateTrackingForm');
   if (updateTrackingForm) {
     updateTrackingForm.addEventListener('submit', e => {
@@ -984,7 +989,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Add New Delivery Courier
   const addCourierForm = $('addCourierForm');
   if (addCourierForm) {
     addCourierForm.addEventListener('submit', e => {
@@ -1003,7 +1007,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Messaging / Chat handler (Client & Courier)
   function handleChatSubmit(inputEl, fileInputEl, boxEl) {
     const text = inputEl.value.trim();
     const files = fileInputEl.files;
@@ -1136,7 +1139,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (homeGrid) homeGrid.innerHTML = products.slice(0, 4).map(cardHtml).join('');
   }
 
-  // Global Cart Functions with 24-Hour Expiry Timestamp
   window.addToCart = productId => {
     if (!currentUser || currentUser.role !== 'client') return toast('Please sign in as a registered client.', 'err');
     const client = clients.find(c => c.mark === currentUser.mark);
@@ -1221,10 +1223,8 @@ document.addEventListener('DOMContentLoaded', () => {
     $('statCourierCount').textContent = couriers.length;
     $('statPayCount').textContent = payments.filter(p => p.status === 'Pending Verification').length;
 
-    // Client dropdown for tracking milestone
     $('adminTrackClientSelect').innerHTML = clients.map(c => `<option value="${c.mark}">${c.name} (${c.mark})</option>`).join('');
 
-    // Payment Verification Desk Table
     const payList = $('adminPaymentsList');
     if (payList) {
       payList.innerHTML = payments.length ? `
@@ -1236,10 +1236,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 <tr>
                   <td><strong>${pay.clientName}</strong><br><code style="color:#34D399;">${pay.mark}</code></td>
                   <td>${pay.ref}<br><span style="font-size:10px; color:var(--admin-muted);">${pay.time}</span></td>
-                  <td><a href="${pay.proofUrl}" target="_blank"><img src="${pay.proofUrl}" style="width:50px;height:50px;object-fit:cover;border-radius:4px;border:1px solid var(--admin-border);"></a></td>
+                  <td><a href="${pay.proofUrl}" target="_blank"><img src="${pay.proofUrl}" style="width:40px;height:40px;object-fit:cover;border-radius:4px;border:1px solid var(--admin-border);"></a></td>
                   <td><span class="pill ${pay.status === 'Verified' ? 'pill-verified' : 'pill-pending'}">${pay.status}</span></td>
                   <td>
-                    ${pay.status === 'Pending Verification' ? `<button class="btn btn-sm btn-green" onclick="window.verifyPayment('${pay.id}')">Verify Payment</button>` : '<span style="color:#34D399; font-weight:700; font-size:12px;">Verified</span>'}
+                    ${pay.status === 'Pending Verification' ? `<button class="btn btn-sm btn-green" onclick="window.verifyPayment('${pay.id}')">Verify</button>` : '<span style="color:#34D399; font-weight:700; font-size:12px;">OK</span>'}
                   </td>
                 </tr>
               `).join('')}
@@ -1248,18 +1248,15 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>` : '<p style="color:var(--admin-muted);">No payment proofs submitted yet.</p>';
     }
 
-    // Clients audit log table (with selected items count)
     $('adminClientsList').innerHTML = clients.length ? `
       <div class="admin-table-wrap">
         <table class="admin-table">
-          <thead><tr><th>Client Name</th><th>Email & Phone</th><th>Tracking Mark & Location</th><th>Selected Items</th><th>Milestone Status</th></tr></thead>
+          <thead><tr><th>Name & Phone</th><th>Tracking Mark</th><th>Status</th></tr></thead>
           <tbody>
             ${clients.map(c => `
               <tr>
-                <td><strong>${c.name}</strong></td>
-                <td>${c.email}<br><strong>${c.phone}</strong></td>
-                <td><code style="color:#34D399;">${c.mark}</code><br><span style="font-size:11px; color:var(--admin-muted);">${c.location}</span></td>
-                <td>${(c.cart||[]).length} item(s) selected</td>
+                <td><strong>${c.name}</strong><br><span style="font-size:11px; color:var(--admin-muted);">${c.phone}</span></td>
+                <td><code style="color:#34D399;">${c.mark}</code></td>
                 <td><span class="pill pill-verified">${c.status}</span></td>
               </tr>
             `).join('')}
@@ -1267,20 +1264,17 @@ document.addEventListener('DOMContentLoaded', () => {
         </table>
       </div>` : '<p style="color:var(--admin-muted);">No registered clients found.</p>';
 
-    // Products table
     const list = $('adminProductsList');
     if (list) {
       list.innerHTML = products.length ? `
         <div class="admin-table-wrap">
           <table class="admin-table">
-            <thead><tr><th>Product Title</th><th>Category</th><th>Price</th><th>Media Files</th><th>Action</th></tr></thead>
+            <thead><tr><th>Title</th><th>Price</th><th>Action</th></tr></thead>
             <tbody>
               ${products.map(p => `
                 <tr>
                   <td><strong>${p.name}</strong></td>
-                  <td>${p.category}</td>
                   <td style="color:#34D399; font-weight:700;">GHS ${Number(p.price).toLocaleString()}</td>
-                  <td>${(p.media||[]).length} file(s)</td>
                   <td><button class="btn btn-sm btn-danger" data-delprod="${p.id}">Delete</button></td>
                 </tr>
               `).join('')}
@@ -1324,16 +1318,19 @@ document.addEventListener('DOMContentLoaded', () => {
     $('authNav').style.display = isLoggedIn ? 'none' : 'block';
     $('signOutNav').style.display = isLoggedIn ? 'block' : 'none';
     
-    // Show restricted navbar links if logged in, hide if logged out
     document.querySelectorAll('.restricted-link').forEach(el => {
-      el.style.display = isLoggedIn ? 'block' : 'none';
+      el.style.display = (isLoggedIn && currentUser.role !== 'admin') ? 'block' : 'none';
     });
 
     const homeViewMoreWrap = $('homeViewMoreWrap');
     if (homeViewMoreWrap) {
-      homeViewMoreWrap.innerHTML = isLoggedIn ? 
-        `<button class="btn btn-blue" data-nav="store">View Full Wholesale Catalog</button>` : 
-        `<button class="btn btn-blue" data-nav="auth">Sign In to View Full Catalog & Warehouses</button>`;
+      if (isLoggedIn && currentUser.role === 'admin') {
+        homeViewMoreWrap.innerHTML = `<button class="btn btn-blue" data-nav="admin">Go to Executive Suite</button>`;
+      } else {
+        homeViewMoreWrap.innerHTML = isLoggedIn ? 
+          `<button class="btn btn-blue" data-nav="store">View Full Wholesale Catalog</button>` : 
+          `<button class="btn btn-blue" data-nav="auth">Sign In to View Full Catalog & Warehouses</button>`;
+      }
     }
     
     const portalLink = $('dynamicPortalLink');
@@ -1356,7 +1353,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Copy buttons
   $('copySeaAddrBtn')?.addEventListener('click', () => { navigator.clipboard.writeText($('cnSeaAddress').innerText); toast('Chinese Sea Address copied.', 'ok'); });
   $('copyAirAddrBtn')?.addEventListener('click', () => { navigator.clipboard.writeText($('cnAirAddress').innerText); toast('Chinese Air Address copied.', 'ok'); });
   document.querySelectorAll('[data-copy]').forEach(b => {
