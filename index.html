@@ -560,9 +560,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   let products = JSON.parse(localStorage.getItem('ev_products') || JSON.stringify(initialProducts));
-  let clients = JSON.parse(localStorage.getItem('ev_clients') || JSON.stringify([
-    { name: 'Kofi Mensah', email: 'kofi@gmail.com', phone: '0241234567', location: 'Kumasi', mark: 'GH001K-KOFI-4567', status: 'Goods Ordered', cart: [] }
-  ]));
+  let clients = JSON.parse(localStorage.getItem('ev_clients') || JSON.stringify([]));
   let couriers = JSON.parse(localStorage.getItem('ev_couriers') || JSON.stringify([
     { name: 'Yaw Mensah', email: 'delivery@everivault.com', phone: '0240000000', pass: 'password123' }
   ]));
@@ -612,7 +610,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Login Form
+  // Login Form (Only permits admin or pre-registered clients in the system)
   const loginForm = $('loginForm');
   if (loginForm) {
     loginForm.addEventListener('submit', e => {
@@ -635,13 +633,9 @@ document.addEventListener('DOMContentLoaded', () => {
           applyUserState();
           go('deliveryportal');
         } else {
-          let foundClient = clients.find(c => c.email.toLowerCase() === ident || c.mark.toLowerCase() === ident);
+          const foundClient = clients.find(c => c.email.toLowerCase() === ident || c.mark.toLowerCase() === ident);
           if (!foundClient) {
-            const firstName = ident.split('@')[0];
-            const mark = generateMark(firstName, '0541234567');
-            foundClient = { name: firstName, email: ident, phone: '0541234567', location: 'Ghana', mark, status: 'Goods Ordered', cart: [] };
-            clients.push(foundClient);
-            localStorage.setItem('ev_clients', JSON.stringify(clients));
+            return toast('Access Denied: Account not found or not yet approved by the Admin.', 'err', 4000);
           }
           currentUser = { name: foundClient.name, email: foundClient.email, role: 'client', mark: foundClient.mark };
           localStorage.setItem('ev_user', JSON.stringify(currentUser));
@@ -653,7 +647,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Registration Form
+  // Registration Form (Registers client for Admin review/approval)
   const regForm = $('regForm');
   if (regForm) {
     regForm.addEventListener('submit', e => {
@@ -665,16 +659,19 @@ document.addEventListener('DOMContentLoaded', () => {
       const firstName = name.split(' ')[0];
       const mark = generateMark(firstName, phone);
 
+      // Check if client already exists
+      if (clients.some(c => c.email.toLowerCase() === email.toLowerCase())) {
+        return toast('An account with this email is already registered.', 'err');
+      }
+
       const newClient = { name, email, phone, location, mark, status: 'Goods Ordered', cart: [] };
       clients.push(newClient);
       localStorage.setItem('ev_clients', JSON.stringify(clients));
 
-      currentUser = { name, email, role: 'client', mark };
-      localStorage.setItem('ev_user', JSON.stringify(currentUser));
-
-      toast('Account created! Tracking Mark: ' + mark, 'ok', 4000);
-      applyUserState();
-      go('clientportal');
+      toast('Registration submitted successfully! You can now sign in once reviewed.', 'ok', 4000);
+      regForm.reset();
+      // Switch back to login tab
+      document.querySelector('[data-authtab="login"]').click();
     });
   }
 
@@ -687,18 +684,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const phone = $('resetPhone').value.trim();
       const email = $('resetEmail').value.trim();
 
-      const mark = generateMark(first, phone);
-      let client = clients.find(c => c.email.toLowerCase() === email.toLowerCase());
+      const client = clients.find(c => c.email.toLowerCase() === email.toLowerCase());
       if (!client) {
-        client = { name: first, email, phone, location: 'Ghana', mark, status: 'Goods Ordered', cart: [] };
-        clients.push(client);
-        localStorage.setItem('ev_clients', JSON.stringify(clients));
+        return toast('No registered account found with this email.', 'err');
       }
 
       currentUser = { name: client.name, email: client.email, role: 'client', mark: client.mark };
       localStorage.setItem('ev_user', JSON.stringify(currentUser));
 
-      toast('Account recovered! Tracking Mark: ' + mark, 'ok', 4500);
+      toast('Account recovered! Tracking Mark: ' + client.mark, 'ok', 4500);
       applyUserState();
       go('clientportal');
     });
@@ -937,7 +931,7 @@ document.addEventListener('DOMContentLoaded', () => {
           actionBtn = `<button class="btn btn-sm btn-green" onclick="window.addToCart('${p.id}')">Select / Add to Cart</button>`;
         }
       } else {
-        actionBtn = `<button class="btn btn-sm btn-outline" onclick="window.alert('Please sign in as a client to select products.')">Sign in to Select</button>`;
+        actionBtn = `<button class="btn btn-sm btn-outline" onclick="window.alert('Please sign in as a registered client to select products.')">Sign in to Select</button>`;
       }
 
       return `
@@ -959,7 +953,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Global Cart Functions
   window.addToCart = productId => {
-    if (!currentUser || currentUser.role !== 'client') return toast('Please sign in as a client.', 'err');
+    if (!currentUser || currentUser.role !== 'client') return toast('Please sign in as a registered client.', 'err');
     const client = clients.find(c => c.mark === currentUser.mark);
     const prod = products.find(p => p.id === productId);
     if (client && prod) {
@@ -1077,7 +1071,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </tr>
           `).join('')}
         </tbody>
-      </table>` : '<p style="color:var(--slate);">No clients registered.</p>';
+      </table>` : '<p style="color:var(--slate);">No registered clients found.</p>';
 
     // Products table
     const list = $('adminProductsList');
@@ -1116,7 +1110,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pay) {
       pay.status = 'Verified';
       localStorage.setItem('ev_payments', JSON.stringify(payments));
-      // Notify client via chat or status update
       messages.push({
         mark: pay.mark,
         sender: 'Executive Admin',
