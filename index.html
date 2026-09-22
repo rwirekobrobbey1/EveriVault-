@@ -24,7 +24,6 @@
   --bg-light: #F8FAFC; --border-color: #E2E8F0;
   --card-shadow: 0 12px 35px -5px rgba(10,25,47,0.08);
   
-  /* Executive Theme Refinements */
   --admin-bg: #0F172A;
   --admin-card-bg: #1E293B;
   --admin-border: #334155;
@@ -187,9 +186,11 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
     </button>
     <ul class="nav-links" id="menu">
       <li><button class="plink active" data-nav="home">Home Hub</button></li>
-      <li><button class="plink" data-nav="store">Wholesale Catalog</button></li>
-      <li><button class="plink" data-nav="address">Warehouses</button></li>
+      <!-- Restricted nav links visible only when signed in -->
+      <li class="restricted-link" style="display:none;"><button class="plink" data-nav="store">Wholesale Catalog</button></li>
+      <li class="restricted-link" style="display:none;"><button class="plink" data-nav="address">Warehouses</button></li>
       <li id="dynamicPortalLink" style="display:none;"><button class="plink" id="dynPortalBtn" data-nav="clientportal">My Portal</button></li>
+      
       <li id="authNav"><button class="nav-cta plink" data-nav="auth">Sign In & Access Portal</button></li>
       <li id="signOutNav" style="display:none;"><button class="btn btn-sm btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.4);" id="signOutBtn">Sign Out</button></li>
     </ul>
@@ -237,14 +238,14 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
       <h2>Verified Wholesale Inventory Preview</h2>
       <p class="subtitle">Factory-direct commercial catalog secured through group consolidation protocols.</p>
       <div id="homeCatalogGrid" class="grid-pdd"></div>
-      <div style="text-align:center; margin-top:30px;">
-        <button class="btn btn-blue" data-nav="store">View Full Wholesale Catalog</button>
+      <div style="text-align:center; margin-top:30px;" id="homeViewMoreWrap">
+        <button class="btn btn-blue" data-nav="auth">Sign In to View Full Catalog & Warehouses</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- WHOLESALE STORE CATALOG -->
+<!-- WHOLESALE STORE CATALOG (RESTRICTED UNLESS SIGNED IN) -->
 <section id="p-store" class="page">
   <div class="container">
     <h2>Wholesale Store Catalog</h2>
@@ -253,7 +254,7 @@ footer h3 { color:#FFFFFF; margin-bottom:8px; font-size:16px; font-weight:800; l
   </div>
 </section>
 
-<!-- WAREHOUSES & ADDRESSES -->
+<!-- WAREHOUSES & ADDRESSES (RESTRICTED UNLESS SIGNED IN) -->
 <section id="p-address" class="page">
   <div class="container">
     <h2>International Receiving Warehouses</h2>
@@ -628,10 +629,8 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.removeItem('ev_user');
   }
 
-  // Temporary storage for OTP Verification states
   let tempAuthData = null;
 
-  // Check 24-hour cart item expiration for registered clients
   function checkCartExpirations() {
     const now = Date.now();
     let updated = false;
@@ -640,7 +639,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const initialLen = c.cart.length;
         c.cart = c.cart.filter(item => {
           if (item.addedTime && (now - item.addedTime > 86400000)) {
-            return false; // auto delete after 24 hrs
+            return false;
           }
           return true;
         });
@@ -662,11 +661,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function go(page) {
+    // Restrict access if trying to view protected pages (store, address, clientportal, deliveryportal, admin) without login
+    const restrictedPages = ['store', 'address', 'clientportal', 'deliveryportal', 'admin'];
+    if (restrictedPages.includes(page) && !currentUser) {
+      toast('Please sign in or register to access this section.', 'err');
+      go('auth');
+      return;
+    }
     if (page === 'admin' && (!currentUser || currentUser.role !== 'admin')) {
       toast('Access Denied: Master Executive Suite is for Admin only.', 'err');
       go('auth');
       return;
     }
+
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const t = $('p-' + page); if (t) t.classList.add('active');
     document.querySelectorAll('.plink').forEach(l => l.classList.remove('active'));
@@ -695,7 +702,6 @@ document.addEventListener('DOMContentLoaded', () => {
       $('tReg').classList.toggle('active', tab === 'reg');
       $('tReset').classList.toggle('active', tab === 'reset');
       
-      // Reset OTP states
       $('loginOtpForm').style.display = 'none';
       $('loginForm').style.display = 'block';
       $('regOtpForm').style.display = 'none';
@@ -715,7 +721,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const pw = $('uniPw').value.trim();
 
       if (ident === 'richmonwireko@gmail.com') {
-        if (pw !== 'password123' && pw !== '') { /* admin allowed */ }
+        if (pw !== 'password123' && pw !== '') {}
       } else {
         const foundCourier = couriers.find(c => c.email.toLowerCase() === ident && c.pass === pw);
         if (!foundCourier) {
@@ -726,11 +732,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
-      // Generate 6-digit OTP
       const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
       tempAuthData = { type: 'login', ident, otp: generatedOtp };
 
-      // Simulate sending OTP via Gmail / Tracking ID system notice
       toast(`[OTP SENT TO GMAIL/TRACKING ID]: Your code is ${generatedOtp}`, 'ok', 7000);
       $('loginOtpNotice').innerHTML = `OTP sent to <strong>${ident}</strong>. (Simulated Code for Testing: <strong style="color:#047857;">${generatedOtp}</strong>)`;
       
@@ -1112,7 +1116,7 @@ document.addEventListener('DOMContentLoaded', () => {
           actionBtn = `<button class="btn btn-sm btn-green" onclick="window.addToCart('${p.id}')">Select / Add to Cart</button>`;
         }
       } else {
-        actionBtn = `<button class="btn btn-sm btn-outline" onclick="window.alert('Please sign in with your registered email or tracking mark to select products.')">Sign in to Select</button>`;
+        actionBtn = `<button class="btn btn-sm btn-outline" onclick="go('auth')">Sign in to Select</button>`;
       }
 
       return `
@@ -1319,6 +1323,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const isLoggedIn = !!currentUser;
     $('authNav').style.display = isLoggedIn ? 'none' : 'block';
     $('signOutNav').style.display = isLoggedIn ? 'block' : 'none';
+    
+    // Show restricted navbar links if logged in, hide if logged out
+    document.querySelectorAll('.restricted-link').forEach(el => {
+      el.style.display = isLoggedIn ? 'block' : 'none';
+    });
+
+    const homeViewMoreWrap = $('homeViewMoreWrap');
+    if (homeViewMoreWrap) {
+      homeViewMoreWrap.innerHTML = isLoggedIn ? 
+        `<button class="btn btn-blue" data-nav="store">View Full Wholesale Catalog</button>` : 
+        `<button class="btn btn-blue" data-nav="auth">Sign In to View Full Catalog & Warehouses</button>`;
+    }
     
     const portalLink = $('dynamicPortalLink');
     const portalBtn = $('dynPortalBtn');
